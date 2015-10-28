@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hmp-server name="HMP Server"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="/hmp-server-cfg.xsd">
+    <setting>
+		<!-- 线程池Core线程上限 -->
+		<core-pool-size>50</core-pool-size>
+		<!-- 线程池Max线程上限 -->
+		<max-pool-size>50</max-pool-size>
+		<!-- 线程池线程Keep Alive时长 -->
+		<keep-alive-time>5</keep-alive-time>
+		<!-- 线程池线程Keep Alive时长单位，符合TimeUnit的名称 -->
+		<time-unit>SECONDS</time-unit>
+		<!-- 普通工作队列容量 -->
+		<work-queue-size>100000</work-queue-size>
+		<!-- 回调任务队列容量 -->
+		<call-queue-size>100000</call-queue-size>
+		<!-- 任务超时时长，单位 -->
+		<task-timeout>1000</task-timeout>
+	</setting>
+    <properties>
+        <property name="thrift.server.nodename" value="hmp"/>
+        <property name="thrift.server.ip" value="0.0.0.0"/>
+        <property name="thrift.server.port" value="9393"/>
+        <property name="thrift.server.timeout" value="1000"/>
+        <property name="thrift.server.readbuffer" value="16384000"/>
+        <property name="thrift.server.selector.threads" value="5"/>
+        <property name="thrift.server.work.threads" value="5"/>
+        <property name="thrift.server.accept.queue.size.per.thread" value="5"/>
+        <property name="thrift.server.stop.timeout.unit" value="SECONDS"/>
+        <property name="thrift.server.stop.timeout.val" value="2"/>
+        <property name="zookeeper.ens.enable" value="false"/>
+        <property name="zookeeper.ens.ip" value="172.16.10.62:2181,172.16.10.63:2181"/>
+    </properties>
+    <thrift>
+        <server class="org.apache.thrift.server.TThreadedSelectorServer"/>
+        <server-args class="org.apache.thrift.server.TThreadedSelectorServer$Args"/>
+        <server-transport class="org.apache.thrift.transport.TNonblockingServerSocket"/>
+        <protocol-factory class="org.apache.thrift.protocol.TCompactProtocol$Factory"/>
+        <processor class="org.apache.thrift.TMultiplexedProcessor"/>
+        <processor-iface>
+            <iface class="cn.pl.hmp.server.thrift.iface.TCommandServiceIface"/>
+            <iface class="cn.pl.hmp.server.thrift.iface.TDebugServiceIface"/>
+        </processor-iface>
+    </thrift>
+    <zookeeper>
+        <register class="cn.pl.hmp.server.zk.BaseZooKeeperRegister"/>
+    </zookeeper>
+</hmp-server>

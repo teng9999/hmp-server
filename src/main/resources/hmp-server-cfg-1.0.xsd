@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema id="hmpServerCfg" 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:annotation>
+		<xsd:documentation>
+		<![CDATA[
+		HMP XML Server Config Schema, version 1.0 Authors: Alan Yuan. 
+		]]>
+		<![CDATA[
+		This defines a simple and consistent way of creating a namespace of HMP Server Config objects, managed by a Server Config Parser. This document type is used by most HMP Server functionality.
+		]]>
+		</xsd:documentation>
+	</xsd:annotation>
+              
+    <!-- base types -->
+    <xsd:complexType name="nameType" abstract="true">
+	    <xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			The unique name for a property. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+        <xsd:attribute name="name" type="xsd:string" use="required">
+        <xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			The unique name for a property. A property name may not be used more than once within the same <properties> element.
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    
+    <!-- Root -->
+    
+    <xsd:element name="hmp-server">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Container for <hmp-server> and other elements, typically the root element in the document. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="nameType">
+				<xsd:sequence>
+					<!-- <xsd:element ref="description" minOccurs="0"/> -->
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element ref="setting"/>
+						<xsd:element ref="properties"/>
+						<xsd:element ref="thrift"/>
+						<xsd:element ref="zookeeper"/>
+						<xsd:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:choice>
+					<xsd:element ref="hmp-server" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+			
+		</xsd:complexType>
+	</xsd:element>
+	
+	<!-- For Properties -->
+	
+	<xsd:element name="setting">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Container for <setting> and other elements. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="core-pool-size"/>
+					<xsd:element ref="max-pool-size"/>
+					<xsd:element ref="keep-alive-time"/>
+					<xsd:element ref="time-unit"/>
+					<xsd:element ref="work-queue-size"/>
+					<xsd:element ref="call-queue-size"/>
+					<xsd:element ref="task-timeout"/>
+					<xsd:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="core-pool-size">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a core-pool-size value. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	
+	<xsd:element name="max-pool-size">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a max-pool-size value. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	
+	<xsd:element name="keep-alive-time">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a keep-alive-time value. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	
+	<xsd:element name="time-unit">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a time-unit value. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	
+	<xsd:element name="work-queue-size">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a work-queue-size value. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	
+	<xsd:element name="call-queue-size">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a call-queue-size value. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	
+	<xsd:element name="task-timeout">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a task-timeout value. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+    
+    <!-- For Properties -->
+    
+    <xsd:element name="properties">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Container for <property> and other elements, typically the root element in the document. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<!-- <xsd:element ref="description" minOccurs="0"/> -->
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="property"/>
+					<xsd:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="property">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a property. A property definition may contain nested tags for values. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+			<xsd:extension base="nameType">
+			<!-- 目前没有子元素，留待扩展
+			<xsd:group ref="subElements"/> 
+			-->
+			<xsd:attributeGroup ref="propertyAttributes"/>
+			</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:attributeGroup name="propertyAttributes">
+		<xsd:attribute name="value" type="xsd:string" use="required">
+			<xsd:annotation>
+				<xsd:documentation>
+				<![CDATA[
+				Defines a value of property. The value is required. 
+				]]>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:attributeGroup>
+	
+	<!-- For Thrift -->
+	
+	<xsd:element name="thrift">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Container for <thrift> and other elements. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<!-- <xsd:element ref="description" minOccurs="0"/> -->
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="server"/>
+					<xsd:element ref="server-args"/>
+					<xsd:element ref="server-transport"/>
+					<xsd:element ref="protocol-factory"/>
+					<xsd:element ref="processor"/>
+					<xsd:element ref="processor-iface"/>
+					<xsd:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="server">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a server instance of class. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="class" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation source="java:java.lang.Class">
+					<![CDATA[
+					The fully qualified name of the class
+					]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="server-args">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a server instance of class. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="class" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation source="java:java.lang.Class">
+					<![CDATA[
+					The fully qualified name of the class
+					]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="server-transport">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a server instance of class. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="class" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation source="java:java.lang.Class">
+					<![CDATA[
+					The fully qualified name of the class
+					]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="protocol-factory">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a server instance of class. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="class" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation source="java:java.lang.Class">
+					<![CDATA[
+					The fully qualified name of the class
+					]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="processor">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a server instance of class. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="class" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation source="java:java.lang.Class">
+					<![CDATA[
+					The fully qualified name of the class
+					]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="processor-iface">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Container for <processor-iface> and other elements. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<!-- <xsd:element ref="description" minOccurs="0"/> -->
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="iface"/>
+					<xsd:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="iface">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a processor iface instance of class. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="class" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation source="java:java.lang.Class">
+					<![CDATA[
+					The fully qualified name of the class
+					]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<!-- For ZooKeeper -->
+	
+	<xsd:element name="zookeeper">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Container for <zookeeper> and other elements. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<!-- <xsd:element ref="description" minOccurs="0"/> -->
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="register"/>
+					<xsd:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="register">
+		<xsd:annotation>
+			<xsd:documentation>
+			<![CDATA[
+			Defines a zookeeper register instance of class. 
+			]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="class" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation source="java:java.lang.Class">
+					<![CDATA[
+					The fully qualified name of the class
+					]]>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+  
+</xsd:schema>

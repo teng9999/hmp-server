@@ -1,0 +1,9 @@
+package cn.pl.hmp.server.utils;
+
+/**
+ * Created by qudongfang on 15/9/1.
+ */
+
+public enum HOUR {
+    ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, ELEVEN, TWELVE, THIRTEEN, FOURTEEN, FIFTEEN, SIXTEEN, SEVENTEEN, EIGHTEEN, NINETEEN, TWENTY, TWENTYONE, TWENTYTWO, TWENTYTHREE
+}
