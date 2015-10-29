@@ -1,5 +1,5 @@
 /*
- * RoutingTransactionManager.java Copyright Bejing Passion Tech Co.,Ltd. All
+ * RoutingTransactionManager.java Copyright Bejing Pinglian Tech Co.,Ltd. All
  * Rights Reserved.
  */
 package cn.pl.hmp.server.transaction;

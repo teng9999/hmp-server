@@ -1,5 +1,5 @@
 /*
- * TDebugServiceIface.java Copyright Bejing Passion Tech Co.,Ltd. All Rights
+ * TDebugServiceIface.java Copyright Bejing Pinglian Tech Co.,Ltd. All Rights
  * Reserved.
  */
 package cn.pl.hmp.server.thrift.iface;

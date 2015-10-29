@@ -1,7 +1,7 @@
 /**
  * Env.java
  * <p/>
- * Copyright Bejing Passion Tech Co.,Ltd. All Rights Reserved.
+ * Copyright Bejing Pinglian Tech Co.,Ltd. All Rights Reserved.
  */
 package cn.pl.hmp.server.config;
 

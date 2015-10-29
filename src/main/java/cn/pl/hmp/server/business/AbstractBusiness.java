@@ -1,5 +1,5 @@
 /*
- * AbstractBusiness.java Copyright Bejing Passion Tech Co.,Ltd. All Rights
+ * AbstractBusiness.java Copyright Bejing Pinglian Tech Co.,Ltd. All Rights
  * Reserved.
  */
 package cn.pl.hmp.server.business;

@@ -1,5 +1,5 @@
 /*
- * TCommandServiceIface.java Copyright Bejing Passion Tech Co.,Ltd. All Rights
+ * TCommandServiceIface.java Copyright Bejing Pinglian Tech Co.,Ltd. All Rights
  * Reserved.
  */
 package cn.pl.hmp.server.thrift.iface;

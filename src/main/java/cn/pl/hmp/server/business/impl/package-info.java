@@ -1,5 +1,5 @@
 /*
- * package-info.java Copyright Bejing Passion Tech Co.,Ltd. All Rights Reserved.
+ * package-info.java Copyright Bejing Pinglian Tech Co.,Ltd. All Rights Reserved.
  */
 /**
  * 业务逻辑实现

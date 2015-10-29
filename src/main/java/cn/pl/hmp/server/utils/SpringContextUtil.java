@@ -1,5 +1,5 @@
 /*
- * SpringContextUtil.java Copyright Bejing Passion Tech Co.,Ltd. All Rights
+ * SpringContextUtil.java Copyright Bejing Pinglian Tech Co.,Ltd. All Rights
  * Reserved.
  */
 package cn.pl.hmp.server.utils;

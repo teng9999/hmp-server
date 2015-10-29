@@ -1,5 +1,5 @@
 /*
- * PointCutAnnotationAop.java Copyright Bejing Passion Tech Co.,Ltd. All Rights
+ * PointCutAnnotationAop.java Copyright Bejing Pinglian Tech Co.,Ltd. All Rights
  * Reserved.
  */
 package cn.pl.hmp.server.aop;

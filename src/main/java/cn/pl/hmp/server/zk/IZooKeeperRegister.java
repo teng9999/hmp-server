@@ -1,5 +1,5 @@
 /*
- * IZooKeeperRegister.java Copyright Bejing Passion Tech Co.,Ltd. All Rights
+ * IZooKeeperRegister.java Copyright Bejing Pinglian Tech Co.,Ltd. All Rights
  * Reserved.
  */
 package cn.pl.hmp.server.zk;
