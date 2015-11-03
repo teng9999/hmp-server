@@ -30,7 +30,7 @@
         <property name="thrift.server.stop.timeout.unit" value="SECONDS"/>
         <property name="thrift.server.stop.timeout.val" value="2"/>
         <property name="zookeeper.ens.enable" value="false"/>
-        <property name="zookeeper.ens.ip" value="172.16.10.62:2181,172.16.10.63:2181"/>
+        <property name="zookeeper.ens.ip" value="172.16.10.160:2182,172.16.10.160:2181,172.16.10.161:2181"/>
     </properties>
     <thrift>
         <server class="org.apache.thrift.server.TThreadedSelectorServer"/>
