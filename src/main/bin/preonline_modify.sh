@@ -14,4 +14,4 @@ sed -i 's/java_max_heap_size=.*/java_max_heap_size=256M/g' $BIN_DIR/java_env.sh
 sed -i 's/java_initail_heap_size=.*/java_initail_heap_size=256M/g' $BIN_DIR/java_env.sh
 sed -i 's/java_young_heap_size=.*/java_young_heap_size=128M/g' $BIN_DIR/java_env.sh
 
-sed -i 's/<property name="thrift.server.nodename" value="dxs"/<property name="thrift.server.nodename" value="preonline\/dxs"/g' $CONF_DIR/server.cfg.xml
+sed -i 's/<property name="thrift.server.nodename" value="hmp"/<property name="thrift.server.nodename" value="preonline\/hmp"/g' $CONF_DIR/server.cfg.xml
