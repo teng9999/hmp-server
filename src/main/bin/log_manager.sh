@@ -19,7 +19,7 @@ if [ -d ${LOG_DIR} ]; then
     if [ -f catalina.out ]; then
         > catalina.out
     fi
-    if [ -f passiontec.out ]; then
-        > passiontec.out
+    if [ -f pinglian.out ]; then
+        > pinglian.out
     fi
 fi

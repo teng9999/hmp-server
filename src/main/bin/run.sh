@@ -36,7 +36,7 @@ else
     service_type="java_only"
     LIB_JARS=`ls $LIB_DIR|grep .jar|awk '{print "'$LIB_DIR'/"$0}'|tr "\n" ":"`
     CLASS_PATH=$CONF_DIR:$LIB_JARS
-    STDOUT_FILE=$LOG_DIR/passiontec.out
+    STDOUT_FILE=$LOG_DIR/pinglian.out
     start_completely_flag="the server is started"
     REAL_LOG_DIR=/home/work/var/$MODULE_NAME/logs
 fi
