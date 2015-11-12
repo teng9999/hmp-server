@@ -1,5 +1,5 @@
 #!/bin/bash
-export JAVA_HOME=/home/work/jdk-1.7
+export JAVA_HOME=/home/work/jdk-1.8
 export MAVEN_HOME=/home/work/apache-maven-3.3.3
 export PATH=${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${PATH}
 
