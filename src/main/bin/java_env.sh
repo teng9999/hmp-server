@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export JAVA_HOME=/home/work/jdk-1.7
+export JAVA_HOME=/home/work/jdk-1.8
 export CLASSPATH=$JAVA_HOME/lib:$JAVA_HOME/jre/lib
 export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
 
