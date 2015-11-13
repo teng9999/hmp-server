@@ -25,7 +25,7 @@ public class TCommandServiceIface implements Iface {
     /*
      * (non-Javadoc)
      * @see
-     * cn.pl.frame.thrift.service.TCommandService.Iface#command(cn.px.dxs
+     * cn.pl.frame.thrift.service.TCommandService.Iface#command(cn.pl.hmp
      * .common.thrift.define.TCommand)
      */
     @Override

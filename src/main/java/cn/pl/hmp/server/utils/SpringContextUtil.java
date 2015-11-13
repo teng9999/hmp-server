@@ -64,8 +64,8 @@ public class SpringContextUtil {
     
     public synchronized static void setApplicationContext(ApplicationContext ac) {
         applicationContext = ac;
-        SqlSessionFactory dxsFactory = getBean(GlobalConstants.HMP_SQLSESSIONFACTORY, SqlSessionFactory.class);
-        mapperFactory.addSessionFactory(GlobalConstants.HMP_SQLSESSIONFACTORY, dxsFactory);
+        SqlSessionFactory hmpFactory = getBean(GlobalConstants.HMP_SQLSESSIONFACTORY, SqlSessionFactory.class);
+        mapperFactory.addSessionFactory(GlobalConstants.HMP_SQLSESSIONFACTORY, hmpFactory);
         SqlSessionFactory irsFactory = getBean(GlobalConstants.OLD_SQLSESSIONFACTORY, SqlSessionFactory.class);
         mapperFactory.addSessionFactory(GlobalConstants.OLD_SQLSESSIONFACTORY, irsFactory);
     }

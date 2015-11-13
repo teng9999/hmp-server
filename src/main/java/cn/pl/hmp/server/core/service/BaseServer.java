@@ -458,7 +458,7 @@ public class BaseServer implements Runnable {
         
         /*
          * (non-Javadoc)
-         * @see cn.px.commons.thread.ThreadTask#getName()
+         * @see cn.pl.commons.thread.ThreadTask#getName()
          */
         @Override
         public String getName() {
@@ -467,7 +467,7 @@ public class BaseServer implements Runnable {
         
         /*
          * (non-Javadoc)
-         * @see cn.px.commons.thread.ThreadTask#setName(java.lang.String)
+         * @see cn.pl.commons.thread.ThreadTask#setName(java.lang.String)
          */
         @Override
         public void setName(String name) {
@@ -526,7 +526,7 @@ public class BaseServer implements Runnable {
         
         /*
          * (non-Javadoc)
-         * @see cn.px.commons.thread.ThreadTask#getName()
+         * @see cn.pl.commons.thread.ThreadTask#getName()
          */
         @Override
         public String getName() {
@@ -535,7 +535,7 @@ public class BaseServer implements Runnable {
         
         /*
          * (non-Javadoc)
-         * @see cn.px.commons.thread.ThreadTask#setName(java.lang.String)
+         * @see cn.pl.commons.thread.ThreadTask#setName(java.lang.String)
          */
         @Override
         public void setName(String name) {
