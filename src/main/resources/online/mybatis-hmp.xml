@@ -3,9 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-  <settings>
-      <setting name="mapUnderscoreToCamelCase" value="true"/>
-  	<!-- <setting name="lazyLoadingEnabled" value="true"/>
-	<setting name="aggressiveLazyLoading" value="false"/> -->
-  </settings>
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<!-- <setting name="lazyLoadingEnabled" value="true"/> <setting name="aggressiveLazyLoading" 
+			value="false"/> -->
+	</settings>
+	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageHelper">
+			<property name="dialect" value="mysql" />
+			<property name="pageSizeZero" value="true" />
+			<property name="reasonable" value="true" />
+		</plugin>
+	</plugins>
 </configuration>
