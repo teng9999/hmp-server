@@ -20,7 +20,7 @@
 	</setting>
     <properties>
         <property name="thrift.server.nodename" value="hmp"/>
-        <property name="thrift.server.ip" value="0.0.0.0"/>
+        <property name="thrift.server.ip" value="172.16.10.160"/>
         <property name="thrift.server.port" value="9696"/>
         <property name="thrift.server.timeout" value="1000"/>
         <property name="thrift.server.readbuffer" value="16384000"/>
