@@ -299,4 +299,42 @@
       available = #{available,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- 自定义 -->
+   <resultMap id="BaseUniqueResultMap" type="cn.pl.hmp.server.dao.entity.HotelRoom" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="area" property="area" jdbcType="DOUBLE" />
+    <result column="floor" property="floor" jdbcType="INTEGER" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="room_num" property="roomNum" jdbcType="VARCHAR" />
+    <result column="room_type" property="roomType" jdbcType="VARCHAR" />
+    <result column="house_type" property="houseType" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="wifi" property="wifi" jdbcType="VARCHAR" />
+    <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
+    <result column="rcuIp" property="rcuip" jdbcType="VARCHAR" />
+    <result column="ir_cut" property="irCut" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="BIGINT" />
+    <result column="available" property="available" jdbcType="BIT" />
+    <result column="unique_num" property="uniqueNum" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectListAddUniqueNum" resultMap="BaseUniqueResultMap" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomExample" >
+    select
+     <if test="distinct" >
+      distinct
+    </if>
+     room.*,info.unique_num from 
+    hmp_hotel_room room ,hmp_hotel_info info where room.hotel_id = info.id 
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
 </mapper>

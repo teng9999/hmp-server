@@ -56,8 +56,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         if(null == example)
             example = new HotelRoomExample();
         PageHelper.startPage(page.getPageNum(),page.getPageSize()); 
-        System.out.println(page.getPageNum()+"--"+page.getPageSize());
-        List<HotelRoom> hotelRoomList = mapper.selectByExample(example);
+        List<HotelRoom> hotelRoomList = mapper.selectListAddUniqueNum(example);
         if(null == hotelRoomList)
             hotelRoomList = new ArrayList<HotelRoom>();
         PageInfo<HotelRoom> pageInfo =  new PageInfo<HotelRoom>(hotelRoomList);

@@ -12,6 +12,8 @@ public interface HotelRoomMapper {
     int insertSelective(HotelRoom record);
 
     List<HotelRoom> selectByExample(HotelRoomExample example);
+    
+    List<HotelRoom> selectListAddUniqueNum(HotelRoomExample example);
 
     HotelRoom selectByPrimaryKey(Long id);
 

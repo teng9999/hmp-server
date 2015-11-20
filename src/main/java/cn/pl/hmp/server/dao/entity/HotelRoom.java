@@ -40,6 +40,8 @@ public class HotelRoom {
     private Long modifier;
 
     private Boolean available;
+    
+    private String uniqueNum;
 
     public Long getId() {
         return id;
@@ -191,5 +193,13 @@ public class HotelRoom {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    public String getUniqueNum() {
+        return uniqueNum;
+    }
+
+    public void setUniqueNum(String uniqueNum) {
+        this.uniqueNum = uniqueNum;
     }
 }

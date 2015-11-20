@@ -18,6 +18,7 @@ import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IDataDictBusiness;
 import cn.pl.hmp.server.dao.entity.DataDict;
 import cn.pl.hmp.server.dao.entity.DataDictExample;
+import cn.pl.hmp.server.dao.entity.DataDictExample.Criteria;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -89,7 +90,15 @@ public class TDataDictServiceIface implements TDataDictService.Iface {
 
     @Override
     public List<TDataDict> queryByCases(TDataDict record) throws TException {
-        return null;
+       DataDictExample example = new DataDictExample();
+        Criteria criteria =example.createCriteria();
+        try {
+            ObjectConverter.copyValues(record,criteria);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return ObjectConverter.convet(dataDictBusiness.selectByCase(example),TDataDict.class);
     }
-
 }
