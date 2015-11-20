@@ -4,9 +4,6 @@
  */
 package cn.pl.hmp.server.business;
 
-import cn.pl.hmp.server.dao.mapper.HmpTestMapper;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 业务逻辑层
@@ -14,7 +11,4 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author alanyuan
  */
 public abstract class AbstractBusiness implements IBusiness {
-    @Autowired
-    protected HmpTestMapper hmpTestMapper;
-    
 }
