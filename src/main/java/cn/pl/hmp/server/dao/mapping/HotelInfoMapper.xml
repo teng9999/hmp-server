@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.pl.hmp.server.dao.mapper.HotelInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.HotelInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="bus" property="bus" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="env" property="env" jdbcType="VARCHAR" />
+    <result column="fax" property="fax" jdbcType="VARCHAR" />
+    <result column="hotel_num" property="hotelNum" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="post_code" property="postCode" jdbcType="VARCHAR" />
+    <result column="sub_name" property="subName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="cr_iso_code" property="crIsoCode" jdbcType="CHAR" />
+    <result column="unique_num" property="uniqueNum" jdbcType="VARCHAR" />
+    <result column="need_rcu" property="needRcu" jdbcType="BIT" />
+    <result column="need_tv" property="needTv" jdbcType="BIT" />
+    <result column="screen" property="screen" jdbcType="BIT" />
+    <result column="welcomes_cn" property="welcomesCn" jdbcType="VARCHAR" />
+    <result column="welcomes_en" property="welcomesEn" jdbcType="VARCHAR" />
+    <result column="weather_code" property="weatherCode" jdbcType="VARCHAR" />
+    <result column="city_name_en" property="cityNameEn" jdbcType="VARCHAR" />
+    <result column="roll_cn" property="rollCn" jdbcType="VARCHAR" />
+    <result column="roll_en" property="rollEn" jdbcType="VARCHAR" />
+    <result column="movie_group" property="movieGroup" jdbcType="VARCHAR" />
+    <result column="chain_id" property="chainId" jdbcType="VARCHAR" />
+    <result column="service_ip" property="serviceIp" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="air_config" property="airConfig" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="BIGINT" />
+    <result column="available" property="available" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sys_id, org_id, address, bus, city, env, fax, hotel_num, name, phone, post_code, 
+    sub_name, type, country, province, cr_iso_code, unique_num, need_rcu, need_tv, screen, 
+    welcomes_cn, welcomes_en, weather_code, city_name_en, roll_cn, roll_en, movie_group, 
+    chain_id, service_ip, brand_id, air_config, create_time, creator, modify_time, modifier, 
+    available
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.HotelInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from hmp_hotel_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hmp_hotel_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hmp_hotel_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" keyProperty="id" useGeneratedKeys="true">
+    insert into hmp_hotel_info (id, sys_id, org_id, 
+      address, bus, city, 
+      env, fax, hotel_num, 
+      name, phone, post_code, 
+      sub_name, type, country, 
+      province, cr_iso_code, unique_num, 
+      need_rcu, need_tv, screen, welcomes_cn, 
+      welcomes_en, weather_code, city_name_en, 
+      roll_cn, roll_en, movie_group, 
+      chain_id, service_ip, brand_id, 
+      air_config, create_time, creator, 
+      modify_time, modifier, available
+      )
+    values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
+      #{address,jdbcType=VARCHAR}, #{bus,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{env,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{hotelNum,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, 
+      #{subName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{crIsoCode,jdbcType=CHAR}, #{uniqueNum,jdbcType=VARCHAR}, 
+      #{needRcu,jdbcType=BIT}, #{needTv,jdbcType=BIT}, #{screen,jdbcType=BIT}, #{welcomesCn,jdbcType=VARCHAR}, 
+      #{welcomesEn,jdbcType=VARCHAR}, #{weatherCode,jdbcType=VARCHAR}, #{cityNameEn,jdbcType=VARCHAR}, 
+      #{rollCn,jdbcType=VARCHAR}, #{rollEn,jdbcType=VARCHAR}, #{movieGroup,jdbcType=VARCHAR}, 
+      #{chainId,jdbcType=VARCHAR}, #{serviceIp,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, 
+      #{airConfig,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" keyProperty="id" useGeneratedKeys="true">
+    insert into hmp_hotel_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysId != null" >
+        sys_id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="bus != null" >
+        bus,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="env != null" >
+        env,
+      </if>
+      <if test="fax != null" >
+        fax,
+      </if>
+      <if test="hotelNum != null" >
+        hotel_num,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="postCode != null" >
+        post_code,
+      </if>
+      <if test="subName != null" >
+        sub_name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="crIsoCode != null" >
+        cr_iso_code,
+      </if>
+      <if test="uniqueNum != null" >
+        unique_num,
+      </if>
+      <if test="needRcu != null" >
+        need_rcu,
+      </if>
+      <if test="needTv != null" >
+        need_tv,
+      </if>
+      <if test="screen != null" >
+        screen,
+      </if>
+      <if test="welcomesCn != null" >
+        welcomes_cn,
+      </if>
+      <if test="welcomesEn != null" >
+        welcomes_en,
+      </if>
+      <if test="weatherCode != null" >
+        weather_code,
+      </if>
+      <if test="cityNameEn != null" >
+        city_name_en,
+      </if>
+      <if test="rollCn != null" >
+        roll_cn,
+      </if>
+      <if test="rollEn != null" >
+        roll_en,
+      </if>
+      <if test="movieGroup != null" >
+        movie_group,
+      </if>
+      <if test="chainId != null" >
+        chain_id,
+      </if>
+      <if test="serviceIp != null" >
+        service_ip,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="airConfig != null" >
+        air_config,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sysId != null" >
+        #{sysId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="bus != null" >
+        #{bus,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="env != null" >
+        #{env,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelNum != null" >
+        #{hotelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subName != null" >
+        #{subName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="crIsoCode != null" >
+        #{crIsoCode,jdbcType=CHAR},
+      </if>
+      <if test="uniqueNum != null" >
+        #{uniqueNum,jdbcType=VARCHAR},
+      </if>
+      <if test="needRcu != null" >
+        #{needRcu,jdbcType=BIT},
+      </if>
+      <if test="needTv != null" >
+        #{needTv,jdbcType=BIT},
+      </if>
+      <if test="screen != null" >
+        #{screen,jdbcType=BIT},
+      </if>
+      <if test="welcomesCn != null" >
+        #{welcomesCn,jdbcType=VARCHAR},
+      </if>
+      <if test="welcomesEn != null" >
+        #{welcomesEn,jdbcType=VARCHAR},
+      </if>
+      <if test="weatherCode != null" >
+        #{weatherCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityNameEn != null" >
+        #{cityNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="rollCn != null" >
+        #{rollCn,jdbcType=VARCHAR},
+      </if>
+      <if test="rollEn != null" >
+        #{rollEn,jdbcType=VARCHAR},
+      </if>
+      <if test="movieGroup != null" >
+        #{movieGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="chainId != null" >
+        #{chainId,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceIp != null" >
+        #{serviceIp,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="airConfig != null" >
+        #{airConfig,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=BIGINT},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" >
+    update hmp_hotel_info
+    <set >
+      <if test="sysId != null" >
+        sys_id = #{sysId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="bus != null" >
+        bus = #{bus,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="env != null" >
+        env = #{env,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        fax = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelNum != null" >
+        hotel_num = #{hotelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subName != null" >
+        sub_name = #{subName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="crIsoCode != null" >
+        cr_iso_code = #{crIsoCode,jdbcType=CHAR},
+      </if>
+      <if test="uniqueNum != null" >
+        unique_num = #{uniqueNum,jdbcType=VARCHAR},
+      </if>
+      <if test="needRcu != null" >
+        need_rcu = #{needRcu,jdbcType=BIT},
+      </if>
+      <if test="needTv != null" >
+        need_tv = #{needTv,jdbcType=BIT},
+      </if>
+      <if test="screen != null" >
+        screen = #{screen,jdbcType=BIT},
+      </if>
+      <if test="welcomesCn != null" >
+        welcomes_cn = #{welcomesCn,jdbcType=VARCHAR},
+      </if>
+      <if test="welcomesEn != null" >
+        welcomes_en = #{welcomesEn,jdbcType=VARCHAR},
+      </if>
+      <if test="weatherCode != null" >
+        weather_code = #{weatherCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityNameEn != null" >
+        city_name_en = #{cityNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="rollCn != null" >
+        roll_cn = #{rollCn,jdbcType=VARCHAR},
+      </if>
+      <if test="rollEn != null" >
+        roll_en = #{rollEn,jdbcType=VARCHAR},
+      </if>
+      <if test="movieGroup != null" >
+        movie_group = #{movieGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="chainId != null" >
+        chain_id = #{chainId,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceIp != null" >
+        service_ip = #{serviceIp,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="airConfig != null" >
+        air_config = #{airConfig,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=BIGINT},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" >
+    update hmp_hotel_info
+    set sys_id = #{sysId,jdbcType=BIGINT},
+      org_id = #{orgId,jdbcType=BIGINT},
+      address = #{address,jdbcType=VARCHAR},
+      bus = #{bus,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      env = #{env,jdbcType=VARCHAR},
+      fax = #{fax,jdbcType=VARCHAR},
+      hotel_num = #{hotelNum,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      post_code = #{postCode,jdbcType=VARCHAR},
+      sub_name = #{subName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      cr_iso_code = #{crIsoCode,jdbcType=CHAR},
+      unique_num = #{uniqueNum,jdbcType=VARCHAR},
+      need_rcu = #{needRcu,jdbcType=BIT},
+      need_tv = #{needTv,jdbcType=BIT},
+      screen = #{screen,jdbcType=BIT},
+      welcomes_cn = #{welcomesCn,jdbcType=VARCHAR},
+      welcomes_en = #{welcomesEn,jdbcType=VARCHAR},
+      weather_code = #{weatherCode,jdbcType=VARCHAR},
+      city_name_en = #{cityNameEn,jdbcType=VARCHAR},
+      roll_cn = #{rollCn,jdbcType=VARCHAR},
+      roll_en = #{rollEn,jdbcType=VARCHAR},
+      movie_group = #{movieGroup,jdbcType=VARCHAR},
+      chain_id = #{chainId,jdbcType=VARCHAR},
+      service_ip = #{serviceIp,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=VARCHAR},
+      air_config = #{airConfig,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=BIGINT},
+      available = #{available,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
