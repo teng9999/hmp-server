@@ -10,9 +10,13 @@ import cn.pl.frame.client.thrift.transform.ThriftTransform;
 import cn.pl.frame.thrift.define.TPages;
 import cn.pl.hmp.commons.thrift.define.TAirMode;
 import cn.pl.hmp.commons.thrift.define.TExample;
+import cn.pl.hmp.commons.thrift.define.THmpMovie;
+import cn.pl.hmp.commons.thrift.define.THmpMovieGroup;
 import cn.pl.hmp.commons.thrift.define.THotelRCUCfg;
 import cn.pl.hmp.commons.thrift.define.TRoomRCUCfg;
 import cn.pl.hmp.server.dao.entity.AirMode;
+import cn.pl.hmp.server.dao.entity.HmpMovie;
+import cn.pl.hmp.server.dao.entity.HmpMovieGroup;
 import cn.pl.hmp.server.dao.entity.HmpTest;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfg;
 import cn.pl.hmp.server.dao.entity.RoomRCUCfg;
@@ -427,6 +431,125 @@ public class ServerTransform extends ThriftTransform {
 		if (rlt.getNums() != null) {
 			result.setNums(rlt.getNums());
 		}
+		return result;
+	}
+
+	
+	
+	public static HmpMovie transform(THmpMovie info) {
+		if (info == null)
+			return null;
+		HmpMovie result = new HmpMovie();
+		result.setId(info.getId());
+		if (null != info.getNameCn())
+			result.setNameCn(info.getNameCn());
+		if (null != info.getNameEn())
+			result.setNameEn(info.getNameEn());
+		if (null != info.getFirstSpell())
+			result.setFirstSpell(info.getFirstSpell());
+		if (null != info.getAllSpell())
+			result.setAllSpell(info.getAllSpell());
+		if (0 < info.getHotelId())
+			result.setHotelId(info.getHotelId());
+		if (null != info.getPath())
+			result.setPath(info.getPath());
+		if (null != info.getBackImg())
+			result.setBackImg(info.getBackImg());
+		if (null != info.getBackImgSmall())
+			result.setBackImgSmall(info.getBackImgSmall());
+		if (null != info.getPlaceNum())
+			result.setPlaceNum(info.getPlaceNum());
+		if (null != info.getFirstClass())
+			result.setFirstClass(info.getFirstClass());
+		if (null != info.getSencondClass())
+			result.setSecondClass(info.getSencondClass());
+		if (null != info.getShowYear())
+			result.setShowYear(info.getShowYear());
+		if (null != info.getArea())
+			result.setArea(info.getArea());
+		if (null != info.getSetNum())
+			result.setSetNum(info.getSetNum());
+		if (null != info.getDirect())
+			result.setDirect(info.getDirect());
+		if (null != info.getMovieLan())
+			result.setMovieLan(info.getMovieLan());
+		if (null != info.getTimeLength())
+			result.setTimeLength(info.getTimeLength());
+		if (null != info.getTimeLength())
+			result.setCreateTime(DateUtil.text2date(info.getTimeLength(), null));
+		if (null != info.getIntro())
+			result.setIntro(info.getIntro());
+		return result;
+	}
+	public static THmpMovie transform(HmpMovie info) {
+		if (null == info)
+			return null;
+		THmpMovie result = new THmpMovie();
+		result.setId(info.getId());
+		if(null != info.getNameCn())
+			result.setNameCn(info.getNameCn());
+		if (null != info.getNameEn())
+			result.setNameEn(info.getNameEn());
+		if (null != info.getFirstSpell())
+			result.setFirstSpell(info.getFirstSpell());
+		if (null != info.getFirstSpell())
+			result.setAllSpell(info.getAllSpell());
+		if (null != info.getHotelId() && info.getHotelId() > 0)
+			result.setHotelId(info.getHotelId());
+		if (null != info.getPath())
+			result.setPath(info.getPath());
+		if (null != info.getBackImg())
+			result.setBackImg(info.getBackImg());
+		if (null != info.getBackImgSmall())
+			result.setBackImgSmall(info.getBackImgSmall());
+		if (null != info.getPlaceNum())
+			result.setPlaceNum(info.getPlaceNum());
+		if (null != info.getFirstClass())
+			result.setFirstClass(info.getFirstClass());
+		if (null != info.getSecondClass())
+			result.setSencondClass(info.getSecondClass());
+		if (null != info.getShowYear())
+			result.setShowYear(info.getShowYear());
+		if (null != info.getArea())
+			result.setArea(info.getArea());
+		if (null != info.getSetNum())
+			result.setSetNum(info.getSetNum());
+		if (null != info.getDirect())
+			result.setDirect(info.getDirect());
+		if (null != info.getMovieLan())
+			result.setMovieLan(info.getMovieLan());
+		if (null != info.getTimeLength())
+			result.setTimeLength(info.getTimeLength());
+		if (null != info.getCreateTime())
+			result.setCreateTime(DateUtil.date2Text(info.getCreateTime(), null));
+		if (null != info.getIntro())
+			result.setIntro(info.getIntro());
+		return result;
+	}
+	
+	public static HmpMovieGroup transform(THmpMovieGroup info) {
+		if (info == null)
+			return null;
+		HmpMovieGroup result = new HmpMovieGroup();
+		result.setId(info.getId());
+		if (0 < info.getHotelId())
+			result.setHotelId(info.getHotelId());
+		if (null != info.getGroupName())
+			result.setGroupName(info.getGroupName());
+		if (null != info.getPayType())
+			result.setPayType(info.getPayType());
+		return result;
+	}
+	
+	public static  THmpMovieGroup transform(HmpMovieGroup info) {
+		if (info == null)
+			return null;
+		THmpMovieGroup result = new THmpMovieGroup();
+		result.setId(info.getId());
+		if (0 < info.getHotelId())
+			result.setHotelId(info.getHotelId());
+		if (null != info.getGroupName())
+			result.setGroupName(info.getGroupName());
 		return result;
 	}
 }
