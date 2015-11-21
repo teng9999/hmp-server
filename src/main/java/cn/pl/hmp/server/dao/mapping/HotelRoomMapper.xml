@@ -60,7 +60,7 @@
     <if test="distinct" >
       distinct
     </if>
-    'false' as QUERYID,
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from hmp_hotel_room
     <if test="_parameter != null" >
@@ -91,7 +91,7 @@
     values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
       #{area,jdbcType=DOUBLE}, #{floor,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{roomNum,jdbcType=VARCHAR}, 
       #{roomType,jdbcType=VARCHAR}, #{houseType,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{wifi,jdbcType=VARCHAR}, #{hotelId,jdbcType=BIGINT}, #{rucIp,jdbcType=VARCHAR}, 
+      #{wifi,jdbcType=VARCHAR}, #{hotelId,jdbcType=BIGINT}, #{rcuIp,jdbcType=VARCHAR}, 
       #{irCut,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, 
       #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}
       )
@@ -135,7 +135,7 @@
       <if test="hotelId != null" >
         hotel_id,
       </if>
-      <if test="rucIp != null" >
+      <if test="rcuIp != null" >
         rcu_ip,
       </if>
       <if test="irCut != null" >
@@ -194,8 +194,8 @@
       <if test="hotelId != null" >
         #{hotelId,jdbcType=BIGINT},
       </if>
-      <if test="rucIp != null" >
-        #{rucIp,jdbcType=VARCHAR},
+      <if test="rcuIp != null" >
+        #{rcuIp,jdbcType=VARCHAR},
       </if>
       <if test="irCut != null" >
         #{irCut,jdbcType=BIT},
@@ -217,6 +217,12 @@
       </if>
     </trim>
   </insert>
+  <select id="countByExample" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomExample" resultType="java.lang.Integer" >
+    select count(*) from hmp_hotel_room
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
   <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HotelRoom" >
     update hmp_hotel_room
     <set >
@@ -253,8 +259,8 @@
       <if test="hotelId != null" >
         hotel_id = #{hotelId,jdbcType=BIGINT},
       </if>
-      <if test="rucIp != null" >
-        rcu_ip = #{rucIp,jdbcType=VARCHAR},
+      <if test="rcuIp != null" >
+        rcu_ip = #{rcuIp,jdbcType=VARCHAR},
       </if>
       <if test="irCut != null" >
         ir_cut = #{irCut,jdbcType=BIT},
@@ -290,7 +296,7 @@
       unit = #{unit,jdbcType=VARCHAR},
       wifi = #{wifi,jdbcType=VARCHAR},
       hotel_id = #{hotelId,jdbcType=BIGINT},
-      rcu_ip = #{rucIp,jdbcType=VARCHAR},
+      rcu_ip = #{rcuIp,jdbcType=VARCHAR},
       ir_cut = #{irCut,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=BIGINT},

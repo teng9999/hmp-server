@@ -885,73 +885,73 @@ public class HotelRoomExample {
             return (Criteria) this;
         }
 
-        public Criteria andRcuipIsNull() {
-            addCriterion("rcuIp is null");
+        public Criteria andRcuIpIsNull() {
+            addCriterion("rcu_ip is null");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipIsNotNull() {
-            addCriterion("rcuIp is not null");
+        public Criteria andRcuIpIsNotNull() {
+            addCriterion("rcu_ip is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipEqualTo(String value) {
-            addCriterion("rcuIp =", value, "rcuip");
+        public Criteria andRcuIpEqualTo(String value) {
+            addCriterion("rcu_ip =", value, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipNotEqualTo(String value) {
-            addCriterion("rcuIp <>", value, "rcuip");
+        public Criteria andRcuIpNotEqualTo(String value) {
+            addCriterion("rcu_ip <>", value, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipGreaterThan(String value) {
-            addCriterion("rcuIp >", value, "rcuip");
+        public Criteria andRcuIpGreaterThan(String value) {
+            addCriterion("rcu_ip >", value, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipGreaterThanOrEqualTo(String value) {
-            addCriterion("rcuIp >=", value, "rcuip");
+        public Criteria andRcuIpGreaterThanOrEqualTo(String value) {
+            addCriterion("rcu_ip >=", value, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipLessThan(String value) {
-            addCriterion("rcuIp <", value, "rcuip");
+        public Criteria andRcuIpLessThan(String value) {
+            addCriterion("rcu_ip <", value, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipLessThanOrEqualTo(String value) {
-            addCriterion("rcuIp <=", value, "rcuip");
+        public Criteria andRcuIpLessThanOrEqualTo(String value) {
+            addCriterion("rcu_ip <=", value, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipLike(String value) {
-            addCriterion("rcuIp like", value, "rcuip");
+        public Criteria andRcuIpLike(String value) {
+            addCriterion("rcu_ip like", value, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipNotLike(String value) {
-            addCriterion("rcuIp not like", value, "rcuip");
+        public Criteria andRcuIpNotLike(String value) {
+            addCriterion("rcu_ip not like", value, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipIn(List<String> values) {
-            addCriterion("rcuIp in", values, "rcuip");
+        public Criteria andRcuIpIn(List<String> values) {
+            addCriterion("rcu_ip in", values, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipNotIn(List<String> values) {
-            addCriterion("rcuIp not in", values, "rcuip");
+        public Criteria andRcuIpNotIn(List<String> values) {
+            addCriterion("rcu_ip not in", values, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipBetween(String value1, String value2) {
-            addCriterion("rcuIp between", value1, value2, "rcuip");
+        public Criteria andRcuIpBetween(String value1, String value2) {
+            addCriterion("rcu_ip between", value1, value2, "rcuIp");
             return (Criteria) this;
         }
 
-        public Criteria andRcuipNotBetween(String value1, String value2) {
-            addCriterion("rcuIp not between", value1, value2, "rcuip");
+        public Criteria andRcuIpNotBetween(String value1, String value2) {
+            addCriterion("rcu_ip not between", value1, value2, "rcuIp");
             return (Criteria) this;
         }
 
