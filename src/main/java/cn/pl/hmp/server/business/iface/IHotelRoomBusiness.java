@@ -51,4 +51,10 @@ public interface IHotelRoomBusiness  extends IBusiness {
      * @return
      */
     int deleteOnBatch(List<Long> idList);
+    /**
+     * 批量添加
+     * @param idList
+     * @return
+     */
+    int saveOnBatch(HotelRoom record,String roomNums);
 }

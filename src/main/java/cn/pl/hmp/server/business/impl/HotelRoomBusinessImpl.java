@@ -72,4 +72,21 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         // return mapper.deleteOnBatch(idList);
     }
 
+    @Override
+    public int saveOnBatch(HotelRoom record, String roomNums) {
+        if(null == record||null == roomNums||"".equals(roomNums.trim()))
+            return 0;
+        List<HotelRoom> roomList = new ArrayList<HotelRoom>();
+        HotelRoom tempRoom = null;
+        String[] roomNumArray = roomNums.split("-");
+        if(null == roomNumArray || roomNums.length()<2)
+            return 0;
+        for(int i = Integer.parseInt(roomNumArray[0]);i<=Integer.parseInt(roomNumArray[1]);i++){
+            tempRoom = record.clone(record);
+            tempRoom.setRoomNum(i+"");
+            roomList.add(tempRoom);
+        }
+        return mapper.insertBatch(roomList);
+    }
+
 }

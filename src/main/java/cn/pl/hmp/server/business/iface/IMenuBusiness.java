@@ -56,4 +56,11 @@ public interface IMenuBusiness  extends IBusiness {
      * @return
      */
     int deleteOnBatch(List<Long> idList);
+    
+    /**
+     * 根据父级查所有子级菜单和路径
+     * @param parentId
+     * @return
+     */
+    List<Menu> selectByParentId(Long parentId);
 }

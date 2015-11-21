@@ -20,4 +20,6 @@ public interface HotelRoomMapper {
     int updateByPrimaryKeySelective(HotelRoom record);
 
     int updateByPrimaryKey(HotelRoom record);
+    
+    int insertBatch(List<HotelRoom> list);
 }

@@ -52,6 +52,8 @@ public class Menu {
     private Boolean available;
 
     private Long moduleId;
+    
+    private String target;
 
     public Long getId() {
         return id;
@@ -251,5 +253,13 @@ public class Menu {
 
     public void setModuleId(Long moduleId) {
         this.moduleId = moduleId;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
     }
 }

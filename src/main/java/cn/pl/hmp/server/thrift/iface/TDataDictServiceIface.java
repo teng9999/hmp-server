@@ -92,8 +92,9 @@ public class TDataDictServiceIface implements TDataDictService.Iface {
     public List<TDataDict> queryByCases(TDataDict record) throws TException {
        DataDictExample example = new DataDictExample();
         Criteria criteria =example.createCriteria();
-        try {
-            ObjectConverter.copyValues(record,criteria);
+        DataDict dict = ObjectConverter.convet(record, DataDict.class);
+        try { 
+            ObjectConverter.copyValues(dict,criteria);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

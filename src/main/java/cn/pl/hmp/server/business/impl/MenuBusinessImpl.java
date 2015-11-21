@@ -26,16 +26,22 @@ public class MenuBusinessImpl extends BoostBusinessImpl implements IMenuBusiness
 
 	@Override
 	public int deleteByMenuId(Long id) {
+	    if(null == id)
+            return 0;
 		return mapper.deleteByPrimaryKey(id);
 	}
 
 	@Override
 	public int insert(Menu record) {
+	    if(null == record)
+            return 0;
 		return mapper.insert(record);
 	}
 
 	@Override
 	public Menu selectByMenuId(Long id) {
+	    if(null == id)
+	        return null;
 		return mapper.selectByPrimaryKey(id);
 	}
 
@@ -46,6 +52,8 @@ public class MenuBusinessImpl extends BoostBusinessImpl implements IMenuBusiness
 
 	@Override
 	public int update(Menu record) {
+	    if(null == record)
+	        return 0;
 		return mapper.updateByPrimaryKey(record);
 	}
 
@@ -70,6 +78,13 @@ public class MenuBusinessImpl extends BoostBusinessImpl implements IMenuBusiness
     public int deleteOnBatch(List<Long> idList) {
         //return mapper.deleteOnBatch(idList);
         return 0;
+    }
+
+    @Override
+    public List<Menu> selectByParentId(Long parentId) {
+        if(null == parentId)
+            return null;
+        return mapper.selectWithTarget(parentId);
     }
 
 }

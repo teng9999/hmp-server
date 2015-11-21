@@ -72,4 +72,9 @@ public class TMenuServiceIface implements TMenuService.Iface {
         return menuBusiness.deleteOnBatch(idList);
     }
 
+    @Override
+    public List<TMenu> queryByParentId(long id) throws TException {
+        return ObjectConverter.convet(menuBusiness.selectByParentId(id), TMenu.class);
+    }
+
 }

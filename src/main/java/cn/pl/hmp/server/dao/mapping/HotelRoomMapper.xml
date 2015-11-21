@@ -337,4 +337,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+  <!-- 批量添加 -->
+  <insert id="insertBatch" parameterType="java.util.List">
+    <![CDATA[
+    insert into hmp_hotel_room(house_type,room_num,unit, ip,wifi,rcuIp,ir_cut)
+    values 
+    ]]>
+    <foreach collection ="list" item ="item" index ="index" separator =","> 
+       (#{item.houseType},#{item.roomNum},#{item.unit},#{item.ip},
+       #{item.wifi},#{item.rcuip},#{item.irCut}) 
+    </foreach> 
+  </insert>
 </mapper>

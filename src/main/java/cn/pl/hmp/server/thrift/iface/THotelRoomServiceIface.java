@@ -68,4 +68,9 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
         return hotelRoomBusiness.deleteOnBatch(idList);
     }
 
+    @Override
+    public int saveBatch(THotelRoom record, String roomNums) throws TException {
+        return hotelRoomBusiness.saveOnBatch(ObjectConverter.convet(record,HotelRoom.class), roomNums);
+    }
+
 }
