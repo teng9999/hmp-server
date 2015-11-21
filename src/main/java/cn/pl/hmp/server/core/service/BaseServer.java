@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 /**
- * 店小算服务管理
+ * 酒店配置和管理平台服务管理
  *
  * @author Alan
  *        
