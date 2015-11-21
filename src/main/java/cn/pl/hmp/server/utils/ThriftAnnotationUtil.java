@@ -102,7 +102,7 @@ public class ThriftAnnotationUtil implements InitializingBean, DisposableBean, A
                     } else {
                         for (Class<?> iface : interfaces) {
                             String cname = iface.getSimpleName();
-                            if (cname.equals("Iface")) {
+                            if (StringUtils.isNotBlank(cname) && (cname.equals("Iface") || cname.equals("AsyncIface"))) {
                                 String pname = iface.getEnclosingClass().getName() + "$Processor";
                                 Class<?> pclass;
                                 try {

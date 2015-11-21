@@ -4,8 +4,19 @@ import cn.pl.commons.pages.Pages;
 
 import com.github.pagehelper.PageInfo;
 
+/**
+ * 分页转换
+ * 
+ * @author renjianwei
+ *
+ */
 public class PageConverter {
-    public static Pages converter(PageInfo pageInfo){
+    /**
+     * 分页信息转换
+     * @param pageInfo
+     * @return
+     */
+    public static Pages converter(PageInfo<?> pageInfo){
         Pages pages = new Pages();
         pages.setPageNum(pageInfo.getPageNum());
         pages.setPageSize(pageInfo.getPageSize());

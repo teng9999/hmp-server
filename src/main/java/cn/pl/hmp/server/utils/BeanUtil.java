@@ -226,7 +226,7 @@ public class BeanUtil {
                     } else {
                         for (Class<?> iface : interfaces) {
                             String cname = iface.getSimpleName();
-                            if (cname.equals("Iface")) {
+                            if (StringUtils.isNotBlank(cname) && (cname.equals("Iface") || cname.equals("AsyncIface"))) {
                                 String pname = iface.getEnclosingClass().getName() + "$Processor";
                                 Class<?> pclass = ServerConfig.class.getClassLoader().loadClass(pname);
                                 if (TProcessor.class.isAssignableFrom(pclass)) {
