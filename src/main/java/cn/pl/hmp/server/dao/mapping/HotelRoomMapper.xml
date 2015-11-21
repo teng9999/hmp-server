@@ -14,7 +14,7 @@
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="wifi" property="wifi" jdbcType="VARCHAR" />
     <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
-    <result column="rcuIp" property="rcuip" jdbcType="VARCHAR" />
+    <result column="rcu_ip" property="rcuIp" jdbcType="VARCHAR" />
     <result column="ir_cut" property="irCut" jdbcType="BIT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="creator" property="creator" jdbcType="BIGINT" />
@@ -53,7 +53,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, sys_id, org_id, area, floor, ip, room_num, room_type, house_type, unit, wifi, 
-    hotel_id, rcuIp, ir_cut, create_time, creator, modify_time, modifier, available
+    hotel_id, rcu_ip, ir_cut, create_time, creator, modify_time, modifier, available
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomExample" >
     select
@@ -84,14 +84,14 @@
     insert into hmp_hotel_room (id, sys_id, org_id, 
       area, floor, ip, room_num, 
       room_type, house_type, unit, 
-      wifi, hotel_id, rcuIp, 
+      wifi, hotel_id, rcu_ip, 
       ir_cut, create_time, creator, 
       modify_time, modifier, available
       )
     values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
       #{area,jdbcType=DOUBLE}, #{floor,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{roomNum,jdbcType=VARCHAR}, 
       #{roomType,jdbcType=VARCHAR}, #{houseType,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{wifi,jdbcType=VARCHAR}, #{hotelId,jdbcType=BIGINT}, #{rcuip,jdbcType=VARCHAR}, 
+      #{wifi,jdbcType=VARCHAR}, #{hotelId,jdbcType=BIGINT}, #{rucIp,jdbcType=VARCHAR}, 
       #{irCut,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, 
       #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}
       )
@@ -135,8 +135,8 @@
       <if test="hotelId != null" >
         hotel_id,
       </if>
-      <if test="rcuip != null" >
-        rcuIp,
+      <if test="rucIp != null" >
+        rcu_ip,
       </if>
       <if test="irCut != null" >
         ir_cut,
@@ -194,8 +194,8 @@
       <if test="hotelId != null" >
         #{hotelId,jdbcType=BIGINT},
       </if>
-      <if test="rcuip != null" >
-        #{rcuip,jdbcType=VARCHAR},
+      <if test="rucIp != null" >
+        #{rucIp,jdbcType=VARCHAR},
       </if>
       <if test="irCut != null" >
         #{irCut,jdbcType=BIT},
@@ -253,8 +253,8 @@
       <if test="hotelId != null" >
         hotel_id = #{hotelId,jdbcType=BIGINT},
       </if>
-      <if test="rcuip != null" >
-        rcuIp = #{rcuip,jdbcType=VARCHAR},
+      <if test="rucIp != null" >
+        rcu_ip = #{rucIp,jdbcType=VARCHAR},
       </if>
       <if test="irCut != null" >
         ir_cut = #{irCut,jdbcType=BIT},
@@ -290,7 +290,7 @@
       unit = #{unit,jdbcType=VARCHAR},
       wifi = #{wifi,jdbcType=VARCHAR},
       hotel_id = #{hotelId,jdbcType=BIGINT},
-      rcuIp = #{rcuip,jdbcType=VARCHAR},
+      rcu_ip = #{rucIp,jdbcType=VARCHAR},
       ir_cut = #{irCut,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=BIGINT},
@@ -313,7 +313,7 @@
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="wifi" property="wifi" jdbcType="VARCHAR" />
     <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
-    <result column="rcuIp" property="rcuip" jdbcType="VARCHAR" />
+    <result column="rcu_ip" property="rucIp" jdbcType="VARCHAR" />
     <result column="ir_cut" property="irCut" jdbcType="BIT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="creator" property="creator" jdbcType="BIGINT" />
@@ -341,12 +341,12 @@
   <!-- 批量添加 -->
   <insert id="insertBatch" parameterType="java.util.List">
     <![CDATA[
-    insert into hmp_hotel_room(house_type,room_num,unit, ip,wifi,rcuIp,ir_cut)
+    insert into hmp_hotel_room(house_type,room_num,unit, ip,wifi,rcu_ip,ir_cut)
     values 
     ]]>
     <foreach collection ="list" item ="item" index ="index" separator =","> 
        (#{item.houseType},#{item.roomNum},#{item.unit},#{item.ip},
-       #{item.wifi},#{item.rcuip},#{item.irCut}) 
+       #{item.wifi},#{item.rucIp},#{item.irCut}) 
     </foreach> 
   </insert>
 </mapper>

@@ -27,7 +27,7 @@ public class HotelRoom implements Cloneable{
 
     private Long hotelId;
 
-    private String rcuip;
+    private String rcuIp;
 
     private Boolean irCut;
 
@@ -139,12 +139,12 @@ public class HotelRoom implements Cloneable{
         this.hotelId = hotelId;
     }
 
-    public String getRcuip() {
-        return rcuip;
+    public String getRcuIp() {
+        return rcuIp;
     }
 
-    public void setRcuip(String rcuip) {
-        this.rcuip = rcuip == null ? null : rcuip.trim();
+    public void setRcuIp(String rcuIp) {
+        this.rcuIp = rcuIp == null ? null : rcuIp.trim();
     }
 
     public Boolean getIrCut() {
