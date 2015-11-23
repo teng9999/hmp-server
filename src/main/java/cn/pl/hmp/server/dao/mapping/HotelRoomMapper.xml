@@ -319,7 +319,7 @@
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="wifi" property="wifi" jdbcType="VARCHAR" />
     <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
-    <result column="rcu_ip" property="rucIp" jdbcType="VARCHAR" />
+    <result column="rcu_ip" property="rcuIp" jdbcType="VARCHAR" />
     <result column="ir_cut" property="irCut" jdbcType="BIT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="creator" property="creator" jdbcType="BIGINT" />
