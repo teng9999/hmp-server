@@ -76,7 +76,9 @@ public class THmpMovieGroupServiceIface implements Iface{
 	@Override
 	public List<THmpMovieGroup> loadAll() throws ThriftException, TException {
 		// TODO Auto-generated method stub
-		return null;
+		if (business == null)
+			return null;
+		return listTransform(business.query(null));
 	}
 
 	@Override
@@ -86,8 +88,8 @@ public class THmpMovieGroupServiceIface implements Iface{
 			return null;
 		if(0 > hotelId)
 			return null;
-		//List<THmpMovieGroup> result = 
 		return null;
+	
 	}
 
 	@Override
