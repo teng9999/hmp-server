@@ -65,7 +65,7 @@ public class HmpMovieGroupBusiness implements IHmpMovieGroupBusiness {
 				}
 			}
 		}	
-		return null;
+		return result;
 	}
 
 	@Override
