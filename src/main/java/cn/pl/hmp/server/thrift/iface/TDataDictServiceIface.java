@@ -38,8 +38,10 @@ public class TDataDictServiceIface implements TDataDictService.Iface {
 	}
 
 	@Override
-	public int save(TDataDict record) throws TException {
-		return dataDictBusiness.insert(ObjectConverter.convet(record, DataDict.class));
+	public long save(TDataDict record) throws TException {
+	    DataDict dataDict = ObjectConverter.convet(record, DataDict.class);
+	    dataDictBusiness.insert(dataDict);
+		return dataDict.getId();
 	}
 
 	@Override
@@ -82,10 +84,20 @@ public class TDataDictServiceIface implements TDataDictService.Iface {
     }
 
     @Override
-    public List<TDataDict> queryByParentId(long parentId) throws TException {
+    public Map<TPages, List<TDataDict>> queryByParentId(TPages pages,long parentId) throws TException {
+        Map<TPages,List<TDataDict>> tmap = new HashMap<TPages, List<TDataDict>>();
+        TPages tempPage = null;
         DataDictExample example = new DataDictExample();
         example.createCriteria().andParentIdEqualTo(parentId);
-        return ObjectConverter.convet(dataDictBusiness.selectByCase(example),TDataDict.class);
+        Map<Pages,List<DataDict>> dataDictMap = dataDictBusiness.selectByPages(example,ObjectConverter.convet(pages, Pages.class));
+        if(null != dataDictMap&& !dataDictMap.isEmpty()){
+            Set<Pages> set = dataDictMap.keySet();
+            for(Pages page:set){
+                tempPage = ServerTransform.transform(page);
+                tmap.put(tempPage,ObjectConverter.convet(dataDictMap.get(page), TDataDict.class));
+            }
+        }
+        return tmap;
     }
 
     @Override

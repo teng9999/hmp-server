@@ -78,7 +78,7 @@
     delete from sys_data_dict
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.DataDict" >
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.DataDict"  useGeneratedKeys="true" keyProperty="id" >
     insert into sys_data_dict (id, sys_id, org_id, 
       name, name_cn, name_en, 
       order_num, parent_id, remark, 
@@ -92,7 +92,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
       #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.DataDict" >
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.DataDict" useGeneratedKeys="true" keyProperty="id" >
     insert into sys_data_dict
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -201,7 +201,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.DataDict" >
+  <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.DataDict">
     update sys_data_dict
     <set >
       <if test="sysId != null" >

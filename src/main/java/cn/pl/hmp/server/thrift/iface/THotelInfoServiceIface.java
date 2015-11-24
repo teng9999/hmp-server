@@ -16,7 +16,9 @@ import cn.pl.hmp.commons.thrift.define.THotelInfo;
 import cn.pl.hmp.commons.thrift.service.THotelInfoService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
+import cn.pl.hmp.server.business.iface.IUserHotelBusiness;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
+import cn.pl.hmp.server.dao.entity.UserHotel;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 
@@ -26,6 +28,8 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface{
 	
 	@Autowired
 	private IHotelInfoBusiness hotelBusiness;
+	@Autowired
+	private IUserHotelBusiness userHotelBusiness;
 	@Override
 	public int deleteById(long id) throws TException {
 		return hotelBusiness.deleteByHotelId(id);
@@ -72,6 +76,18 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface{
     public int deleteOnBatch(List<Long> idList) throws TException {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    @Override
+    public THotelInfo selectByUserId(long id) throws TException {
+        List<UserHotel> userHotelList = userHotelBusiness.selectByUserId(id);
+        if(null == userHotelList || userHotelList.size() <1)
+            return new THotelInfo();
+        UserHotel userHotel = userHotelList.get(0);
+        HotelInfo hotelInfo = hotelBusiness.selectByHotelId(userHotel.getHotelId());
+        if(null == hotelInfo)
+            return new THotelInfo();
+        return ObjectConverter.convet(hotelInfo, THotelInfo.class);
     }
 
 }
