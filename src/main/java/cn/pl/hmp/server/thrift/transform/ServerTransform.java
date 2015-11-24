@@ -8,12 +8,16 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.commons.utils.DateUtil;
 import cn.pl.frame.client.thrift.transform.ThriftTransform;
 import cn.pl.frame.thrift.define.TPages;
+import cn.pl.hmp.commons.thrift.define.TAPPBinding;
+import cn.pl.hmp.commons.thrift.define.TAPPInfo;
 import cn.pl.hmp.commons.thrift.define.TAirMode;
 import cn.pl.hmp.commons.thrift.define.TExample;
 import cn.pl.hmp.commons.thrift.define.THmpMovie;
 import cn.pl.hmp.commons.thrift.define.THmpMovieGroup;
 import cn.pl.hmp.commons.thrift.define.THotelRCUCfg;
 import cn.pl.hmp.commons.thrift.define.TRoomRCUCfg;
+import cn.pl.hmp.server.dao.entity.APPBinding;
+import cn.pl.hmp.server.dao.entity.APPInfo;
 import cn.pl.hmp.server.dao.entity.AirMode;
 import cn.pl.hmp.server.dao.entity.HmpMovie;
 import cn.pl.hmp.server.dao.entity.HmpMovieGroup;
@@ -434,8 +438,6 @@ public class ServerTransform extends ThriftTransform {
 		return result;
 	}
 
-	
-	
 	public static HmpMovie transform(THmpMovie info) {
 		if (info == null)
 			return null;
@@ -481,12 +483,13 @@ public class ServerTransform extends ThriftTransform {
 			result.setIntro(info.getIntro());
 		return result;
 	}
+
 	public static THmpMovie transform(HmpMovie info) {
 		if (null == info)
 			return null;
 		THmpMovie result = new THmpMovie();
 		result.setId(info.getId());
-		if(null != info.getNameCn())
+		if (null != info.getNameCn())
 			result.setNameCn(info.getNameCn());
 		if (null != info.getNameEn())
 			result.setNameEn(info.getNameEn());
@@ -526,7 +529,7 @@ public class ServerTransform extends ThriftTransform {
 			result.setIntro(info.getIntro());
 		return result;
 	}
-	
+
 	public static HmpMovieGroup transform(THmpMovieGroup info) {
 		if (info == null)
 			return null;
@@ -540,8 +543,8 @@ public class ServerTransform extends ThriftTransform {
 			result.setPayType(info.getPayType());
 		return result;
 	}
-	
-	public static  THmpMovieGroup transform(HmpMovieGroup info) {
+
+	public static THmpMovieGroup transform(HmpMovieGroup info) {
 		if (info == null)
 			return null;
 		THmpMovieGroup result = new THmpMovieGroup();
@@ -550,6 +553,190 @@ public class ServerTransform extends ThriftTransform {
 			result.setHotelId(info.getHotelId());
 		if (null != info.getGroupName())
 			result.setGroupName(info.getGroupName());
+		return result;
+	}
+
+	/**
+	 * @Title: transform
+	 * @Description: 将TAPPInfo对象转化为APPInfo对象。
+	 * @param rlt
+	 *            待转化的TAPPInfo对象。
+	 * @return APPInfo 如果rlt为null，则返回null。相反则返回转化好的APPInfo对象。
+	 */
+	public static APPInfo transform(TAPPInfo rlt) {
+		if (rlt == null)
+			return null;
+		APPInfo result = new APPInfo();
+		if (rlt.getAllSpell() != null) {
+			result.setAllSpell(rlt.getAllSpell());
+		}
+		if (rlt.getAndroidAddr() != null) {
+			result.setAndroidAddr(rlt.getAndroidAddr());
+		}
+		if (rlt.getAppImage() != null) {
+			rlt.setAppImage(rlt.getAppImage());
+		}
+		if (rlt.getCreateTime() != null) {
+			result.setCreateTime(DateUtil.text2date(rlt.getCreateTime(), null));
+		}
+		result.setCreator(rlt.getCreator());
+		if (rlt.getFirstSpell() != null) {
+			result.setFirstSpell(rlt.getFirstSpell());
+		}
+		result.setId(rlt.getId());
+		if (rlt.getIntro() != null) {
+			result.setIntro(rlt.getIntro());
+		}
+		if (rlt.getIosAddr() != null) {
+			result.setIosAddr(rlt.getIosAddr());
+		}
+		result.setModifier(rlt.getModifier());
+		if (rlt.getModifyTime() != null) {
+			result.setModifyTime(DateUtil.text2date(rlt.getModifyTime(), null));
+		}
+		if (rlt.getNameCn() != null) {
+			result.setNameCn(rlt.getNameCn());
+		}
+		if (rlt.getNameEn() != null) {
+			result.setNameEn(rlt.getNameEn());
+		}
+		if (rlt.getSecondAddr() != null) {
+			result.setSecondAddr(rlt.getSecondAddr());
+		}
+		result.setOrgId(rlt.getOrgId());
+		result.setSysId(rlt.getSysId());
+		return result;
+	}
+
+	/**
+	 * @Title: transform
+	 * @Description: 将APPInfo对象转化为TAPPInfo对象。
+	 * @param rlt
+	 *            待转化的APPInfo对象。
+	 * @return TAPPInfo 如果rlt为null，则返回null。相反则返回转化好的TAPPInfo对象。
+	 */
+	public static TAPPInfo transform(APPInfo rlt) {
+		if (rlt == null)
+			return null;
+		TAPPInfo result = new TAPPInfo();
+		if (rlt.getAllSpell() != null) {
+			result.setAllSpell(rlt.getAllSpell());
+		}
+		if (rlt.getAndroidAddr() != null) {
+			result.setAndroidAddr(rlt.getAndroidAddr());
+		}
+		if (rlt.getAppImage() != null) {
+			rlt.setAppImage(rlt.getAppImage());
+		}
+		if (rlt.getCreateTime() != null) {
+			result.setCreateTime(DateUtil.date2Text(rlt.getCreateTime(), null));
+		}
+		if (rlt.getCreator() != null) {
+			result.setCreator(rlt.getCreator());
+		}
+		if (rlt.getFirstSpell() != null) {
+			result.setFirstSpell(rlt.getFirstSpell());
+		}
+		if (rlt.getId() != null) {
+			result.setId(rlt.getId());
+		}
+		if (rlt.getIntro() != null) {
+			result.setIntro(rlt.getIntro());
+		}
+		if (rlt.getIosAddr() != null) {
+			result.setIosAddr(rlt.getIosAddr());
+		}
+		if (rlt.getModifier() != null) {
+			result.setModifier(rlt.getModifier());
+		}
+		if (rlt.getModifyTime() != null) {
+			result.setModifyTime(DateUtil.date2Text(rlt.getModifyTime(), null));
+		}
+		if (rlt.getNameCn() != null) {
+			result.setNameCn(rlt.getNameCn());
+		}
+		if (rlt.getNameEn() != null) {
+			result.setNameEn(rlt.getNameEn());
+		}
+		if (rlt.getSecondAddr() != null) {
+			result.setSecondAddr(rlt.getSecondAddr());
+		}
+		if (rlt.getOrgId() != null) {
+			result.setOrgId(rlt.getOrgId());
+		}
+		if (rlt.getSysId() != null) {
+			result.setSysId(rlt.getSysId());
+		}
+		return result;
+	}
+
+	/**
+	 * @Title: transform
+	 * @Description: 将TAPPBinding对象转化为APPBinding对象。
+	 * @param rlt
+	 *            待转化的TAPPBinding对象。
+	 * @return APPBinding 如果rlt为null，则返回null。相反则返回转化好的APPBinding对象。
+	 */
+	public static APPBinding transform(TAPPBinding rlt) {
+		if (rlt == null)
+			return null;
+		APPBinding result = new APPBinding();
+		if (rlt.getAppId() != null) {
+			result.setAppId(rlt.getAppId());
+		}
+		if (rlt.getAppPath() != null) {
+			result.setAppPath(rlt.getAppPath());
+		}
+		result.setAppStatus(rlt.getAppStatus());
+		result.setDownTime(rlt.getDownTime());
+		result.setHotelId(rlt.getHotelId());
+		result.setId(rlt.getId());
+		result.setOrgId(rlt.getOrgId());
+		if (rlt.getRoomNum() != null) {
+			result.setRoomNum(rlt.getRoomNum());
+		}
+		result.setSysId(rlt.getSysId());
+		return result;
+	}
+
+	/**
+	 * @Title: transform
+	 * @Description: 将APPBinding对象转化为TAPPBinding对象。
+	 * @param rlt
+	 *            待转化的APPBinding对象。
+	 * @return TAPPBinding 如果rlt为null，则返回null。相反则返回转化好的TAPPBinding对象。
+	 */
+	public static TAPPBinding transform(APPBinding rlt) {
+		if (rlt == null)
+			return null;
+		TAPPBinding result = new TAPPBinding();
+		if (rlt.getAppId() != null) {
+			result.setAppId(rlt.getAppId());
+		}
+		if (rlt.getAppPath() != null) {
+			result.setAppPath(rlt.getAppPath());
+		}
+		if (rlt.getAppStatus() != null) {
+			result.setAppStatus(rlt.getAppStatus());
+		}
+		if (rlt.getDownTime() != null) {
+			result.setDownTime(rlt.getDownTime());
+		}
+		if (rlt.getHotelId() != null) {
+			result.setHotelId(rlt.getHotelId());
+		}
+		if (rlt.getId() != null) {
+			result.setId(rlt.getId());
+		}
+		if (rlt.getOrgId() != null) {
+			result.setOrgId(rlt.getOrgId());
+		}
+		if (rlt.getRoomNum() != null) {
+			result.setRoomNum(rlt.getRoomNum());
+		}
+		if (rlt.getSysId() != null) {
+			result.setSysId(rlt.getSysId());
+		}
 		return result;
 	}
 }

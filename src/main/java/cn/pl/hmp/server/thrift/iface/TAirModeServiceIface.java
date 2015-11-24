@@ -20,6 +20,7 @@ import cn.pl.frame.thrift.exception.ThriftException;
 import cn.pl.hmp.commons.thrift.define.TAirMode;
 import cn.pl.hmp.server.business.iface.IAirModeBusiness;
 import cn.pl.hmp.server.dao.entity.AirMode;
+import cn.pl.hmp.server.dao.entity.AirModeExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 /**
@@ -136,6 +137,15 @@ public class TAirModeServiceIface implements
 		rtn.put(rtnPages, rtnList);
 
 		return rtn;
+	}
+
+	@Override
+	public List<TAirMode> queryByHotelId(long hotelId) throws ThriftException,
+			TException {
+		AirModeExample airModeExample = new AirModeExample();
+		airModeExample.createCriteria().andHotelIdEqualTo(hotelId);
+		List<AirMode> airModes = business.query(airModeExample);
+		return listTransform(airModes);
 	}
 
 }

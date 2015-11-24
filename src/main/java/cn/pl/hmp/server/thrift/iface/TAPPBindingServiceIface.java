@@ -17,24 +17,23 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.frame.annotation.ThriftService;
 import cn.pl.frame.thrift.define.TPages;
 import cn.pl.frame.thrift.exception.ThriftException;
-import cn.pl.hmp.commons.thrift.define.THotelRCUCfg;
-import cn.pl.hmp.server.business.iface.IHotelRCUCfgBusiness;
-import cn.pl.hmp.server.dao.entity.HotelRCUCfg;
-import cn.pl.hmp.server.dao.entity.HotelRCUCfgExample;
+import cn.pl.hmp.commons.thrift.define.TAPPBinding;
+import cn.pl.hmp.server.business.iface.IAPPBindingBusiness;
+import cn.pl.hmp.server.dao.entity.APPBinding;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 /**
- * rcu
+ * TAPPBindingServiceIface
  * 
  * @author zhoujianbiao
  *
  */
 @Component
 @ThriftService
-public class THotelRCUCfgServiceIface implements
-		cn.pl.hmp.commons.thrift.service.THotelRCUCfgService.Iface {
+public class TAPPBindingServiceIface implements
+		cn.pl.hmp.commons.thrift.service.TAPPBindingService.Iface {
 	@Autowired
-	private IHotelRCUCfgBusiness business;
+	private IAPPBindingBusiness business;
 
 	@Override
 	public int deleteById(long id) throws TException {
@@ -46,61 +45,61 @@ public class THotelRCUCfgServiceIface implements
 	}
 
 	@Override
-	public int insert(THotelRCUCfg record) throws TException {
+	public int insert(TAPPBinding record) throws TException {
 		if (business == null) {
 			return 0;
 		}
-		HotelRCUCfg hotelRCUCfg = ServerTransform.transform(record);
-		if (hotelRCUCfg == null) {
-			hotelRCUCfg = new HotelRCUCfg();
+		APPBinding aPPInfo = ServerTransform.transform(record);
+		if (aPPInfo == null) {
+			aPPInfo = new APPBinding();
 		}
-		return business.create(hotelRCUCfg);
+		return business.create(aPPInfo);
 	}
 
 	@Override
-	public THotelRCUCfg selectById(long id) throws TException {
+	public TAPPBinding selectById(long id) throws TException {
 		if (business == null) {
 			return null;
 		}
-		HotelRCUCfg hotelRCUCfg = business.get(id);
-		if (hotelRCUCfg == null) {
-			hotelRCUCfg = new HotelRCUCfg();
+		APPBinding aPPInfo = business.get(id);
+		if (aPPInfo == null) {
+			aPPInfo = new APPBinding();
 		}
-		return ServerTransform.transform(hotelRCUCfg);
+		return ServerTransform.transform(aPPInfo);
 	}
 
 	@Override
-	public int updateById(THotelRCUCfg record) throws TException {
+	public int updateById(TAPPBinding record) throws TException {
 		if (business == null) {
 			return 0;
 		}
 		if (record == null) {
 			return 0;
 		}
-		HotelRCUCfg hotelRCUCfg = ServerTransform.transform(record);
-		return business.update(hotelRCUCfg);
+		APPBinding aPPInfo = ServerTransform.transform(record);
+		return business.update(aPPInfo);
 	}
 
 	@Override
-	public List<THotelRCUCfg> loadAll() throws ThriftException, TException {
+	public List<TAPPBinding> loadAll() throws ThriftException, TException {
 		if (business == null) {
 			return null;
 		}
-		List<HotelRCUCfg> lists = business.query(null);
+		List<APPBinding> lists = business.query(null);
 		return listTransform(lists);
 	}
 
-	private List<THotelRCUCfg> listTransform(List<HotelRCUCfg> lists) {
-		List<THotelRCUCfg> resultLists = new ArrayList<THotelRCUCfg>();
-		for (HotelRCUCfg hotelRCUCfg : lists) {
-			THotelRCUCfg result = ServerTransform.transform(hotelRCUCfg);
+	private List<TAPPBinding> listTransform(List<APPBinding> lists) {
+		List<TAPPBinding> resultLists = new ArrayList<TAPPBinding>();
+		for (APPBinding aPPInfo : lists) {
+			TAPPBinding result = ServerTransform.transform(aPPInfo);
 			resultLists.add(result);
 		}
 		return resultLists;
 	}
 
 	@Override
-	public Map<TPages, List<THotelRCUCfg>> loadPages(TPages tPages)
+	public Map<TPages, List<TAPPBinding>> loadPages(TPages tPages)
 			throws ThriftException, TException {
 		if (business == null)
 			return null;
@@ -109,11 +108,11 @@ public class THotelRCUCfgServiceIface implements
 		if (pages == null)
 			pages = new Pages();
 		// 分页查询
-		Map<Pages, List<HotelRCUCfg>> result = business.queryPages(null, pages);
+		Map<Pages, List<APPBinding>> result = business.queryPages(null, pages);
 		// 处理查询结果
-		Map<TPages, List<THotelRCUCfg>> rtn = new HashMap<>();
+		Map<TPages, List<TAPPBinding>> rtn = new HashMap<>();
 		TPages rtnPages = null;
-		List<THotelRCUCfg> rtnList = null;
+		List<TAPPBinding> rtnList = null;
 		if (result == null || result.isEmpty()) {
 			// 查询结果为空
 			rtnPages = new TPages();
@@ -121,7 +120,7 @@ public class THotelRCUCfgServiceIface implements
 		} else {
 			// 查询结果不为空
 			for (Pages key : result.keySet()) {
-				List<HotelRCUCfg> datas = result.get(key);
+				List<APPBinding> datas = result.get(key);
 				if (datas == null || datas.isEmpty()) {
 					// 查询结果包含的实际数据为空
 					rtnPages = new TPages();
@@ -137,21 +136,6 @@ public class THotelRCUCfgServiceIface implements
 		rtn.put(rtnPages, rtnList);
 
 		return rtn;
-	}
-
-	/**
-	 * 根据酒店编号查询HotelRCUCfg
-	 *
-	 * @param hotelId
-	 *            酒店编号
-	 */
-	@Override
-	public List<THotelRCUCfg> queryByHotelId(long hotelId)
-			throws ThriftException, TException {
-		HotelRCUCfgExample example = new HotelRCUCfgExample();
-		example.createCriteria().andHotelIdEqualTo(hotelId);
-		List<HotelRCUCfg> lists = business.query(example);
-		return listTransform(lists);
 	}
 
 }
