@@ -20,6 +20,7 @@ import cn.pl.frame.thrift.exception.ThriftException;
 import cn.pl.hmp.commons.thrift.define.TRoomRCUCfg;
 import cn.pl.hmp.server.business.iface.IRoomRCUCfgBusiness;
 import cn.pl.hmp.server.dao.entity.RoomRCUCfg;
+import cn.pl.hmp.server.dao.entity.RoomRCUCfgExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 /**
@@ -138,4 +139,15 @@ public class TRoomRCUCfgServiceIface implements
 		return rtn;
 	}
 
+	@Override
+	public List<TRoomRCUCfg> queryByHotelId(long hotelId)
+			throws ThriftException, TException {
+		if (business == null) {
+			return null;
+		}
+		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
+		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId);
+		List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
+		return listTransform(airModes);
+	}
 }
