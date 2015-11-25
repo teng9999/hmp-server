@@ -120,13 +120,16 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	}
 
 	@Override
-	public int saveOnBatch(List<HmpMG> mgList, int hotelId) {
+	public int saveOnBatch(List<HmpMG> mgList) {
 		// TODO Auto-generated method stub
-		return 0;
+		if(null == mgList && 0 > mgList.size())
+			return -1;
+		
+		return hmpMGMapper.insertBatch(mgList);
 	}
 
 	@Override
-	public int deleteOnBatch(List<Long> idList, int hotelId) {
+	public int deleteOnBatch(List<Long> idList, long hotelId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

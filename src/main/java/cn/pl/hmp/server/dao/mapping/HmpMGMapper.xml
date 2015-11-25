@@ -65,7 +65,7 @@
   </select>
   
    <select id="selectByGroupId" resultType="Long" parameterType="java.lang.Long" >
-    select movie_id
+    select distinct movie_id
     from hmp_mg
     where group_id = #{groupId,jdbcType=BIGINT}  
    </select> 
@@ -84,13 +84,11 @@
   </insert>
    <!-- 批量添加 -->
   <insert id="insertBatch" parameterType="java.util.List" >
-    <![CDATA[ 
-    	insert into hmp_mg(id, sys_id, org_id,group_id, movie_id, create_time, creator)  values
-    ]]> 
+   <![CDATA[
+    insert into hmp_mg(group_id, movie_id) values
+   ]]>
     <foreach collection ="list" item ="item" index ="index" separator =","> 
-       (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
-       #{item.groupId},#{item.movieId}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{creator,jdbcType=BIGINT}) 
+        (#{item.groupId},#{item.movieId}) 
     </foreach> 
   </insert>
   

@@ -18,19 +18,19 @@ import cn.pl.hmp.server.business.iface.IHmpMGBusiness;
 import cn.pl.hmp.server.dao.entity.HmpMG;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
-
 @Component
 @ThriftService
 public class THmpMGServiceIface implements Iface {
 
 	@Autowired
 	private IHmpMGBusiness business;
+
 	@Override
 	public int deleteById(long id) throws TException {
 		// TODO Auto-generated method stub
-		if(null ==business)
+		if (null == business)
 			return -1;
-		if(0 > id)
+		if (0 > id)
 			return 0;
 		return business.remove(id);
 	}
@@ -38,12 +38,12 @@ public class THmpMGServiceIface implements Iface {
 	@Override
 	public int insert(THmpMG record) throws TException {
 		// TODO Auto-generated method stub
-		if(null == business)
+		if (null == business)
 			return -1;
-		if(null == record)
+		if (null == record)
 			return 0;
 		HmpMG entity = ServerTransform.transform(record);
-		if(null == entity)
+		if (null == entity)
 			return 0;
 		return business.create(entity);
 	}
@@ -51,22 +51,22 @@ public class THmpMGServiceIface implements Iface {
 	@Override
 	public THmpMG selectById(long id) throws TException {
 		// TODO Auto-generated method stub
-		if(null == business)
+		if (null == business)
 			return new THmpMG();
-		if(0 > id)
+		if (0 > id)
 			return new THmpMG();
-	    HmpMG entity = business.get(id);
-	    if(null  == entity )
-	    	return new THmpMG();
+		HmpMG entity = business.get(id);
+		if (null == entity)
+			return new THmpMG();
 		return ServerTransform.transform(entity);
 	}
 
 	@Override
 	public int updateById(THmpMG record) throws TException {
 		// TODO Auto-generated method stub
-		if(null == business)
+		if (null == business)
 			return -1;
-		if(null == record || 0 < record.getId())
+		if (null == record || 0 < record.getId())
 			return 0;
 		return business.update(ServerTransform.transform(record));
 	}
@@ -74,22 +74,22 @@ public class THmpMGServiceIface implements Iface {
 	@Override
 	public List<THmpMG> loadAll() throws ThriftException, TException {
 		// TODO Auto-generated method stub
-		if(null == business)
+		if (null == business)
 			return null;
 		List<HmpMG> lists = business.query(null);
-		if(null == lists || 0 < lists.size())
+		if (null == lists || 0 < lists.size())
 			return new ArrayList<THmpMG>();
 		return listTransform(lists);
-		
+
 	}
 
 	@Override
 	public List<Long> selectByGroupId(long groupId) throws ThriftException, TException {
 		// TODO Auto-generated method stub
-		if(0 > groupId)
+		if (0 > groupId)
 			return new ArrayList<Long>();
-		List<Long> lists  = business.queryByGroupId(groupId);
-		if(null == lists || 0 >= lists.size())
+		List<Long> lists = business.queryByGroupId(groupId);
+		if (null == lists || 0 >= lists.size())
 			return new ArrayList<Long>();
 		return lists;
 	}
@@ -104,10 +104,10 @@ public class THmpMGServiceIface implements Iface {
 		if (pages == null)
 			pages = new Pages();
 		// 分页查询
-	
+
 		return null;
 	}
-	
+
 	private List<THmpMG> listTransform(List<HmpMG> lists) {
 		List<THmpMG> resultLists = new ArrayList<THmpMG>();
 		for (HmpMG hmpMG : lists) {
@@ -117,18 +117,30 @@ public class THmpMGServiceIface implements Iface {
 		return resultLists;
 	}
 
-	@Override
-	public int saveOnBatch(List<THmpMG> mgList) throws ThriftException, TException {
-		// TODO Auto-generated method stub
-		if(null == mgList || 0 > mgList.size() )
-			return -1;
-		return 0;
+	private List<HmpMG> listTrans(List<THmpMG> lists) {
+		List<HmpMG> resultLists = new ArrayList<HmpMG>();
+		for (THmpMG hmpMG : lists) {
+			HmpMG result = ServerTransform.transform(hmpMG);
+			resultLists.add(result);
+		}
+		return resultLists;
 	}
 
 	@Override
-	public int deleteOnBatch(List<Long> idList) throws ThriftException, TException {
+	public int saveOnBatch(List<THmpMG> mgList) throws ThriftException, TException {
 		// TODO Auto-generated method stub
-		return 0;
+		if (null == mgList || 0 > mgList.size())
+			return -1;
+		return business.saveOnBatch(listTrans(mgList));
+	}
+
+	@Override
+	public int deleteOnBatch(List<Long> idList, long hotelId) throws ThriftException, TException {
+		// TODO Auto-generated method stub
+		if (null == idList || 0 > idList.size())
+			return -1;
+		return business.deleteOnBatch(idList, hotelId);
+
 	}
 
 }

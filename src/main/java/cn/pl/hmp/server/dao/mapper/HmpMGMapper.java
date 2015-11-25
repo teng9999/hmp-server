@@ -9,7 +9,7 @@ public interface HmpMGMapper {
 
     int deleteByPrimaryKey(Long id);
     
-    int deleteBatch(List<Long> movieIdlist , int hotelId);
+    int deleteBatch(List<Long> movieIdlist , Long groupId);
     
     List<Long> selectByGroupId(Long groupId);
 
@@ -17,7 +17,7 @@ public interface HmpMGMapper {
 
     int insertSelective(HmpMG record);
     
-    int insertBatch(List<Long>movieIdlist, int hotelId);
+    int insertBatch(List<HmpMG>lists);
     
 
     List<HmpMG> selectByExample(HmpMGExample example);

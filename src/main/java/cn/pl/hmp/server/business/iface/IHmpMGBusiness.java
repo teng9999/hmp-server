@@ -80,11 +80,11 @@ public interface IHmpMGBusiness extends IBusiness {
 	 * @return
 	 */
 	@DataSource("cluster")
-	public int saveOnBatch(List<HmpMG> mgList , int hotelId);
+	public int saveOnBatch(List<HmpMG> mgList);
 	
 	/***
 	 * 
 	 */
 	@DataSource("cluster")
-	public int deleteOnBatch(List<Long> idList,int hotelId);
+	public int deleteOnBatch(List<Long> idList,long hotelId);
 }
