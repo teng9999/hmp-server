@@ -87,7 +87,8 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 		// TODO Auto-generated method stub
 		if (null == record || null != record.getId())
 			return 0;
-		if (0 > record.getMovieId() || 0 > record.getGroupId())
+		if (null == record.getMovieId() ||  0 > record.getGroupId().longValue() 
+			|| null == record.getGroupId() || 0 > record.getMovieId().longValue())
 			return 0;
 		return hmpMGMapper.insertSelective(record);
 	}
@@ -97,7 +98,7 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 		// TODO Auto-generated method stub
 		if (null == record)
 			return -1;
-		if (null == record.getId())
+		if (null == record.getId() || 0 > record.getId().longValue())
 			return 0;
 		return hmpMGMapper.updateByPrimaryKeySelective(record);
 	}
@@ -116,7 +117,7 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 		if (null == groupId || 0 > groupId.longValue())
 			return new ArrayList<Long>();
 		List<Long> lists = hmpMGMapper.selectByGroupId(groupId);
-		if (null == lists || 0 > lists.size())
+		if (null == lists || lists.isEmpty())
 			return new ArrayList<Long>();
 		return lists;
 	}
