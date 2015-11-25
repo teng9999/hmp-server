@@ -19,6 +19,7 @@ import cn.pl.hmp.server.dao.mapper.HmpMGMapper;
 
 /***
  * 电影分组与影片对应业务处理
+ * 
  * @author devpltc
  *
  */
@@ -27,10 +28,11 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 
 	@Autowired
 	private HmpMGMapper hmpMGMapper;
+
 	@Override
 	public List<HmpMG> query(HmpMGExample example) {
 		// TODO Auto-generated method stub
-		if(null == example)
+		if (null == example)
 			example = new HmpMGExample();
 		return hmpMGMapper.selectByExample(example);
 	}
@@ -38,24 +40,24 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public Map<Pages, List<HmpMG>> queryPages(HmpMGExample example, Pages pages) {
 		// TODO Auto-generated method stub
-		Map<Pages,List<HmpMG>> result = new HashMap<>();
-		if(null == example)
+		Map<Pages, List<HmpMG>> result = new HashMap<>();
+		if (null == example)
 			example = new HmpMGExample();
-		if(null == pages){
+		if (null == pages) {
 			List<HmpMG> list = hmpMGMapper.selectByExample(example);
-			if(null == list)
+			if (null == list)
 				list = new ArrayList<HmpMG>();
 			pages = new Pages();
 			result.put(pages, list);
-		}else{
+		} else {
 			PageHelper.startPage(pages.getPageNum(), pages.getPageSize());
 			List<HmpMG> list = hmpMGMapper.selectByExample(example);
-			if(null == list){
+			if (null == list) {
 				list = new ArrayList<HmpMG>();
 				result.put(pages, list);
-			}else{
-				Page<HmpMG> page = (Page<HmpMG>)list;
-				if(null != page.getResult() && !page.getResult().isEmpty()){
+			} else {
+				Page<HmpMG> page = (Page<HmpMG>) list;
+				if (null != page.getResult() && !page.getResult().isEmpty()) {
 					pages.setPageNum(page.getPageNum());
 					pages.setPageSize(page.getPageSize());
 					pages.setSize(page.size());
@@ -64,7 +66,7 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 					pages.setTotal(page.getTotal());
 					pages.setPages(page.getPages());
 					result.put(pages, page.getResult());
-				}else{
+				} else {
 					result.put(pages, new ArrayList<HmpMG>());
 				}
 			}
@@ -75,7 +77,7 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public HmpMG get(Long id) {
 		// TODO Auto-generated method stub
-		if(0 > id)
+		if (0 > id)
 			return new HmpMG();
 		return hmpMGMapper.selectByPrimaryKey(id);
 	}
@@ -83,9 +85,9 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public int create(HmpMG record) {
 		// TODO Auto-generated method stub
-		if(null == record)
+		if (null == record)
 			return -1;
-		if(0 > record.getMovieId() || 0 > record.getGroupId())
+		if (0 > record.getMovieId() || 0 > record.getGroupId())
 			return 0;
 		return hmpMGMapper.insertSelective(record);
 	}
@@ -93,9 +95,9 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public int update(HmpMG record) {
 		// TODO Auto-generated method stub
-		if(null == record)
+		if (null == record)
 			return -1;
-		if(0 < record.getId())
+		if (0 < record.getId())
 			return 0;
 		return hmpMGMapper.updateByPrimaryKeySelective(record);
 	}
@@ -103,7 +105,7 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public int remove(Long id) {
 		// TODO Auto-generated method stub
-		if(0 > id)
+		if (0 > id)
 			return -1;
 		return hmpMGMapper.deleteByPrimaryKey(id);
 	}
@@ -111,10 +113,10 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public List<Long> queryByGroupId(Long groupId) {
 		// TODO Auto-generated method stub
-		if(0 > groupId)
+		if (0 > groupId)
 			return new ArrayList<Long>();
 		List<Long> lists = hmpMGMapper.selectByGroupId(groupId);
-		if(null == lists || 0 > lists.size())
+		if (null == lists || 0 > lists.size())
 			return new ArrayList<Long>();
 		return lists;
 	}
@@ -122,18 +124,28 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public int saveOnBatch(List<HmpMG> mgList) {
 		// TODO Auto-generated method stub
-		if(null == mgList && 0 > mgList.size())
+		if (null == mgList && 0 > mgList.size())
 			return -1;
-		
+
 		return hmpMGMapper.insertBatch(mgList);
 	}
 
 	@Override
-	public int deleteOnBatch(List<Long> idList, long hotelId) {
+	public int deleteOnBatch(List<Long> movieIdList, long groupId) {
 		// TODO Auto-generated method stub
-		return 0;
+		if (0 > groupId)
+			return -1;
+		if (null == movieIdList && 0 > movieIdList.size())
+			return -1;
+		return hmpMGMapper.deleteBatch(movieIdList, groupId);
 	}
-	
-	
 
+	@Override
+	public int deleteByGroupIdOnBatch(long groupId) {
+		// TODO Auto-generated method stub
+		if (0 > groupId)
+			return -1;
+		return hmpMGMapper.deleteBatchByGroupId(groupId);
+
+	}
 }

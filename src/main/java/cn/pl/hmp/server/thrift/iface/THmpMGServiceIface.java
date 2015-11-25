@@ -135,12 +135,20 @@ public class THmpMGServiceIface implements Iface {
 	}
 
 	@Override
-	public int deleteOnBatch(List<Long> idList, long hotelId) throws ThriftException, TException {
+	public int deleteOnBatch(List<Long> idList, long groupId) throws ThriftException, TException {
 		// TODO Auto-generated method stub
 		if (null == idList || 0 > idList.size())
 			return -1;
-		return business.deleteOnBatch(idList, hotelId);
+		return business.deleteOnBatch(idList, groupId);
 
+	}
+
+	@Override
+	public int deleteByGroupIdOnBatch(long groupId) throws ThriftException, TException {
+		// TODO Auto-generated method stub
+		if ( 0 > groupId)
+			return -1;
+		return business.deleteByGroupIdOnBatch(groupId);
 	}
 
 }

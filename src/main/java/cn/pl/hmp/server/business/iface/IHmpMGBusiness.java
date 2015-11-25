@@ -64,7 +64,7 @@ public interface IHmpMGBusiness extends IBusiness {
 	 */
 	@DataSource("cluster")
 	public int remove(Long id);
-	
+
 	/**
 	 * 按电影分组查询电影ID
 	 *
@@ -73,7 +73,7 @@ public interface IHmpMGBusiness extends IBusiness {
 	 */
 	@DataSource("cluster")
 	public List<Long> queryByGroupId(Long groupId);
-	
+
 	/***
 	 * 批量删除
 	 * @param mgList
@@ -81,10 +81,16 @@ public interface IHmpMGBusiness extends IBusiness {
 	 */
 	@DataSource("cluster")
 	public int saveOnBatch(List<HmpMG> mgList);
-	
+
 	/***
 	 * 
 	 */
 	@DataSource("cluster")
-	public int deleteOnBatch(List<Long> idList,long hotelId);
+	public int deleteOnBatch(List<Long> idList,long groupId);
+
+	/***
+	 * 
+	 */
+	@DataSource("cluster")
+	public int deleteByGroupIdOnBatch(long groupId);
 }
