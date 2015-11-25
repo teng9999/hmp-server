@@ -85,8 +85,8 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public int create(HmpMG record) {
 		// TODO Auto-generated method stub
-		if (null == record)
-			return -1;
+		if (null == record || null != record.getId())
+			return 0;
 		if (0 > record.getMovieId() || 0 > record.getGroupId())
 			return 0;
 		return hmpMGMapper.insertSelective(record);
@@ -97,7 +97,7 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 		// TODO Auto-generated method stub
 		if (null == record)
 			return -1;
-		if (0 < record.getId())
+		if (null == record.getId())
 			return 0;
 		return hmpMGMapper.updateByPrimaryKeySelective(record);
 	}
@@ -105,7 +105,7 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public int remove(Long id) {
 		// TODO Auto-generated method stub
-		if (0 > id)
+		if (null == id || 0 > id.longValue())
 			return -1;
 		return hmpMGMapper.deleteByPrimaryKey(id);
 	}
@@ -113,7 +113,7 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public List<Long> queryByGroupId(Long groupId) {
 		// TODO Auto-generated method stub
-		if (0 > groupId)
+		if (null == groupId || 0 > groupId.longValue())
 			return new ArrayList<Long>();
 		List<Long> lists = hmpMGMapper.selectByGroupId(groupId);
 		if (null == lists || 0 > lists.size())
@@ -124,27 +124,27 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 	@Override
 	public int saveOnBatch(List<HmpMG> mgList) {
 		// TODO Auto-generated method stub
-		if (null == mgList && 0 > mgList.size())
-			return -1;
+		if (null == mgList || mgList.isEmpty())
+			return 0;
 
 		return hmpMGMapper.insertBatch(mgList);
 	}
 
 	@Override
-	public int deleteOnBatch(List<Long> movieIdList, long groupId) {
+	public int deleteOnBatch(List<Long> movieIdList, Long groupId) {
 		// TODO Auto-generated method stub
-		if (0 > groupId)
-			return -1;
-		if (null == movieIdList && 0 > movieIdList.size())
-			return -1;
+		if (null == groupId || 0 > groupId.longValue())
+			return 0;
+		if (null == movieIdList || movieIdList.isEmpty())
+			return 0;
 		return hmpMGMapper.deleteBatch(movieIdList, groupId);
 	}
 
 	@Override
-	public int deleteByGroupIdOnBatch(long groupId) {
+	public int deleteByGroupIdOnBatch(Long groupId) {
 		// TODO Auto-generated method stub
-		if (0 > groupId)
-			return -1;
+		if (null == groupId || 0 > groupId.longValue())
+			return 0;
 		return hmpMGMapper.deleteBatchByGroupId(groupId);
 
 	}

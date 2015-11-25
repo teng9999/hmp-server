@@ -184,14 +184,14 @@
   
   <delete id="deleteBatch" parameterType="java.util.List" >
    <![CDATA[
-    delete from hmp_mg where groupId = #{groupId} and movieId in
+    delete from hmp_mg where group_id = #{groupId,jdbcType=BIGINT} and movie_id in
    ]]>
     <foreach collection ="list" item ="item" index ="index" separator =","> 
         (movieId = #{item}) 
     </foreach> 
   </delete>
   <!-- 自定批量删除 -->
-  <delete id="deleteBatchByGroupId" parameterType="java.Lang.Long" >
-  		delete from hmp_mg where groupId = #{groupId,jdbcType=BIGINT}
+  <delete id="deleteBatchByGroupId" parameterType="java.lang.Long" >
+  		delete from hmp_mg where group_id = #{groupId,jdbcType=BIGINT}
   </delete>
 </mapper>

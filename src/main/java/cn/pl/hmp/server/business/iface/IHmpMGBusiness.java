@@ -86,11 +86,11 @@ public interface IHmpMGBusiness extends IBusiness {
 	 * 
 	 */
 	@DataSource("cluster")
-	public int deleteOnBatch(List<Long> idList,long groupId);
+	public int deleteOnBatch(List<Long> idList,Long groupId);
 
 	/***
 	 * 
 	 */
 	@DataSource("cluster")
-	public int deleteByGroupIdOnBatch(long groupId);
+	public int deleteByGroupIdOnBatch(Long groupId);
 }
