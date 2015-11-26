@@ -2,6 +2,8 @@ package cn.pl.hmp.server.dao.mapper;
 
 import cn.pl.hmp.server.dao.entity.HmpMG;
 import cn.pl.hmp.server.dao.entity.HmpMGExample;
+import cn.pl.hmp.server.dao.entity.HmpMovie;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -18,6 +20,8 @@ public interface HmpMGMapper {
     int deleteBatchByGroupId(Long groupId);
     
     List<Long> selectByGroupId(Long groupId);
+    
+    List<Long> queryByGroupIdLists(List<Long> groupId);
 
     int insert(HmpMG record);
 

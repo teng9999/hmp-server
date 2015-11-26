@@ -5,11 +5,11 @@ import java.util.Map;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
-import cn.pl.hmp.server.dao.entity.HmpMG;
-import cn.pl.hmp.server.dao.entity.HmpMGExample;
+import cn.pl.hmp.server.dao.entity.HmpMGHotel;
+import cn.pl.hmp.server.dao.entity.HmpMGHotelExample;
 import cn.pl.hmp.server.datasource.DataSource;
 
-public interface IHmpMGBusiness extends IBusiness {
+public interface IHmpMGHotelBusiness extends IBusiness {
 	/**
 	 * 按条件查询
 	 *
@@ -17,7 +17,7 @@ public interface IHmpMGBusiness extends IBusiness {
 	 * @return
 	 */
 	@DataSource("cluster")
-	public List<HmpMG> query(HmpMGExample example);
+	public List<HmpMGHotel> query(HmpMGHotelExample example);
 
 	/**
 	 * 按条件分页查询
@@ -27,7 +27,7 @@ public interface IHmpMGBusiness extends IBusiness {
 	 * @return
 	 */
 	@DataSource("cluster")
-	public Map<Pages, List<HmpMG>> queryPages(HmpMGExample example,Pages pages);
+	public Map<Pages, List<HmpMGHotel>> queryPages(HmpMGHotelExample example,Pages pages);
 
 	/**
 	 * 获取
@@ -36,7 +36,7 @@ public interface IHmpMGBusiness extends IBusiness {
 	 * @return
 	 */
 	@DataSource("cluster")
-	public HmpMG get(Long id);
+	public HmpMGHotel get(Long id);
 
 	/**
 	 * 创建
@@ -45,7 +45,7 @@ public interface IHmpMGBusiness extends IBusiness {
 	 * @return
 	 */
 	@DataSource("cluster")
-	public int create(HmpMG record);
+	public int create(HmpMGHotel record);
 
 	/**
 	 * 更新
@@ -54,7 +54,7 @@ public interface IHmpMGBusiness extends IBusiness {
 	 * @return
 	 */
 	@DataSource("cluster")
-	public int update(HmpMG record);
+	public int update(HmpMGHotel record);
 
 	/**
 	 * 删除
@@ -72,34 +72,25 @@ public interface IHmpMGBusiness extends IBusiness {
 	 * @return
 	 */
 	@DataSource("cluster")
-	public List<Long> queryByGroupId(Long groupId);
+	public List<Long> queryByHotelId(Long hotelId);
 
 	/***
-	 * 批量添加
+	 * 批量删除
 	 * @param mgList
 	 * @return
 	 */
 	@DataSource("cluster")
-	public int saveOnBatch(List<HmpMG> mgList);
+	public int saveOnBatch(List<HmpMGHotel> mgList);
 
 	/***
 	 * 
 	 */
 	@DataSource("cluster")
-	public int deleteOnBatch(List<Long> idList,Long groupId);
+	public int deleteOnBatch(List<Long> idList,Long hotelId);
 
 	/***
 	 * 
 	 */
 	@DataSource("cluster")
-	public int deleteByGroupIdOnBatch(Long groupId);
-	
-	/**
-	 * 按电影分组List查询movie_id List
-	 *
-	 * @param example
-	 * @return
-	 */
-	@DataSource("cluster")
-	public List<Long> queryByGroupIdLists(List<Long> groupId);
+	public int deleteByHotelIdOnBatch(Long hotelId);
 }

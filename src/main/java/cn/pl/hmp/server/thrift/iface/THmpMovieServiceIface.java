@@ -137,4 +137,12 @@ public class THmpMovieServiceIface implements Iface {
 		return rtn;
 	}
 
+	@Override
+	public List<THmpMovie> queryByIds(List<Long> movieIdLists) throws ThriftException, TException {
+		// TODO Auto-generated method stub
+		if(null == movieIdLists || movieIdLists.isEmpty())
+			return null;
+		return listTransform(business.queryByIds(movieIdLists));
+	}
+
 }

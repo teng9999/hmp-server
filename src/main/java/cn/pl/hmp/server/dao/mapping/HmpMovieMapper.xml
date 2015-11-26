@@ -1,442 +1,522 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.pl.hmp.server.dao.mapper.HmpMovieMapper" >
-  <resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.HmpMovie" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
-    <result column="org_id" property="orgId" jdbcType="BIGINT" />
-    <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
-    <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
-    <result column="first_spell" property="firstSpell" jdbcType="VARCHAR" />
-    <result column="all_spell" property="allSpell" jdbcType="VARCHAR" />
-    <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
-    <result column="path" property="path" jdbcType="VARCHAR" />
-    <result column="back_img" property="backImg" jdbcType="VARCHAR" />
-    <result column="back_img_small" property="backImgSmall" jdbcType="VARCHAR" />
-    <result column="place_num" property="placeNum" jdbcType="VARCHAR" />
-    <result column="first_class" property="firstClass" jdbcType="VARCHAR" />
-    <result column="second_class" property="secondClass" jdbcType="VARCHAR" />
-    <result column="show_year" property="showYear" jdbcType="VARCHAR" />
-    <result column="area" property="area" jdbcType="VARCHAR" />
-    <result column="set_num" property="setNum" jdbcType="VARCHAR" />
-    <result column="direct" property="direct" jdbcType="VARCHAR" />
-    <result column="movie_lan" property="movieLan" jdbcType="VARCHAR" />
-    <result column="time_length" property="timeLength" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="creator" property="creator" jdbcType="BIGINT" />
-    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
-    <result column="modifier" property="modifier" jdbcType="BIGINT" />
-    <result column="available" property="available" jdbcType="BIT" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="cn.pl.hmp.server.dao.entity.HmpMovie" extends="BaseResultMap" >
-    <result column="intro" property="intro" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    id, sys_id, org_id, name_cn, name_en, first_spell, all_spell, hotel_id, path, back_img, 
-    back_img_small, place_num, first_class, second_class, show_year, area, set_num, direct, 
-    movie_lan, time_length, create_time, creator, modify_time, modifier, available
-  </sql>
-  <sql id="Blob_Column_List" >
-    intro
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="cn.pl.hmp.server.dao.entity.HmpMovieExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from hmp_movie
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.HmpMovieExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from hmp_movie
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from hmp_movie
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from hmp_movie
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie" >
-    insert into hmp_movie (id, sys_id, org_id, 
-      name_cn, name_en, first_spell, 
-      all_spell, hotel_id, path, 
-      back_img, back_img_small, place_num, 
-      first_class, second_class, show_year, 
-      area, set_num, direct, 
-      movie_lan, time_length, create_time, 
-      creator, modify_time, modifier, 
-      available, intro)
-    values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
-      #{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{firstSpell,jdbcType=VARCHAR}, 
-      #{allSpell,jdbcType=VARCHAR}, #{hotelId,jdbcType=BIGINT}, #{path,jdbcType=VARCHAR}, 
-      #{backImg,jdbcType=VARCHAR}, #{backImgSmall,jdbcType=VARCHAR}, #{placeNum,jdbcType=VARCHAR}, 
-      #{firstClass,jdbcType=VARCHAR}, #{secondClass,jdbcType=VARCHAR}, #{showYear,jdbcType=VARCHAR}, 
-      #{area,jdbcType=VARCHAR}, #{setNum,jdbcType=VARCHAR}, #{direct,jdbcType=VARCHAR}, 
-      #{movieLan,jdbcType=VARCHAR}, #{timeLength,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, 
-      #{available,jdbcType=BIT}, #{intro,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie" >
-    insert into hmp_movie
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="sysId != null" >
-        sys_id,
-      </if>
-      <if test="orgId != null" >
-        org_id,
-      </if>
-      <if test="nameCn != null" >
-        name_cn,
-      </if>
-      <if test="nameEn != null" >
-        name_en,
-      </if>
-      <if test="firstSpell != null" >
-        first_spell,
-      </if>
-      <if test="allSpell != null" >
-        all_spell,
-      </if>
-      <if test="hotelId != null" >
-        hotel_id,
-      </if>
-      <if test="path != null" >
-        path,
-      </if>
-      <if test="backImg != null" >
-        back_img,
-      </if>
-      <if test="backImgSmall != null" >
-        back_img_small,
-      </if>
-      <if test="placeNum != null" >
-        place_num,
-      </if>
-      <if test="firstClass != null" >
-        first_class,
-      </if>
-      <if test="secondClass != null" >
-        second_class,
-      </if>
-      <if test="showYear != null" >
-        show_year,
-      </if>
-      <if test="area != null" >
-        area,
-      </if>
-      <if test="setNum != null" >
-        set_num,
-      </if>
-      <if test="direct != null" >
-        direct,
-      </if>
-      <if test="movieLan != null" >
-        movie_lan,
-      </if>
-      <if test="timeLength != null" >
-        time_length,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="creator != null" >
-        creator,
-      </if>
-      <if test="modifyTime != null" >
-        modify_time,
-      </if>
-      <if test="modifier != null" >
-        modifier,
-      </if>
-      <if test="available != null" >
-        available,
-      </if>
-      <if test="intro != null" >
-        intro,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="sysId != null" >
-        #{sysId,jdbcType=BIGINT},
-      </if>
-      <if test="orgId != null" >
-        #{orgId,jdbcType=BIGINT},
-      </if>
-      <if test="nameCn != null" >
-        #{nameCn,jdbcType=VARCHAR},
-      </if>
-      <if test="nameEn != null" >
-        #{nameEn,jdbcType=VARCHAR},
-      </if>
-      <if test="firstSpell != null" >
-        #{firstSpell,jdbcType=VARCHAR},
-      </if>
-      <if test="allSpell != null" >
-        #{allSpell,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelId != null" >
-        #{hotelId,jdbcType=BIGINT},
-      </if>
-      <if test="path != null" >
-        #{path,jdbcType=VARCHAR},
-      </if>
-      <if test="backImg != null" >
-        #{backImg,jdbcType=VARCHAR},
-      </if>
-      <if test="backImgSmall != null" >
-        #{backImgSmall,jdbcType=VARCHAR},
-      </if>
-      <if test="placeNum != null" >
-        #{placeNum,jdbcType=VARCHAR},
-      </if>
-      <if test="firstClass != null" >
-        #{firstClass,jdbcType=VARCHAR},
-      </if>
-      <if test="secondClass != null" >
-        #{secondClass,jdbcType=VARCHAR},
-      </if>
-      <if test="showYear != null" >
-        #{showYear,jdbcType=VARCHAR},
-      </if>
-      <if test="area != null" >
-        #{area,jdbcType=VARCHAR},
-      </if>
-      <if test="setNum != null" >
-        #{setNum,jdbcType=VARCHAR},
-      </if>
-      <if test="direct != null" >
-        #{direct,jdbcType=VARCHAR},
-      </if>
-      <if test="movieLan != null" >
-        #{movieLan,jdbcType=VARCHAR},
-      </if>
-      <if test="timeLength != null" >
-        #{timeLength,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="creator != null" >
-        #{creator,jdbcType=BIGINT},
-      </if>
-      <if test="modifyTime != null" >
-        #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifier != null" >
-        #{modifier,jdbcType=BIGINT},
-      </if>
-      <if test="available != null" >
-        #{available,jdbcType=BIT},
-      </if>
-      <if test="intro != null" >
-        #{intro,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="cn.pl.hmp.server.dao.entity.HmpMovieExample" resultType="java.lang.Integer" >
-    select count(*) from hmp_movie
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie" >
-    update hmp_movie
-    <set >
-      <if test="sysId != null" >
-        sys_id = #{sysId,jdbcType=BIGINT},
-      </if>
-      <if test="orgId != null" >
-        org_id = #{orgId,jdbcType=BIGINT},
-      </if>
-      <if test="nameCn != null" >
-        name_cn = #{nameCn,jdbcType=VARCHAR},
-      </if>
-      <if test="nameEn != null" >
-        name_en = #{nameEn,jdbcType=VARCHAR},
-      </if>
-      <if test="firstSpell != null" >
-        first_spell = #{firstSpell,jdbcType=VARCHAR},
-      </if>
-      <if test="allSpell != null" >
-        all_spell = #{allSpell,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelId != null" >
-        hotel_id = #{hotelId,jdbcType=BIGINT},
-      </if>
-      <if test="path != null" >
-        path = #{path,jdbcType=VARCHAR},
-      </if>
-      <if test="backImg != null" >
-        back_img = #{backImg,jdbcType=VARCHAR},
-      </if>
-      <if test="backImgSmall != null" >
-        back_img_small = #{backImgSmall,jdbcType=VARCHAR},
-      </if>
-      <if test="placeNum != null" >
-        place_num = #{placeNum,jdbcType=VARCHAR},
-      </if>
-      <if test="firstClass != null" >
-        first_class = #{firstClass,jdbcType=VARCHAR},
-      </if>
-      <if test="secondClass != null" >
-        second_class = #{secondClass,jdbcType=VARCHAR},
-      </if>
-      <if test="showYear != null" >
-        show_year = #{showYear,jdbcType=VARCHAR},
-      </if>
-      <if test="area != null" >
-        area = #{area,jdbcType=VARCHAR},
-      </if>
-      <if test="setNum != null" >
-        set_num = #{setNum,jdbcType=VARCHAR},
-      </if>
-      <if test="direct != null" >
-        direct = #{direct,jdbcType=VARCHAR},
-      </if>
-      <if test="movieLan != null" >
-        movie_lan = #{movieLan,jdbcType=VARCHAR},
-      </if>
-      <if test="timeLength != null" >
-        time_length = #{timeLength,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="creator != null" >
-        creator = #{creator,jdbcType=BIGINT},
-      </if>
-      <if test="modifyTime != null" >
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifier != null" >
-        modifier = #{modifier,jdbcType=BIGINT},
-      </if>
-      <if test="available != null" >
-        available = #{available,jdbcType=BIT},
-      </if>
-      <if test="intro != null" >
-        intro = #{intro,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie" >
-    update hmp_movie
-    set sys_id = #{sysId,jdbcType=BIGINT},
-      org_id = #{orgId,jdbcType=BIGINT},
-      name_cn = #{nameCn,jdbcType=VARCHAR},
-      name_en = #{nameEn,jdbcType=VARCHAR},
-      first_spell = #{firstSpell,jdbcType=VARCHAR},
-      all_spell = #{allSpell,jdbcType=VARCHAR},
-      hotel_id = #{hotelId,jdbcType=BIGINT},
-      path = #{path,jdbcType=VARCHAR},
-      back_img = #{backImg,jdbcType=VARCHAR},
-      back_img_small = #{backImgSmall,jdbcType=VARCHAR},
-      place_num = #{placeNum,jdbcType=VARCHAR},
-      first_class = #{firstClass,jdbcType=VARCHAR},
-      second_class = #{secondClass,jdbcType=VARCHAR},
-      show_year = #{showYear,jdbcType=VARCHAR},
-      area = #{area,jdbcType=VARCHAR},
-      set_num = #{setNum,jdbcType=VARCHAR},
-      direct = #{direct,jdbcType=VARCHAR},
-      movie_lan = #{movieLan,jdbcType=VARCHAR},
-      time_length = #{timeLength,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=BIGINT},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      modifier = #{modifier,jdbcType=BIGINT},
-      available = #{available,jdbcType=BIT},
-      intro = #{intro,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie" >
-    update hmp_movie
-    set sys_id = #{sysId,jdbcType=BIGINT},
-      org_id = #{orgId,jdbcType=BIGINT},
-      name_cn = #{nameCn,jdbcType=VARCHAR},
-      name_en = #{nameEn,jdbcType=VARCHAR},
-      first_spell = #{firstSpell,jdbcType=VARCHAR},
-      all_spell = #{allSpell,jdbcType=VARCHAR},
-      hotel_id = #{hotelId,jdbcType=BIGINT},
-      path = #{path,jdbcType=VARCHAR},
-      back_img = #{backImg,jdbcType=VARCHAR},
-      back_img_small = #{backImgSmall,jdbcType=VARCHAR},
-      place_num = #{placeNum,jdbcType=VARCHAR},
-      first_class = #{firstClass,jdbcType=VARCHAR},
-      second_class = #{secondClass,jdbcType=VARCHAR},
-      show_year = #{showYear,jdbcType=VARCHAR},
-      area = #{area,jdbcType=VARCHAR},
-      set_num = #{setNum,jdbcType=VARCHAR},
-      direct = #{direct,jdbcType=VARCHAR},
-      movie_lan = #{movieLan,jdbcType=VARCHAR},
-      time_length = #{timeLength,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=BIGINT},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      modifier = #{modifier,jdbcType=BIGINT},
-      available = #{available,jdbcType=BIT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+<mapper namespace="cn.pl.hmp.server.dao.mapper.HmpMovieMapper">
+	<resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.HmpMovie">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="sys_id" property="sysId" jdbcType="BIGINT" />
+		<result column="org_id" property="orgId" jdbcType="BIGINT" />
+		<result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
+		<result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+		<result column="first_spell" property="firstSpell" jdbcType="VARCHAR" />
+		<result column="all_spell" property="allSpell" jdbcType="VARCHAR" />
+		<result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
+		<result column="path" property="path" jdbcType="VARCHAR" />
+		<result column="back_img" property="backImg" jdbcType="VARCHAR" />
+		<result column="back_img_small" property="backImgSmall"
+			jdbcType="VARCHAR" />
+		<result column="place_num" property="placeNum" jdbcType="VARCHAR" />
+		<result column="first_class" property="firstClass" jdbcType="VARCHAR" />
+		<result column="second_class" property="secondClass" jdbcType="VARCHAR" />
+		<result column="show_year" property="showYear" jdbcType="VARCHAR" />
+		<result column="area" property="area" jdbcType="VARCHAR" />
+		<result column="set_num" property="setNum" jdbcType="VARCHAR" />
+		<result column="direct" property="direct" jdbcType="VARCHAR" />
+		<result column="movie_lan" property="movieLan" jdbcType="VARCHAR" />
+		<result column="time_length" property="timeLength" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="creator" property="creator" jdbcType="BIGINT" />
+		<result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+		<result column="modifier" property="modifier" jdbcType="BIGINT" />
+		<result column="available" property="available" jdbcType="BIT" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="cn.pl.hmp.server.dao.entity.HmpMovie"
+		extends="BaseResultMap">
+		<result column="intro" property="intro" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, sys_id, org_id, name_cn, name_en, first_spell,
+		all_spell, hotel_id,
+		path, back_img,
+		back_img_small, place_num,
+		first_class, second_class, show_year, area, set_num,
+		direct,
+		movie_lan,
+		time_length, create_time, creator, modify_time, modifier, available
+	</sql>
+	<sql id="Blob_Column_List">
+		intro
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="cn.pl.hmp.server.dao.entity.HmpMovieExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from hmp_movie
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="cn.pl.hmp.server.dao.entity.HmpMovieExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from hmp_movie
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from hmp_movie
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		hmp_movie
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie">
+		insert into hmp_movie (id,
+		sys_id, org_id,
+		name_cn, name_en, first_spell,
+		all_spell, hotel_id,
+		path,
+		back_img, back_img_small, place_num,
+		first_class, second_class,
+		show_year,
+		area, set_num, direct,
+		movie_lan, time_length, create_time,
+		creator, modify_time, modifier,
+		available, intro)
+		values
+		(#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT},
+		#{orgId,jdbcType=BIGINT},
+		#{nameCn,jdbcType=VARCHAR},
+		#{nameEn,jdbcType=VARCHAR}, #{firstSpell,jdbcType=VARCHAR},
+		#{allSpell,jdbcType=VARCHAR}, #{hotelId,jdbcType=BIGINT},
+		#{path,jdbcType=VARCHAR},
+		#{backImg,jdbcType=VARCHAR},
+		#{backImgSmall,jdbcType=VARCHAR}, #{placeNum,jdbcType=VARCHAR},
+		#{firstClass,jdbcType=VARCHAR}, #{secondClass,jdbcType=VARCHAR},
+		#{showYear,jdbcType=VARCHAR},
+		#{area,jdbcType=VARCHAR},
+		#{setNum,jdbcType=VARCHAR}, #{direct,jdbcType=VARCHAR},
+		#{movieLan,jdbcType=VARCHAR}, #{timeLength,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{creator,jdbcType=BIGINT},
+		#{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT},
+		#{available,jdbcType=BIT}, #{intro,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie">
+		insert into hmp_movie
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="sysId != null">
+				sys_id,
+			</if>
+			<if test="orgId != null">
+				org_id,
+			</if>
+			<if test="nameCn != null">
+				name_cn,
+			</if>
+			<if test="nameEn != null">
+				name_en,
+			</if>
+			<if test="firstSpell != null">
+				first_spell,
+			</if>
+			<if test="allSpell != null">
+				all_spell,
+			</if>
+			<if test="hotelId != null">
+				hotel_id,
+			</if>
+			<if test="path != null">
+				path,
+			</if>
+			<if test="backImg != null">
+				back_img,
+			</if>
+			<if test="backImgSmall != null">
+				back_img_small,
+			</if>
+			<if test="placeNum != null">
+				place_num,
+			</if>
+			<if test="firstClass != null">
+				first_class,
+			</if>
+			<if test="secondClass != null">
+				second_class,
+			</if>
+			<if test="showYear != null">
+				show_year,
+			</if>
+			<if test="area != null">
+				area,
+			</if>
+			<if test="setNum != null">
+				set_num,
+			</if>
+			<if test="direct != null">
+				direct,
+			</if>
+			<if test="movieLan != null">
+				movie_lan,
+			</if>
+			<if test="timeLength != null">
+				time_length,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="modifyTime != null">
+				modify_time,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			<if test="available != null">
+				available,
+			</if>
+			<if test="intro != null">
+				intro,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="sysId != null">
+				#{sysId,jdbcType=BIGINT},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=BIGINT},
+			</if>
+			<if test="nameCn != null">
+				#{nameCn,jdbcType=VARCHAR},
+			</if>
+			<if test="nameEn != null">
+				#{nameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="firstSpell != null">
+				#{firstSpell,jdbcType=VARCHAR},
+			</if>
+			<if test="allSpell != null">
+				#{allSpell,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelId != null">
+				#{hotelId,jdbcType=BIGINT},
+			</if>
+			<if test="path != null">
+				#{path,jdbcType=VARCHAR},
+			</if>
+			<if test="backImg != null">
+				#{backImg,jdbcType=VARCHAR},
+			</if>
+			<if test="backImgSmall != null">
+				#{backImgSmall,jdbcType=VARCHAR},
+			</if>
+			<if test="placeNum != null">
+				#{placeNum,jdbcType=VARCHAR},
+			</if>
+			<if test="firstClass != null">
+				#{firstClass,jdbcType=VARCHAR},
+			</if>
+			<if test="secondClass != null">
+				#{secondClass,jdbcType=VARCHAR},
+			</if>
+			<if test="showYear != null">
+				#{showYear,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				#{area,jdbcType=VARCHAR},
+			</if>
+			<if test="setNum != null">
+				#{setNum,jdbcType=VARCHAR},
+			</if>
+			<if test="direct != null">
+				#{direct,jdbcType=VARCHAR},
+			</if>
+			<if test="movieLan != null">
+				#{movieLan,jdbcType=VARCHAR},
+			</if>
+			<if test="timeLength != null">
+				#{timeLength,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=BIGINT},
+			</if>
+			<if test="modifyTime != null">
+				#{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifier != null">
+				#{modifier,jdbcType=BIGINT},
+			</if>
+			<if test="available != null">
+				#{available,jdbcType=BIT},
+			</if>
+			<if test="intro != null">
+				#{intro,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="cn.pl.hmp.server.dao.entity.HmpMovieExample"
+		resultType="java.lang.Integer">
+		select count(*) from hmp_movie
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie">
+		update hmp_movie
+		<set>
+			<if test="sysId != null">
+				sys_id = #{sysId,jdbcType=BIGINT},
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId,jdbcType=BIGINT},
+			</if>
+			<if test="nameCn != null">
+				name_cn = #{nameCn,jdbcType=VARCHAR},
+			</if>
+			<if test="nameEn != null">
+				name_en = #{nameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="firstSpell != null">
+				first_spell = #{firstSpell,jdbcType=VARCHAR},
+			</if>
+			<if test="allSpell != null">
+				all_spell = #{allSpell,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelId != null">
+				hotel_id = #{hotelId,jdbcType=BIGINT},
+			</if>
+			<if test="path != null">
+				path = #{path,jdbcType=VARCHAR},
+			</if>
+			<if test="backImg != null">
+				back_img = #{backImg,jdbcType=VARCHAR},
+			</if>
+			<if test="backImgSmall != null">
+				back_img_small = #{backImgSmall,jdbcType=VARCHAR},
+			</if>
+			<if test="placeNum != null">
+				place_num = #{placeNum,jdbcType=VARCHAR},
+			</if>
+			<if test="firstClass != null">
+				first_class = #{firstClass,jdbcType=VARCHAR},
+			</if>
+			<if test="secondClass != null">
+				second_class = #{secondClass,jdbcType=VARCHAR},
+			</if>
+			<if test="showYear != null">
+				show_year = #{showYear,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				area = #{area,jdbcType=VARCHAR},
+			</if>
+			<if test="setNum != null">
+				set_num = #{setNum,jdbcType=VARCHAR},
+			</if>
+			<if test="direct != null">
+				direct = #{direct,jdbcType=VARCHAR},
+			</if>
+			<if test="movieLan != null">
+				movie_lan = #{movieLan,jdbcType=VARCHAR},
+			</if>
+			<if test="timeLength != null">
+				time_length = #{timeLength,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=BIGINT},
+			</if>
+			<if test="modifyTime != null">
+				modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier,jdbcType=BIGINT},
+			</if>
+			<if test="available != null">
+				available = #{available,jdbcType=BIT},
+			</if>
+			<if test="intro != null">
+				intro = #{intro,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie">
+		update
+		hmp_movie
+		set sys_id = #{sysId,jdbcType=BIGINT},
+		org_id =
+		#{orgId,jdbcType=BIGINT},
+		name_cn = #{nameCn,jdbcType=VARCHAR},
+		name_en
+		= #{nameEn,jdbcType=VARCHAR},
+		first_spell =
+		#{firstSpell,jdbcType=VARCHAR},
+		all_spell =
+		#{allSpell,jdbcType=VARCHAR},
+		hotel_id = #{hotelId,jdbcType=BIGINT},
+		path = #{path,jdbcType=VARCHAR},
+		back_img =
+		#{backImg,jdbcType=VARCHAR},
+		back_img_small =
+		#{backImgSmall,jdbcType=VARCHAR},
+		place_num =
+		#{placeNum,jdbcType=VARCHAR},
+		first_class =
+		#{firstClass,jdbcType=VARCHAR},
+		second_class =
+		#{secondClass,jdbcType=VARCHAR},
+		show_year =
+		#{showYear,jdbcType=VARCHAR},
+		area = #{area,jdbcType=VARCHAR},
+		set_num =
+		#{setNum,jdbcType=VARCHAR},
+		direct = #{direct,jdbcType=VARCHAR},
+		movie_lan = #{movieLan,jdbcType=VARCHAR},
+		time_length =
+		#{timeLength,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		creator = #{creator,jdbcType=BIGINT},
+		modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+		modifier =
+		#{modifier,jdbcType=BIGINT},
+		available = #{available,jdbcType=BIT},
+		intro = #{intro,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie">
+		update hmp_movie
+		set sys_id = #{sysId,jdbcType=BIGINT},
+		org_id =
+		#{orgId,jdbcType=BIGINT},
+		name_cn = #{nameCn,jdbcType=VARCHAR},
+		name_en
+		= #{nameEn,jdbcType=VARCHAR},
+		first_spell =
+		#{firstSpell,jdbcType=VARCHAR},
+		all_spell =
+		#{allSpell,jdbcType=VARCHAR},
+		hotel_id = #{hotelId,jdbcType=BIGINT},
+		path = #{path,jdbcType=VARCHAR},
+		back_img =
+		#{backImg,jdbcType=VARCHAR},
+		back_img_small =
+		#{backImgSmall,jdbcType=VARCHAR},
+		place_num =
+		#{placeNum,jdbcType=VARCHAR},
+		first_class =
+		#{firstClass,jdbcType=VARCHAR},
+		second_class =
+		#{secondClass,jdbcType=VARCHAR},
+		show_year =
+		#{showYear,jdbcType=VARCHAR},
+		area = #{area,jdbcType=VARCHAR},
+		set_num =
+		#{setNum,jdbcType=VARCHAR},
+		direct = #{direct,jdbcType=VARCHAR},
+		movie_lan = #{movieLan,jdbcType=VARCHAR},
+		time_length =
+		#{timeLength,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		creator = #{creator,jdbcType=BIGINT},
+		modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+		modifier =
+		#{modifier,jdbcType=BIGINT},
+		available = #{available,jdbcType=BIT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 自定义 -->
+	
+	<sql id="Base_Distinct_Column_List">
+		distinct id, sys_id, org_id, name_cn, name_en, first_spell,
+		all_spell, hotel_id,
+		path, back_img,
+		back_img_small, place_num,
+		first_class, second_class, show_year, area, set_num,
+		direct,
+		movie_lan,
+		time_length, create_time, creator, modify_time, modifier, available
+	</sql>
+	<select id="queryByIds" parameterType="java.util.List"
+		resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from hmp_movie where id in
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
 </mapper>

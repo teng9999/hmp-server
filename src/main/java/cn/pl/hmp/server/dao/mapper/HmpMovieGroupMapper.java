@@ -20,4 +20,6 @@ public interface HmpMovieGroupMapper {
     int updateByPrimaryKeySelective(HmpMovieGroup record);
 
     int updateByPrimaryKey(HmpMovieGroup record);
+    
+    List<HmpMovieGroup> selectByGroupType(Long groupType);
 }

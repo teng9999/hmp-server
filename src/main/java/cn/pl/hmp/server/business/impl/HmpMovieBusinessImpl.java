@@ -19,8 +19,7 @@ import cn.pl.hmp.server.dao.mapper.HmpMovieMapper;
 
 /**
  * 
- * @author devpltc
- * 电影资源
+ * @author devpltc 电影资源
  * 
  */
 @Service
@@ -28,7 +27,7 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
 
 	@Autowired
 	private HmpMovieMapper hmpMovieMapper;
-	
+
 	@Override
 	public List<HmpMovie> query(HmpMovieExample example) {
 		// TODO Auto-generated method stub
@@ -78,10 +77,10 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
 	@Override
 	public HmpMovie get(Long id) {
 		// TODO Auto-generated method stub
-		if(0 > id)
+		if (0 > id)
 			return null;
 		return hmpMovieMapper.selectByPrimaryKey(id);
-		
+
 	}
 
 	@Override
@@ -101,9 +100,17 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
 
 	@Override
 	public int remove(Long id) {
-		if (null == id  ||  0 > id)
+		if (null == id || 0 > id)
 			return 0;
 		return hmpMovieMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public List<HmpMovie> queryByIds(List<Long> movieIds) {
+		// TODO Auto-generated method stub
+		if (null == movieIds || movieIds.isEmpty())
+			return null;
+		return hmpMovieMapper.queryByIds(movieIds);
 	}
 
 }

@@ -66,4 +66,11 @@ public interface IHmpMovieBusiness extends IBusiness{
 	 * @return
 	 */
 	public int remove(Long id);
+	
+	/***
+	 * 
+	 * @param movieIds
+	 * @return
+	 */
+	public List<HmpMovie> queryByIds(List<Long> movieIds);
 }

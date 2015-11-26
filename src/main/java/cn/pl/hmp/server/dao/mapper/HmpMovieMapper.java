@@ -25,4 +25,6 @@ public interface HmpMovieMapper {
     int updateByPrimaryKeyWithBLOBs(HmpMovie record);
 
     int updateByPrimaryKey(HmpMovie record);
+    
+    List<HmpMovie> queryByIds(List<Long> ids);
 }

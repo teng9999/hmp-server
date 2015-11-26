@@ -81,16 +81,6 @@ public class THmpMovieGroupServiceIface implements Iface{
 		return listTransform(business.query(null));
 	}
 
-	@Override
-	public List<THmpMovieGroup> selectByHotelId(long hotelId) throws TException {
-		// TODO Auto-generated method stub
-		if(null == business)
-			return null;
-		if(0 > hotelId)
-			return null;
-		return null;
-	
-	}
 
 	@Override
 	public Map<TPages, List<THmpMovieGroup>> loadPages(TPages tPages) throws ThriftException, TException {
@@ -138,5 +128,13 @@ public class THmpMovieGroupServiceIface implements Iface{
 			resultLists.add(result);
 		}
 		return resultLists;
+	}
+
+	@Override
+	public List<THmpMovieGroup> selectByGroupType(long groupType) throws ThriftException, TException {
+		// TODO Auto-generated method stub
+		if (business == null)
+			return null;
+		return listTransform(business.selectByGroupType(groupType));
 	}
 }

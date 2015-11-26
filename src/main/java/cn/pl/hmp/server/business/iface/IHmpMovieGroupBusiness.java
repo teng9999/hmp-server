@@ -64,4 +64,12 @@ public interface IHmpMovieGroupBusiness extends IBusiness {
 	 * @return
 	 */
 	public int remove(Long id);
+	
+	/**
+	 * 按照组类型获取分组
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	public List<HmpMovieGroup> selectByGroupType (Long groupId);
 }

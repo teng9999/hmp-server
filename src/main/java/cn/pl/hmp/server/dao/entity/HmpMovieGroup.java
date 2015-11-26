@@ -13,13 +13,7 @@ public class HmpMovieGroup {
 
     private Boolean groupType;
 
-    private Long hotelId;
-
-    private String hotelName;
-
     private Boolean adminFlag;
-
-    private String payType;
 
     private Date createTime;
 
@@ -71,36 +65,12 @@ public class HmpMovieGroup {
         this.groupType = groupType;
     }
 
-    public Long getHotelId() {
-        return hotelId;
-    }
-
-    public void setHotelId(Long hotelId) {
-        this.hotelId = hotelId;
-    }
-
-    public String getHotelName() {
-        return hotelName;
-    }
-
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName == null ? null : hotelName.trim();
-    }
-
     public Boolean getAdminFlag() {
         return adminFlag;
     }
 
     public void setAdminFlag(Boolean adminFlag) {
         this.adminFlag = adminFlag;
-    }
-
-    public String getPayType() {
-        return payType;
-    }
-
-    public void setPayType(String payType) {
-        this.payType = payType == null ? null : payType.trim();
     }
 
     public Date getCreateTime() {

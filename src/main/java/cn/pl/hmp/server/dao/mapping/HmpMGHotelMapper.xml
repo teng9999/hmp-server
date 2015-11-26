@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.pl.hmp.server.dao.mapper.HmpMGMapper">
-	<resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.HmpMG">
+<mapper namespace="cn.pl.hmp.server.dao.mapper.HmpMGHotelMapper">
+	<resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.HmpMGHotel">
 		<id column="id" property="id" jdbcType="BIGINT" />
 		<result column="sys_id" property="sysId" jdbcType="BIGINT" />
 		<result column="org_id" property="orgId" jdbcType="BIGINT" />
 		<result column="group_id" property="groupId" jdbcType="BIGINT" />
-		<result column="movie_id" property="movieId" jdbcType="BIGINT" />
-		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
 		<result column="creator" property="creator" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -24,7 +24,8 @@
 									and ${criterion.condition} #{criterion.value}
 								</when>
 								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and
+									and ${criterion.condition} #{criterion.value}
+									and
 									#{criterion.secondValue}
 								</when>
 								<when test="criterion.listValue">
@@ -42,17 +43,18 @@
 		</where>
 	</sql>
 	<sql id="Base_Column_List">
-		id, sys_id, org_id, group_id, movie_id, create_time, creator
+		id, sys_id, org_id, group_id, hotel_id, creator,
+		create_time
 	</sql>
 	<select id="selectByExample" resultMap="BaseResultMap"
-		parameterType="cn.pl.hmp.server.dao.entity.HmpMGExample">
+		parameterType="cn.pl.hmp.server.dao.entity.HmpMGHotelExample">
 		select
 		<if test="distinct">
 			distinct
 		</if>
 		'true' as QUERYID,
 		<include refid="Base_Column_List" />
-		from hmp_mg
+		from hmp_movie_group_hotel
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -64,42 +66,27 @@
 		parameterType="java.lang.Long">
 		select
 		<include refid="Base_Column_List" />
-		from hmp_mg
+		from hmp_movie_group_hotel
 		where id = #{id,jdbcType=BIGINT}
 	</select>
-
-	<select id="selectByGroupId" resultType="Long" parameterType="java.lang.Long">
-		select distinct movie_id
-		from hmp_mg
-		where group_id = #{groupId,jdbcType=BIGINT}
-	</select>
-
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from hmp_mg
+		delete from
+		hmp_movie_group_hotel
 		where id = #{id,jdbcType=BIGINT}
 	</delete>
-	<insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpMG">
-		insert into hmp_mg (id, sys_id, org_id,
-		group_id, movie_id, create_time,
-		creator)
+	<insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpMGHotel">
+		insert into
+		hmp_movie_group_hotel (id, sys_id, org_id,
+		group_id, hotel_id, creator,
+		create_time)
 		values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT},
 		#{orgId,jdbcType=BIGINT},
-		#{groupId,jdbcType=BIGINT}, #{movieId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
-		#{creator,jdbcType=BIGINT})
+		#{groupId,jdbcType=BIGINT},
+		#{hotelId,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT},
+		#{createTime,jdbcType=TIMESTAMP})
 	</insert>
-	<!-- 批量添加 -->
-	<insert id="insertBatch" parameterType="java.util.List">
-   <![CDATA[
-    insert into hmp_mg(group_id, movie_id) values
-   ]]>
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-			(#{item.groupId},#{item.movieId})
-		</foreach>
-	</insert>
-
-	<insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpMG">
-		insert into hmp_mg
+	<insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpMGHotel">
+		insert into hmp_movie_group_hotel
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
@@ -113,14 +100,14 @@
 			<if test="groupId != null">
 				group_id,
 			</if>
-			<if test="movieId != null">
-				movie_id,
-			</if>
-			<if test="createTime != null">
-				create_time,
+			<if test="hotelId != null">
+				hotel_id,
 			</if>
 			<if test="creator != null">
 				creator,
+			</if>
+			<if test="createTime != null">
+				create_time,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -136,26 +123,26 @@
 			<if test="groupId != null">
 				#{groupId,jdbcType=BIGINT},
 			</if>
-			<if test="movieId != null">
-				#{movieId,jdbcType=BIGINT},
-			</if>
-			<if test="createTime != null">
-				#{createTime,jdbcType=TIMESTAMP},
+			<if test="hotelId != null">
+				#{hotelId,jdbcType=BIGINT},
 			</if>
 			<if test="creator != null">
 				#{creator,jdbcType=BIGINT},
 			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
 		</trim>
 	</insert>
-	<select id="countByExample" parameterType="cn.pl.hmp.server.dao.entity.HmpMGExample"
+	<select id="countByExample" parameterType="cn.pl.hmp.server.dao.entity.HmpMGHotelExample"
 		resultType="java.lang.Integer">
-		select count(*) from hmp_mg
+		select count(*) from hmp_movie_group_hotel
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
 	</select>
-	<update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HmpMG">
-		update hmp_mg
+	<update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HmpMGHotel">
+		update hmp_movie_group_hotel
 		<set>
 			<if test="sysId != null">
 				sys_id = #{sysId,jdbcType=BIGINT},
@@ -166,52 +153,68 @@
 			<if test="groupId != null">
 				group_id = #{groupId,jdbcType=BIGINT},
 			</if>
-			<if test="movieId != null">
-				movie_id = #{movieId,jdbcType=BIGINT},
-			</if>
-			<if test="createTime != null">
-				create_time = #{createTime,jdbcType=TIMESTAMP},
+			<if test="hotelId != null">
+				hotel_id = #{hotelId,jdbcType=BIGINT},
 			</if>
 			<if test="creator != null">
 				creator = #{creator,jdbcType=BIGINT},
 			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
 		</set>
 		where id = #{id,jdbcType=BIGINT}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="cn.pl.hmp.server.dao.entity.HmpMG">
-		update hmp_mg
+	<update id="updateByPrimaryKey" parameterType="cn.pl.hmp.server.dao.entity.HmpMGHotel">
+		update
+		hmp_movie_group_hotel
 		set sys_id = #{sysId,jdbcType=BIGINT},
-		org_id = #{orgId,jdbcType=BIGINT},
+		org_id =
+		#{orgId,jdbcType=BIGINT},
 		group_id = #{groupId,jdbcType=BIGINT},
-		movie_id = #{movieId,jdbcType=BIGINT},
-		create_time = #{createTime,jdbcType=TIMESTAMP},
-		creator = #{creator,jdbcType=BIGINT}
+		hotel_id = #{hotelId,jdbcType=BIGINT},
+		creator =
+		#{creator,jdbcType=BIGINT},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP}
 		where id = #{id,jdbcType=BIGINT}
 	</update>
 
-	<!-- 自定义Mapper-->
-	<select id="queryByGroupIdLists" parameterType="java.util.List"
-		resultType="java.lang.Long">
-  	<![CDATA[  	
-  	select movie_id from hmp_mg where group_id in
-  	]]>
-		<foreach collection="list" item="item" index="index" open="("
-			close=")" separator=",">
-			#{item}
-		</foreach>
-	</select>
+	<!-- 自定义方法 -->
 
-	<delete id="deleteBatch" parameterType="java.util.List">
+	<!-- 批量添加 -->
+	<insert id="saveOnBatch" parameterType="java.util.List">
    <![CDATA[
-    delete from hmp_mg where group_id = #{groupId,jdbcType=BIGINT} and movie_id in
+    insert into hmp_movie_group_hotel(group_id, hotel_id) values
    ]]>
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.groupId},#{item.hotelId})
+		</foreach>
+	</insert>
+
+	<!-- 根据hotelId获取所有groupId -->
+	<select id="selectByHotelId" parameterType="java.lang.Long"
+		resultType="java.lang.Long">
+		select group_id from hmp_movie_group_hotel where hotel_id =
+		#{hotelId,jdbcType=BIGINT}
+	</select>
+	<!-- 根据hotelId删除包含在数组中的groupId -->
+	<delete id="deleteBatch" parameterType="java.util.List">
+   		<![CDATA[
+    		delete from hmp_movie_group_hotel where hotel_id = #{hotelId,jdbcType=BIGINT} and group_id in
+   		]]>
 		<foreach collection="list" item="item" index="index" open="("
 			close=")" separator=",">
 			#{item}
 		</foreach>
 	</delete>
-
+	<!-- 根据hotelId删除所有groupId -->
 	<delete id="deleteBatchByGroupId" parameterType="java.lang.Long">
-		delete from hmp_mg where group_id = #{groupId,jdbcType=BIGINT}
+		delete from
+		hmp_movie_group_hotel where hotel_id =
+		#{hotelId,jdbcType=BIGINT}
 	</delete>
+
+	<!-- 自定义方法 -->
 </mapper>

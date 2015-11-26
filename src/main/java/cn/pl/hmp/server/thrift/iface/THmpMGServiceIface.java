@@ -151,4 +151,12 @@ public class THmpMGServiceIface implements Iface {
 		return business.deleteByGroupIdOnBatch(groupId);
 	}
 
+	@Override
+	public List<Long> queryByGroupIdLists(List<Long> groupIdLists) throws ThriftException, TException {
+		// TODO Auto-generated method stub
+		if(null == groupIdLists || groupIdLists.isEmpty())
+			return null;
+		return business.queryByGroupIdLists(groupIdLists);
+	}
+
 }

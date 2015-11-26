@@ -149,4 +149,11 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 		return hmpMGMapper.deleteBatchByGroupId(groupId);
 
 	}
+
+	@Override
+	public List<Long> queryByGroupIdLists(List<Long> groupId) {
+		if (null == groupId || groupId.isEmpty())
+			return null;
+		return hmpMGMapper.queryByGroupIdLists(groupId);
+	}
 }

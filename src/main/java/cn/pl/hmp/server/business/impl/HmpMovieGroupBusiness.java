@@ -101,4 +101,12 @@ public class HmpMovieGroupBusiness implements IHmpMovieGroupBusiness {
 		return -1;
 	}
 
+	@Override
+	public List<HmpMovieGroup> selectByGroupType(Long groupId) {
+		// TODO Auto-generated method stub
+		if(null == groupId || 0 > groupId.longValue())
+			return null;
+		return hmpMovieGroupMapper.selectByGroupType(groupId);
+	}
+
 }
