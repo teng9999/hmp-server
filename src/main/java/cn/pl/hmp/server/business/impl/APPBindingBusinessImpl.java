@@ -109,7 +109,7 @@ public class APPBindingBusinessImpl extends AbstractBusiness implements
 	 */
 	@Override
 	public int create(APPBinding record) {
-		if (record == null || record.getId() != null)
+		if (record == null)
 			return 0;
 		return aPPBindingMapper.insertSelective(record);
 	}

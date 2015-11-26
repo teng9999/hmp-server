@@ -109,7 +109,7 @@ public class AirModeBusinessImpl extends AbstractBusiness implements
 	 */
 	@Override
 	public int create(AirMode record) {
-		if (record == null || record.getId() != null)
+		if (record == null)
 			return 0;
 		return airModeMapper.insertSelective(record);
 	}

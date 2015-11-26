@@ -109,7 +109,7 @@ public class RoomRCUCfgBusinessImpl extends AbstractBusiness implements
 	 */
 	@Override
 	public int create(RoomRCUCfg record) {
-		if (record == null || record.getId() != null)
+		if (record == null)
 			return 0;
 		return roomRCUCfgMapper.insertSelective(record);
 	}

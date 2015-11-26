@@ -109,7 +109,7 @@ public class APPInfoBusinessImpl extends AbstractBusiness implements
 	 */
 	@Override
 	public int create(APPInfo record) {
-		if (record == null || record.getId() != null)
+		if (record == null)
 			return 0;
 		return aPPInfoMapper.insertSelective(record);
 	}

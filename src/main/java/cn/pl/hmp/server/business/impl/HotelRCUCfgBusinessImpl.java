@@ -110,7 +110,7 @@ public class HotelRCUCfgBusinessImpl extends AbstractBusiness implements
 	 */
 	@Override
 	public int create(HotelRCUCfg record) {
-		if (record == null || record.getId() != null)
+		if (record == null)
 			return 0;
 		return hotelRCUCfgMapper.insertSelective(record);
 	}

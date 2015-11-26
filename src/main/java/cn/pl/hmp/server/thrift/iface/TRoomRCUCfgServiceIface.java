@@ -150,4 +150,17 @@ public class TRoomRCUCfgServiceIface implements
 		List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
 		return listTransform(airModes);
 	}
+
+	@Override
+	public List<TRoomRCUCfg> queryByRoomTypeAndHotelId(String roomType,
+			long hotelId) throws ThriftException, TException {
+		if (business == null) {
+			return null;
+		}
+		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
+		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId)
+				.andRoomTypeEqualTo(roomType.trim());
+		List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
+		return listTransform(airModes);
+	}
 }
