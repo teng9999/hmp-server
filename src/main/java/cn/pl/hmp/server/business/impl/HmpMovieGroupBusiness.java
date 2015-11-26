@@ -13,8 +13,10 @@ import com.github.pagehelper.PageHelper;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.iface.IHmpMovieGroupBusiness;
+import cn.pl.hmp.server.dao.entity.HmpMGHotel;
 import cn.pl.hmp.server.dao.entity.HmpMovieGroup;
 import cn.pl.hmp.server.dao.entity.HmpMovieGroupExample;
+import cn.pl.hmp.server.dao.mapper.HmpMGHotelMapper;
 import cn.pl.hmp.server.dao.mapper.HmpMovieGroupMapper;
 
 @Service
@@ -22,6 +24,8 @@ public class HmpMovieGroupBusiness implements IHmpMovieGroupBusiness {
 
 	@Autowired
 	private HmpMovieGroupMapper hmpMovieGroupMapper;
+	@Autowired
+	private HmpMGHotelMapper hmpMGHotelMapper;
 	
 	@Override
 	public List<HmpMovieGroup> query(HmpMovieGroupExample example) {
@@ -82,7 +86,14 @@ public class HmpMovieGroupBusiness implements IHmpMovieGroupBusiness {
 		// TODO Auto-generated method stub
 		if(null ==record )
 			return -1;
-		return hmpMovieGroupMapper.insertSelective(record);
+	   int rlt= hmpMovieGroupMapper.insertSelective(record);
+	   if(null !=record.getHotelId() && 0 < record.getHotelId() && 0 < rlt ){
+		   	HmpMGHotel hmpMGHotel = new HmpMGHotel();
+		   	hmpMGHotel.setGroupId((long)rlt);
+		   	hmpMGHotel.setHotelId(record.getHotelId());
+			return  hmpMGHotelMapper.insert(hmpMGHotel);
+	   }
+	   return rlt;
 	}
 
 	@Override

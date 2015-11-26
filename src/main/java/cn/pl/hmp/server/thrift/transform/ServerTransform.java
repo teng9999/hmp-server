@@ -735,6 +735,8 @@ public class ServerTransform extends ThriftTransform {
 			result.setSysId(info.getSysId());
 		if(0 < info.getOrgId())
 			result.setOrgId(info.getOrgId());
+		if(0 < info.getHotelId())
+			result.setHotelId(info.getHotelId());
 		if (null != info.getGroupName())
 			result.setGroupName(info.getGroupName());
 		if (0 <  info.getGroupType())
@@ -769,6 +771,8 @@ public class ServerTransform extends ThriftTransform {
 			result.setSysId(info.getSysId());
 		if(null != info.getOrgId() && 0 < info.getOrgId())
 			result.setOrgId(info.getOrgId());
+		if(null != info.getHotelId() && 0 < info.getHotelId())
+			result.setHotelId(info.getHotelId());
 		if (null != info.getGroupName())
 			result.setGroupName(info.getGroupName());
 		if (info.getGroupType())
