@@ -15,6 +15,8 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.iface.IHmpMovieBusiness;
 import cn.pl.hmp.server.dao.entity.HmpMovie;
 import cn.pl.hmp.server.dao.entity.HmpMovieExample;
+import cn.pl.hmp.server.dao.mapper.HmpMGHotelMapper;
+import cn.pl.hmp.server.dao.mapper.HmpMGMapper;
 import cn.pl.hmp.server.dao.mapper.HmpMovieMapper;
 
 /**
@@ -27,6 +29,11 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
 
 	@Autowired
 	private HmpMovieMapper hmpMovieMapper;
+	
+	@Autowired
+	private HmpMGMapper hmpMGMapper;
+	@Autowired
+	private HmpMGHotelMapper hmpMGHotelMapper;
 
 	@Override
 	public List<HmpMovie> query(HmpMovieExample example) {
@@ -111,6 +118,18 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
 		if (null == movieIds || movieIds.isEmpty())
 			return null;
 		return hmpMovieMapper.queryByIds(movieIds);
+	}
+	
+	public List<HmpMovie> queryByHotel(Long hotelId) {
+		List<Long> groupIdLists = hmpMGHotelMapper.selectByHotelId(hotelId);
+		if(null != groupIdLists && !groupIdLists.isEmpty()){
+			List<Long> movieIdLists = hmpMGMapper.queryByGroupIdLists(groupIdLists);
+			if(null != movieIdLists && !movieIdLists.isEmpty()){
+				return hmpMovieMapper.queryByIds(movieIdLists);
+			}
+			return null;
+		}
+		return null;
 	}
 
 }

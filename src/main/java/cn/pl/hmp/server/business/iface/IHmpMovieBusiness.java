@@ -73,4 +73,11 @@ public interface IHmpMovieBusiness extends IBusiness{
 	 * @return
 	 */
 	public List<HmpMovie> queryByIds(List<Long> movieIds);
+	
+	/***
+	 * 
+	 * @param movieIds
+	 * @return
+	 */
+	public List<HmpMovie> queryByHotel(Long hotelId);
 }
