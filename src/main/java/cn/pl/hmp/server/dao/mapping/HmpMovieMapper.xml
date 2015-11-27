@@ -497,7 +497,7 @@
 	</update>
 
 	<!-- 自定义 -->
-	
+
 	<sql id="Base_Distinct_Column_List">
 		distinct id, sys_id, org_id, name_cn, name_en, first_spell,
 		all_spell, hotel_id,
@@ -508,9 +508,20 @@
 		movie_lan,
 		time_length, create_time, creator, modify_time, modifier, available
 	</sql>
+	<sql id="Base_Distinct_Other_Column_List">
+		distinct (a.id), a.sys_id, a.org_id, a.name_cn, a.name_en, a.first_spell,
+		a.all_spell, a.hotel_id,
+		a.path, a.back_img,
+		a.back_img_small, a.place_num,
+		a.first_class, a.second_class, a.show_year, a.area, a.set_num,
+		a.direct,
+		a.movie_lan,
+		a.time_length, a.create_time, a.creator, a.modify_time, a.modifier, a.available
+	</sql>
+	
 	<select id="queryByIds" parameterType="java.util.List"
 		resultMap="BaseResultMap">
-		select 
+		select
 		<include refid="Base_Column_List" />
 		from hmp_movie where id in
 		<foreach collection="list" item="item" index="index" open="("
@@ -518,5 +529,18 @@
 			#{item}
 		</foreach>
 	</select>
-
+	
+	<select id="queryByHotelId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select 
+		distinct (a.id), a.sys_id, a.org_id, a.name_cn, a.name_en, a.first_spell,
+		a.all_spell, a.hotel_id,
+		a.path, a.back_img,
+		a.back_img_small, a.place_num,
+		a.first_class, a.second_class, a.show_year, a.area, a.set_num,
+		a.direct,
+		a.movie_lan,
+		a.time_length, a.create_time, a.creator, a.modify_time, a.modifier, a.available
+		from hmp_movie a, hmp_mg b, hmp_movie_group_hotel c 
+		where a.id = b.movie_id and b.group_id = c.group_id and c.hotel_id = #{hotelId,jdbcType=BIGINT}
+	</select>
 </mapper>

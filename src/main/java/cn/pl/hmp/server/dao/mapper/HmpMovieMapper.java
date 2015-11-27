@@ -27,4 +27,7 @@ public interface HmpMovieMapper {
     int updateByPrimaryKey(HmpMovie record);
     
     List<HmpMovie> queryByIds(List<Long> ids);
+    
+    List<HmpMovie> queryByHotelId(Long hotelId);
+    
 }

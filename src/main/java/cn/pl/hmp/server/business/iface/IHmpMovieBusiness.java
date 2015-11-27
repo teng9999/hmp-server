@@ -49,6 +49,7 @@ public interface IHmpMovieBusiness extends IBusiness{
 	 * @param record
 	 * @return
 	 */
+	@DataSource("cluster")
 	public int create(HmpMovie record);
 
 	/**
@@ -57,6 +58,7 @@ public interface IHmpMovieBusiness extends IBusiness{
 	 * @param record
 	 * @return
 	 */
+	@DataSource("cluster")
 	public int update(HmpMovie record);
 
 	/**
@@ -65,6 +67,7 @@ public interface IHmpMovieBusiness extends IBusiness{
 	 * @param id
 	 * @return
 	 */
+	@DataSource("cluster")
 	public int remove(Long id);
 	
 	/***
@@ -72,12 +75,15 @@ public interface IHmpMovieBusiness extends IBusiness{
 	 * @param movieIds
 	 * @return
 	 */
+	@DataSource("cluster")
 	public List<HmpMovie> queryByIds(List<Long> movieIds);
 	
-	/***
-	 * 
-	 * @param movieIds
+	/**
+	 * 获取
+	 *
+	 * @param id
 	 * @return
 	 */
+	@DataSource("cluster")
 	public List<HmpMovie> queryByHotel(Long hotelId);
 }

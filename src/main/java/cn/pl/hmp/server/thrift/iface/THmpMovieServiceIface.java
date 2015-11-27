@@ -60,9 +60,6 @@ public class THmpMovieServiceIface implements Iface {
 			return null;
 		}
 		HmpMovie hmpMovie = business.get(id);
-		if (hmpMovie == null) {
-			hmpMovie = new HmpMovie();
-		}
 		return ServerTransform.transform(hmpMovie);
 	}
 
@@ -150,11 +147,14 @@ public class THmpMovieServiceIface implements Iface {
 	@Override
 	public List<THmpMovie> queryByHotelId(long hotelId) throws ThriftException, TException {
 		// TODO Auto-generated method stub
+		System.out.println("1111111");
 		if (business == null)
 			return null;
-		if(0 > hotelId)
-			return null;
-		return listTransform(business.queryByHotel(hotelId));
+		System.out.println("22222222");
+		if (hotelId>0)
+			return listTransform(business.queryByHotel(hotelId));
+		System.out.println("3333333");
+		return null;
 	}
 
 }
