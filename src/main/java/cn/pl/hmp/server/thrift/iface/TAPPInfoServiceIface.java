@@ -14,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.pl.commons.pages.Pages;
+import cn.pl.commons.utils.StringUtils;
 import cn.pl.frame.annotation.ThriftService;
 import cn.pl.frame.thrift.define.TPages;
 import cn.pl.frame.thrift.exception.ThriftException;
 import cn.pl.hmp.commons.thrift.define.TAPPInfo;
 import cn.pl.hmp.server.business.iface.IAPPInfoBusiness;
 import cn.pl.hmp.server.dao.entity.APPInfo;
+import cn.pl.hmp.server.dao.entity.APPInfoExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 /**
@@ -109,6 +111,53 @@ public class TAPPInfoServiceIface implements
 			pages = new Pages();
 		// 分页查询
 		Map<Pages, List<APPInfo>> result = business.queryPages(null, pages);
+		// 处理查询结果
+		Map<TPages, List<TAPPInfo>> rtn = new HashMap<>();
+		TPages rtnPages = null;
+		List<TAPPInfo> rtnList = null;
+		if (result == null || result.isEmpty()) {
+			// 查询结果为空
+			rtnPages = new TPages();
+			rtnList = new ArrayList<>();
+		} else {
+			// 查询结果不为空
+			for (Pages key : result.keySet()) {
+				List<APPInfo> datas = result.get(key);
+				if (datas == null || datas.isEmpty()) {
+					// 查询结果包含的实际数据为空
+					rtnPages = new TPages();
+					rtnList = new ArrayList<>();
+				} else {
+					// 转换查询结果和分页对象
+					rtnPages = ServerTransform.transform(key);
+					rtnList = listTransform(datas);
+				}
+				break;
+			}
+		}
+		rtn.put(rtnPages, rtnList);
+
+		return rtn;
+	}
+
+	@Override
+	public Map<TPages, List<TAPPInfo>> loadPagesByNameCn(TPages tPages,
+			String nameCn) throws ThriftException, TException {
+		if (business == null)
+			return null;
+		// 转换Thrift分页对象为Pages
+		Pages pages = ServerTransform.transform(tPages);
+		if (pages == null)
+			pages = new Pages();
+		// 查询条件-根据app中文名称来查询
+		APPInfoExample appInfoExample = null;
+		if (!StringUtils.isBlank(nameCn)) {
+			appInfoExample = new APPInfoExample();
+			appInfoExample.createCriteria().andNameCnLike(nameCn);
+		}
+		// 分页查询
+		Map<Pages, List<APPInfo>> result = business.queryPages(appInfoExample,
+				pages);
 		// 处理查询结果
 		Map<TPages, List<TAPPInfo>> rtn = new HashMap<>();
 		TPages rtnPages = null;
