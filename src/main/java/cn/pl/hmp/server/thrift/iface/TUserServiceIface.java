@@ -17,6 +17,7 @@ import cn.pl.hmp.commons.thrift.service.TUserService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IUserBusiness;
 import cn.pl.hmp.server.dao.entity.User;
+import cn.pl.hmp.server.dao.entity.UserExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -70,6 +71,18 @@ public class TUserServiceIface implements TUserService.Iface {
     @Override
     public int deleteOnbatch(List<Long> idList) throws TException {
         return userBusiness.deleteOnBatch(idList);
+    }
+
+    @Override
+    public TUser queryByUserName(String userName) throws TException {
+        UserExample example = new UserExample();
+        example.createCriteria().andUserNameEqualTo(userName);
+        User user = null;
+        List<User> list = userBusiness.selectByExample(example);
+        if(null != list && list.size()>0) {
+            user = list.get(0);
+        }
+        return ObjectConverter.convet(user, TUser.class);
     }
 
 }

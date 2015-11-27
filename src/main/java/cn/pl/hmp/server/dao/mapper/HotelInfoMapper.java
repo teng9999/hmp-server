@@ -1,8 +1,11 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.HotelInfoExample;
-import java.util.List;
 
 public interface HotelInfoMapper {
     int deleteByPrimaryKey(Long id);
@@ -18,4 +21,6 @@ public interface HotelInfoMapper {
     int updateByPrimaryKeySelective(HotelInfo record);
 
     int updateByPrimaryKey(HotelInfo record);
+    
+    List<HotelInfo> selectByUserId(@Param("userId")Long userId);
 }

@@ -33,6 +33,11 @@ public interface IMenuPagesBusiness  extends IBusiness {
      */
     List<MenuPages> selectAll();
     /**
+     * 条件查询
+     * @return
+     */
+    List<MenuPages> selectByExample(MenuPagesExample example);
+    /**
      * 条件分页查询
      * @param example
      * @param page

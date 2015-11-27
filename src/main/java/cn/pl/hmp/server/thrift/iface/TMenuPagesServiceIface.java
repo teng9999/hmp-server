@@ -17,6 +17,7 @@ import cn.pl.hmp.commons.thrift.service.TMenuPagesService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IMenuPagesBusiness;
 import cn.pl.hmp.server.dao.entity.MenuPages;
+import cn.pl.hmp.server.dao.entity.MenuPagesExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -70,6 +71,14 @@ public class TMenuPagesServiceIface implements TMenuPagesService.Iface {
     @Override
     public int deleteOnbatch(List<Long> idList) throws TException {
         return menuPagesBusiness.deleteOnBatch(idList);
+    }
+
+    @Override
+    public List<TMenuPages> queryByChannelId(long channelId) throws TException {
+        MenuPagesExample example = new MenuPagesExample();
+        example.createCriteria().andMenuIdEqualTo(channelId);
+        return ObjectConverter.convet(menuPagesBusiness.selectByExample(example), 
+                TMenuPages.class);
     }
 
 }

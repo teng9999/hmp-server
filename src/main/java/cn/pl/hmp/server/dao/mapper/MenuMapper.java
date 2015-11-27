@@ -29,4 +29,8 @@ public interface MenuMapper {
      * @return
      */
     List<Menu> selectWithTarget(@Param("parentId") Long parentId);
+    
+    List<Menu> selectHotelMenuByHotelId(@Param("hotelId")Long hotelId,
+            @Param("parentId") Long parentId);
+    
 }

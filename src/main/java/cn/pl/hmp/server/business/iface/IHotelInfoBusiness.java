@@ -44,4 +44,10 @@ public interface IHotelInfoBusiness  extends IBusiness {
      * @return
      */
     int update(HotelInfo record);
+    /**
+     * 通过用户名查询酒店信息
+     * @return
+     */
+    List<HotelInfo> selectByUserId(Long userId);
+    
 }

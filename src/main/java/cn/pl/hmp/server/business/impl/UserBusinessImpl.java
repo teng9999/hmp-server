@@ -72,4 +72,12 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
         return mapper.deleteOnBatch(idList);
     }
 
+    @Override
+    public List<User> selectByExample(UserExample example) {
+       if(null == example) {
+           return null;
+       }
+       return mapper.selectByExample(example);
+    }
+
 }

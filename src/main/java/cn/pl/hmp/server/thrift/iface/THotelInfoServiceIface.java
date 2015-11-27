@@ -79,15 +79,9 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface{
     }
 
     @Override
-    public THotelInfo selectByUserId(long id) throws TException {
-        List<UserHotel> userHotelList = userHotelBusiness.selectByUserId(id);
-        if(null == userHotelList || userHotelList.size() <1)
-            return new THotelInfo();
-        UserHotel userHotel = userHotelList.get(0);
-        HotelInfo hotelInfo = hotelBusiness.selectByHotelId(userHotel.getHotelId());
-        if(null == hotelInfo)
-            return new THotelInfo();
-        return ObjectConverter.convet(hotelInfo, THotelInfo.class);
+    public List<THotelInfo> selectByUserId(long id) throws TException {
+        return ObjectConverter.convet( hotelBusiness.selectByUserId(id),
+                THotelInfo.class);
     }
 
 }

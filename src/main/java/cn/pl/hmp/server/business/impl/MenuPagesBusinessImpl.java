@@ -73,4 +73,11 @@ public class MenuPagesBusinessImpl extends BoostBusinessImpl implements IMenuPag
         return 0;
     }
 
+    @Override
+    public List<MenuPages> selectByExample(MenuPagesExample example) {
+        if(null == example)
+            example = new MenuPagesExample();
+        return mapper.selectByExample(example);
+    }
+
 }

@@ -77,4 +77,21 @@ public class TMenuServiceIface implements TMenuService.Iface {
         return ObjectConverter.convet(menuBusiness.selectByParentId(id), TMenu.class);
     }
 
+    @Override
+    public Map<TPages, List<TMenu>> queryHotelMenu(TPages pages, long hotelId,
+            long parentId) throws TException {
+        Map<TPages,List<TMenu>> tmap = new HashMap<TPages, List<TMenu>>();
+        TPages tempPage = null;
+        Map<Pages,List<Menu>> menuMap = menuBusiness.selectHotelMenuByHotelId(hotelId,parentId,
+                ObjectConverter.convet(pages, Pages.class));
+        if(null != menuMap&& !menuMap.isEmpty()){
+            Set<Pages> set = menuMap.keySet();
+            for(Pages page:set){
+                tempPage = ServerTransform.transform(page);
+                tmap.put(tempPage,ObjectConverter.convet(menuMap.get(page), TMenu.class));
+            }
+        }
+        return tmap;
+    }
+
 }

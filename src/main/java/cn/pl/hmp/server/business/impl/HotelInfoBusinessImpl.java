@@ -65,4 +65,12 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
         map.put(pages, hotelList);
         return map;
     }
+
+    @Override
+    public List<HotelInfo> selectByUserId(Long userId) {
+        if(null == userId) {
+            return null;
+        }
+        return mapper.selectByUserId(userId);
+    }
 }

@@ -45,6 +45,13 @@ public interface IMenuBusiness  extends IBusiness {
      */
     Map<Pages, List<Menu>> selectByPages(MenuExample example,Pages page);
     /**
+     * 根据酒店编号和父级编号分页查询（hotelId=0 表示公用 parentId=）
+     * @param example
+     * @param page
+     * @return
+     */
+    Map<Pages, List<Menu>> selectHotelMenuByHotelId(Long hotelId,Long parentId,Pages page);
+    /**
      * 更新
      * @param record
      * @return
