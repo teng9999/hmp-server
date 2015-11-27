@@ -2,7 +2,9 @@ package cn.pl.hmp.server.dao.entity;
 
 import java.util.Date;
 
+
 public class HmpMovieGroup {
+	
 	private Long id;
 
 	private Long sysId;
@@ -51,6 +53,14 @@ public class HmpMovieGroup {
 		this.orgId = orgId;
 	}
 
+	public Long getHotelId() {
+		return hotelId;
+	}
+
+	public void setHotelId(Long hotelId) {
+		this.hotelId = hotelId;
+	}
+	
 	public String getGroupName() {
 		return groupName;
 	}
@@ -59,13 +69,7 @@ public class HmpMovieGroup {
 		this.groupName = groupName == null ? null : groupName.trim();
 	}
 
-	public Long getHotelId() {
-		return this.hotelId;
-	}
-
-	public void setHotelId(Long hotelId) {
-		this.hotelId = hotelId;
-	}
+	
 
 	public Boolean getGroupType() {
 		return groupType;
