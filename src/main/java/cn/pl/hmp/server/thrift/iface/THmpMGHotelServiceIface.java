@@ -49,7 +49,7 @@ public class THmpMGHotelServiceIface implements Iface {
 	@Override
 	public int saveOnBatch(List<THmpMGHotel> mgList) throws ThriftException, TException {
 		// TODO Auto-generated method stub
-		if (null == mgList || 0 > mgList.size())
+		if (null == mgList || mgList.isEmpty())
 			return -1;
 		return business.saveOnBatch(listTrans(mgList));
 	}
@@ -57,7 +57,7 @@ public class THmpMGHotelServiceIface implements Iface {
 	@Override
 	public int deleteOnBatch(List<Long> idList, long hotelId) throws ThriftException, TException {
 		// TODO Auto-generated method stub
-		if (null == idList || 0 > idList.size())
+		if (null == idList || idList.isEmpty())
 			return -1;
 		return business.deleteOnBatch(idList, hotelId);
 	}
