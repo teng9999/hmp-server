@@ -210,7 +210,7 @@
 		</foreach>
 	</delete>
 	<!-- 根据hotelId删除所有groupId -->
-	<delete id="deleteBatchByGroupId" parameterType="java.lang.Long">
+	<delete id="delelteByHotelId" parameterType="java.lang.Long">
 		delete from
 		hmp_movie_group_hotel where hotel_id =
 		#{hotelId,jdbcType=BIGINT}

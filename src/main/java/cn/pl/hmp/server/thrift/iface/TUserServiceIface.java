@@ -12,10 +12,12 @@ import org.springframework.stereotype.Component;
 import cn.pl.commons.pages.Pages;
 import cn.pl.frame.annotation.ThriftService;
 import cn.pl.frame.thrift.define.TPages;
+import cn.pl.hmp.commons.thrift.define.THotelInfo;
 import cn.pl.hmp.commons.thrift.define.TUser;
 import cn.pl.hmp.commons.thrift.service.TUserService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IUserBusiness;
+import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.dao.entity.UserExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
@@ -83,6 +85,24 @@ public class TUserServiceIface implements TUserService.Iface {
             user = list.get(0);
         }
         return ObjectConverter.convet(user, TUser.class);
+    }
+
+    @Override
+    public long saveAll(TUser user, THotelInfo hotel) throws TException {
+        return userBusiness.insertAll(ObjectConverter.convet(user, User.class),
+                ObjectConverter.convet(hotel, HotelInfo.class));
+    }
+
+    @Override
+    public long updateAll(TUser user, THotelInfo hotel) throws TException {
+        return userBusiness.updateAll(ObjectConverter.convet(user, User.class),
+                ObjectConverter.convet(hotel, HotelInfo.class));
+    }
+
+    @Override
+    public TUser queryByName(String userName) throws TException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

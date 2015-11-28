@@ -5,6 +5,7 @@ import java.util.Map;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
+import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.dao.entity.UserExample;
 
@@ -21,6 +22,12 @@ public interface IUserBusiness  extends IBusiness {
 	 * @return
 	 */
 	long insert(User record);
+	/**
+     * 新增
+     * @param record
+     * @return
+     */
+    long insertAll(User record,HotelInfo hotel);
     /**
      * 通过编号查询
      * @param id
@@ -46,6 +53,12 @@ public interface IUserBusiness  extends IBusiness {
      */
     int update(User record);
     /**
+     * 更新
+     * @param record
+     * @return
+     */
+    int updateAll(User user,HotelInfo hotel);
+    /**
      * 批量删除
      * @param idList
      * @return
@@ -56,4 +69,6 @@ public interface IUserBusiness  extends IBusiness {
      * @return
      */
     List<User> selectByExample(UserExample example);
+    
+    
 }

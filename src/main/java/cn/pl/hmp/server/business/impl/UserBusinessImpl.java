@@ -10,8 +10,15 @@ import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.iface.IUserBusiness;
+import cn.pl.hmp.server.dao.entity.HmpMGHotel;
+import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.dao.entity.UserExample;
+import cn.pl.hmp.server.dao.entity.UserHotel;
+import cn.pl.hmp.server.dao.entity.UserHotelExample;
+import cn.pl.hmp.server.dao.mapper.HmpMGHotelMapper;
+import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
+import cn.pl.hmp.server.dao.mapper.UserHotelMapper;
 import cn.pl.hmp.server.dao.mapper.UserMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 
@@ -20,9 +27,14 @@ import com.github.pagehelper.PageInfo;
 
 @Service
 public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness{
-
 	@Autowired
 	private UserMapper mapper;
+	@Autowired
+	private HotelInfoMapper hotelMapper;
+	@Autowired
+	private HmpMGHotelMapper mgHotelMapper;
+	@Autowired
+	private UserHotelMapper userHotelMapper;
 
 	@Override
 	public int deleteByUserId(Long id) {
@@ -31,7 +43,11 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
 
 	@Override
 	public long insert(User record) {
-		return mapper.insert(record);
+	    if(null == record) {
+	        return 0;
+	    }
+	    mapper.insertSelective(record);
+		return record.getId();
 	}
 
 	@Override
@@ -78,6 +94,59 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
            return null;
        }
        return mapper.selectByExample(example);
+    }
+
+    @Override
+    public long insertAll(User user, HotelInfo hotelInfo) {
+        Long userRes = mapper.insert(user);
+        Long hotelRes = hotelMapper.insert(hotelInfo);
+        if(userRes>0&&hotelRes>0) {
+            UserHotel userHotel = new UserHotel();
+            userHotel.setUserId(user.getId());
+            userHotel.setHotelId(hotelInfo.getId());
+            userHotel.setCreateTime(user.getCreateTime());
+            userHotel.setCreator(user.getCreator());
+            userHotelMapper.insert(userHotel);
+        }
+        String movieGroup = hotelInfo.getMovieGroup();
+        if(null != movieGroup &&!("".equals(movieGroup))) {
+            Long MovieGroupId = 0L;
+            MovieGroupId = Long.parseLong(movieGroup);
+            HmpMGHotel mgHotel = new HmpMGHotel();
+            mgHotel.setCreateTime(user.getCreateTime());
+            mgHotel.setCreator(user.getCreator());
+            mgHotel.setGroupId(MovieGroupId);
+            mgHotel.setHotelId(hotelInfo.getId());
+            mgHotelMapper.insert(mgHotel);
+        }
+        return user.getId();
+    }
+
+    @Override
+    public int updateAll(User user, HotelInfo hotelInfo) {
+        int userRes = mapper.updateByPrimaryKey(user);
+        UserHotelExample userHotelExample = new UserHotelExample();
+        userHotelExample.createCriteria().andUserIdEqualTo(user.getId());
+        List<UserHotel> userHotelList = userHotelMapper.selectByExample(userHotelExample);
+        if(null == userHotelList || userHotelList.size()<1) {
+            return 0;
+        }
+        
+        hotelInfo.setId(userHotelList.get(0).getHotelId());
+        int hotelRes = hotelMapper.updateByPrimaryKey(hotelInfo);
+        String movieGroup = hotelInfo.getMovieGroup();
+        if(null != movieGroup &&!("".equals(movieGroup))) {
+            mgHotelMapper.delelteByHotelId(hotelInfo.getId());
+            Long MovieGroupId = 0L;
+            MovieGroupId = Long.parseLong(movieGroup);
+            HmpMGHotel mgHotel = new HmpMGHotel();
+            mgHotel.setCreateTime(user.getCreateTime());
+            mgHotel.setCreator(user.getCreator());
+            mgHotel.setGroupId(MovieGroupId);
+            mgHotel.setHotelId(hotelInfo.getId());
+            mgHotelMapper.insert(mgHotel);
+        }
+        return userRes+hotelRes;
     }
 
 }

@@ -18,7 +18,6 @@ import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
 import cn.pl.hmp.server.business.iface.IUserHotelBusiness;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
-import cn.pl.hmp.server.dao.entity.UserHotel;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 

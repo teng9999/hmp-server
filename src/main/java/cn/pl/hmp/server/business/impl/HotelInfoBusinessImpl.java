@@ -32,7 +32,11 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
 
 	@Override
 	public long insert(HotelInfo record) {
-		return mapper.insert(record);
+	    if(null == record) {
+	        return 0;
+	    }
+	    mapper.insertSelective(record);
+		return record.getId();
 	}
 
 	@Override
