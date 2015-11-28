@@ -23,10 +23,10 @@ public interface ITvChannelBusiness extends IBusiness {
 	long insert(TvChannel record);
     /**
      * 通过电视台名称查询
-     * @param tvName
+     * @param example
      * @return
      */
-    List<TvChannel> selectByTvName(String tvName);
+    List<TvChannel> selectByExample(TvChannelExample example);
     /**
      * 查询全部
      * @return

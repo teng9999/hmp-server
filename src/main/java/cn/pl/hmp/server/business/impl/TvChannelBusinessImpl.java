@@ -37,11 +37,6 @@ public class TvChannelBusinessImpl extends BoostBusinessImpl implements ITvChann
 	}
 
 	@Override
-	public List<TvChannel> selectByTvName(String tvName) {
-		return mapper.selectByTvName(tvName);
-	}
-
-	@Override
 	public List<TvChannel> selectAll() {
 		return mapper.selectByExample(new TvChannelExample());
 	}
@@ -77,5 +72,14 @@ public class TvChannelBusinessImpl extends BoostBusinessImpl implements ITvChann
     		return 0;
         return mapper.deleteOnBatch(idList);
     }
+    
+	@Override
+	public List<TvChannel> selectByExample(TvChannelExample example) {
+		if (null == example) {
+			return null;
+		}
+		return mapper.selectByExample(example);
+	}
+
     
 }

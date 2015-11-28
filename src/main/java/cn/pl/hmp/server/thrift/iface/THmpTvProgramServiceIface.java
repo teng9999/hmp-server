@@ -14,9 +14,11 @@ import cn.pl.frame.annotation.ThriftService;
 import cn.pl.frame.thrift.define.TPages;
 import cn.pl.hmp.commons.thrift.define.THmpTvProgram;
 import cn.pl.hmp.commons.thrift.service.THmpTvProgramService;
+import cn.pl.hmp.commons.thrift.service.THmpTvProgramService.AsyncProcessor.selectByTvPlayContent;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.ITvProgramBusiness;
 import cn.pl.hmp.server.dao.entity.TvProgram;
+import cn.pl.hmp.server.dao.entity.TvProgramExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -49,7 +51,10 @@ public class THmpTvProgramServiceIface implements THmpTvProgramService.Iface {
 	
 	@Override 
 	public List<THmpTvProgram> selectByTvPlayContent(String content) throws TException {
-		return ObjectConverter.convet(business.selectByTvPlayContent(content), THmpTvProgram.class);
+		TvProgramExample example = new TvProgramExample();
+		example.createCriteria().andPlayContentLike(content);
+		List<TvProgram> programList = business.selectByExample(example);
+		return ObjectConverter.convet(programList, THmpTvProgram.class);
 	}
 
 	@Override

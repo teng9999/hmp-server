@@ -64,12 +64,6 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByTvName" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from hmp_tv_channel
-    where tv_name = #{tvName,jdbcType=VARCHAR}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from hmp_tv_channel
     where id = #{id,jdbcType=BIGINT}

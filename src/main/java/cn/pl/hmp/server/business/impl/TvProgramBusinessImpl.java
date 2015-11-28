@@ -73,7 +73,10 @@ public class TvProgramBusinessImpl extends BoostBusinessImpl implements ITvProgr
 	}
 
 	@Override
-	public List<TvProgram> selectByTvPlayContent(String content) {
-		return mapper.selectByPlayContent(content);
+	public List<TvProgram> selectByExample(TvProgramExample example) {
+//		if (null == example) {
+//			return null;
+//		}
+		return mapper.selectByExample(example);
 	}
 }
