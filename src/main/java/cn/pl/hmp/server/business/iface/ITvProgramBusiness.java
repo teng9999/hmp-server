@@ -26,7 +26,7 @@ public interface ITvProgramBusiness  extends IBusiness {
      * @param content
      * @return
      */
-    List<TvProgram> selectByTvPlayContent(String content);
+    List<TvProgram> selectByExample(TvProgramExample example);
     /**
      * 查询全部
      * @return

@@ -17,6 +17,7 @@ import cn.pl.hmp.commons.thrift.service.THmpTvChannelService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.ITvChannelBusiness;
 import cn.pl.hmp.server.dao.entity.TvChannel;
+import cn.pl.hmp.server.dao.entity.TvChannelExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -48,7 +49,9 @@ public class THmpTvChannelServiceIface implements THmpTvChannelService.Iface {
 	
 	@Override
 	public List<THmpTvChannel> selectByTvName(String tvName) throws TException {
-		return ObjectConverter.convet(business.selectByTvName(tvName), THmpTvChannel.class);
+		TvChannelExample example = new TvChannelExample();
+		example.createCriteria().andTvNameLike(tvName);
+		return ObjectConverter.convet(business.selectByExample(example), THmpTvChannel.class);
 	}
 
 	@Override

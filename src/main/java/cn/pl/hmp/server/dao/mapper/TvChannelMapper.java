@@ -15,8 +15,6 @@ public interface TvChannelMapper {
 
     List<TvChannel> selectByExample(TvChannelExample example);
 
-    List<TvChannel> selectByTvName(String tvName);
-
     int updateByPrimaryKeySelective(TvChannel record);
 
     int updateByPrimaryKey(TvChannel record);
