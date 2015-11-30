@@ -92,9 +92,11 @@ public class TAirModeServiceIface implements
 
 	private List<TAirMode> listTransform(List<AirMode> lists) {
 		List<TAirMode> resultLists = new ArrayList<TAirMode>();
-		for (AirMode airMode : lists) {
-			TAirMode result = ServerTransform.transform(airMode);
-			resultLists.add(result);
+		if (lists != null && lists.size() > 0) {
+			for (AirMode airMode : lists) {
+				TAirMode result = ServerTransform.transform(airMode);
+				resultLists.add(result);
+			}
 		}
 		return resultLists;
 	}

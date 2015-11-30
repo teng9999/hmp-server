@@ -92,9 +92,11 @@ public class THotelRCUCfgServiceIface implements
 
 	private List<THotelRCUCfg> listTransform(List<HotelRCUCfg> lists) {
 		List<THotelRCUCfg> resultLists = new ArrayList<THotelRCUCfg>();
-		for (HotelRCUCfg hotelRCUCfg : lists) {
-			THotelRCUCfg result = ServerTransform.transform(hotelRCUCfg);
-			resultLists.add(result);
+		if (lists != null && lists.size() > 0) {
+			for (HotelRCUCfg hotelRCUCfg : lists) {
+				THotelRCUCfg result = ServerTransform.transform(hotelRCUCfg);
+				resultLists.add(result);
+			}
 		}
 		return resultLists;
 	}

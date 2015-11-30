@@ -92,9 +92,11 @@ public class TRoomRCUCfgServiceIface implements
 
 	private List<TRoomRCUCfg> listTransform(List<RoomRCUCfg> lists) {
 		List<TRoomRCUCfg> resultLists = new ArrayList<TRoomRCUCfg>();
-		for (RoomRCUCfg roomRCUCfg : lists) {
-			TRoomRCUCfg result = ServerTransform.transform(roomRCUCfg);
-			resultLists.add(result);
+		if (lists != null && lists.size() > 0) {
+			for (RoomRCUCfg roomRCUCfg : lists) {
+				TRoomRCUCfg result = ServerTransform.transform(roomRCUCfg);
+				resultLists.add(result);
+			}
 		}
 		return resultLists;
 	}
