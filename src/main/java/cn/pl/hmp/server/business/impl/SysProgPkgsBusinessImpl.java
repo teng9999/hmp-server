@@ -31,7 +31,8 @@ public class SysProgPkgsBusinessImpl extends BoostBusinessImpl implements ISysPr
 
 	@Override
 	public long insert(SysProgPkgs record) {
-		return mapper.insert(record);
+	    mapper.insert(record);
+		return record.getId();
 	}
 
 	@Override

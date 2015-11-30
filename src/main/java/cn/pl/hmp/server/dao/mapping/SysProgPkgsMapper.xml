@@ -76,7 +76,7 @@
     delete from sys_prog_pkgs
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.SysProgPkgs" >
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.SysProgPkgs" keyProperty="id" useGeneratedKeys="true">
     insert into sys_prog_pkgs (id, sys_id, org_id, 
       name, path, pkg_type, 
       pub_time, remark, size, 
@@ -90,7 +90,7 @@
       #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.SysProgPkgs" >
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.SysProgPkgs"  keyProperty="id" useGeneratedKeys="true">
     insert into sys_prog_pkgs
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
