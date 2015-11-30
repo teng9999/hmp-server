@@ -37,12 +37,12 @@ public class THmpMovieGroupServiceIface implements Iface{
 	}
 
 	@Override
-	public int insert(THmpMovieGroup record) throws TException {
+	public long insert(THmpMovieGroup record) throws TException {
 		// TODO Auto-generated method stub
 		if(null == business)
-			return 0;
+			return 0L;
 		if(null == record)
-			return -1;
+			return -1L;
 		HmpMovieGroup hmpMovieGroup = ServerTransform.transform(record);
 		if(null == hmpMovieGroup)
 			hmpMovieGroup = new HmpMovieGroup();
@@ -136,5 +136,12 @@ public class THmpMovieGroupServiceIface implements Iface{
 		if (business == null)
 			return null;
 		return listTransform(business.selectByGroupType(groupType));
+	}
+
+
+	@Override
+	public List<THmpMovieGroup> selectByHotelId(long hotelId) throws ThriftException, TException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
