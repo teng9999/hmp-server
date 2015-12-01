@@ -29,6 +29,10 @@ public class HmpHotelToolPacks {
     
     private String address;
     
+    private String lastVersion;
+
+    private String link;
+    
     public Long getId() {
         return id;
     }
@@ -131,5 +135,21 @@ public class HmpHotelToolPacks {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	public String getLastVersion() {
+		return lastVersion;
+	}
+	
+	public void setLastVersion(String lastVersion) {
+		this.lastVersion = lastVersion;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 }
