@@ -69,7 +69,7 @@
     delete from hmp_hotel_tool_packs
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpHotelToolPacks" >
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpHotelToolPacks" keyProperty="id" useGeneratedKeys="true">
     insert into hmp_hotel_tool_packs (id, sys_id, org_id, 
       hotel_id, pkg_type, cur_version, 
       online, create_date, modify_time
@@ -79,7 +79,7 @@
       #{online,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpHotelToolPacks" >
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpHotelToolPacks" keyProperty="id" useGeneratedKeys="true">
     insert into hmp_hotel_tool_packs
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
