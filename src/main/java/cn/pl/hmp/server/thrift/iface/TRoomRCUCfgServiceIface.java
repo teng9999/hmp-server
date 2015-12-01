@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.pl.commons.pages.Pages;
+import cn.pl.commons.utils.StringUtils;
 import cn.pl.frame.annotation.ThriftService;
 import cn.pl.frame.thrift.define.TPages;
 import cn.pl.frame.thrift.exception.ThriftException;
@@ -164,5 +165,17 @@ public class TRoomRCUCfgServiceIface implements
 				.andRoomTypeEqualTo(roomType.trim());
 		List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
 		return listTransform(airModes);
+	}
+
+	@Override
+	public boolean apply2room(String roomType, long hotelId)
+			throws ThriftException, TException {
+		if (business == null) {
+			return false;
+		}
+		if (StringUtils.isBlank(roomType)) {
+			return false;
+		}
+		return business.apply2room(roomType, hotelId);
 	}
 }

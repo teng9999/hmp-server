@@ -3,163 +3,188 @@ package cn.pl.hmp.server.dao.entity;
 import java.util.Date;
 
 public class RoomRCUCfg {
-    private Long id;
+	private Long id;
 
-    private Long sysId;
+	private Long sysId;
 
-    private Long orgId;
+	private Long orgId;
 
-    private Long hotelId;
+	private Long hotelId;
 
-    private Long roomId;
+	private Long roomId;
 
-    private String ip;
+	private String ip;
 
-    private String name;
+	private String name;
 
-    private String num;
+	private String num;
 
-    private String remark;
+	private String remark;
 
-    private String lineType;
+	private String lineType;
 
-    private String roomType;
+	private String roomType;
 
-    private Date createTime;
+	private Date createTime;
 
-    private Long creator;
+	private Long creator;
 
-    private Date modifyTime;
+	private Date modifyTime;
 
-    private Long modifier;
+	private Long modifier;
 
-    private Boolean available;
+	private Boolean available;
 
-    public Long getId() {
-        return id;
-    }
+	public RoomRCUCfg() {
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public RoomRCUCfg(RoomRCUCfg roomRCUCfg) {
+		if (roomRCUCfg != null) {
+			this.id = roomRCUCfg.getId();
+			this.sysId = roomRCUCfg.getSysId();
+			this.orgId = roomRCUCfg.getSysId();
+			this.hotelId = roomRCUCfg.getHotelId();
+			this.roomId = roomRCUCfg.getRoomId();
+			this.ip = roomRCUCfg.getIp();
+			this.name = roomRCUCfg.getName();
+			this.num = roomRCUCfg.getNum();
+			this.remark = roomRCUCfg.getRemark();
+			this.lineType = roomRCUCfg.getLineType();
+			this.roomType = roomRCUCfg.getRoomType();
+			this.createTime = roomRCUCfg.getCreateTime();
+			this.creator = roomRCUCfg.getCreator();
+			this.modifyTime = roomRCUCfg.getModifyTime();
+			this.modifier = roomRCUCfg.getModifier();
+			this.available = roomRCUCfg.getAvailable();
+		}
+	}
 
-    public Long getSysId() {
-        return sysId;
-    }
+	public Boolean getAvailable() {
+		return available;
+	}
 
-    public void setSysId(Long sysId) {
-        this.sysId = sysId;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public Long getOrgId() {
-        return orgId;
-    }
+	public Long getCreator() {
+		return creator;
+	}
 
-    public void setOrgId(Long orgId) {
-        this.orgId = orgId;
-    }
+	public Long getHotelId() {
+		return hotelId;
+	}
 
-    public Long getHotelId() {
-        return hotelId;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setHotelId(Long hotelId) {
-        this.hotelId = hotelId;
-    }
+	public String getIp() {
+		return ip;
+	}
 
-    public Long getRoomId() {
-        return roomId;
-    }
+	public String getLineType() {
+		return lineType;
+	}
 
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
-    }
+	public Long getModifier() {
+		return modifier;
+	}
 
-    public String getIp() {
-        return ip;
-    }
+	public Date getModifyTime() {
+		return modifyTime;
+	}
 
-    public void setIp(String ip) {
-        this.ip = ip == null ? null : ip.trim();
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getNum() {
+		return num;
+	}
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
+	public Long getOrgId() {
+		return orgId;
+	}
 
-    public String getNum() {
-        return num;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public void setNum(String num) {
-        this.num = num == null ? null : num.trim();
-    }
+	public Long getRoomId() {
+		return roomId;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public String getRoomType() {
+		return roomType;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	public Long getSysId() {
+		return sysId;
+	}
 
-    public String getLineType() {
-        return lineType;
-    }
+	public void setAvailable(Boolean available) {
+		this.available = available;
+	}
 
-    public void setLineType(String lineType) {
-        this.lineType = lineType == null ? null : lineType.trim();
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-    public String getRoomType() {
-        return roomType;
-    }
+	public void setCreator(Long creator) {
+		this.creator = creator;
+	}
 
-    public void setRoomType(String roomType) {
-        this.roomType = roomType == null ? null : roomType.trim();
-    }
+	public void setHotelId(Long hotelId) {
+		this.hotelId = hotelId;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setIp(String ip) {
+		this.ip = ip == null ? null : ip.trim();
+	}
 
-    public Long getCreator() {
-        return creator;
-    }
+	public void setLineType(String lineType) {
+		this.lineType = lineType == null ? null : lineType.trim();
+	}
 
-    public void setCreator(Long creator) {
-        this.creator = creator;
-    }
+	public void setModifier(Long modifier) {
+		this.modifier = modifier;
+	}
 
-    public Date getModifyTime() {
-        return modifyTime;
-    }
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
 
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
-    }
+	public void setName(String name) {
+		this.name = name == null ? null : name.trim();
+	}
 
-    public Long getModifier() {
-        return modifier;
-    }
+	public void setNum(String num) {
+		this.num = num == null ? null : num.trim();
+	}
 
-    public void setModifier(Long modifier) {
-        this.modifier = modifier;
-    }
+	public void setOrgId(Long orgId) {
+		this.orgId = orgId;
+	}
 
-    public Boolean getAvailable() {
-        return available;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark == null ? null : remark.trim();
+	}
 
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
+	public void setRoomId(Long roomId) {
+		this.roomId = roomId;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType == null ? null : roomType.trim();
+	}
+
+	public void setSysId(Long sysId) {
+		this.sysId = sysId;
+	}
+
 }

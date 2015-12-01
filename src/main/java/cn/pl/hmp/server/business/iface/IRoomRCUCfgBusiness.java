@@ -71,4 +71,37 @@ public interface IRoomRCUCfgBusiness extends IBusiness {
 	 * @return
 	 */
 	public int remove(Long id);
+
+	/**
+	 * @Title: apply2room
+	 * @Description: 模板配置页面的应用功能。
+	 * @param @param roomType 房间类型
+	 * @param @param hotelId 酒店ID
+	 * @return void 返回类型
+	 * @throws
+	 */
+	public boolean apply2room(String roomType, long hotelId);
+
+	/**
+	 * @Title: queryListByRoomTypeAndHotelId
+	 * @Description: 根据酒店ID和roomType来查询模板。
+	 * @param @param roomType
+	 * @param @param hotelId
+	 * @param @return 设定文件
+	 * @return List<RoomRCUCfg> 返回类型
+	 * @throws
+	 */
+	public List<RoomRCUCfg> queryListByRoomTypeAndHotelId(String roomType,
+			long hotelId);
+
+	/**
+	 * @Title: removeByHotelAndRoomType
+	 * @Description: 根据roomtype和hotelId来删除所有相关模板。
+	 * @param @param roomType
+	 * @param @param hotelId
+	 * @param @return 设定文件
+	 * @return boolean 返回类型
+	 * @throws
+	 */
+	public boolean removeByHotelAndRoomType(String roomType, long hotelId);
 }
