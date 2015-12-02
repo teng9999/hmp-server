@@ -31,7 +31,8 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
 
 	@Override
 	public long insert(HotelRoom record) {
-		return mapper.insert(record);
+	    mapper.insertSelective(record);
+		return record.getId();
 	}
 
 	@Override
