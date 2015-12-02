@@ -22,7 +22,7 @@ import cn.pl.hmp.server.thrift.transform.ServerTransform;
 @Component
 @ThriftService
 public class THotelRoomServiceIface implements THotelRoomService.Iface {
-	
+
 	@Autowired
 	private IHotelRoomBusiness hotelRoomBusiness;
 
@@ -33,7 +33,8 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
 
 	@Override
 	public long save(THotelRoom record) throws TException {
-		return hotelRoomBusiness.insert(ObjectConverter.convet(record, HotelRoom.class));
+		return hotelRoomBusiness.insert(ObjectConverter.convet(record,
+				HotelRoom.class));
 	}
 
 	@Override
@@ -44,33 +45,45 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
 
 	@Override
 	public int update(THotelRoom record) throws TException {
-		return hotelRoomBusiness.update(ObjectConverter.convet(record, HotelRoom.class));
+		return hotelRoomBusiness.update(ObjectConverter.convet(record,
+				HotelRoom.class));
 	}
 
-    @Override
-    public Map<TPages, List<THotelRoom>> queryByPages(TPages pages)
-            throws TException {
-        Map<TPages,List<THotelRoom>> tmap = new HashMap<TPages, List<THotelRoom>>();
-        TPages tempPage = null;
-        Map<Pages,List<HotelRoom>> hotelRoomMap = hotelRoomBusiness.selectByPages(null,ObjectConverter.convet(pages, Pages.class));
-        if(null != hotelRoomMap&& !hotelRoomMap.isEmpty()){
-            Set<Pages> set = hotelRoomMap.keySet();
-            for(Pages page:set){
-                tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage,ObjectConverter.convet(hotelRoomMap.get(page), THotelRoom.class));
-            }
-        }
-        return tmap;
-    }
+	@Override
+	public Map<TPages, List<THotelRoom>> queryByPages(TPages pages)
+			throws TException {
+		Map<TPages, List<THotelRoom>> tmap = new HashMap<TPages, List<THotelRoom>>();
+		TPages tempPage = null;
+		Map<Pages, List<HotelRoom>> hotelRoomMap = hotelRoomBusiness
+				.selectByPages(null, ObjectConverter.convet(pages, Pages.class));
+		if (null != hotelRoomMap && !hotelRoomMap.isEmpty()) {
+			Set<Pages> set = hotelRoomMap.keySet();
+			for (Pages page : set) {
+				tempPage = ServerTransform.transform(page);
+				tmap.put(tempPage, ObjectConverter.convet(
+						hotelRoomMap.get(page), THotelRoom.class));
+			}
+		}
+		return tmap;
+	}
 
-    @Override
-    public int deleteOnbatch(List<Long> idList) throws TException {
-        return hotelRoomBusiness.deleteOnBatch(idList);
-    }
+	@Override
+	public int deleteOnbatch(List<Long> idList) throws TException {
+		return hotelRoomBusiness.deleteOnBatch(idList);
+	}
 
-    @Override
-    public int saveBatch(THotelRoom record, String roomNums) throws TException {
-        return hotelRoomBusiness.saveOnBatch(ObjectConverter.convet(record,HotelRoom.class), roomNums);
-    }
+	@Override
+	public int saveBatch(THotelRoom record, String roomNums) throws TException {
+		return hotelRoomBusiness.saveOnBatch(
+				ObjectConverter.convet(record, HotelRoom.class), roomNums);
+	}
+
+	@Override
+	public long updateAndRcu(THotelRoom record, String rcutemplateStr,
+			long hotelId) throws TException {
+		return hotelRoomBusiness.updateAndRcu(
+				ObjectConverter.convet(record, HotelRoom.class),
+				rcutemplateStr, hotelId);
+	}
 
 }

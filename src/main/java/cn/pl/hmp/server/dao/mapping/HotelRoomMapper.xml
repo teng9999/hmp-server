@@ -80,7 +80,7 @@
     delete from hmp_hotel_room
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelRoom" >
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelRoom" keyProperty="id" useGeneratedKeys="true">
     insert into hmp_hotel_room (id, sys_id, org_id, 
       area, floor, ip, room_num, 
       room_type, house_type, unit, 
@@ -96,7 +96,7 @@
       #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelRoom" >
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelRoom" keyProperty="id" useGeneratedKeys="true">
     insert into hmp_hotel_room
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -149,7 +149,8 @@ public class TRoomRCUCfgServiceIface implements
 			return null;
 		}
 		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
-		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId);
+		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId)
+				.andRoomIdEqualTo(-9999L);
 		List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
 		return listTransform(airModes);
 	}
@@ -162,7 +163,7 @@ public class TRoomRCUCfgServiceIface implements
 		}
 		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
 		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId)
-				.andRoomTypeEqualTo(roomType.trim());
+				.andRoomTypeEqualTo(roomType.trim()).andRoomIdEqualTo(-9999L);
 		List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
 		return listTransform(airModes);
 	}
@@ -177,5 +178,18 @@ public class TRoomRCUCfgServiceIface implements
 			return false;
 		}
 		return business.apply2room(roomType, hotelId);
+	}
+
+	@Override
+	public List<TRoomRCUCfg> queryByRoomIdAndHotelId(long roomId, long hotelId)
+			throws ThriftException, TException {
+		if (business == null) {
+			return null;
+		}
+		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
+		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId)
+				.andRoomIdEqualTo(roomId);
+		List<RoomRCUCfg> roomRCUCfgs = business.query(roomRCUCfgExample);
+		return listTransform(roomRCUCfgs);
 	}
 }

@@ -137,7 +137,6 @@ public class RoomRCUCfgBusinessImpl extends AbstractBusiness implements
 
 	@Override
 	public boolean apply2room(String roomType, long hotelId) {
-		// TODO
 		// 拿到这个房型的模板的所有信息。
 		List<RoomRCUCfg> roomRCUCfgs = queryListByRoomTypeAndHotelId(roomType,
 				hotelId);
@@ -157,9 +156,10 @@ public class RoomRCUCfgBusinessImpl extends AbstractBusiness implements
 			for (RoomRCUCfg roomRCUCfg : roomRCUCfgs) {
 				for (HotelRoom hotelRoom : hotelRooms) {
 					RoomRCUCfg tempCfg = new RoomRCUCfg(roomRCUCfg);
-					tempCfg.setId(-1L);
+					// tempCfg.setId(null);
 					tempCfg.setRoomId(hotelRoom.getId());
 					create(tempCfg);
+
 				}
 			}
 			return true;

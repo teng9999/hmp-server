@@ -40,7 +40,6 @@ public class RoomRCUCfg {
 
 	public RoomRCUCfg(RoomRCUCfg roomRCUCfg) {
 		if (roomRCUCfg != null) {
-			this.id = roomRCUCfg.getId();
 			this.sysId = roomRCUCfg.getSysId();
 			this.orgId = roomRCUCfg.getSysId();
 			this.hotelId = roomRCUCfg.getHotelId();
