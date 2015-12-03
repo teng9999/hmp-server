@@ -682,7 +682,7 @@ public class ServerTransform extends ThriftTransform {
 		if (null == info)
 			return null;
 		THmpMovie result = new THmpMovie();
-		if(0 < info.getId())
+		if(null != info.getNameCn() && 0 < info.getId())
 			result.setId(info.getId());
 		if(null != info.getNameCn())
 			result.setNameCn(info.getNameCn());

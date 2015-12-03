@@ -158,7 +158,8 @@
 		#{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT},
 		#{available,jdbcType=BIT}, #{intro,jdbcType=LONGVARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie">
+	<insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpMovie" 
+	useGeneratedKeys="true" keyProperty="id">
 		insert into hmp_movie
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">

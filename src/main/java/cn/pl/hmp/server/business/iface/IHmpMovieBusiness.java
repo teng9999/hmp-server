@@ -50,7 +50,7 @@ public interface IHmpMovieBusiness extends IBusiness{
 	 * @return
 	 */
 	@DataSource("cluster")
-	public int create(HmpMovie record);
+	public int insert(HmpMovie record);
 
 	/**
 	 * 更新

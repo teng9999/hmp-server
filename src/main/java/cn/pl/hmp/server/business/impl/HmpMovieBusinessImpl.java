@@ -88,11 +88,15 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
     }
 
     @Override
-    public int create(HmpMovie record) {
+    public int insert(HmpMovie record) {
         // TODO Auto-generated method stub
-        if (record == null || record.getId() == null || 0 > record.getId())
+        if (record == null)
             return 0;
-        return hmpMovieMapper.insertSelective(record);
+        int rlt =  hmpMovieMapper.insertSelective(record);
+        if(rlt >0){
+        	return record.getId().intValue();
+        }
+        return -1;
     }
 
     @Override
