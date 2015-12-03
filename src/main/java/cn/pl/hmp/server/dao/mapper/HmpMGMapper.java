@@ -18,7 +18,7 @@ public interface HmpMGMapper {
 
     int deleteBatchByGroupId(Long groupId);
 
-    List<Long> selectByGroupId(Long groupId);
+    List<Long> queryByGroupId(Long groupId);
 
     List<Long> queryByGroupIdLists(List<Long> groupId);
 

@@ -116,7 +116,7 @@ public class HmpMGBusinessImpl implements IHmpMGBusiness {
 		// TODO Auto-generated method stub
 		if (null == groupId || 0 > groupId.longValue())
 			return new ArrayList<Long>();
-		List<Long> lists = hmpMGMapper.selectByGroupId(groupId);
+		List<Long> lists = hmpMGMapper.queryByGroupId(groupId);
 		if (null == lists || lists.isEmpty())
 			return new ArrayList<Long>();
 		return lists;

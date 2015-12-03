@@ -93,7 +93,6 @@ public class HmpMovieGroupBusiness implements IHmpMovieGroupBusiness {
 		   	hmpMGHotel.setHotelId(record.getHotelId());
 			return  hmpMGHotelMapper.insert(hmpMGHotel);
 	   }
-	   
 	   return rlt;
 	}
 

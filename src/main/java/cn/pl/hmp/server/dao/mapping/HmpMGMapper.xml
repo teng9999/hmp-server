@@ -68,11 +68,7 @@
 		where id = #{id,jdbcType=BIGINT}
 	</select>
 
-	<select id="selectByGroupId" resultType="Long" parameterType="java.lang.Long">
-		select distinct movie_id
-		from hmp_mg
-		where group_id = #{groupId,jdbcType=BIGINT}
-	</select>
+	
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from hmp_mg
@@ -190,6 +186,12 @@
 	</update>
 
 	<!-- 自定义Mapper-->
+	<select id="queryByGroupId" resultType="java.lang.Long" parameterType="java.lang.Long">
+		select distinct movie_id
+		from hmp_mg
+		where group_id = #{groupId,jdbcType=BIGINT}
+	</select>
+	
 	<select id="queryByGroupIdLists" parameterType="java.util.List"
 		resultType="java.lang.Long">
   	<![CDATA[  	
