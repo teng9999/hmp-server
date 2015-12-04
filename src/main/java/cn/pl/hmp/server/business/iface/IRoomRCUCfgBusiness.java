@@ -80,7 +80,7 @@ public interface IRoomRCUCfgBusiness extends IBusiness {
 	 * @return void 返回类型
 	 * @throws
 	 */
-	public boolean apply2room(String roomType, long hotelId);
+	public int apply2room(String roomType, long hotelId);
 
 	/**
 	 * @Title: queryListByRoomTypeAndHotelId
@@ -94,14 +94,4 @@ public interface IRoomRCUCfgBusiness extends IBusiness {
 	public List<RoomRCUCfg> queryListByRoomTypeAndHotelId(String roomType,
 			long hotelId);
 
-	/**
-	 * @Title: removeByHotelAndRoomType
-	 * @Description: 根据roomtype和hotelId来删除所有相关模板。
-	 * @param @param roomType
-	 * @param @param hotelId
-	 * @param @return 设定文件
-	 * @return boolean 返回类型
-	 * @throws
-	 */
-	public boolean removeByHotelAndRoomType(String roomType, long hotelId);
 }

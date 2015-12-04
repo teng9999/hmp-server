@@ -5,6 +5,7 @@
 package cn.pl.hmp.server.business.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -136,38 +137,48 @@ public class RoomRCUCfgBusinessImpl extends AbstractBusiness implements
 	}
 
 	@Override
-	public boolean apply2room(String roomType, long hotelId) {
+	public int apply2room(String roomType, long hotelId) {
 		// 拿到这个房型的模板的所有信息。
 		List<RoomRCUCfg> roomRCUCfgs = queryListByRoomTypeAndHotelId(roomType,
 				hotelId);
-		if (roomRCUCfgs == null || roomRCUCfgs.isEmpty()) {
-			return false;
-		}
 		// 拿到该酒店该房型的所有房间。
 		HotelRoomExample hotelRoomExample = new HotelRoomExample();
 		hotelRoomExample.createCriteria().andHotelIdEqualTo(hotelId)
 				.andRoomTypeEqualTo(roomType.trim());
 		List<HotelRoom> hotelRooms = hotelRoomMapper
 				.selectByExample(hotelRoomExample);
-		// 删掉原来的RCU配置。
-		removeByHotelAndRoomType(roomType, hotelId);
+		if (hotelRooms == null || hotelRooms.isEmpty()) {
+			return 5;
+		}
+		// 删掉原来的RCU配置。注意不是原始模板信息。
+		// removeByHotelAndRoomType(roomType, hotelId);
+		if (roomRCUCfgs != null && !roomRCUCfgs.isEmpty()) {
+			for (RoomRCUCfg cfg : roomRCUCfgs) {
+				if (cfg != null && cfg.getId() != null) {
+					remove(cfg.getId());
+				}
+			}
+		}
 		try {
 			// 应用
 			for (RoomRCUCfg roomRCUCfg : roomRCUCfgs) {
 				for (HotelRoom hotelRoom : hotelRooms) {
 					RoomRCUCfg tempCfg = new RoomRCUCfg(roomRCUCfg);
 					// tempCfg.setId(null);
+					tempCfg.setModifyTime(new Date());
 					tempCfg.setRoomId(hotelRoom.getId());
 					create(tempCfg);
-
 				}
 			}
-			return true;
+			return 0;
 		} catch (Exception e) {
-			return false;
+			return -1;
 		}
 	}
 
+	/**
+	 * 查询该房型的房间模板信息，注意不是原始模板信息。（就是roomId不是-9999L的）
+	 */
 	@Override
 	public List<RoomRCUCfg> queryListByRoomTypeAndHotelId(String roomType,
 			long hotelId) {
@@ -176,24 +187,8 @@ public class RoomRCUCfgBusinessImpl extends AbstractBusiness implements
 		}
 		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
 		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId)
-				.andRoomTypeEqualTo(roomType.trim());
+				.andRoomTypeEqualTo(roomType.trim())
+				.andRoomIdNotEqualTo(-9999L);
 		return roomRCUCfgMapper.selectByExample(roomRCUCfgExample);
-	}
-
-	@Override
-	public boolean removeByHotelAndRoomType(String roomType, long hotelId) {
-		List<RoomRCUCfg> roomRCUCfgs = queryListByRoomTypeAndHotelId(roomType,
-				hotelId);
-		if (roomRCUCfgs == null || roomRCUCfgs.isEmpty()) {
-			return false;
-		}
-		try {
-			for (RoomRCUCfg roomRCUCfg : roomRCUCfgs) {
-				remove(roomRCUCfg.getId());
-			}
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
 	}
 }

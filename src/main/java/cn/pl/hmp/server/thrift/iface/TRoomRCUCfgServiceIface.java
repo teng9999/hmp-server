@@ -155,6 +155,9 @@ public class TRoomRCUCfgServiceIface implements
 		return listTransform(airModes);
 	}
 
+	/**
+	 * 查询模板-注意查询的是原始模板（就是roomId为-9999L的）
+	 */
 	@Override
 	public List<TRoomRCUCfg> queryByRoomTypeAndHotelId(String roomType,
 			long hotelId) throws ThriftException, TException {
@@ -162,6 +165,7 @@ public class TRoomRCUCfgServiceIface implements
 			return null;
 		}
 		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
+		// 就是roomId为-9999L的
 		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId)
 				.andRoomTypeEqualTo(roomType.trim()).andRoomIdEqualTo(-9999L);
 		List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
@@ -169,17 +173,20 @@ public class TRoomRCUCfgServiceIface implements
 	}
 
 	@Override
-	public boolean apply2room(String roomType, long hotelId)
+	public int apply2room(String roomType, long hotelId)
 			throws ThriftException, TException {
 		if (business == null) {
-			return false;
+			return -1;
 		}
 		if (StringUtils.isBlank(roomType)) {
-			return false;
+			return -1;
 		}
 		return business.apply2room(roomType, hotelId);
 	}
 
+	/**
+	 * 房间管理查询的时候使用。
+	 */
 	@Override
 	public List<TRoomRCUCfg> queryByRoomIdAndHotelId(long roomId, long hotelId)
 			throws ThriftException, TException {
