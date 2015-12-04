@@ -53,6 +53,8 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
 	
 	@Override
 	public int update(HotelInfo record) {
+	    if(record == null || record.getId() == null)
+	        return 0;
 		return mapper.updateByPrimaryKeySelective(record);
 	}
 
@@ -92,7 +94,8 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
         json.put("phone",hotel.getPhone());
         json.put("city",hotel.getCity());
         json.put("subName",hotel.getSubName());
-        json.put("type",TypeConvert.hotelTypeConvert(hotel.getType()));
+        json.put("type",hotel.getType()!=null?TypeConvert.hotelTypeConvert(hotel.getType())
+                :null);
         json.put("fax",hotel.getFax());
         json.put("bus",hotel.getBus());
         json.put("env",hotel.getEnv());
