@@ -55,7 +55,7 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
 	public int update(HotelInfo record) {
 	    if(record == null || record.getId() == null)
 	        return 0;
-		return mapper.updateByPrimaryKeySelective(record);
+		return mapper.updateByPrimaryKey(record);
 	}
 
     @Override
