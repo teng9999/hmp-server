@@ -45,17 +45,17 @@ public class HotelInfo {
 
     private Boolean screen;
 
-    private String welcomesCn;
+    private String welcomesCn = "";
 
-    private String welcomesEn;
+    private String welcomesEn = "";
 
-    private String weatherCode;
+    private String weatherCode = "";
 
-    private String cityNameEn;
+    private String cityNameEn = "";
 
-    private String rollCn;
+    private String rollCn = "";
 
-    private String rollEn;
+    private String rollEn = "";
 
     private String movieGroup;
 
