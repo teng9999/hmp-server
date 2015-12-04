@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.pl.hmp.server.dao.mapper.HmpRoomTvMapper" >
+  <resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.HmpRoomTv" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="back_music" property="backMusic" jdbcType="VARCHAR" />
+    <result column="help_img" property="helpImg" jdbcType="VARCHAR" />
+    <result column="home_img" property="homeImg" jdbcType="VARCHAR" />
+    <result column="logo_img" property="logoImg" jdbcType="VARCHAR" />
+    <result column="screen_img" property="screenImg" jdbcType="VARCHAR" />
+    <result column="solgan" property="solgan" jdbcType="VARCHAR" />
+    <result column="tv_code" property="tvCode" jdbcType="VARCHAR" />
+    <result column="tv_model" property="tvModel" jdbcType="VARCHAR" />
+    <result column="tv_num" property="tvNum" jdbcType="VARCHAR" />
+    <result column="room_id" property="roomId" jdbcType="BIGINT" />
+    <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
+    <result column="welcome_ct" property="welcomeCt" jdbcType="VARCHAR" />
+    <result column="welcome_ct_en" property="welcomeCtEn" jdbcType="VARCHAR" />
+    <result column="welcome_img" property="welcomeImg" jdbcType="VARCHAR" />
+    <result column="solgan_cn" property="solganCn" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="BIGINT" />
+    <result column="available" property="available" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sys_id, org_id, back_music, help_img, home_img, logo_img, screen_img, solgan, 
+    tv_code, tv_model, tv_num, room_id, hotel_id, welcome_ct, welcome_ct_en, welcome_img, 
+    solgan_cn, create_time, creator, modify_time, modifier, available
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTvExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from hmp_room_tv
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hmp_room_tv
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hmp_room_tv
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" keyProperty="id" useGeneratedKeys="true">
+    insert into hmp_room_tv (id, sys_id, org_id, 
+      back_music, help_img, home_img, 
+      logo_img, screen_img, solgan, 
+      tv_code, tv_model, tv_num, 
+      room_id, hotel_id, welcome_ct, 
+      welcome_ct_en, welcome_img, solgan_cn, 
+      create_time, creator, modify_time, 
+      modifier, available)
+    values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
+      #{backMusic,jdbcType=VARCHAR}, #{helpImg,jdbcType=VARCHAR}, #{homeImg,jdbcType=VARCHAR}, 
+      #{logoImg,jdbcType=VARCHAR}, #{screenImg,jdbcType=VARCHAR}, #{solgan,jdbcType=VARCHAR}, 
+      #{tvCode,jdbcType=VARCHAR}, #{tvModel,jdbcType=VARCHAR}, #{tvNum,jdbcType=VARCHAR}, 
+      #{roomId,jdbcType=BIGINT}, #{hotelId,jdbcType=BIGINT}, #{welcomeCt,jdbcType=VARCHAR}, 
+      #{welcomeCtEn,jdbcType=VARCHAR}, #{welcomeImg,jdbcType=VARCHAR}, #{solganCn,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" keyProperty="id" useGeneratedKeys="true">
+    insert into hmp_room_tv
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysId != null" >
+        sys_id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="backMusic != null" >
+        back_music,
+      </if>
+      <if test="helpImg != null" >
+        help_img,
+      </if>
+      <if test="homeImg != null" >
+        home_img,
+      </if>
+      <if test="logoImg != null" >
+        logo_img,
+      </if>
+      <if test="screenImg != null" >
+        screen_img,
+      </if>
+      <if test="solgan != null" >
+        solgan,
+      </if>
+      <if test="tvCode != null" >
+        tv_code,
+      </if>
+      <if test="tvModel != null" >
+        tv_model,
+      </if>
+      <if test="tvNum != null" >
+        tv_num,
+      </if>
+      <if test="roomId != null" >
+        room_id,
+      </if>
+      <if test="hotelId != null" >
+        hotel_id,
+      </if>
+      <if test="welcomeCt != null" >
+        welcome_ct,
+      </if>
+      <if test="welcomeCtEn != null" >
+        welcome_ct_en,
+      </if>
+      <if test="welcomeImg != null" >
+        welcome_img,
+      </if>
+      <if test="solganCn != null" >
+        solgan_cn,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sysId != null" >
+        #{sysId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="backMusic != null" >
+        #{backMusic,jdbcType=VARCHAR},
+      </if>
+      <if test="helpImg != null" >
+        #{helpImg,jdbcType=VARCHAR},
+      </if>
+      <if test="homeImg != null" >
+        #{homeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="logoImg != null" >
+        #{logoImg,jdbcType=VARCHAR},
+      </if>
+      <if test="screenImg != null" >
+        #{screenImg,jdbcType=VARCHAR},
+      </if>
+      <if test="solgan != null" >
+        #{solgan,jdbcType=VARCHAR},
+      </if>
+      <if test="tvCode != null" >
+        #{tvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tvModel != null" >
+        #{tvModel,jdbcType=VARCHAR},
+      </if>
+      <if test="tvNum != null" >
+        #{tvNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="hotelId != null" >
+        #{hotelId,jdbcType=BIGINT},
+      </if>
+      <if test="welcomeCt != null" >
+        #{welcomeCt,jdbcType=VARCHAR},
+      </if>
+      <if test="welcomeCtEn != null" >
+        #{welcomeCtEn,jdbcType=VARCHAR},
+      </if>
+      <if test="welcomeImg != null" >
+        #{welcomeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="solganCn != null" >
+        #{solganCn,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=BIGINT},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTvExample" resultType="java.lang.Integer" >
+    select count(*) from hmp_room_tv
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" >
+    update hmp_room_tv
+    <set >
+      <if test="sysId != null" >
+        sys_id = #{sysId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="backMusic != null" >
+        back_music = #{backMusic,jdbcType=VARCHAR},
+      </if>
+      <if test="helpImg != null" >
+        help_img = #{helpImg,jdbcType=VARCHAR},
+      </if>
+      <if test="homeImg != null" >
+        home_img = #{homeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="logoImg != null" >
+        logo_img = #{logoImg,jdbcType=VARCHAR},
+      </if>
+      <if test="screenImg != null" >
+        screen_img = #{screenImg,jdbcType=VARCHAR},
+      </if>
+      <if test="solgan != null" >
+        solgan = #{solgan,jdbcType=VARCHAR},
+      </if>
+      <if test="tvCode != null" >
+        tv_code = #{tvCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tvModel != null" >
+        tv_model = #{tvModel,jdbcType=VARCHAR},
+      </if>
+      <if test="tvNum != null" >
+        tv_num = #{tvNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        room_id = #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="hotelId != null" >
+        hotel_id = #{hotelId,jdbcType=BIGINT},
+      </if>
+      <if test="welcomeCt != null" >
+        welcome_ct = #{welcomeCt,jdbcType=VARCHAR},
+      </if>
+      <if test="welcomeCtEn != null" >
+        welcome_ct_en = #{welcomeCtEn,jdbcType=VARCHAR},
+      </if>
+      <if test="welcomeImg != null" >
+        welcome_img = #{welcomeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="solganCn != null" >
+        solgan_cn = #{solganCn,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=BIGINT},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" >
+    update hmp_room_tv
+    set sys_id = #{sysId,jdbcType=BIGINT},
+      org_id = #{orgId,jdbcType=BIGINT},
+      back_music = #{backMusic,jdbcType=VARCHAR},
+      help_img = #{helpImg,jdbcType=VARCHAR},
+      home_img = #{homeImg,jdbcType=VARCHAR},
+      logo_img = #{logoImg,jdbcType=VARCHAR},
+      screen_img = #{screenImg,jdbcType=VARCHAR},
+      solgan = #{solgan,jdbcType=VARCHAR},
+      tv_code = #{tvCode,jdbcType=VARCHAR},
+      tv_model = #{tvModel,jdbcType=VARCHAR},
+      tv_num = #{tvNum,jdbcType=VARCHAR},
+      room_id = #{roomId,jdbcType=BIGINT},
+      hotel_id = #{hotelId,jdbcType=BIGINT},
+      welcome_ct = #{welcomeCt,jdbcType=VARCHAR},
+      welcome_ct_en = #{welcomeCtEn,jdbcType=VARCHAR},
+      welcome_img = #{welcomeImg,jdbcType=VARCHAR},
+      solgan_cn = #{solganCn,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=BIGINT},
+      available = #{available,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 自定义 -->
+  <select id="selectByHotelId" resultType="cn.pl.hmp.server.dao.entity.HmpRoomTv" parameterType="java.lang.Long">
+  	select * from hmp_room_tv where hotel_id = #{hotelId,jdbcType=BIGINT};
+  </select>
+</mapper>
