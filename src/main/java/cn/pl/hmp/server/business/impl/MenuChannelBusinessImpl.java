@@ -145,7 +145,7 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pObj.put("subMenuType", pChannel.getSubMenuType());
         pObj.put("hotelId", pChannel.getHotelId());
         pObj.put("parentId", pChannel.getParentId());
-        pObj.put("propertyYpe", pChannel.getPropertyYpe());
+        pObj.put("propertyType", pChannel.getPropertyYpe()); //属性类型：食品（0），商品（1）
     }
     
     public void savePages(MenuPages pages,JSONObject pagesObj){

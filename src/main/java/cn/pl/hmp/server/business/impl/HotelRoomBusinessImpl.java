@@ -361,7 +361,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
                 ? "户型" : room.getRoomType());// 户型
         roomObj.put("area",null != room.getArea() 
                 ? room.getArea().intValue() : 0);// 面积
-        roomObj.put("hourseType", roomTypeNameMap.get(room.getHouseType()));// 房型
+        roomObj.put("houseType", roomTypeNameMap.get(room.getHouseType()));// 房型
 
         roomObj.put("roomNum", room.getRoomNum());
         roomObj.put("rcuIp", room.getRcuIp());

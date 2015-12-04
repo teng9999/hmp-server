@@ -53,7 +53,7 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
 	
 	@Override
 	public int update(HotelInfo record) {
-		return mapper.updateByPrimaryKey(record);
+		return mapper.updateByPrimaryKeySelective(record);
 	}
 
     @Override

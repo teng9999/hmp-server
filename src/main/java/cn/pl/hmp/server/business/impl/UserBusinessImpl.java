@@ -124,7 +124,7 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
 
     @Override
     public int updateAll(User user, HotelInfo hotelInfo) {
-        int userRes = mapper.updateByPrimaryKey(user);
+        int userRes = mapper.updateByPrimaryKeySelective(user);
         UserHotelExample userHotelExample = new UserHotelExample();
         userHotelExample.createCriteria().andUserIdEqualTo(user.getId());
         List<UserHotel> userHotelList = userHotelMapper.selectByExample(userHotelExample);
@@ -133,7 +133,7 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
         }
         
         hotelInfo.setId(userHotelList.get(0).getHotelId());
-        int hotelRes = hotelMapper.updateByPrimaryKey(hotelInfo);
+        int hotelRes = hotelMapper.updateByPrimaryKeySelective(hotelInfo);
         String movieGroup = hotelInfo.getMovieGroup();
         if(null != movieGroup &&!("".equals(movieGroup))) {
             mgHotelMapper.delelteByHotelId(hotelInfo.getId());
@@ -144,7 +144,7 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
             mgHotel.setCreator(user.getCreator());
             mgHotel.setGroupId(MovieGroupId);
             mgHotel.setHotelId(hotelInfo.getId());
-            mgHotelMapper.insert(mgHotel);
+            mgHotelMapper.insertSelective(mgHotel);
         }
         return userRes+hotelRes;
     }
