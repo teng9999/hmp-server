@@ -47,14 +47,14 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
         if (example == null)
             example = new HmpMovieExample();
         if (pages == null) {
-            List<HmpMovie> list = hmpMovieMapper.selectByExample(example);
+            List<HmpMovie> list = hmpMovieMapper.selectByExampleWithBLOBs(example);
             if (list == null)
                 list = new ArrayList<HmpMovie>();
             pages = new Pages();
             result.put(pages, list);
         } else {
             PageHelper.startPage(pages.getPageNum(), pages.getPageSize());
-            List<HmpMovie> list = hmpMovieMapper.selectByExample(example);
+            List<HmpMovie> list = hmpMovieMapper.selectByExampleWithBLOBs(example);
             if (list == null) {
                 list = new ArrayList<HmpMovie>();
                 result.put(pages, list);
