@@ -138,7 +138,7 @@ public class RoomRCUCfgBusinessImpl extends AbstractBusiness implements
 
 	@Override
 	public int apply2room(String roomType, long hotelId) {
-		// 拿到这个房型的模板的所有信息。
+		// 拿到这个房型的模板的所有信息。原始模板
 		List<RoomRCUCfg> roomRCUCfgs = queryListByRoomTypeAndHotelId(roomType,
 				hotelId);
 		// 拿到该酒店该房型的所有房间。
@@ -151,14 +151,14 @@ public class RoomRCUCfgBusinessImpl extends AbstractBusiness implements
 			return 5;
 		}
 		// 删掉原来的RCU配置。注意不是原始模板信息。
-		// removeByHotelAndRoomType(roomType, hotelId);
-		if (roomRCUCfgs != null && !roomRCUCfgs.isEmpty()) {
-			for (RoomRCUCfg cfg : roomRCUCfgs) {
-				if (cfg != null && cfg.getId() != null) {
-					remove(cfg.getId());
-				}
-			}
-		}
+		removeByHotelAndRoomType(roomType, hotelId);
+		// if (roomRCUCfgs != null && !roomRCUCfgs.isEmpty()) {
+		// for (RoomRCUCfg cfg : roomRCUCfgs) {
+		// if (cfg != null && cfg.getId() != null) {
+		// remove(cfg.getId());
+		// }
+		// }
+		// }
 		try {
 			// 应用
 			for (RoomRCUCfg roomRCUCfg : roomRCUCfgs) {
@@ -176,8 +176,23 @@ public class RoomRCUCfgBusinessImpl extends AbstractBusiness implements
 		}
 	}
 
+	private void removeByHotelAndRoomType(String roomType, long hotelId) {
+		RoomRCUCfgExample example = new RoomRCUCfgExample();
+		example.createCriteria().andRoomTypeEqualTo(roomType.trim())
+				.andHotelIdEqualTo(hotelId).andRoomIdNotEqualTo(-9999L);
+		List<RoomRCUCfg> rcuCfgs = roomRCUCfgMapper.selectByExample(example);
+		if (rcuCfgs != null && !rcuCfgs.isEmpty()) {
+			for (RoomRCUCfg cfg : rcuCfgs) {
+				if (cfg != null) {
+					roomRCUCfgMapper.deleteByPrimaryKey(cfg.getId());
+				}
+			}
+		}
+
+	}
+
 	/**
-	 * 查询该房型的房间模板信息，注意不是原始模板信息。（就是roomId不是-9999L的）
+	 * 查询该房型的房间模板信息，注意是原始模板信息。（就是roomId是-9999L的）
 	 */
 	@Override
 	public List<RoomRCUCfg> queryListByRoomTypeAndHotelId(String roomType,
@@ -187,8 +202,7 @@ public class RoomRCUCfgBusinessImpl extends AbstractBusiness implements
 		}
 		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
 		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId)
-				.andRoomTypeEqualTo(roomType.trim())
-				.andRoomIdNotEqualTo(-9999L);
+				.andRoomTypeEqualTo(roomType.trim()).andRoomIdEqualTo(-9999L);
 		return roomRCUCfgMapper.selectByExample(roomRCUCfgExample);
 	}
 }
