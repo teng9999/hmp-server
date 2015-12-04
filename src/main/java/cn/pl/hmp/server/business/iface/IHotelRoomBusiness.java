@@ -8,6 +8,8 @@ import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.HotelRoom;
 import cn.pl.hmp.server.dao.entity.HotelRoomExample;
 
+import com.alibaba.fastjson.JSONArray;
+
 public interface IHotelRoomBusiness extends IBusiness {
 	/**
 	 * 通过id删除
@@ -85,4 +87,10 @@ public interface IHotelRoomBusiness extends IBusiness {
 	 * @throws
 	 */
 	long updateAndRcu(HotelRoom convet, String rcutemplateStr, long hotelId);
+	/**
+	 * 发布
+	 * @param hotelId
+	 * @return
+	 */
+    JSONArray publish(Long hotelId);
 }

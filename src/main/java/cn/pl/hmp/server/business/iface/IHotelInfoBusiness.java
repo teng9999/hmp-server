@@ -3,6 +3,8 @@ package cn.pl.hmp.server.business.iface;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
+
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
@@ -49,5 +51,11 @@ public interface IHotelInfoBusiness  extends IBusiness {
      * @return
      */
     List<HotelInfo> selectByUserId(Long userId);
+    /**
+     * 发布功能获取酒店信息
+     * @param hotelId
+     * @return
+     */
+    public JSONObject publish(Long hotelId);
     
 }

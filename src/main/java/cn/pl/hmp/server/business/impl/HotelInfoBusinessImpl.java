@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
+import cn.pl.hmp.commons.utils.TypeConvert;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.HotelInfoExample;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -76,5 +78,33 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
             return null;
         }
         return mapper.selectByUserId(userId);
+    }
+    @Override
+    public JSONObject publish(Long hotelId) {
+        HotelInfo hotel = mapper.selectByPrimaryKey(hotelId);
+        JSONObject json = new JSONObject();
+        if(hotel == null) {
+            return json;
+        }
+        json.put("id", hotel.getId());
+        json.put("name",hotel.getName());
+        json.put("address",hotel.getAddress());
+        json.put("phone",hotel.getPhone());
+        json.put("city",hotel.getCity());
+        json.put("subName",hotel.getSubName());
+        json.put("type",TypeConvert.hotelTypeConvert(hotel.getType()));
+        json.put("fax",hotel.getFax());
+        json.put("bus",hotel.getBus());
+        json.put("env",hotel.getEnv());
+        json.put("screen", hotel.getScreen()?"1" : "0");
+        json.put("countryCode",hotel.getCountry());
+        json.put("cityCode",hotel.getCity());
+        json.put("weatherCode",hotel.getWeatherCode());
+        json.put("welcomesCn",hotel.getWelcomesCn());
+        json.put("welcomesEn",hotel.getWelcomesEn());
+        json.put("cityNameEn",hotel.getCityNameEn());
+        json.put("rollCn",hotel.getRollCn());
+        json.put("rollEn",hotel.getRollEn());
+        return json;
     }
 }

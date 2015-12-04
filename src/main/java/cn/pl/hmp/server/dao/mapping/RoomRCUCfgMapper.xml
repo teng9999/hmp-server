@@ -270,4 +270,9 @@
       available = #{available,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- 自定义 -->
+  <select id="selectByLineType" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> 
+    from hmp_room_rcu_cfg where room_id = #{roomId} and line_type = #{lineType}
+  </select>
 </mapper>

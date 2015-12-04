@@ -62,7 +62,7 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
 
 	@Override
 	public int update(User record) {
-		return mapper.updateByPrimaryKey(record);
+		return mapper.updateByPrimaryKeySelective(record);
 	}
 
     @Override

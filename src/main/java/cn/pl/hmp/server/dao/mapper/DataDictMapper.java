@@ -2,7 +2,10 @@ package cn.pl.hmp.server.dao.mapper;
 
 import cn.pl.hmp.server.dao.entity.DataDict;
 import cn.pl.hmp.server.dao.entity.DataDictExample;
+
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface DataDictMapper {
     int deleteByPrimaryKey(Long id);
@@ -18,4 +21,6 @@ public interface DataDictMapper {
     int updateByPrimaryKeySelective(DataDict record);
 
     int updateByPrimaryKey(DataDict record);
+    
+    List<DataDict> selectByParentName(@Param(value="parentName")String parentName);
 }

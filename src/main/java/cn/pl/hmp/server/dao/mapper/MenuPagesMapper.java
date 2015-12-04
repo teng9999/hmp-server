@@ -2,7 +2,10 @@ package cn.pl.hmp.server.dao.mapper;
 
 import cn.pl.hmp.server.dao.entity.MenuPages;
 import cn.pl.hmp.server.dao.entity.MenuPagesExample;
+
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 public interface MenuPagesMapper {
     int deleteByPrimaryKey(Long id);
@@ -18,4 +21,7 @@ public interface MenuPagesMapper {
     int updateByPrimaryKeySelective(MenuPages record);
 
     int updateByPrimaryKey(MenuPages record);
+    
+    List<MenuPages> selectByMenuId(@Param(value="menuId")Long menuId);
+    
 }

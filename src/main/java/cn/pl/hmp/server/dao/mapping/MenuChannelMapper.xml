@@ -359,4 +359,10 @@
       available = #{available,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- 自定义 -->
+  
+  <select id="selectByParentId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from hmp_menu_channel where parent_id = #{parentId}
+  </select>
 </mapper>

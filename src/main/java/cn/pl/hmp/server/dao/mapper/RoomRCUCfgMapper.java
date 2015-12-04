@@ -1,8 +1,11 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import cn.pl.hmp.server.dao.entity.RoomRCUCfg;
 import cn.pl.hmp.server.dao.entity.RoomRCUCfgExample;
-import java.util.List;
 
 public interface RoomRCUCfgMapper {
     int countByExample(RoomRCUCfgExample example);
@@ -20,4 +23,7 @@ public interface RoomRCUCfgMapper {
     int updateByPrimaryKeySelective(RoomRCUCfg record);
 
     int updateByPrimaryKey(RoomRCUCfg record);
+    
+    List<RoomRCUCfg> selectByLineType(@Param(value="lineType")String lineType
+            ,@Param(value="roomId")long roomId);
 }

@@ -3,6 +3,8 @@ package cn.pl.hmp.server.business.iface;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONArray;
+
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.MenuChannel;
@@ -56,4 +58,11 @@ public interface IMenuChannelBusiness  extends IBusiness {
      * @return
      */
     List<MenuChannel> selectByExample(MenuChannelExample example);
+    /**
+     * 电视频道的发布
+     * @param hotelId
+     * @return
+     * @throws Exception
+     */
+    JSONArray publish(Long hotelId);
 }

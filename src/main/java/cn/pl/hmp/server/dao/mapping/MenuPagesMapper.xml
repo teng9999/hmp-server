@@ -275,4 +275,9 @@
       available = #{available,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- 自定义 -->
+  <select id="selectByMenuId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> 
+    from sys_menu_pages where menu_id = #{menuId}
+  </select>
 </mapper>
