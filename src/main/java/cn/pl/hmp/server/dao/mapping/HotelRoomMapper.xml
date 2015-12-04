@@ -329,19 +329,11 @@
     <result column="unique_num" property="uniqueNum" jdbcType="VARCHAR" />
   </resultMap>
   
-  <select id="selectListAddUniqueNum" resultMap="BaseUniqueResultMap" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomExample" >
+  <select id="selectListAddUniqueNum" resultMap="BaseUniqueResultMap" >
     select
-     <if test="distinct" >
-      distinct
-    </if>
      room.*,info.unique_num from 
     hmp_hotel_room room ,hmp_hotel_info info where room.hotel_id = info.id 
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
+     and room.hotel_id = #{hotelId}
   </select>
   
   <!-- 批量添加 -->

@@ -49,24 +49,7 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
 		return hotelRoomBusiness.update(ObjectConverter.convet(record,
 				HotelRoom.class));
 	}
-
-	@Override
-	public Map<TPages, List<THotelRoom>> queryByPages(TPages pages)
-			throws TException {
-		Map<TPages, List<THotelRoom>> tmap = new HashMap<TPages, List<THotelRoom>>();
-		TPages tempPage = null;
-		Map<Pages, List<HotelRoom>> hotelRoomMap = hotelRoomBusiness
-				.selectByPages(null, ObjectConverter.convet(pages, Pages.class));
-		if (null != hotelRoomMap && !hotelRoomMap.isEmpty()) {
-			Set<Pages> set = hotelRoomMap.keySet();
-			for (Pages page : set) {
-				tempPage = ServerTransform.transform(page);
-				tmap.put(tempPage, ObjectConverter.convet(
-						hotelRoomMap.get(page), THotelRoom.class));
-			}
-		}
-		return tmap;
-	}
+	
 
 	@Override
 	public int deleteOnbatch(List<Long> idList) throws TException {
@@ -98,6 +81,24 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Map<TPages, List<THotelRoom>> queryByPages(TPages pages, long hotelId)
+            throws TException {
+        Map<TPages, List<THotelRoom>> tmap = new HashMap<TPages, List<THotelRoom>>();
+        TPages tempPage = null;
+        Map<Pages, List<HotelRoom>> hotelRoomMap = hotelRoomBusiness
+                .selectByPages(hotelId, ObjectConverter.convet(pages, Pages.class));
+        if (null != hotelRoomMap && !hotelRoomMap.isEmpty()) {
+            Set<Pages> set = hotelRoomMap.keySet();
+            for (Pages page : set) {
+                tempPage = ServerTransform.transform(page);
+                tmap.put(tempPage, ObjectConverter.convet(
+                        hotelRoomMap.get(page), THotelRoom.class));
+            }
+        }
+        return tmap;
     }
 
 }

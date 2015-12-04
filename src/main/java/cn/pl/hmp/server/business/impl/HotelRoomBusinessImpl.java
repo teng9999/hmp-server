@@ -74,13 +74,11 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
 	}
 
 	@Override
-	public Map<Pages, List<HotelRoom>> selectByPages(HotelRoomExample example,
+	public Map<Pages, List<HotelRoom>> selectByPages(Long hotelId,
 			Pages page) {
 		Map<Pages, List<HotelRoom>> map = new HashMap<Pages, List<HotelRoom>>();
-		if (null == example)
-			example = new HotelRoomExample();
 		PageHelper.startPage(page.getPageNum(), page.getPageSize());
-		List<HotelRoom> hotelRoomList = mapper.selectListAddUniqueNum(example);
+		List<HotelRoom> hotelRoomList = mapper.selectListAddUniqueNum(hotelId);
 		if (null == hotelRoomList)
 			hotelRoomList = new ArrayList<HotelRoom>();
 		PageInfo<HotelRoom> pageInfo = new PageInfo<HotelRoom>(hotelRoomList);

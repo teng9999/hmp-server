@@ -55,7 +55,7 @@ public interface IHotelRoomBusiness extends IBusiness {
 	 * @param page
 	 * @return
 	 */
-	Map<Pages, List<HotelRoom>> selectByPages(HotelRoomExample example,
+	Map<Pages, List<HotelRoom>> selectByPages(Long hotelId,
 			Pages page);
 
 	/**
