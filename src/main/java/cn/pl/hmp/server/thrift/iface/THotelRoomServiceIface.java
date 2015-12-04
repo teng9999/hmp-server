@@ -17,6 +17,7 @@ import cn.pl.hmp.commons.thrift.service.THotelRoomService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IHotelRoomBusiness;
 import cn.pl.hmp.server.dao.entity.HotelRoom;
+import cn.pl.hmp.server.dao.entity.HotelRoomExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -85,5 +86,18 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
 				ObjectConverter.convet(record, HotelRoom.class),
 				rcutemplateStr, hotelId);
 	}
+
+    @Override
+    public boolean checkByRoomNum(String roomNum, long hotelId)
+            throws TException {
+        HotelRoomExample roomExample = new HotelRoomExample();
+        roomExample.createCriteria().andHotelIdEqualTo(hotelId)
+        .andRoomNumEqualTo(roomNum);
+        List<HotelRoom> roomList = hotelRoomBusiness.selectByExample(roomExample);
+        if(null != roomList && roomList.size() > 0) {
+            return true;
+        }
+        return false;
+    }
 
 }

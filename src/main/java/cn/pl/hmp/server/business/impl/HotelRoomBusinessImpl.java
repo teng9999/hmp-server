@@ -459,5 +459,9 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
 		}
 		return array;
 	}
+	@Override
+    public List<HotelRoom> selectByExample(HotelRoomExample example) {
+        return mapper.selectByExample(example);
+    }
 
 }

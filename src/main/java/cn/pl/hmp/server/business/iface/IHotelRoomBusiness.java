@@ -41,6 +41,12 @@ public interface IHotelRoomBusiness extends IBusiness {
 	 * @return
 	 */
 	List<HotelRoom> selectAll();
+	
+	/**
+	 * 条件查询
+	 * @return
+	 */
+	List<HotelRoom> selectByExample(HotelRoomExample example);
 
 	/**
 	 * 条件分页查询
