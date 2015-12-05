@@ -381,11 +381,14 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
 			System.out.println(room.getRoomNum() + "---" + e);
 		}
 		roomObj.put("roomId", roomId);// roomId
-		BoardType bt = BoardType.valueOf(hotelRcuTemplate.getBoardType());
-		if (null == bt)
-			bt = BoardType.PINGLIAN;
+		String sboardType = hotelRcuTemplate.getBoardType();
+        BoardType boardType = BoardType.PINGLIAN;
+        if(null != sboardType && !("".equals(sboardType.trim()))) {
+            sboardType = dictMapper.selectByPrimaryKey(Long.parseLong(sboardType)).getNameEn();
+            boardType = BoardType.valuesOf(sboardType);
+        }
 
-		roomObj.put("boardType", bt.toIntVal());// boardType
+		roomObj.put("boardType", boardType.toIntVal());// boardType
 		roomObj.put("card", 1);// card==null?0:1
 		roomObj.put("hongwai", null != hongwai ? (hongwai ? 1 : 0) : 0);// hongwai
 
@@ -428,8 +431,13 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
 		if (null == hotelRcuTemplate) {
 			return array;
 		}
-		BoardType boardType = BoardType
-				.valueOf(hotelRcuTemplate.getBoardType());
+		
+		String sboardType = hotelRcuTemplate.getBoardType();
+		BoardType boardType = BoardType.PINGLIAN;
+		if(null != sboardType && !("".equals(sboardType.trim()))) {
+		    sboardType = dictMapper.selectByPrimaryKey(Long.parseLong(sboardType)).getNameEn();
+		    boardType = BoardType.valuesOf(sboardType);
+		}
 		int lightStart = hotelRcuTemplate.getLightStart();
 		int airStart = hotelRcuTemplate.getAirConditionerStart();
 		for (HotelRoom room : roomList) {
