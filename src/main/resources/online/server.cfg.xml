@@ -16,21 +16,21 @@
 		<!-- 回调任务队列容量 -->
 		<call-queue-size>100000</call-queue-size>
 		<!-- 任务超时时长，单位 -->
-		<task-timeout>1000</task-timeout>
+		<task-timeout>3000</task-timeout>
 	</setting>
     <properties>
         <property name="thrift.server.nodename" value="hmp"/>
         <property name="thrift.server.ip" value="0.0.0.0"/>
-        <property name="thrift.server.port" value="9696"/>
-        <property name="thrift.server.timeout" value="1000"/>
+        <property name="thrift.server.port" value="9090"/>
+        <property name="thrift.server.timeout" value="3000"/>
         <property name="thrift.server.readbuffer" value="16384000"/>
-        <property name="thrift.server.selector.threads" value="5"/>
-        <property name="thrift.server.work.threads" value="5"/>
+        <property name="thrift.server.selector.threads" value="20"/>
+        <property name="thrift.server.work.threads" value="20"/>
         <property name="thrift.server.accept.queue.size.per.thread" value="5"/>
         <property name="thrift.server.stop.timeout.unit" value="SECONDS"/>
-        <property name="thrift.server.stop.timeout.val" value="2"/>
-        <property name="zookeeper.ens.enable" value="false"/>
-        <property name="zookeeper.ens.ip" value="172.16.10.160:2182,172.16.10.160:2181,172.16.10.161:2181"/>
+        <property name="thrift.server.stop.timeout.val" value="3"/>
+        <property name="zookeeper.ens.enable" value="true"/>
+        <property name="zookeeper.ens.ip" value="10.144.161.31:2888,10.169.21.7:2888,10.163.97.183:2888"/>
     </properties>
     <thrift>
         <server class="org.apache.thrift.server.TThreadedSelectorServer"/>
