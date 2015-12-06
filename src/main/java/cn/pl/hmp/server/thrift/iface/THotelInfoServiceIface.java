@@ -30,7 +30,7 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
 
     @Override
     public int deleteById(long id) throws TException {
-        return hotelBusiness.deleteByHotelId(id);
+        return hotelBusiness.deleteHotelAndUserByHotelId(id);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class TUserServiceIface implements TUserService.Iface {
 
 	@Override
 	public int deleteById(long id) throws TException {
-		return userBusiness.deleteByUserId(id);
+		return userBusiness.deleteUserAndHotelByUserId(id);
 	}
 
 	@Override

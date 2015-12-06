@@ -37,8 +37,18 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
 	private UserHotelMapper userHotelMapper;
 
 	@Override
-	public int deleteByUserId(Long id) {
-		return mapper.deleteByPrimaryKey(id);
+	public int deleteUserAndHotelByUserId(Long id) {
+	    UserHotelExample userHotelExample = new UserHotelExample();
+	    userHotelExample.createCriteria().andUserIdEqualTo(id);
+	    List<UserHotel> userHotelList = userHotelMapper.selectByExample(userHotelExample);
+	    if(null != userHotelList && !userHotelList.isEmpty()) {
+	        for(UserHotel userHotel : userHotelList) {
+	            hotelMapper.deleteByPrimaryKey(userHotel.getHotelId());
+	            userHotelMapper.deleteByPrimaryKey(userHotel.getId());
+	        }
+	    }
+	    return  mapper.deleteByPrimaryKey(id);
+		
 	}
 
 	@Override

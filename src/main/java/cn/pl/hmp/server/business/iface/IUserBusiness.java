@@ -15,7 +15,7 @@ public interface IUserBusiness  extends IBusiness {
      * @param id
      * @return
      */
-	int deleteByUserId(Long id);
+	int deleteUserAndHotelByUserId(Long id);
 	/**
 	 * 新增
 	 * @param record

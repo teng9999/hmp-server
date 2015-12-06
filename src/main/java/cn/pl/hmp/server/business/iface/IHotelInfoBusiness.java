@@ -16,7 +16,7 @@ public interface IHotelInfoBusiness  extends IBusiness {
      * @param id
      * @return
      */
-	int deleteByHotelId(Long id);
+	int deleteHotelAndUserByHotelId(Long id);
 	/**
 	 * 插入一条数据
 	 * @param record

@@ -17,6 +17,7 @@ import cn.pl.hmp.commons.thrift.service.TPublishPkgsService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IPublishPkgsBusiness;
 import cn.pl.hmp.server.dao.entity.PublishPkgs;
+import cn.pl.hmp.server.dao.entity.PublishPkgsExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -40,11 +41,14 @@ public class TPublishPkgsServiceIface  implements TPublishPkgsService.Iface {
     }
 
     @Override
-    public Map<TPages, List<TPublishPkgs>> queryByPages(TPages pages)
+    public Map<TPages, List<TPublishPkgs>> queryByPages(TPages pages,long hotelId)
             throws TException {
         Map<TPages,List<TPublishPkgs>> tmap = new HashMap<TPages, List<TPublishPkgs>>();
         TPages tempPage = null;
-        Map<Pages,List<PublishPkgs>> pkgsMap = pkgBusiness.selectByPages(null,ObjectConverter
+        PublishPkgsExample example = new PublishPkgsExample();
+        example.setOrderByClause("create_time desc");
+        example.createCriteria().andHotelIdEqualTo(hotelId);
+        Map<Pages,List<PublishPkgs>> pkgsMap = pkgBusiness.selectByPages(example,ObjectConverter
                 .convet(pages, Pages.class));
         if(null != pkgsMap&& !pkgsMap.isEmpty()){
             Set<Pages> set = pkgsMap.keySet();

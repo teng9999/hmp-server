@@ -13,7 +13,11 @@ import cn.pl.hmp.commons.utils.TypeConvert;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.HotelInfoExample;
+import cn.pl.hmp.server.dao.entity.UserHotel;
+import cn.pl.hmp.server.dao.entity.UserHotelExample;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
+import cn.pl.hmp.server.dao.mapper.UserHotelMapper;
+import cn.pl.hmp.server.dao.mapper.UserMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 
 import com.alibaba.fastjson.JSONObject;
@@ -26,9 +30,22 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
 	
 	@Autowired
 	private HotelInfoMapper mapper;
+	@Autowired
+	private UserMapper userMapper;
+	@Autowired
+	private UserHotelMapper userHotelMapper;
 
 	@Override
-	public int deleteByHotelId(Long id) {
+	public int deleteHotelAndUserByHotelId(Long id) {
+	    UserHotelExample userHotelExample = new UserHotelExample();
+        userHotelExample.createCriteria().andHotelIdEqualTo(id);
+        List<UserHotel> userHotelList = userHotelMapper.selectByExample(userHotelExample);
+        if(null != userHotelList && !userHotelList.isEmpty()) {
+            for(UserHotel userHotel : userHotelList) {
+                userMapper.deleteByPrimaryKey(userHotel.getUserId());
+                userHotelMapper.deleteByPrimaryKey(userHotel.getId());
+            }
+        }
 		return mapper.deleteByPrimaryKey(id);
 	}
 
