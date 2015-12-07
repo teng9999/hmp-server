@@ -365,11 +365,11 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
 		String timeLock = hotelRcuTemplate.getTimeLock();
 		Boolean hongwai = room.getIrCut();
 
-		roomObj.put("roomType",
+		roomObj.put("houseType",
 				room.getRoomType() == null ? "户型" : room.getHouseType());// 户型
 		roomObj.put("area", null != room.getArea() ? room.getArea().intValue()
 				: 0);// 面积
-		roomObj.put("houseType", roomTypeNameMap.get(room.getRoomType()));// 房型
+		roomObj.put("roomType", roomTypeNameMap.get(room.getRoomType()));// 房型
 
 		roomObj.put("roomNum", room.getRoomNum());
 		roomObj.put("rcuIp", room.getRcuIp());
@@ -422,7 +422,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
 		if (null != roomTypeList && roomTypeList.size() > 0) {
 			for (DataDict dict : roomTypeList) {
 				if (null != dict) {
-					roomTypeNameMap.put(dict.getId() + "", dict.getNameCn());
+					roomTypeNameMap.put(dict.getName(), dict.getNameCn());
 				}
 			}
 		}
