@@ -1,5 +1,6 @@
 package cn.pl.hmp.server.thrift.iface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.thrift.TException;
@@ -22,7 +23,11 @@ public class THmpRoomTvServiceIface implements THmpRoomTvService.Iface {
 
     @Override
     public THmpRoomTv selectByHotelId(long hotelId) throws TException {
-    	return ObjectConverter.convet(business.selectByHotelId(hotelId), THmpRoomTv.class);
+        HmpRoomTv roomTv = business.selectByHotelId(hotelId);
+        if(null == roomTv) {
+            roomTv = new HmpRoomTv();
+        }
+    	return ObjectConverter.convet(roomTv, THmpRoomTv.class);
     }
     
     @Override
@@ -32,7 +37,6 @@ public class THmpRoomTvServiceIface implements THmpRoomTvService.Iface {
 
     @Override
     public long insert(THmpRoomTv record) throws TException {
-
         return business.insert(ObjectConverter.convet(record, HmpRoomTv.class));
     }
 
@@ -43,7 +47,11 @@ public class THmpRoomTvServiceIface implements THmpRoomTvService.Iface {
 
     @Override
     public List<THmpRoomTv> selectAll() throws TException {
-        return ObjectConverter.convet(business.selectAll(), THmpRoomTv.class);
+        List<HmpRoomTv> roomTvList = business.selectAll();
+        if(null == roomTvList) {
+            roomTvList = new ArrayList<HmpRoomTv>();
+        }
+        return ObjectConverter.convet(roomTvList, THmpRoomTv.class);
     }
 
 }
