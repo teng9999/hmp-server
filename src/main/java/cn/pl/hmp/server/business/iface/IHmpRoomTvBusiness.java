@@ -8,6 +8,8 @@ import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.HmpRoomTv;
 import cn.pl.hmp.server.dao.entity.HmpRoomTvExample;
 
+import com.alibaba.fastjson.JSONObject;
+
 public interface IHmpRoomTvBusiness  extends IBusiness {
 	 /**
      * 通过id删除
@@ -51,4 +53,10 @@ public interface IHmpRoomTvBusiness  extends IBusiness {
      * @return
      */
     int update(HmpRoomTv record);
+    /**
+     * 发布
+     * @param hotelId
+     * @return
+     */
+    JSONObject publish(Long hotelId);
 }
