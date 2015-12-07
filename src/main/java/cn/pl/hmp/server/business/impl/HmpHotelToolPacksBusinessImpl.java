@@ -52,7 +52,8 @@ public class HmpHotelToolPacksBusinessImpl extends BoostBusinessImpl implements 
 	
 	@Override
 	public List<HmpHotelToolPacks> queryList() {
-		return mapper.queryList();
+		List<HmpHotelToolPacks> list = mapper.queryList();
+		return list;
 	}
 	
 	@Override

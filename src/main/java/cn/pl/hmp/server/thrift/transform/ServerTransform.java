@@ -14,6 +14,7 @@ import cn.pl.hmp.commons.thrift.define.TAPPBinding;
 import cn.pl.hmp.commons.thrift.define.TAPPInfo;
 import cn.pl.hmp.commons.thrift.define.TAirMode;
 import cn.pl.hmp.commons.thrift.define.TExample;
+import cn.pl.hmp.commons.thrift.define.THmpHotelToolPacks;
 import cn.pl.hmp.commons.thrift.define.THmpMG;
 import cn.pl.hmp.commons.thrift.define.THmpMGHotel;
 import cn.pl.hmp.commons.thrift.define.THmpMovie;
@@ -23,6 +24,7 @@ import cn.pl.hmp.commons.thrift.define.TRoomRCUCfg;
 import cn.pl.hmp.server.dao.entity.APPBinding;
 import cn.pl.hmp.server.dao.entity.APPInfo;
 import cn.pl.hmp.server.dao.entity.AirMode;
+import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
 import cn.pl.hmp.server.dao.entity.HmpMG;
 import cn.pl.hmp.server.dao.entity.HmpMGHotel;
 import cn.pl.hmp.server.dao.entity.HmpMovie;
@@ -885,4 +887,79 @@ public class ServerTransform extends ThriftTransform {
 		return result;
 	}
 	
+	public static HmpHotelToolPacks transform(THmpHotelToolPacks info) {
+		if (null == info) {
+			return null;
+		}
+		HmpHotelToolPacks result = new HmpHotelToolPacks();
+		if (0 < info.getId())
+			result.setId(info.getId());
+		if (0 < info.getSysId())
+			result.setSysId(info.getSysId());
+		if (0 < info.getOrgId())
+			result.setOrgId(info.getOrgId());
+		if (0 < info.getHotelId())
+			result.setHotelId(info.getHotelId());
+		if (null != info.getPkgType())
+			result.setPkgType(info.getPkgType());
+		if (null != info.getCurVersion())
+			result.setCurVersion(info.getCurVersion());
+		if (null != info.getCreateDate())
+			result.setCreateDate(DateUtil.text2date(info.getCreateDate(), null));
+		if (null != info.getModifyTime())
+			result.setModifyTime(DateUtil.text2date(info.getModifyTime(), null));
+		if (null != info.getHotelName())
+			result.setHotelName(info.getHotelName());
+		if (null != info.getSubName())
+			result.setSubName(info.getSubName());
+		if (null != info.getType())
+			result.setType(info.getType());
+		if (null != info.getAddress())
+			result.setAddress(info.getAddress());
+		if (null != info.getLastVersion())
+			result.setLastVersion(info.getLastVersion());
+		if (null != info.getLink())
+			result.setLink(info.getLink());
+		
+		result.setOnline(info.isOnline());
+			
+		return result;
+	}
+	
+	public static THmpHotelToolPacks transform(HmpHotelToolPacks info) {
+		if (null == info) {
+			return null;
+		}
+		THmpHotelToolPacks result = new THmpHotelToolPacks();
+		result.setId(info.getId());
+		if (null != info.getSysId())
+			result.setSysId(info.getSysId());
+		if (null != info.getOrgId())
+			result.setOrgId(info.getOrgId());
+		if (null != info.getHotelId() && 0 < info.getHotelId())
+			result.setHotelId(info.getHotelId());
+		if (null != info.getPkgType())
+			result.setPkgType(info.getPkgType());
+		if (null != info.getCurVersion())
+			result.setCurVersion(info.getCurVersion());
+		if (null != info.getCreateDate())
+			result.setCreateDate(DateUtil.date2Text(info.getCreateDate(), null));
+		if (null != info.getModifyTime())
+			result.setModifyTime(DateUtil.date2Text(info.getModifyTime(), null));
+		if (null != info.getHotelName())
+			result.setHotelName(info.getHotelName());
+		if (null != info.getSubName())
+			result.setSubName(info.getSubName());
+		if (null != info.getType())
+			result.setType(info.getType());
+		if (null != info.getAddress())
+			result.setAddress(info.getAddress());
+		if (null != info.getLastVersion())
+			result.setLastVersion(info.getLastVersion());
+		if (null != info.getLink())
+			result.setLink(info.getLink());
+		
+		result.setOnline(info.getOnline());
+		return result;
+	}
 }

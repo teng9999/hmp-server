@@ -1,5 +1,6 @@
 package cn.pl.hmp.server.thrift.iface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,12 @@ public class THmpHotelToolPacksServiceIface implements THmpHotelToolPacksService
     
     @Override
     public List<THmpHotelToolPacks> queryList() throws TException {
-    	return ObjectConverter.convet(business.queryList(), THmpHotelToolPacks.class);
+    	List<HmpHotelToolPacks> list=business.queryList();
+    	List<THmpHotelToolPacks> tlist = new ArrayList<>();
+    	for(HmpHotelToolPacks info:list) {
+    		tlist.add(ServerTransform.transform(info));
+    	}
+    	return tlist;
     };
 
     @Override
