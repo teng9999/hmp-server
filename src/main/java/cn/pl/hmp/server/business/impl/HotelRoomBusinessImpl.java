@@ -366,10 +366,10 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
 		Boolean hongwai = room.getIrCut();
 
 		roomObj.put("roomType",
-				room.getRoomType() == null ? "户型" : room.getRoomType());// 户型
+				room.getRoomType() == null ? "户型" : room.getHouseType());// 户型
 		roomObj.put("area", null != room.getArea() ? room.getArea().intValue()
 				: 0);// 面积
-		roomObj.put("houseType", roomTypeNameMap.get(room.getHouseType()));// 房型
+		roomObj.put("houseType", roomTypeNameMap.get(room.getRoomType()));// 房型
 
 		roomObj.put("roomNum", room.getRoomNum());
 		roomObj.put("rcuIp", room.getRcuIp());
