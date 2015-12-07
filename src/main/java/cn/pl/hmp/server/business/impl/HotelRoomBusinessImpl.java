@@ -316,7 +316,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
 					}
 					rcuObj.put("num", t);// 路数
 					rcuObj.put("id", t);// ID.屏联的id跟路数一样
-					if (lineType == RcuLineType.AdjustLight.name()) {
+					if (RcuLineType.AdjustLight.name().equalsIgnoreCase(lineType)) {
 						rcuObj.put("state", 0);// state
 					}
 				} catch (Exception e) {
@@ -333,11 +333,11 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
 					try {
 						idNum = Integer.parseInt(roomRcu.getNum());
 						t = idNum;
-						if (lineType == RcuLineType.Light.name()
-								|| lineType == RcuLineType.Curtain.name()) {
+						if (RcuLineType.Light.name().equalsIgnoreCase(lineType)
+								|| RcuLineType.Curtain.name().equalsIgnoreCase(lineType)) {
 							t = ((((t - 1) / 8) + lightStart) << 8)
 									+ ((t - 1) % 8);
-						} else if (lineType == RcuLineType.Air.name()) {
+						} else if (RcuLineType.Air.name().equalsIgnoreCase(lineType)) {
 							t = airStart;
 						}
 					} catch (Exception e) {
@@ -345,7 +345,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements
 					}
 					rcuObj.put("num", t);// 路数：需要算一下。
 					rcuObj.put("id", idNum);// ID.万通的ID直接取路数
-					if (lineType == RcuLineType.AdjustLight.name()) {
+					if (RcuLineType.AdjustLight.name().equalsIgnoreCase(lineType)) {
 						rcuObj.put("state", 0);// state
 					}
 					System.err.println("wantong:  name:" + roomRcu.getName()
