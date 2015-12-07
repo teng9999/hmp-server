@@ -67,9 +67,14 @@ public class PublishPkgsBusinessImpl extends BoostBusinessImpl implements IPubli
 
     @Override
     public PublishPkgs selectByHotelIdWhichLastTime(Long hotelId) {
-        PublishPkgs pkgs = mapper.selectByHotelIdWhichLastTime(hotelId);
-        if(null == pkgs) {
-            pkgs = new PublishPkgs();
+        PublishPkgs pkgs = new PublishPkgs();
+        PublishPkgsExample example = new PublishPkgsExample();
+        example.createCriteria().andHotelIdEqualTo(hotelId);
+        example.setOrderByClause("create_time desc");
+        PageHelper.startPage(0,1); 
+        List<PublishPkgs> publishPkgsList = mapper.selectByExample(example);
+        if(null != publishPkgsList && !publishPkgsList.isEmpty()) {
+            pkgs = publishPkgsList.get(0);
         }
         return pkgs;
     }

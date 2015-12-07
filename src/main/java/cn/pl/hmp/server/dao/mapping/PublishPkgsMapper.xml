@@ -72,7 +72,7 @@
     delete from hmp_publish_pkgs
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.PublishPkgs" >
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.PublishPkgs" useGeneratedKeys="true" keyProperty="id">
     insert into hmp_publish_pkgs (id, sys_id, org_id, 
       hotel_id, version, path, 
       create_time, creator, modify_time, 
@@ -82,7 +82,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
       #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.PublishPkgs" >
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.PublishPkgs"  useGeneratedKeys="true" keyProperty="id">
     insert into hmp_publish_pkgs
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -205,11 +205,4 @@
       available = #{available,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  
-  
-  <!-- 自定义 -->
-  <select id="selectByHotelIdWhichLastTime" resultType="cn.pl.hmp.server.dao.entity.PublishPkgs">
-   select * from hmp_publish_pkgs a where a.hotel_id = #{hotelId} and create_time = 
-    (select max(create_time) from hmp_publish_pkgs b where a.hotel_id = #{hotelId});
-  </select>
 </mapper>

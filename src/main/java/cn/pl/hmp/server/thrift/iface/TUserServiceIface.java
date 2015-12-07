@@ -79,7 +79,7 @@ public class TUserServiceIface implements TUserService.Iface {
     public TUser queryByUserName(String userName) throws TException {
         UserExample example = new UserExample();
         example.createCriteria().andUserNameEqualTo(userName);
-        User user = null;
+        User user = new User();
         List<User> list = userBusiness.selectByExample(example);
         if(null != list && list.size()>0) {
             user = list.get(0);
