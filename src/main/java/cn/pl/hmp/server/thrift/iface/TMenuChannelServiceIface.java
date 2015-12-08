@@ -130,6 +130,7 @@ public class TMenuChannelServiceIface implements TMenuChannelService.Iface {
             List<MenuPages> pagesList = menuPagesBusiness.selectByExample(pagesExample);
             if(pagesList != null && !pagesList.isEmpty()) {
                 menuPages.setId(pagesList.get(0).getId());
+                menuPages.setMenuId(tmenuChannel.getId());
             }
             menuPages.setModifyTime(menuChannel.getModifyTime());
             menuPagesBusiness.update(menuPages);
