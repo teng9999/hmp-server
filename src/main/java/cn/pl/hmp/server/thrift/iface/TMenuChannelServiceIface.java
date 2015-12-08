@@ -13,11 +13,15 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.frame.annotation.ThriftService;
 import cn.pl.frame.thrift.define.TPages;
 import cn.pl.hmp.commons.thrift.define.TMenuChannel;
+import cn.pl.hmp.commons.thrift.define.TMenuPages;
 import cn.pl.hmp.commons.thrift.service.TMenuChannelService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IMenuChannelBusiness;
+import cn.pl.hmp.server.business.iface.IMenuPagesBusiness;
 import cn.pl.hmp.server.dao.entity.MenuChannel;
 import cn.pl.hmp.server.dao.entity.MenuChannelExample;
+import cn.pl.hmp.server.dao.entity.MenuPages;
+import cn.pl.hmp.server.dao.entity.MenuPagesExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -26,10 +30,12 @@ public class TMenuChannelServiceIface implements TMenuChannelService.Iface {
 
     @Autowired
     private IMenuChannelBusiness menuChannelBusiness;
+    @Autowired
+    private IMenuPagesBusiness menuPagesBusiness;
 
     @Override
     public int deleteById(long id) throws TException {
-        return menuChannelBusiness.deleteByMenuChannelId(id);
+        return menuChannelBusiness.deleteAllId(id);
     }
 
     @Override
@@ -83,7 +89,8 @@ public class TMenuChannelServiceIface implements TMenuChannelService.Iface {
         example.createCriteria().andHotelIdEqualTo(hotelId)
         .andParentIdEqualTo(parentId);
         Map<Pages, List<MenuChannel>> menuChannelMap = menuChannelBusiness
-                .selectByPages(example, ObjectConverter.convet(pages, Pages.class));
+                .queryByParentIdList(parentId,hotelId, 
+                        ObjectConverter.convet(pages, Pages.class));
         if (null != menuChannelMap && !menuChannelMap.isEmpty()) {
             Set<Pages> set = menuChannelMap.keySet();
             for (Pages page : set) {
@@ -93,5 +100,40 @@ public class TMenuChannelServiceIface implements TMenuChannelService.Iface {
             }
         }
         return tmap;
+    }
+
+    @Override
+    public long saveAll(TMenuChannel tmenuChannel, TMenuPages tmenuPages)
+            throws TException {
+        MenuChannel menuChannel = ObjectConverter.convet(tmenuChannel, MenuChannel.class);
+        MenuPages menuPages = ObjectConverter.convet(tmenuPages, MenuPages.class);
+        Long channelId = menuChannelBusiness.insert(menuChannel);
+        if(channelId > 0 && menuChannel.getParentId() != null
+                && menuChannel.getParentId() != 0) {
+            menuPages.setCreateTime(menuChannel.getCreateTime());
+            menuPages.setCreator(menuChannel.getCreator());
+            menuPages.setMenuId(channelId);
+            menuPagesBusiness.insert(menuPages);
+        }
+        return channelId;
+    }
+
+    @Override
+    public int updateAll(TMenuChannel tmenuChannel, TMenuPages tmenuPages)
+            throws TException {
+        MenuChannel menuChannel = ObjectConverter.convet(tmenuChannel, MenuChannel.class);
+        MenuPages menuPages = ObjectConverter.convet(tmenuPages, MenuPages.class);
+        int res = menuChannelBusiness.update(menuChannel);
+        if(menuChannel.getParentId() != null && menuChannel.getParentId() != 0) {
+            MenuPagesExample pagesExample = new MenuPagesExample();
+            pagesExample.createCriteria().andMenuIdEqualTo(menuChannel.getId());
+            List<MenuPages> pagesList = menuPagesBusiness.selectByExample(pagesExample);
+            if(pagesList != null && !pagesList.isEmpty()) {
+                menuPages.setId(pagesList.get(0).getId());
+            }
+            menuPages.setModifyTime(menuChannel.getModifyTime());
+            menuPagesBusiness.update(menuPages);
+        }
+        return res;
     }
 }

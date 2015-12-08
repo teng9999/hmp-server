@@ -50,6 +50,36 @@ public class MenuChannel {
     private Long modifier;
 
     private Boolean available;
+    
+    private String contentCn;
+    
+    private String contentEn;
+    
+    private String img;
+    
+    public String getContentCn() {
+        return contentCn;
+    }
+
+    public void setContentCn(String contentCn) {
+        this.contentCn = contentCn;
+    }
+
+    public String getContentEn() {
+        return contentEn;
+    }
+
+    public void setContentEn(String contentEn) {
+        this.contentEn = contentEn;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public Long getId() {
         return id;

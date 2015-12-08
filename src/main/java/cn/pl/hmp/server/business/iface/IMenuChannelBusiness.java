@@ -17,6 +17,12 @@ public interface IMenuChannelBusiness  extends IBusiness {
      * @return
      */
 	int deleteByMenuChannelId(Long id);
+	 /**
+     * 通过id删除频道以及关联
+     * @param id
+     * @return
+     */
+    int deleteAllId(Long id);
 	/**
 	 * 新增
 	 * @param record
@@ -41,6 +47,13 @@ public interface IMenuChannelBusiness  extends IBusiness {
      * @return
      */
     Map<Pages, List<MenuChannel>> selectByPages(MenuChannelExample example,Pages page);
+    /**
+     * 根据父级编号和酒店分页查询
+     * @param example
+     * @param page
+     * @return
+     */
+    Map<Pages, List<MenuChannel>> queryByParentIdList(Long parentId,Long hotelId,Pages page);
     /**
      * 更新
      * @param record

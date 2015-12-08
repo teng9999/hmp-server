@@ -22,6 +22,7 @@ public interface MenuPagesMapper {
 
     int updateByPrimaryKey(MenuPages record);
     
-    List<MenuPages> selectByMenuId(@Param(value="menuId")Long menuId);
+    List<MenuPages> selectByMenuId(@Param(value="channelId")Long channelId);
     
+    int deleteByChannelId(@Param(value="channelId") Long channelId);
 }

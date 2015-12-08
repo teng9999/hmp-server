@@ -86,7 +86,7 @@
     delete from hmp_menu_channel
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.MenuChannel" >
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.MenuChannel" keyProperty="id" useGeneratedKeys="true">
     insert into hmp_menu_channel (id, sys_id, org_id, 
       back_img, hide, menu_img, 
       menu_type, name_cn, name_en, 
@@ -106,7 +106,7 @@
       #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.MenuChannel" >
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.MenuChannel"  keyProperty="id" useGeneratedKeys="true">
     insert into hmp_menu_channel
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -364,5 +364,17 @@
   <select id="selectByParentId" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from hmp_menu_channel where parent_id = #{parentId}
+  </select>
+  <!-- 查询混合信息列表展示 -->
+  <select id="selectByParentIdList" resultMap="BaseResultMap">
+	  select hmc.*,pages.content_cn,pages.content_en,pages.img
+     from hmp_menu_channel hmc left join sys_menu_pages pages on hmc.id = pages.menu_id
+	 where parent_id = #{parentId} and hotel_id = #{hotelId}
+  </select>
+  <!-- 根据id查看混合信息 -->
+  <select id="selectByMenuId" resultType="cn.pl.hmp.server.dao.entity.MenuChannel">
+	  select hmc.*,pages.content_cn,pages.content_en,pages.img
+	 from hmp_menu_channel hmc,sys_menu_pages pages where hmc.id = pages.menu_id
+	 and hmc.id = #{menuId}
   </select>
 </mapper>

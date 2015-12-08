@@ -23,4 +23,9 @@ public interface MenuChannelMapper {
     int updateByPrimaryKey(MenuChannel record);
     
     List<MenuChannel> selectByParentId(@Param("parentId")Long parentId);
+    
+    List<MenuChannel> selectByParentIdList(@Param("parentId")Long parentId
+            ,@Param(value="hotelId") Long hotelId);
+    
+    MenuChannel selectByMenuId(@Param("menuId")Long menuId);
 }

@@ -37,12 +37,16 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
 
 	@Override
 	public long insert(MenuChannel record) {
-		return mapper.insert(record);
+	    int res = mapper.insertSelective(record);
+	    if(res < 0 ) {
+	        return -1L;
+	    }
+		return record.getId();
 	}
 
 	@Override
 	public MenuChannel selectByMenuChannelId(Long id) {
-		return mapper.selectByPrimaryKey(id);
+		return mapper.selectByMenuId(id);
 	}
 
 	@Override
@@ -52,7 +56,7 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
 
 	@Override
 	public int update(MenuChannel record) {
-		return mapper.updateByPrimaryKey(record);
+		return mapper.updateByPrimaryKeySelective(record);
 	}
 
     @Override
@@ -64,6 +68,22 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         PageHelper.startPage(page.getPageNum(),page.getPageSize()); 
         System.out.println(page.getPageNum()+"--"+page.getPageSize());
         List<MenuChannel> menuChanneList = mapper.selectByExample(example);
+        if(null == menuChanneList)
+            menuChanneList = new ArrayList<MenuChannel>();
+        PageInfo<MenuChannel> pageInfo =  new PageInfo<MenuChannel>(menuChanneList);
+        Pages pages = PageConverter.converter(pageInfo);
+        
+        map.put(pages, menuChanneList);
+        return map;
+    }
+    
+    @Override
+    public Map<Pages, List<MenuChannel>> queryByParentIdList(Long parentId,Long hotelId,
+            Pages page) {
+        Map<Pages,List<MenuChannel>> map = new HashMap<Pages, List<MenuChannel>>();
+        PageHelper.startPage(page.getPageNum(),page.getPageSize()); 
+        System.out.println(page.getPageNum()+"--"+page.getPageSize());
+        List<MenuChannel> menuChanneList = mapper.selectByParentIdList(parentId, hotelId);
         if(null == menuChanneList)
             menuChanneList = new ArrayList<MenuChannel>();
         PageInfo<MenuChannel> pageInfo =  new PageInfo<MenuChannel>(menuChanneList);
@@ -157,6 +177,17 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pagesObj.put("imgWidth",pages.getImgWidth());
         pagesObj.put("titleCn",pages.getTitleCn());
         pagesObj.put("titleEn",pages.getTitleEn());
+    }
+
+    @Override
+    public int deleteAllId(Long id) {
+        int res = mapper.deleteByPrimaryKey(id);
+        if(res >0 ) {
+            pagesMapper.deleteByChannelId(id);
+        }else{
+            return -1;
+        }
+        return res;
     }
 
 }

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.pl.hmp.server.dao.mapper.CommondityTypeMapper" >
+  <resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.CommondityType" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="color_en" property="colorEn" jdbcType="VARCHAR" />
+    <result column="menu_id" property="menuId" jdbcType="BIGINT" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="sizes" property="sizes" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="color_cn" property="colorCn" jdbcType="VARCHAR" />
+    <result column="vip_price" property="vipPrice" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, color_en, menu_id, price, sizes, type, color_cn, vip_price
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.CommondityTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from hmp_commondity_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hmp_commondity_type
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hmp_commondity_type
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.CommondityType" >
+    insert into hmp_commondity_type (id, color_en, menu_id, 
+      price, sizes, type, 
+      color_cn, vip_price)
+    values (#{id,jdbcType=BIGINT}, #{colorEn,jdbcType=VARCHAR}, #{menuId,jdbcType=BIGINT}, 
+      #{price,jdbcType=DECIMAL}, #{sizes,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{colorCn,jdbcType=VARCHAR}, #{vipPrice,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.CommondityType" >
+    insert into hmp_commondity_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="colorEn != null" >
+        color_en,
+      </if>
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="sizes != null" >
+        sizes,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="colorCn != null" >
+        color_cn,
+      </if>
+      <if test="vipPrice != null" >
+        vip_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="colorEn != null" >
+        #{colorEn,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        #{menuId,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sizes != null" >
+        #{sizes,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="colorCn != null" >
+        #{colorCn,jdbcType=VARCHAR},
+      </if>
+      <if test="vipPrice != null" >
+        #{vipPrice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.CommondityType" >
+    update hmp_commondity_type
+    <set >
+      <if test="colorEn != null" >
+        color_en = #{colorEn,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        menu_id = #{menuId,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sizes != null" >
+        sizes = #{sizes,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="colorCn != null" >
+        color_cn = #{colorCn,jdbcType=VARCHAR},
+      </if>
+      <if test="vipPrice != null" >
+        vip_price = #{vipPrice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.pl.hmp.server.dao.entity.CommondityType" >
+    update hmp_commondity_type
+    set color_en = #{colorEn,jdbcType=VARCHAR},
+      menu_id = #{menuId,jdbcType=BIGINT},
+      price = #{price,jdbcType=DECIMAL},
+      sizes = #{sizes,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      color_cn = #{colorCn,jdbcType=VARCHAR},
+      vip_price = #{vipPrice,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 批量添加 -->
+  <insert id="insertBatch" parameterType="java.util.List">
+    <![CDATA[
+    insert into hmp_commondity_type(color_en, menu_id, price, sizes, type, color_cn, vip_price)
+    values 
+    ]]>
+    <foreach collection ="list" item ="item" index ="index" separator =","> 
+       (#{item.colorEn},#{item.price},#{item.sizes},#{item.type},
+       #{item.colorCn},#{item.vipPrice}) 
+    </foreach> 
+  </insert>
+  <!-- 删除一个商品的所有商品属性 -->
+  <delete id="deleteByMenuId">
+    delete from hmp_commondity_type where menu_id = #{menuChannelId}
+  </delete>
+</mapper>

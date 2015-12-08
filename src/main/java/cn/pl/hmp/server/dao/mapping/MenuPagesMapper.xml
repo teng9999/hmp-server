@@ -78,7 +78,7 @@
     delete from sys_menu_pages
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.MenuPages" >
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.MenuPages"  keyProperty="id" useGeneratedKeys="true">
     insert into sys_menu_pages (id, sys_id, org_id, 
       back_img, content_cn, content_en, 
       img, img_position, img_width, 
@@ -92,7 +92,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
       #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.MenuPages" >
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.MenuPages" keyProperty="id" useGeneratedKeys="true">
     insert into sys_menu_pages
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -278,6 +278,9 @@
   <!-- 自定义 -->
   <select id="selectByMenuId" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/> 
-    from sys_menu_pages where menu_id = #{menuId}
+    from sys_menu_pages where menu_id = #{channelId}
   </select>
+  <delete id="deleteByChannelId">
+    delete from sys_menu_pages where menu_id = #{channelId}
+  </delete>
 </mapper>

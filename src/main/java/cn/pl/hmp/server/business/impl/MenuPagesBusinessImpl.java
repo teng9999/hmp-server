@@ -31,7 +31,11 @@ public class MenuPagesBusinessImpl extends BoostBusinessImpl implements IMenuPag
 
 	@Override
 	public int insert(MenuPages record) {
-		return mapper.insert(record);
+	    int res =mapper.insertSelective(record);
+	    if(res >0 ) {
+            return -1;
+        }
+        return res;
 	}
 
 	@Override
@@ -46,7 +50,7 @@ public class MenuPagesBusinessImpl extends BoostBusinessImpl implements IMenuPag
 
 	@Override
 	public int update(MenuPages record) {
-		return mapper.updateByPrimaryKey(record);
+		return mapper.updateByPrimaryKeySelective(record);
 	}
 
     @Override
