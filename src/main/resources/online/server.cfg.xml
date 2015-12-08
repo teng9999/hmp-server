@@ -22,13 +22,13 @@
         <property name="thrift.server.nodename" value="hmp"/>
         <property name="thrift.server.ip" value="0.0.0.0"/>
         <property name="thrift.server.port" value="9090"/>
-        <property name="thrift.server.timeout" value="3000"/>
+        <property name="thrift.server.timeout" value="5000"/>
         <property name="thrift.server.readbuffer" value="16384000"/>
-        <property name="thrift.server.selector.threads" value="20"/>
+        <property name="thrift.server.selector.threads" value="60"/>
         <property name="thrift.server.work.threads" value="20"/>
-        <property name="thrift.server.accept.queue.size.per.thread" value="5"/>
+        <property name="thrift.server.accept.queue.size.per.thread" value="100"/>
         <property name="thrift.server.stop.timeout.unit" value="SECONDS"/>
-        <property name="thrift.server.stop.timeout.val" value="3"/>
+        <property name="thrift.server.stop.timeout.val" value="5"/>
         <property name="zookeeper.ens.enable" value="true"/>
         <property name="zookeeper.ens.ip" value="10.144.161.31:2181,10.169.21.7:2181,10.163.97.183:2181"/>
     </properties>
