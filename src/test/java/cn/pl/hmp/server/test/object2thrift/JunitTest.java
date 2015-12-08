@@ -2,7 +2,7 @@ package cn.pl.hmp.server.test.object2thrift;
 
 import org.junit.Test;
 
-import cn.pl.hmp.server.dao.entity.HotelRoom;
+import cn.pl.hmp.server.dao.entity.CommondityType;
 
 public class JunitTest {
 	@Test
@@ -23,6 +23,6 @@ public class JunitTest {
 		// System.out.println(Java2ThriftStruct.java2thrift(UpdateRecord.class));
 		// System.out.println(Java2ThriftStruct.java2thrift(WxSystemPackage.class));
 		// System.out.println(Java2ThriftStruct.java2thrift(ProgramePackage.class));
-		System.out.println(Java2ThriftStruct.java2thrift(HotelRoom.class));
+		System.out.println(Java2ThriftStruct.java2thrift(CommondityType.class));
 	}
 }
