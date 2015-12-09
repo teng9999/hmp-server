@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" name="HMP Server" monitorInterval="300">
+<Configuration status="error" name="HMP Server" monitorInterval="300">
 	<Properties>
 		<Property name="debugFile">logs/debug</Property>
 		<Property name="infoFile">logs/info</Property>
 		<Property name="warnFile">logs/warn</Property>
 		<Property name="errorlFile">logs/error</Property>
 
-		<Property name="pattern">%-d{yyyy-MM-dd HH:mm:ss,SSS}[%p][%t][%F:%M(%L)] -  %m%n</Property>
+		<Property name="pattern">
+		%-d{yyyy-MM-dd HH:mm:ss,SSS}[%p][%t][%F:%M(%L)] -  %m%n
+		</Property>
 	</Properties>
 
 	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout pattern="${pattern}"/>
+		</Console>
+		
 		<RollingFile name="debugFile" fileName="${debugFile}.log"
 					 filePattern="${debugFile}_%d{yyyy-MM-dd}_%i.log.gz">
 			<PatternLayout pattern="${pattern}"/>
@@ -19,6 +26,9 @@
 				<SizeBasedTriggeringPolicy size="100 MB"/>
 			</Policies>
 			<DefaultRolloverStrategy max="10"/>
+			<Filters>
+				<ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
 		</RollingFile>
 
 		<RollingFile name="infoFile" fileName="${infoFile}.log"
@@ -30,6 +40,9 @@
 				<SizeBasedTriggeringPolicy size="50 MB"/>
 			</Policies>
 			<DefaultRolloverStrategy max="10"/>
+			<Filters>
+				<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
 		</RollingFile>
 
 		<RollingFile name="warnFile" fileName="${warnFile}.log"
@@ -41,6 +54,9 @@
 				<SizeBasedTriggeringPolicy size="50 MB"/>
 			</Policies>
 			<DefaultRolloverStrategy max="10"/>
+			<Filters>
+				<ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
 		</RollingFile>
 
 		<RollingFile name="errorlFile" fileName="${errorlFile}.log"
@@ -52,20 +68,21 @@
 				<SizeBasedTriggeringPolicy size="50 MB"/>
 			</Policies>
 			<DefaultRolloverStrategy max="10"/>
+			<Filters>
+				<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
 		</RollingFile>
-		<Console name="Console" target="SYSTEM_OUT">
-            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="${pattern}"/>
-        </Console>
 	</appenders>
 
 	<Loggers>
-		<Root level="debug">
+		<Logger name="BackupLogger" level="debug">
 			<appender-ref ref="debugFile" level="debug"/>
 			<appender-ref ref="infoFile" level="info"/>
 			<appender-ref ref="warnFile" level="warn"/>
 			<appender-ref ref="errorlFile" level="error"/>
-			<appender-ref ref="Console" level="debug"/>
+		</Logger>
+		<Root level="trace">
+			<appender-ref ref="Console"/>
 		</Root>
 	</Loggers>
 </Configuration>
