@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.commons.enums.roomRcu.MenuType;
+import cn.pl.hmp.commons.enums.roomRcu.ServiceType;
 import cn.pl.hmp.commons.enums.roomRcu.SubMenuType;
 import cn.pl.hmp.server.business.iface.IMenuChannelBusiness;
 import cn.pl.hmp.server.dao.entity.MenuChannel;
@@ -188,8 +189,8 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pObj.put("nameCn", pChannel.getNameCn());
         pObj.put("nameEn", pChannel.getNameEn());
         pObj.put("orderNum", pChannel.getOrderNum());
-        pObj.put("serviceType", getSubMenuVal(pChannel.getServiceType()));
-        pObj.put("subMenuType", pChannel.getSubMenuType());
+        pObj.put("serviceType", ServiceType.valueOf(pChannel.getServiceType()).toIntVal());
+        pObj.put("subMenuType", getSubMenuVal(pChannel.getSubMenuType()));
         pObj.put("hotelId", pChannel.getHotelId());
         pObj.put("parentId", pChannel.getParentId());
         pObj.put("propertyType", pChannel.getPropertyYpe()); //属性类型：食品（0），商品（1）
@@ -205,7 +206,6 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pagesObj.put("titleCn",pages.getTitleCn());
         pagesObj.put("titleEn",pages.getTitleEn());
     }
-    
     
     private int getSubMenuVal(String serviceType) {
         switch (serviceType) {
