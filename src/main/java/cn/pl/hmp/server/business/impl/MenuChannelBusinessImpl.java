@@ -37,6 +37,16 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
 
 	@Override
 	public long insert(MenuChannel record) {
+	    if(null != record.getOrderNum() && !"".equals(record.getOrderNum())) {
+	        MenuChannelExample example = new MenuChannelExample();
+	        example.createCriteria().andParentIdEqualTo(record.getParentId())
+	        .andOrderNumEqualTo(record.getOrderNum())
+	        .andHotelIdEqualTo(record.getHotelId());
+	        List<MenuChannel> menuList = mapper.selectByExample(example);
+	        if(null != menuList && !menuList.isEmpty()) {
+	            return -2;
+	        }
+	    }
 	    int res = mapper.insertSelective(record);
 	    if(res < 0 ) {
 	        return -1L;
@@ -56,6 +66,16 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
 
 	@Override
 	public int update(MenuChannel record) {
+	    if(null != record.getOrderNum() && !"".equals(record.getOrderNum())) {
+            MenuChannelExample example = new MenuChannelExample();
+            example.createCriteria().andParentIdEqualTo(record.getParentId())
+            .andOrderNumEqualTo(record.getOrderNum())
+            .andHotelIdEqualTo(record.getHotelId());
+            List<MenuChannel> menuList = mapper.selectByExample(example);
+            if(null != menuList && !menuList.isEmpty()) {
+                return -2;
+            }
+        }
 		return mapper.updateByPrimaryKeySelective(record);
 	}
 

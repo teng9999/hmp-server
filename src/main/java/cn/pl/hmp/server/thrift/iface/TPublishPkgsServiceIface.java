@@ -46,7 +46,7 @@ public class TPublishPkgsServiceIface  implements TPublishPkgsService.Iface {
         Map<TPages,List<TPublishPkgs>> tmap = new HashMap<TPages, List<TPublishPkgs>>();
         TPages tempPage = null;
         PublishPkgsExample example = new PublishPkgsExample();
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("version desc");
         example.createCriteria().andHotelIdEqualTo(hotelId);
         Map<Pages,List<PublishPkgs>> pkgsMap = pkgBusiness.selectByPages(example,ObjectConverter
                 .convet(pages, Pages.class));
