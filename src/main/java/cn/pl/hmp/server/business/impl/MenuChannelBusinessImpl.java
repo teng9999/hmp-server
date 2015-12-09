@@ -74,8 +74,9 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
             .andHotelIdEqualTo(record.getHotelId());
             List<MenuChannel> menuList = mapper.selectByExample(example);
             if(null != menuList && !menuList.isEmpty()) {
+                MenuChannel baseChannel = mapper.selectByPrimaryKey(record.getId());
                 if(!(null == menuList.get(0).getOrderNum())) {
-                    if(!(record.getOrderNum().intValue() == menuList.get(0).getOrderNum().intValue())){
+                    if(!(baseChannel.getOrderNum() == menuList.get(0).getOrderNum())){
                         return -2;
                     }
                 }
@@ -186,7 +187,7 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pObj.put("nameCn", pChannel.getNameCn());
         pObj.put("nameEn", pChannel.getNameEn());
         pObj.put("orderNum", pChannel.getOrderNum());
-        pObj.put("serviceType", SubMenuType.valueOf(pChannel.getServiceType()).toIntVal());
+        pObj.put("serviceType", getSubMenuVal(pChannel.getServiceType()));
         pObj.put("subMenuType", pChannel.getSubMenuType());
         pObj.put("hotelId", pChannel.getHotelId());
         pObj.put("parentId", pChannel.getParentId());
@@ -202,6 +203,24 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pagesObj.put("imgWidth",pages.getImgWidth());
         pagesObj.put("titleCn",pages.getTitleCn());
         pagesObj.put("titleEn",pages.getTitleEn());
+    }
+    
+    
+    private int getSubMenuVal(String serviceType) {
+        switch (serviceType) {
+        case "INFO":
+            return SubMenuType.INFO.toIntVal();
+            // case APP:
+            // return SubMenuType.APP.toIntVal();
+        case "ANDROID":
+            return SubMenuType.ANDROID.toIntVal();
+        case "VIDEO":
+            return SubMenuType.VIDEO.toIntVal();
+        case "TV":
+            return SubMenuType.TV.toIntVal();
+        default:
+            return SubMenuType.SERVICE.toIntVal();
+        }
     }
 
     @Override
