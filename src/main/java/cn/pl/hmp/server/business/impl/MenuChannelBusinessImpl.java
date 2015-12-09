@@ -189,7 +189,8 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pObj.put("nameCn", pChannel.getNameCn());
         pObj.put("nameEn", pChannel.getNameEn());
         pObj.put("orderNum", pChannel.getOrderNum());
-        pObj.put("serviceType", ServiceType.valueOf(pChannel.getServiceType()).toIntVal());
+        ServiceType serviceType = ServiceType.enValuesOf(pChannel.getServiceType());
+        pObj.put("serviceType", (null== serviceType)?null:serviceType.toIntVal());
         pObj.put("subMenuType", getSubMenuVal(pChannel.getSubMenuType()));
         pObj.put("hotelId", pChannel.getHotelId());
         pObj.put("parentId", pChannel.getParentId());
@@ -208,6 +209,9 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
     }
     
     private int getSubMenuVal(String serviceType) {
+        if(null == serviceType) {
+            return SubMenuType.SERVICE.toIntVal();
+        }
         switch (serviceType) {
         case "INFO":
             return SubMenuType.INFO.toIntVal();
