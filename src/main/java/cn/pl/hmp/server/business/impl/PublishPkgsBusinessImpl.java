@@ -33,6 +33,15 @@ public class PublishPkgsBusinessImpl extends BoostBusinessImpl implements IPubli
 	    if(null == record) {
 	        return 0;
 	    }
+	    if(null != record.getVersion() && !"".equals(record.getVersion())) {
+	        PublishPkgsExample example = new PublishPkgsExample();
+            example.createCriteria().andVersionEqualTo(record.getVersion())
+            .andHotelIdEqualTo(record.getHotelId());
+            List<PublishPkgs> pkgsList = mapper.selectByExample(example);
+            if(null != pkgsList && !pkgsList.isEmpty()) {
+                return -2;
+            }
+        }
 	    mapper.insertSelective(record);
 		return record.getId();
 	}
@@ -70,7 +79,7 @@ public class PublishPkgsBusinessImpl extends BoostBusinessImpl implements IPubli
         PublishPkgs pkgs = new PublishPkgs();
         PublishPkgsExample example = new PublishPkgsExample();
         example.createCriteria().andHotelIdEqualTo(hotelId);
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("version desc");
         PageHelper.startPage(0,1); 
         List<PublishPkgs> publishPkgsList = mapper.selectByExample(example);
         if(null != publishPkgsList && !publishPkgsList.isEmpty()) {
