@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
+import cn.pl.hmp.commons.enums.roomRcu.SubMenuType;
 import cn.pl.hmp.server.business.iface.IMenuChannelBusiness;
 import cn.pl.hmp.server.dao.entity.MenuChannel;
 import cn.pl.hmp.server.dao.entity.MenuChannelExample;
@@ -66,15 +67,17 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
 
 	@Override
 	public int update(MenuChannel record) {
-	    if(null != record.getOrderNum() && !"".equals(record.getOrderNum())) {
+	    if(null != record.getOrderNum()) {
             MenuChannelExample example = new MenuChannelExample();
             example.createCriteria().andParentIdEqualTo(record.getParentId())
             .andOrderNumEqualTo(record.getOrderNum())
             .andHotelIdEqualTo(record.getHotelId());
             List<MenuChannel> menuList = mapper.selectByExample(example);
             if(null != menuList && !menuList.isEmpty()) {
-                if(!(record.getOrderNum() == menuList.get(0).getOrderNum())){
-                    return -2;
+                if(!(null == menuList.get(0).getOrderNum())) {
+                    if(!(record.getOrderNum().intValue() == menuList.get(0).getOrderNum().intValue())){
+                        return -2;
+                    }
                 }
             }
         }
@@ -183,7 +186,7 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pObj.put("nameCn", pChannel.getNameCn());
         pObj.put("nameEn", pChannel.getNameEn());
         pObj.put("orderNum", pChannel.getOrderNum());
-        pObj.put("serviceType", pChannel.getServiceType());
+        pObj.put("serviceType", SubMenuType.valueOf(pChannel.getServiceType()).toIntVal());
         pObj.put("subMenuType", pChannel.getSubMenuType());
         pObj.put("hotelId", pChannel.getHotelId());
         pObj.put("parentId", pChannel.getParentId());
@@ -211,5 +214,4 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         }
         return res;
     }
-
 }
