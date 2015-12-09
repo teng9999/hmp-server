@@ -79,14 +79,21 @@ public class HmpRoomTvBusinessImpl extends BoostBusinessImpl implements
 
     @Override
     public HmpRoomTv selectByHotelId(Long hotelId) {
-        return mapper.selectByHotelId(hotelId);
+        List<HmpRoomTv> roomTvList = mapper.selectByHotelId(hotelId);
+        HmpRoomTv roomTv = null;
+        if(null != roomTvList && !roomTvList.isEmpty()){
+            roomTv = roomTvList.get(0);
+        }else{
+            roomTv = new HmpRoomTv();
+        }
+        return roomTv;
     }
 
     @Override
     public JSONObject publish(Long hotelId) {
-        HmpRoomTv roomTv = mapper.selectByHotelId(hotelId);
+        HmpRoomTv roomTv = this.selectByHotelId(hotelId);
         JSONObject json = new JSONObject();
-        if (roomTv == null) {
+        if (null == roomTv.getId() || roomTv.getId() < 1) {
             return json;
         }
         json.put("id", roomTv.getId());

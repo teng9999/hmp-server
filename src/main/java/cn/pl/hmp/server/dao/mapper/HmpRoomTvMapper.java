@@ -21,5 +21,5 @@ public interface HmpRoomTvMapper {
 
     int updateByPrimaryKey(HmpRoomTv record);
     
-    HmpRoomTv selectByHotelId(Long hotelId);
+    List<HmpRoomTv> selectByHotelId(Long hotelId);
 }
