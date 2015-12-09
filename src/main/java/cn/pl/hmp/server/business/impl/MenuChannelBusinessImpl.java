@@ -73,7 +73,9 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
             .andHotelIdEqualTo(record.getHotelId());
             List<MenuChannel> menuList = mapper.selectByExample(example);
             if(null != menuList && !menuList.isEmpty()) {
-                return -2;
+                if(!(record.getOrderNum() == menuList.get(0).getOrderNum())){
+                    return -2;
+                }
             }
         }
 		return mapper.updateByPrimaryKeySelective(record);
