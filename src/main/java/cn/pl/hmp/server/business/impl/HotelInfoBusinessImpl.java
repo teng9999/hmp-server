@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
+import cn.pl.hmp.commons.utils.AreaUtil;
 import cn.pl.hmp.commons.utils.TypeConvert;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
@@ -26,18 +27,18 @@ import com.github.pagehelper.PageInfo;
 
 @Service
 public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
-		IHotelInfoBusiness {
-	
-	@Autowired
-	private HotelInfoMapper mapper;
-	@Autowired
-	private UserMapper userMapper;
-	@Autowired
-	private UserHotelMapper userHotelMapper;
+        IHotelInfoBusiness {
+    
+    @Autowired
+    private HotelInfoMapper mapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private UserHotelMapper userHotelMapper;
 
-	@Override
-	public int deleteHotelAndUserByHotelId(Long id) {
-	    UserHotelExample userHotelExample = new UserHotelExample();
+    @Override
+    public int deleteHotelAndUserByHotelId(Long id) {
+        UserHotelExample userHotelExample = new UserHotelExample();
         userHotelExample.createCriteria().andHotelIdEqualTo(id);
         List<UserHotel> userHotelList = userHotelMapper.selectByExample(userHotelExample);
         if(null != userHotelList && !userHotelList.isEmpty()) {
@@ -46,34 +47,34 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
                 userHotelMapper.deleteByPrimaryKey(userHotel.getId());
             }
         }
-		return mapper.deleteByPrimaryKey(id);
-	}
+        return mapper.deleteByPrimaryKey(id);
+    }
 
-	@Override
-	public long insert(HotelInfo record) {
-	    if(null == record) {
-	        return 0;
-	    }
-	    mapper.insertSelective(record);
-		return record.getId();
-	}
+    @Override
+    public long insert(HotelInfo record) {
+        if(null == record) {
+            return 0;
+        }
+        mapper.insertSelective(record);
+        return record.getId();
+    }
 
-	@Override
-	public HotelInfo selectByHotelId(Long id) {
-		return mapper.selectByPrimaryKey(id);
-	}
+    @Override
+    public HotelInfo selectByHotelId(Long id) {
+        return mapper.selectByPrimaryKey(id);
+    }
 
-	@Override
-	public List<HotelInfo> selectAll() {
-		return mapper.selectByExample(new HotelInfoExample());
-	}
-	
-	@Override
-	public int update(HotelInfo record) {
-	    if(record == null || record.getId() == null)
-	        return 0;
-		return mapper.updateByPrimaryKey(record);
-	}
+    @Override
+    public List<HotelInfo> selectAll() {
+        return mapper.selectByExample(new HotelInfoExample());
+    }
+    
+    @Override
+    public int update(HotelInfo record) {
+        if(record == null || record.getId() == null)
+            return 0;
+        return mapper.updateByPrimaryKey(record);
+    }
 
     @Override
     public Map<Pages, List<HotelInfo>> selectByPages(HotelInfoExample example,
@@ -119,6 +120,7 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
         json.put("screen", hotel.getScreen()?"1" : "0");
         json.put("countryCode",hotel.getCountry());
         json.put("cityCode",hotel.getCity());
+        json.put("cityName", getCityName(hotel.getProvince(), hotel.getCity()));
         json.put("weatherCode",hotel.getWeatherCode());
         json.put("welcomesCn",hotel.getWelcomesCn());
         json.put("welcomesEn",hotel.getWelcomesEn());
@@ -126,5 +128,12 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements
         json.put("rollCn",hotel.getRollCn());
         json.put("rollEn",hotel.getRollEn());
         return json;
+    }
+    public String getCityName(String privince,String city) {
+        try {
+            return AreaUtil.getCityName(privince, city);
+        } catch (Exception e) {
+            return "";
+        }
     }
 }

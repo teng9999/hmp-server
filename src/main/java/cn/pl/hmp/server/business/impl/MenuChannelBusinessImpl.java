@@ -121,36 +121,36 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         if(null == topChannelList || topChannelList.size()<1) {
             return array;
         }
-        JSONObject pObj = null;
-        JSONObject childObj = null;
-        for(MenuChannel channel:topChannelList ) {
-            if(null == channel) {
+        dtreeSaveMassage(array, topChannelList);
+        return array;
+    }
+    /**
+     * 递归查询保存电视频道
+     * @param topArray
+     * @param topChannelList
+     */
+    public void dtreeSaveMassage(JSONArray topArray,List<MenuChannel> topChannelList){
+        JSONObject menuChannelObj = null;
+        for(MenuChannel menuChannel:topChannelList){
+            menuChannelObj = new JSONObject();
+            if(null == menuChannel) {
                 continue;
             }
-            pObj = new JSONObject();
-            saveChannel(pObj, channel);
-            List<MenuChannel> childList = mapper.selectByParentId(channel.getId());
-            JSONArray childArray = new JSONArray();
-            if(null != childList && childList.size() > 0) {
-                for(MenuChannel childChannel:childList) {
-                    childObj = new JSONObject();
-                    if(null == childChannel) {
-                        continue;
-                    }
-                    saveChannel(childObj, childChannel);
-                    List<MenuPages> pagesList = pagesMapper.selectByMenuId(childChannel.getId());
-                    JSONObject pagesObj = new JSONObject();
-                    if(null != pagesList && pagesList.size() >0) {
-                        savePages(pagesList.get(0), pagesObj);
-                    }
-                    childObj.put("pages", pagesObj);
-                    childArray.add(childObj);
-                }
+            saveChannel(menuChannelObj, menuChannel);
+            List<MenuPages> pagesList = pagesMapper.selectByMenuId(menuChannel.getId());
+            JSONObject pagesObj = new JSONObject();
+            if(null != pagesList && pagesList.size() >0) {
+                savePages(pagesList.get(0), pagesObj);
             }
-            pObj.put("childList", childArray);
-            array.add(pObj);
+            JSONArray childArray = new JSONArray();
+            menuChannelObj.put("pages", pagesObj);
+            menuChannelObj.put("childList", childArray);
+            topArray.add(menuChannelObj);
+            List<MenuChannel> childList = mapper.selectByParentId(menuChannel.getId());
+            if(null != childList && childList.size() > 0) {
+                dtreeSaveMassage(childArray, childList);
+            }
         }
-        return array;
     }
     
     public void saveChannel(JSONObject pObj,MenuChannel pChannel){

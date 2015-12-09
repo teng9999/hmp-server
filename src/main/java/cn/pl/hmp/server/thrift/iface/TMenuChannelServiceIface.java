@@ -128,12 +128,16 @@ public class TMenuChannelServiceIface implements TMenuChannelService.Iface {
             MenuPagesExample pagesExample = new MenuPagesExample();
             pagesExample.createCriteria().andMenuIdEqualTo(menuChannel.getId());
             List<MenuPages> pagesList = menuPagesBusiness.selectByExample(pagesExample);
+            menuPages.setMenuId(tmenuChannel.getId());
             if(pagesList != null && !pagesList.isEmpty()) {
                 menuPages.setId(pagesList.get(0).getId());
-                menuPages.setMenuId(tmenuChannel.getId());
+                menuPages.setModifyTime(menuChannel.getModifyTime());
+                menuPagesBusiness.update(menuPages);
+            }else{
+                menuPages.setCreateTime(menuChannel.getModifyTime());
+                menuPages.setCreator(menuChannel.getCreator());
+                menuPagesBusiness.insert(menuPages);
             }
-            menuPages.setModifyTime(menuChannel.getModifyTime());
-            menuPagesBusiness.update(menuPages);
         }
         return res;
     }
