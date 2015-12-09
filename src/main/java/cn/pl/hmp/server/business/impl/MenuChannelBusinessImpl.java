@@ -191,7 +191,7 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pObj.put("orderNum", pChannel.getOrderNum());
         ServiceType serviceType = ServiceType.enValuesOf(pChannel.getServiceType());
         pObj.put("serviceType", (null== serviceType)?null:serviceType.toIntVal());
-        pObj.put("subMenuType", getSubMenuVal(pChannel.getSubMenuType()));
+        pObj.put("subMenuType", getSubMenuVal(serviceType.name()));
         pObj.put("hotelId", pChannel.getHotelId());
         pObj.put("parentId", pChannel.getParentId());
         pObj.put("propertyType", pChannel.getPropertyYpe()); //属性类型：食品（0），商品（1）
