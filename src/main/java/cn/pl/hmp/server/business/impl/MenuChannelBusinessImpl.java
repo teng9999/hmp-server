@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
+import cn.pl.hmp.commons.enums.roomRcu.MenuType;
 import cn.pl.hmp.commons.enums.roomRcu.SubMenuType;
 import cn.pl.hmp.server.business.iface.IMenuChannelBusiness;
 import cn.pl.hmp.server.dao.entity.MenuChannel;
@@ -183,7 +184,7 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pObj.put("id",pChannel.getId());
         pObj.put("backImg", pChannel.getBackImg());
         pObj.put("menuImg", pChannel.getMenuImg());
-        pObj.put("menuType", pChannel.getMenuType());
+        pObj.put("menuType", MenuType.enValuesOf(pChannel.getMenuType()).toIntVal());
         pObj.put("nameCn", pChannel.getNameCn());
         pObj.put("nameEn", pChannel.getNameEn());
         pObj.put("orderNum", pChannel.getOrderNum());
