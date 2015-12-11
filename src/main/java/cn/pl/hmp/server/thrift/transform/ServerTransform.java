@@ -4,7 +4,9 @@
  */
 package cn.pl.hmp.server.thrift.transform;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.commons.utils.DateUtil;
@@ -961,5 +963,47 @@ public class ServerTransform extends ThriftTransform {
 		
 		result.setOnline(info.getOnline());
 		return result;
+	}
+	
+	public static List<THmpHotelToolPacks> transform(List<HmpHotelToolPacks> list) {
+		if (null == list) {
+			return null;
+		}
+		List<THmpHotelToolPacks> newList = new ArrayList<THmpHotelToolPacks>();
+		for(HmpHotelToolPacks info:list) {
+			THmpHotelToolPacks result = new THmpHotelToolPacks();
+			result.setId(info.getId());
+			if (null != info.getSysId())
+				result.setSysId(info.getSysId());
+			if (null != info.getOrgId())
+				result.setOrgId(info.getOrgId());
+			if (null != info.getHotelId() && 0 < info.getHotelId())
+				result.setHotelId(info.getHotelId());
+			if (null != info.getPkgType())
+				result.setPkgType(info.getPkgType());
+			if (null != info.getCurVersion())
+				result.setCurVersion(info.getCurVersion());
+			if (null != info.getCreateDate())
+				result.setCreateDate(DateUtil.date2Text(info.getCreateDate(), null));
+			if (null != info.getModifyTime())
+				result.setModifyTime(DateUtil.date2Text(info.getModifyTime(), null));
+			if (null != info.getHotelName())
+				result.setHotelName(info.getHotelName());
+			if (null != info.getSubName())
+				result.setSubName(info.getSubName());
+			if (null != info.getType())
+				result.setType(info.getType());
+			if (null != info.getAddress())
+				result.setAddress(info.getAddress());
+			if (null != info.getLastVersion())
+				result.setLastVersion(info.getLastVersion());
+			if (null != info.getLink())
+				result.setLink(info.getLink());
+			
+			result.setOnline(info.getOnline());
+			newList.add(result);
+		}
+		
+		return newList;
 	}
 }

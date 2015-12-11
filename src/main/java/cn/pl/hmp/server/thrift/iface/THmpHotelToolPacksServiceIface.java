@@ -67,7 +67,8 @@ public class THmpHotelToolPacksServiceIface implements THmpHotelToolPacksService
             Set<Pages> set = tvMap.keySet();
             for (Pages pages : set) {
                 tempPage = ServerTransform.transform(pages);
-                tMap.put(tempPage, ObjectConverter.convet(tvMap.get(pages), THmpHotelToolPacks.class));
+//                tMap.put(tempPage, ObjectConverter.convet(tvMap.get(pages), THmpHotelToolPacks.class));
+                tMap.put(tempPage, ServerTransform.transform(tvMap.get(pages)));
             }
         }
         return tMap;
