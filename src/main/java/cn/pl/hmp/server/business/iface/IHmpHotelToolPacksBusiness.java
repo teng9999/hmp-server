@@ -22,11 +22,16 @@ public interface IHmpHotelToolPacksBusiness  extends IBusiness {
 	 */
 	long insert(HmpHotelToolPacks record);
     /**
-     * 通过播放内容查询
+     * 查询全部
      * @param content
      * @return
      */
     List<HmpHotelToolPacks> selectByExample(HmpHotelToolPacksExample example);
+    /**
+     * 通过id查询
+     * @return
+     */
+    HmpHotelToolPacks selectById(Long id);
     /**
      * 查询全部
      * @return

@@ -80,4 +80,14 @@ public class HmpHotelToolPacksBusinessImpl extends BoostBusinessImpl implements 
 		}
 		return mapper.updateByPrimaryKey(record);
 	}
+
+	@Override
+	public HmpHotelToolPacks selectById(Long id) {
+		if (null == id) {
+			return null;
+		}
+		return mapper.selectByPrimaryKey(id);
+	}
+	
+	
 }

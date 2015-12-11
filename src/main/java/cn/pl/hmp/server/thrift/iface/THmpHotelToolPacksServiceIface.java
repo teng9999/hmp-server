@@ -73,4 +73,9 @@ public class THmpHotelToolPacksServiceIface implements THmpHotelToolPacksService
         }
         return tMap;
     }
+    
+	@Override
+	public THmpHotelToolPacks selectById(long id) throws TException {
+		return ServerTransform.transform(business.selectById(id));
+	}
 }
