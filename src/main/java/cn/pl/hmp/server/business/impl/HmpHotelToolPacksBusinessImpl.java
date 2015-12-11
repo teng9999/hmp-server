@@ -14,7 +14,9 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.iface.IHmpHotelToolPacksBusiness;
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacksExample;
+import cn.pl.hmp.server.dao.entity.PublishPkgs;
 import cn.pl.hmp.server.dao.mapper.HmpHotelToolPacksMapper;
+import cn.pl.hmp.server.dao.mapper.PublishPkgsMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 import com.github.pagehelper.PageInfo;
 
