@@ -44,6 +44,6 @@
         </processor-iface>
     </thrift>
     <zookeeper>
-        <register class="cn.pl.hmp.server.zk.BaseZooKeeperRegister"/>
+        <register class="cn.pl.frame.spring.zk.register.BaseZooKeeperRegister"/>
     </zookeeper>
 </hmp-server>
