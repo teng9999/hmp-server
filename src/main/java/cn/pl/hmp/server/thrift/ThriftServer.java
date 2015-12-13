@@ -3,9 +3,9 @@
  */
 package cn.pl.hmp.server.thrift;
 
+import cn.pl.frame.spring.zk.register.IZooKeeperRegister;
 import cn.pl.hmp.server.config.ThriftConf;
 import cn.pl.hmp.server.config.ZooKeeperConf;
-import cn.pl.hmp.server.zk.IZooKeeperRegister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

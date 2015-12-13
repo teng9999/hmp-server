@@ -2,128 +2,125 @@ package cn.pl.hmp.server.dao.entity;
 
 import java.util.Date;
 
-
 public class HmpMovieGroup {
-	
-	private Long id;
 
-	private Long sysId;
+    private Long id;
 
-	private Long orgId;
+    private Long sysId;
 
-	private String groupName;
+    private Long orgId;
 
-	private Long hotelId;
+    private String groupName;
 
-	private Boolean groupType;
+    private Long hotelId;
 
-	private Boolean adminFlag;
+    private Boolean groupType;
 
-	private Date createTime;
+    private Boolean adminFlag;
 
-	private Long creator;
+    private Date createTime;
 
-	private Date modifyTime;
+    private Long creator;
 
-	private Long modifier;
+    private Date modifyTime;
 
-	private Boolean available;
+    private Long modifier;
 
-	public Long getId() {
-		return id;
-	}
+    private Boolean available;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Long getSysId() {
-		return sysId;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setSysId(Long sysId) {
-		this.sysId = sysId;
-	}
+    public Long getSysId() {
+        return sysId;
+    }
 
-	public Long getOrgId() {
-		return orgId;
-	}
+    public void setSysId(Long sysId) {
+        this.sysId = sysId;
+    }
 
-	public void setOrgId(Long orgId) {
-		this.orgId = orgId;
-	}
+    public Long getOrgId() {
+        return orgId;
+    }
 
-	public Long getHotelId() {
-		return hotelId;
-	}
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
+    }
 
-	public void setHotelId(Long hotelId) {
-		this.hotelId = hotelId;
-	}
-	
-	public String getGroupName() {
-		return groupName;
-	}
+    public Long getHotelId() {
+        return hotelId;
+    }
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName == null ? null : groupName.trim();
-	}
+    public void setHotelId(Long hotelId) {
+        this.hotelId = hotelId;
+    }
 
-	
+    public String getGroupName() {
+        return groupName;
+    }
 
-	public Boolean getGroupType() {
-		return groupType;
-	}
+    public void setGroupName(String groupName) {
+        this.groupName = groupName == null ? null : groupName.trim();
+    }
 
-	public void setGroupType(Boolean groupType) {
-		this.groupType = groupType;
-	}
+    public Boolean getGroupType() {
+        return groupType;
+    }
 
-	public Boolean getAdminFlag() {
-		return adminFlag;
-	}
+    public void setGroupType(Boolean groupType) {
+        this.groupType = groupType;
+    }
 
-	public void setAdminFlag(Boolean adminFlag) {
-		this.adminFlag = adminFlag;
-	}
+    public Boolean getAdminFlag() {
+        return adminFlag;
+    }
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+    public void setAdminFlag(Boolean adminFlag) {
+        this.adminFlag = adminFlag;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-	public Long getCreator() {
-		return creator;
-	}
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-	public void setCreator(Long creator) {
-		this.creator = creator;
-	}
+    public Long getCreator() {
+        return creator;
+    }
 
-	public Date getModifyTime() {
-		return modifyTime;
-	}
+    public void setCreator(Long creator) {
+        this.creator = creator;
+    }
 
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
+    public Date getModifyTime() {
+        return modifyTime;
+    }
 
-	public Long getModifier() {
-		return modifier;
-	}
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
 
-	public void setModifier(Long modifier) {
-		this.modifier = modifier;
-	}
+    public Long getModifier() {
+        return modifier;
+    }
 
-	public Boolean getAvailable() {
-		return available;
-	}
+    public void setModifier(Long modifier) {
+        this.modifier = modifier;
+    }
 
-	public void setAvailable(Boolean available) {
-		this.available = available;
-	}
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
 }

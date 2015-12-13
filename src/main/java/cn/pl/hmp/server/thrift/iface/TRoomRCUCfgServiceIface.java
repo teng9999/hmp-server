@@ -32,171 +32,164 @@ import cn.pl.hmp.server.thrift.transform.ServerTransform;
  */
 @Component
 @ThriftService
-public class TRoomRCUCfgServiceIface implements
-		cn.pl.hmp.commons.thrift.service.TRoomRCUCfgService.Iface {
-	@Autowired
-	private IRoomRCUCfgBusiness business;
+public class TRoomRCUCfgServiceIface implements cn.pl.hmp.commons.thrift.service.TRoomRCUCfgService.Iface {
+    @Autowired
+    private IRoomRCUCfgBusiness business;
 
-	@Override
-	public int deleteById(long id) throws TException {
-		if (business == null) {
-			return 0;
-		}
+    @Override
+    public int deleteById(long id) throws TException {
+        if (business == null) {
+            return 0;
+        }
 
-		return business.remove(id);
-	}
+        return business.remove(id);
+    }
 
-	@Override
-	public int insert(TRoomRCUCfg record) throws TException {
-		if (business == null) {
-			return 0;
-		}
-		RoomRCUCfg roomRCUCfg = ServerTransform.transform(record);
-		if (roomRCUCfg == null) {
-			roomRCUCfg = new RoomRCUCfg();
-		}
-		return business.create(roomRCUCfg);
-	}
+    @Override
+    public int insert(TRoomRCUCfg record) throws TException {
+        if (business == null) {
+            return 0;
+        }
+        RoomRCUCfg roomRCUCfg = ServerTransform.transform(record);
+        if (roomRCUCfg == null) {
+            roomRCUCfg = new RoomRCUCfg();
+        }
+        return business.create(roomRCUCfg);
+    }
 
-	@Override
-	public TRoomRCUCfg selectById(long id) throws TException {
-		if (business == null) {
-			return null;
-		}
-		RoomRCUCfg roomRCUCfg = business.get(id);
-		if (roomRCUCfg == null) {
-			roomRCUCfg = new RoomRCUCfg();
-		}
-		return ServerTransform.transform(roomRCUCfg);
-	}
+    @Override
+    public TRoomRCUCfg selectById(long id) throws TException {
+        if (business == null) {
+            return null;
+        }
+        RoomRCUCfg roomRCUCfg = business.get(id);
+        if (roomRCUCfg == null) {
+            roomRCUCfg = new RoomRCUCfg();
+        }
+        return ServerTransform.transform(roomRCUCfg);
+    }
 
-	@Override
-	public int updateById(TRoomRCUCfg record) throws TException {
-		if (business == null) {
-			return 0;
-		}
-		if (record == null) {
-			return 0;
-		}
-		RoomRCUCfg roomRCUCfg = ServerTransform.transform(record);
-		return business.update(roomRCUCfg);
-	}
+    @Override
+    public int updateById(TRoomRCUCfg record) throws TException {
+        if (business == null) {
+            return 0;
+        }
+        if (record == null) {
+            return 0;
+        }
+        RoomRCUCfg roomRCUCfg = ServerTransform.transform(record);
+        return business.update(roomRCUCfg);
+    }
 
-	@Override
-	public List<TRoomRCUCfg> loadAll() throws ThriftException, TException {
-		if (business == null) {
-			return null;
-		}
-		List<RoomRCUCfg> lists = business.query(null);
-		return listTransform(lists);
-	}
+    @Override
+    public List<TRoomRCUCfg> loadAll() throws ThriftException, TException {
+        if (business == null) {
+            return null;
+        }
+        List<RoomRCUCfg> lists = business.query(null);
+        return listTransform(lists);
+    }
 
-	private List<TRoomRCUCfg> listTransform(List<RoomRCUCfg> lists) {
-		List<TRoomRCUCfg> resultLists = new ArrayList<TRoomRCUCfg>();
-		if (lists != null && lists.size() > 0) {
-			for (RoomRCUCfg roomRCUCfg : lists) {
-				TRoomRCUCfg result = ServerTransform.transform(roomRCUCfg);
-				resultLists.add(result);
-			}
-		}
-		return resultLists;
-	}
+    private List<TRoomRCUCfg> listTransform(List<RoomRCUCfg> lists) {
+        List<TRoomRCUCfg> resultLists = new ArrayList<TRoomRCUCfg>();
+        if (lists != null && lists.size() > 0) {
+            for (RoomRCUCfg roomRCUCfg : lists) {
+                TRoomRCUCfg result = ServerTransform.transform(roomRCUCfg);
+                resultLists.add(result);
+            }
+        }
+        return resultLists;
+    }
 
-	@Override
-	public Map<TPages, List<TRoomRCUCfg>> loadPages(TPages tPages)
-			throws ThriftException, TException {
-		if (business == null)
-			return null;
-		// 转换Thrift分页对象为Pages
-		Pages pages = ServerTransform.transform(tPages);
-		if (pages == null)
-			pages = new Pages();
-		// 分页查询
-		Map<Pages, List<RoomRCUCfg>> result = business.queryPages(null, pages);
-		// 处理查询结果
-		Map<TPages, List<TRoomRCUCfg>> rtn = new HashMap<>();
-		TPages rtnPages = null;
-		List<TRoomRCUCfg> rtnList = null;
-		if (result == null || result.isEmpty()) {
-			// 查询结果为空
-			rtnPages = new TPages();
-			rtnList = new ArrayList<>();
-		} else {
-			// 查询结果不为空
-			for (Pages key : result.keySet()) {
-				List<RoomRCUCfg> datas = result.get(key);
-				if (datas == null || datas.isEmpty()) {
-					// 查询结果包含的实际数据为空
-					rtnPages = new TPages();
-					rtnList = new ArrayList<>();
-				} else {
-					// 转换查询结果和分页对象
-					rtnPages = ServerTransform.transform(key);
-					rtnList = listTransform(datas);
-				}
-				break;
-			}
-		}
-		rtn.put(rtnPages, rtnList);
+    @Override
+    public Map<TPages, List<TRoomRCUCfg>> loadPages(TPages tPages) throws ThriftException, TException {
+        if (business == null)
+            return null;
+        // 转换Thrift分页对象为Pages
+        Pages pages = ServerTransform.transform(tPages);
+        if (pages == null)
+            pages = new Pages();
+        // 分页查询
+        Map<Pages, List<RoomRCUCfg>> result = business.queryPages(null, pages);
+        // 处理查询结果
+        Map<TPages, List<TRoomRCUCfg>> rtn = new HashMap<>();
+        TPages rtnPages = null;
+        List<TRoomRCUCfg> rtnList = null;
+        if (result == null || result.isEmpty()) {
+            // 查询结果为空
+            rtnPages = new TPages();
+            rtnList = new ArrayList<>();
+        } else {
+            // 查询结果不为空
+            for (Pages key : result.keySet()) {
+                List<RoomRCUCfg> datas = result.get(key);
+                if (datas == null || datas.isEmpty()) {
+                    // 查询结果包含的实际数据为空
+                    rtnPages = new TPages();
+                    rtnList = new ArrayList<>();
+                } else {
+                    // 转换查询结果和分页对象
+                    rtnPages = ServerTransform.transform(key);
+                    rtnList = listTransform(datas);
+                }
+                break;
+            }
+        }
+        rtn.put(rtnPages, rtnList);
 
-		return rtn;
-	}
+        return rtn;
+    }
 
-	@Override
-	public List<TRoomRCUCfg> queryByHotelId(long hotelId)
-			throws ThriftException, TException {
-		if (business == null) {
-			return null;
-		}
-		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
-		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId)
-				.andRoomIdEqualTo(-9999L);
-		List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
-		return listTransform(airModes);
-	}
+    @Override
+    public List<TRoomRCUCfg> queryByHotelId(long hotelId) throws ThriftException, TException {
+        if (business == null) {
+            return null;
+        }
+        RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
+        roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId).andRoomIdEqualTo(-9999L);
+        List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
+        return listTransform(airModes);
+    }
 
-	/**
-	 * 查询模板-注意查询的是原始模板（就是roomId为-9999L的）
-	 */
-	@Override
-	public List<TRoomRCUCfg> queryByRoomTypeAndHotelId(String roomType,
-			long hotelId) throws ThriftException, TException {
-		if (business == null) {
-			return null;
-		}
-		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
-		// 就是roomId为-9999L的
-		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId)
-				.andRoomTypeEqualTo(roomType.trim()).andRoomIdEqualTo(-9999L);
-		List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
-		return listTransform(airModes);
-	}
+    /**
+     * 查询模板-注意查询的是原始模板（就是roomId为-9999L的）
+     */
+    @Override
+    public List<TRoomRCUCfg> queryByRoomTypeAndHotelId(String roomType, long hotelId)
+            throws ThriftException, TException {
+        if (business == null) {
+            return null;
+        }
+        RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
+        // 就是roomId为-9999L的
+        roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId).andRoomTypeEqualTo(roomType.trim())
+                .andRoomIdEqualTo(-9999L);
+        List<RoomRCUCfg> airModes = business.query(roomRCUCfgExample);
+        return listTransform(airModes);
+    }
 
-	@Override
-	public int apply2room(String roomType, long hotelId)
-			throws ThriftException, TException {
-		if (business == null) {
-			return -1;
-		}
-		if (StringUtils.isBlank(roomType)) {
-			return -1;
-		}
-		return business.apply2room(roomType, hotelId);
-	}
+    @Override
+    public int apply2room(String roomType, long hotelId) throws ThriftException, TException {
+        if (business == null) {
+            return -1;
+        }
+        if (StringUtils.isBlank(roomType)) {
+            return -1;
+        }
+        return business.apply2room(roomType, hotelId);
+    }
 
-	/**
-	 * 房间管理查询的时候使用。
-	 */
-	@Override
-	public List<TRoomRCUCfg> queryByRoomIdAndHotelId(long roomId, long hotelId)
-			throws ThriftException, TException {
-		if (business == null) {
-			return null;
-		}
-		RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
-		roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId)
-				.andRoomIdEqualTo(roomId);
-		List<RoomRCUCfg> roomRCUCfgs = business.query(roomRCUCfgExample);
-		return listTransform(roomRCUCfgs);
-	}
+    /**
+     * 房间管理查询的时候使用。
+     */
+    @Override
+    public List<TRoomRCUCfg> queryByRoomIdAndHotelId(long roomId, long hotelId) throws ThriftException, TException {
+        if (business == null) {
+            return null;
+        }
+        RoomRCUCfgExample roomRCUCfgExample = new RoomRCUCfgExample();
+        roomRCUCfgExample.createCriteria().andHotelIdEqualTo(hotelId).andRoomIdEqualTo(roomId);
+        List<RoomRCUCfg> roomRCUCfgs = business.query(roomRCUCfgExample);
+        return listTransform(roomRCUCfgs);
+    }
 }

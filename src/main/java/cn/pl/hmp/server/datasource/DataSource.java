@@ -13,10 +13,10 @@ import java.lang.annotation.Target;
  * 方法级数据源注解
  * 
  * @author alanyuan
- *        
+ * 
  */
-@Retention( RetentionPolicy.RUNTIME )
-@Target( ElementType.METHOD )
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 @Documented
 public @interface DataSource {
     String value();

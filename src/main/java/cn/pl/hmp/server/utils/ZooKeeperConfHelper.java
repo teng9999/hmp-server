@@ -4,13 +4,14 @@
  */
 package cn.pl.hmp.server.utils;
 
-import cn.pl.hmp.server.config.Property;
-import cn.pl.hmp.server.config.ServerConfig;
-import cn.pl.hmp.server.config.ZooKeeperConf;
+import java.util.Hashtable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Hashtable;
+import cn.pl.hmp.server.config.Property;
+import cn.pl.hmp.server.config.ServerConfig;
+import cn.pl.hmp.server.config.ZooKeeperConf;
 
 /**
  * ZooKeeper配置Helper
@@ -19,7 +20,7 @@ import java.util.Hashtable;
  */
 public class ZooKeeperConfHelper {
     private static Logger logger = LoggerFactory.getLogger(ZooKeeperConfHelper.class);
-    
+
     /**
      * 构建配置
      *
@@ -42,7 +43,7 @@ public class ZooKeeperConfHelper {
             conf.setRegister(BeanUtil.createZooKeeperRegister(conf.getRegisterClass()));
         }
     }
-    
+
     private static boolean check(ZooKeeperConf conf) {
         if (conf == null) {
             logger.error("ZooKeeper Config Error: {}", conf);
@@ -53,5 +54,5 @@ public class ZooKeeperConfHelper {
         }
         return true;
     }
-    
+
 }

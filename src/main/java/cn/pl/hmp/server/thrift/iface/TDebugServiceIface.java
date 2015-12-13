@@ -4,16 +4,17 @@
  */
 package cn.pl.hmp.server.thrift.iface;
 
-import cn.pl.frame.annotation.ThriftService;
-import cn.pl.frame.thrfit.service.TDebugService.Iface;
-import cn.pl.frame.thrift.define.TDebug;
-import cn.pl.frame.thrift.exception.ThriftException;
-import cn.pl.commons.utils.StringUtils;
-import cn.pl.hmp.server.utils.ServerStatisticUtil;
 import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import cn.pl.commons.utils.StringUtils;
+import cn.pl.frame.annotation.ThriftService;
+import cn.pl.frame.thrfit.service.TDebugService.Iface;
+import cn.pl.frame.thrift.define.TDebug;
+import cn.pl.frame.thrift.exception.ThriftException;
+import cn.pl.hmp.server.utils.ServerStatisticUtil;
 
 /**
  * 调试服务接口实现
@@ -25,11 +26,11 @@ import org.springframework.stereotype.Component;
 public class TDebugServiceIface implements Iface {
     private static Logger logger = LoggerFactory.getLogger(TDebugServiceIface.class);
     // @Autowired private IEtlExampleBusiness business;
-    
+
     /*
      * (non-Javadoc)
-     * @see
-     * cn.pl.frame.thrift.service.TDebugService.Iface#info(java.lang.String
+     * 
+     * @see cn.pl.frame.thrift.service.TDebugService.Iface#info(java.lang.String
      * )
      */
     @Override
@@ -38,11 +39,11 @@ public class TDebugServiceIface implements Iface {
         logger.info(d.getInfo());
         return d;
     }
-    
+
     /*
      * (non-Javadoc)
-     * @see
-     * cn.pl.frame.thrift.service.TDebugService.Iface#warn(java.lang.String
+     * 
+     * @see cn.pl.frame.thrift.service.TDebugService.Iface#warn(java.lang.String
      * )
      */
     @Override
@@ -51,16 +52,17 @@ public class TDebugServiceIface implements Iface {
         logger.debug(d.getInfo());
         return d;
     }
-    
+
     /*
      * (non-Javadoc)
+     * 
      * @see cn.pl.frame.thrift.service.TDebugService.Iface#debug(java.lang.
      * String )
      */
     @Override
     public TDebug debug(String debug) throws ThriftException, TException {
         TDebug d = null;
-        
+
         if (StringUtils.isNotBlank(debug) && debug.equalsIgnoreCase("serverstat")) {
             logger.warn("Debug Server Statistic");
             Thread[] thread = ServerStatisticUtil.findAllThreads();
@@ -88,9 +90,10 @@ public class TDebugServiceIface implements Iface {
         }
         return d;
     }
-    
+
     /*
      * (non-Javadoc)
+     * 
      * @see cn.pl.frame.thrift.service.TDebugService.Iface#error(java.lang.
      * String )
      */
@@ -100,5 +103,5 @@ public class TDebugServiceIface implements Iface {
         logger.error(d.getInfo());
         return d;
     }
-    
+
 }

@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.TvChannel;
 import cn.pl.hmp.server.dao.entity.TvChannelExample;
-import java.util.List;
 
 public interface TvChannelMapper {
     int countByExample(TvChannelExample example);
@@ -18,6 +19,6 @@ public interface TvChannelMapper {
     int updateByPrimaryKeySelective(TvChannel record);
 
     int updateByPrimaryKey(TvChannel record);
-    
+
     int deleteOnBatch(List<Long> idList);
 }

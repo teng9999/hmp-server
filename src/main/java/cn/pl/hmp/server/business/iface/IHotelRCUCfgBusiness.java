@@ -19,7 +19,7 @@ import cn.pl.hmp.server.datasource.DataSource;
  * @author zhoujianbiao
  */
 public interface IHotelRCUCfgBusiness extends IBusiness {
-	/**
+    /**
 	 * 按条件查询
 	 *
 	 * @param example
@@ -28,7 +28,7 @@ public interface IHotelRCUCfgBusiness extends IBusiness {
 	@DataSource("cluster")
 	public List<HotelRCUCfg> query(HotelRCUCfgExample example);
 
-	/**
+    /**
 	 * 按条件查询
 	 *
 	 * @param example
@@ -39,7 +39,7 @@ public interface IHotelRCUCfgBusiness extends IBusiness {
 	public Map<Pages, List<HotelRCUCfg>> queryPages(HotelRCUCfgExample example,
 			Pages pages);
 
-	/**
+    /**
 	 * 获取
 	 *
 	 * @param id
@@ -48,7 +48,7 @@ public interface IHotelRCUCfgBusiness extends IBusiness {
 	@DataSource("cluster")
 	public HotelRCUCfg get(Long id);
 
-	/**
+    /**
 	 * 创建
 	 *
 	 * @param record
@@ -56,7 +56,7 @@ public interface IHotelRCUCfgBusiness extends IBusiness {
 	 */
 	public int create(HotelRCUCfg record);
 
-	/**
+    /**
 	 * 更新
 	 *
 	 * @param record
@@ -64,7 +64,7 @@ public interface IHotelRCUCfgBusiness extends IBusiness {
 	 */
 	public int update(HotelRCUCfg record);
 
-	/**
+    /**
 	 * 删除
 	 *
 	 * @param id

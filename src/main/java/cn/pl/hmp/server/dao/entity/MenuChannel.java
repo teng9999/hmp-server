@@ -50,13 +50,13 @@ public class MenuChannel {
     private Long modifier;
 
     private Boolean available;
-    
+
     private String contentCn;
-    
+
     private String contentEn;
-    
+
     private String img;
-    
+
     public String getContentCn() {
         return contentCn;
     }

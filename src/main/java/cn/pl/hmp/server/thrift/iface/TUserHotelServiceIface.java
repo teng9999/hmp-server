@@ -16,32 +16,33 @@ import cn.pl.hmp.server.dao.entity.UserHotel;
 @Component
 @ThriftService
 public class TUserHotelServiceIface implements TUserHotelService.Iface {
-	
-	@Autowired
-	private IUserHotelBusiness userHotelBusiness;
-	@Override
-	public List<TUserHotel> queryByUserId(long id) throws TException {
-		return ObjectConverter.convet(userHotelBusiness.selectByUserId(id), TUserHotel.class);
-	}
 
-	@Override
-	public int deleteById(long id) throws TException {
-		return userHotelBusiness.deleteById(id);
-	}
+    @Autowired
+    private IUserHotelBusiness userHotelBusiness;
 
-	@Override
-	public int save(TUserHotel record) throws TException {
-		return userHotelBusiness.insert(ObjectConverter.convet(record, UserHotel.class));
-	}
+    @Override
+    public List<TUserHotel> queryByUserId(long id) throws TException {
+        return ObjectConverter.convet(userHotelBusiness.selectByUserId(id), TUserHotel.class);
+    }
 
-	@Override
-	public List<TUserHotel> queryByHotelId(long id) throws TException {
-		return ObjectConverter.convet(userHotelBusiness.selectByHotelId(id), TUserHotel.class);
-	}
-	@Override
-	public int update(TUserHotel record) throws TException {
-		return userHotelBusiness.update(ObjectConverter.convet(record, UserHotel.class));
-	}
+    @Override
+    public int deleteById(long id) throws TException {
+        return userHotelBusiness.deleteById(id);
+    }
 
+    @Override
+    public int save(TUserHotel record) throws TException {
+        return userHotelBusiness.insert(ObjectConverter.convet(record, UserHotel.class));
+    }
+
+    @Override
+    public List<TUserHotel> queryByHotelId(long id) throws TException {
+        return ObjectConverter.convet(userHotelBusiness.selectByHotelId(id), TUserHotel.class);
+    }
+
+    @Override
+    public int update(TUserHotel record) throws TException {
+        return userHotelBusiness.update(ObjectConverter.convet(record, UserHotel.class));
+    }
 
 }

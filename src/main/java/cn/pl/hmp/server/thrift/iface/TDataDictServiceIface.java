@@ -24,48 +24,49 @@ import cn.pl.hmp.server.thrift.transform.ServerTransform;
 @Component
 @ThriftService
 public class TDataDictServiceIface implements TDataDictService.Iface {
-	
-	@Autowired
-	private IDataDictBusiness dataDictBusiness;
-	@Override
-	public List<TDataDict> queryAll() throws TException {
-		return ObjectConverter.convet(dataDictBusiness.selectAll(), TDataDict.class);
-	}
 
-	@Override
-	public int deleteById(long id) throws TException {
-		return dataDictBusiness.deleteByDataDictId(id);
-	}
-
-	@Override
-	public long save(TDataDict record) throws TException {
-	    DataDict dataDict = ObjectConverter.convet(record, DataDict.class);
-	    dataDictBusiness.insert(dataDict);
-		return dataDict.getId();
-	}
-
-	@Override
-	public TDataDict queryById(long id) throws TException {
-		DataDict dataDict = dataDictBusiness.selectByDataDictId(id);
-		return ObjectConverter.convet(dataDict, TDataDict.class);
-	}
-
-	@Override
-	public int update(TDataDict record) throws TException {
-		return dataDictBusiness.update(ObjectConverter.convet(record, DataDict.class));
-	}
+    @Autowired
+    private IDataDictBusiness dataDictBusiness;
 
     @Override
-    public Map<TPages, List<TDataDict>> queryByPages(TPages pages)
-            throws TException {
-        Map<TPages,List<TDataDict>> tmap = new HashMap<TPages, List<TDataDict>>();
+    public List<TDataDict> queryAll() throws TException {
+        return ObjectConverter.convet(dataDictBusiness.selectAll(), TDataDict.class);
+    }
+
+    @Override
+    public int deleteById(long id) throws TException {
+        return dataDictBusiness.deleteByDataDictId(id);
+    }
+
+    @Override
+    public long save(TDataDict record) throws TException {
+        DataDict dataDict = ObjectConverter.convet(record, DataDict.class);
+        dataDictBusiness.insert(dataDict);
+        return dataDict.getId();
+    }
+
+    @Override
+    public TDataDict queryById(long id) throws TException {
+        DataDict dataDict = dataDictBusiness.selectByDataDictId(id);
+        return ObjectConverter.convet(dataDict, TDataDict.class);
+    }
+
+    @Override
+    public int update(TDataDict record) throws TException {
+        return dataDictBusiness.update(ObjectConverter.convet(record, DataDict.class));
+    }
+
+    @Override
+    public Map<TPages, List<TDataDict>> queryByPages(TPages pages) throws TException {
+        Map<TPages, List<TDataDict>> tmap = new HashMap<TPages, List<TDataDict>>();
         TPages tempPage = null;
-        Map<Pages,List<DataDict>> dataDictMap = dataDictBusiness.selectByPages(null,ObjectConverter.convet(pages, Pages.class));
-        if(null != dataDictMap&& !dataDictMap.isEmpty()){
+        Map<Pages, List<DataDict>> dataDictMap = dataDictBusiness.selectByPages(null,
+                ObjectConverter.convet(pages, Pages.class));
+        if (null != dataDictMap && !dataDictMap.isEmpty()) {
             Set<Pages> set = dataDictMap.keySet();
-            for(Pages page:set){
+            for (Pages page : set) {
                 tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage,ObjectConverter.convet(dataDictMap.get(page), TDataDict.class));
+                tmap.put(tempPage, ObjectConverter.convet(dataDictMap.get(page), TDataDict.class));
             }
         }
         return tmap;
@@ -80,21 +81,22 @@ public class TDataDictServiceIface implements TDataDictService.Iface {
     public List<TDataDict> queryByName(String name) throws TException {
         DataDictExample example = new DataDictExample();
         example.createCriteria().andNameEqualTo(name);
-        return ObjectConverter.convet(dataDictBusiness.selectByCase(example),TDataDict.class);
+        return ObjectConverter.convet(dataDictBusiness.selectByCase(example), TDataDict.class);
     }
 
     @Override
-    public Map<TPages, List<TDataDict>> queryByParentId(TPages pages,long parentId) throws TException {
-        Map<TPages,List<TDataDict>> tmap = new HashMap<TPages, List<TDataDict>>();
+    public Map<TPages, List<TDataDict>> queryByParentId(TPages pages, long parentId) throws TException {
+        Map<TPages, List<TDataDict>> tmap = new HashMap<TPages, List<TDataDict>>();
         TPages tempPage = null;
         DataDictExample example = new DataDictExample();
         example.createCriteria().andParentIdEqualTo(parentId);
-        Map<Pages,List<DataDict>> dataDictMap = dataDictBusiness.selectByPages(example,ObjectConverter.convet(pages, Pages.class));
-        if(null != dataDictMap&& !dataDictMap.isEmpty()){
+        Map<Pages, List<DataDict>> dataDictMap = dataDictBusiness.selectByPages(example,
+                ObjectConverter.convet(pages, Pages.class));
+        if (null != dataDictMap && !dataDictMap.isEmpty()) {
             Set<Pages> set = dataDictMap.keySet();
-            for(Pages page:set){
+            for (Pages page : set) {
                 tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage,ObjectConverter.convet(dataDictMap.get(page), TDataDict.class));
+                tmap.put(tempPage, ObjectConverter.convet(dataDictMap.get(page), TDataDict.class));
             }
         }
         return tmap;
@@ -102,16 +104,16 @@ public class TDataDictServiceIface implements TDataDictService.Iface {
 
     @Override
     public List<TDataDict> queryByCases(TDataDict record) throws TException {
-       DataDictExample example = new DataDictExample();
-        Criteria criteria =example.createCriteria();
+        DataDictExample example = new DataDictExample();
+        Criteria criteria = example.createCriteria();
         DataDict dict = ObjectConverter.convet(record, DataDict.class);
-        try { 
-            ObjectConverter.copyValues(dict,criteria);
+        try {
+            ObjectConverter.copyValues(dict, criteria);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return ObjectConverter.convet(dataDictBusiness.selectByCase(example),TDataDict.class);
+        return ObjectConverter.convet(dataDictBusiness.selectByCase(example), TDataDict.class);
     }
 }

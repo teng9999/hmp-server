@@ -23,7 +23,7 @@ public interface RoomRCUCfgMapper {
     int updateByPrimaryKeySelective(RoomRCUCfg record);
 
     int updateByPrimaryKey(RoomRCUCfg record);
-    
+
     List<RoomRCUCfg> selectByLineType(@Param(value="lineType")String lineType
             ,@Param(value="roomId")long roomId);
 }

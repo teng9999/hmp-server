@@ -20,19 +20,19 @@ public class HmpHotelToolPacks {
     private Date createDate;
 
     private Date modifyTime;
-    
+
     private String hotelName;
-    
+
     private String subName;
-    
+
     private String type;
-    
+
     private String address;
-    
+
     private String lastVersion;
 
     private String link;
-    
+
     public Long getId() {
         return id;
     }
@@ -105,51 +105,51 @@ public class HmpHotelToolPacks {
         this.modifyTime = modifyTime;
     }
 
-	public String getHotelName() {
-		return hotelName;
-	}
+    public String getHotelName() {
+        return hotelName;
+    }
 
-	public void setHotelName(String hotelName) {
-		this.hotelName = hotelName;
-	}
-	
-	public String getSubName() {
-		return subName;
-	}
+    public void setHotelName(String hotelName) {
+        this.hotelName = hotelName;
+    }
 
-	public void setSubName(String subName) {
-		this.subName = subName;
-	}
-	
-	public String getType() {
-		return type;
-	}
+    public String getSubName() {
+        return subName;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public String getAddress() {
-		return address;
-	}
+    public void setSubName(String subName) {
+        this.subName = subName;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	public String getLastVersion() {
-		return lastVersion;
-	}
-	
-	public void setLastVersion(String lastVersion) {
-		this.lastVersion = lastVersion;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getLink() {
-		return link;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setLink(String link) {
-		this.link = link;
-	}
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getLastVersion() {
+        return lastVersion;
+    }
+
+    public void setLastVersion(String lastVersion) {
+        this.lastVersion = lastVersion;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 }

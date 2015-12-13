@@ -21,8 +21,8 @@ public interface CommondityTypeMapper {
     int updateByPrimaryKeySelective(CommondityType record);
 
     int updateByPrimaryKey(CommondityType record);
-    
+
     int insertBatch(List<CommondityType> list);
-    
+
     int deleteByMenuId(@Param(value = "menuChannelId")Long menuChannelId);
 }

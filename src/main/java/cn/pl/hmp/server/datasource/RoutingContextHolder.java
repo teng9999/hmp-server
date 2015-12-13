@@ -11,14 +11,14 @@ import org.apache.commons.lang3.Validate;
  *
  * @author alanyuan
  */
-@SuppressWarnings( "unchecked" )
+@SuppressWarnings("unchecked")
 public class RoutingContextHolder<T> {
     private static final ThreadLocal<Object> contextHolder = new ThreadLocal<Object>();
-    
+
     public static <T> T getContext() {
         return (T) contextHolder.get();
     }
-    
+
     public static <T> void setContext(T context) {
         Validate.notNull(context, "Routing Context is Required!");
         contextHolder.set(context);

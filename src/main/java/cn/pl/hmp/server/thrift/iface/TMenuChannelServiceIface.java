@@ -40,8 +40,7 @@ public class TMenuChannelServiceIface implements TMenuChannelService.Iface {
 
     @Override
     public long save(TMenuChannel record) throws TException {
-        return menuChannelBusiness.insert(ObjectConverter.convet(record,
-                MenuChannel.class));
+        return menuChannelBusiness.insert(ObjectConverter.convet(record, MenuChannel.class));
     }
 
     @Override
@@ -52,8 +51,7 @@ public class TMenuChannelServiceIface implements TMenuChannelService.Iface {
 
     @Override
     public int update(TMenuChannel record) throws TException {
-        return menuChannelBusiness.update(ObjectConverter.convet(record,
-                MenuChannel.class));
+        return menuChannelBusiness.update(ObjectConverter.convet(record, MenuChannel.class));
     }
 
     @Override
@@ -62,54 +60,48 @@ public class TMenuChannelServiceIface implements TMenuChannelService.Iface {
     }
 
     @Override
-    public Map<TPages, List<TMenuChannel>> queryByHotelId(long hotelId,
-            TPages pages) throws TException {
+    public Map<TPages, List<TMenuChannel>> queryByHotelId(long hotelId, TPages pages) throws TException {
         Map<TPages, List<TMenuChannel>> tmap = new HashMap<TPages, List<TMenuChannel>>();
         TPages tempPage = null;
         MenuChannelExample example = new MenuChannelExample();
         example.createCriteria().andHotelIdEqualTo(hotelId);
-        Map<Pages, List<MenuChannel>> menuChannelMap = menuChannelBusiness
-                .selectByPages(example, ObjectConverter.convet(pages, Pages.class));
+        Map<Pages, List<MenuChannel>> menuChannelMap = menuChannelBusiness.selectByPages(example,
+                ObjectConverter.convet(pages, Pages.class));
         if (null != menuChannelMap && !menuChannelMap.isEmpty()) {
             Set<Pages> set = menuChannelMap.keySet();
             for (Pages page : set) {
                 tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage, ObjectConverter.convet(
-                        menuChannelMap.get(page), TMenuChannel.class));
-            }
-        }
-        return tmap;
-    }
-    @Override
-    public Map<TPages, List<TMenuChannel>> queryByParentId(long parentId,
-            long hotelId, TPages pages) throws TException {
-        Map<TPages, List<TMenuChannel>> tmap = new HashMap<TPages, List<TMenuChannel>>();
-        TPages tempPage = null;
-        MenuChannelExample example = new MenuChannelExample();
-        example.createCriteria().andHotelIdEqualTo(hotelId)
-        .andParentIdEqualTo(parentId);
-        Map<Pages, List<MenuChannel>> menuChannelMap = menuChannelBusiness
-                .queryByParentIdList(parentId,hotelId, 
-                        ObjectConverter.convet(pages, Pages.class));
-        if (null != menuChannelMap && !menuChannelMap.isEmpty()) {
-            Set<Pages> set = menuChannelMap.keySet();
-            for (Pages page : set) {
-                tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage, ObjectConverter.convet(
-                        menuChannelMap.get(page), TMenuChannel.class));
+                tmap.put(tempPage, ObjectConverter.convet(menuChannelMap.get(page), TMenuChannel.class));
             }
         }
         return tmap;
     }
 
     @Override
-    public long saveAll(TMenuChannel tmenuChannel, TMenuPages tmenuPages)
+    public Map<TPages, List<TMenuChannel>> queryByParentId(long parentId, long hotelId, TPages pages)
             throws TException {
+        Map<TPages, List<TMenuChannel>> tmap = new HashMap<TPages, List<TMenuChannel>>();
+        TPages tempPage = null;
+        MenuChannelExample example = new MenuChannelExample();
+        example.createCriteria().andHotelIdEqualTo(hotelId).andParentIdEqualTo(parentId);
+        Map<Pages, List<MenuChannel>> menuChannelMap = menuChannelBusiness.queryByParentIdList(parentId, hotelId,
+                ObjectConverter.convet(pages, Pages.class));
+        if (null != menuChannelMap && !menuChannelMap.isEmpty()) {
+            Set<Pages> set = menuChannelMap.keySet();
+            for (Pages page : set) {
+                tempPage = ServerTransform.transform(page);
+                tmap.put(tempPage, ObjectConverter.convet(menuChannelMap.get(page), TMenuChannel.class));
+            }
+        }
+        return tmap;
+    }
+
+    @Override
+    public long saveAll(TMenuChannel tmenuChannel, TMenuPages tmenuPages) throws TException {
         MenuChannel menuChannel = ObjectConverter.convet(tmenuChannel, MenuChannel.class);
         MenuPages menuPages = ObjectConverter.convet(tmenuPages, MenuPages.class);
         Long channelId = menuChannelBusiness.insert(menuChannel);
-        if(channelId > 0 && menuChannel.getParentId() != null
-                && menuChannel.getParentId() != 0) {
+        if (channelId > 0 && menuChannel.getParentId() != null && menuChannel.getParentId() != 0) {
             menuPages.setCreateTime(menuChannel.getCreateTime());
             menuPages.setCreator(menuChannel.getCreator());
             menuPages.setMenuId(channelId);
@@ -119,21 +111,20 @@ public class TMenuChannelServiceIface implements TMenuChannelService.Iface {
     }
 
     @Override
-    public int updateAll(TMenuChannel tmenuChannel, TMenuPages tmenuPages)
-            throws TException {
+    public int updateAll(TMenuChannel tmenuChannel, TMenuPages tmenuPages) throws TException {
         MenuChannel menuChannel = ObjectConverter.convet(tmenuChannel, MenuChannel.class);
         MenuPages menuPages = ObjectConverter.convet(tmenuPages, MenuPages.class);
         int res = menuChannelBusiness.update(menuChannel);
-        if(menuChannel.getParentId() != null && menuChannel.getParentId() != 0) {
+        if (menuChannel.getParentId() != null && menuChannel.getParentId() != 0) {
             MenuPagesExample pagesExample = new MenuPagesExample();
             pagesExample.createCriteria().andMenuIdEqualTo(menuChannel.getId());
             List<MenuPages> pagesList = menuPagesBusiness.selectByExample(pagesExample);
             menuPages.setMenuId(tmenuChannel.getId());
-            if(pagesList != null && !pagesList.isEmpty()) {
+            if (pagesList != null && !pagesList.isEmpty()) {
                 menuPages.setId(pagesList.get(0).getId());
                 menuPages.setModifyTime(menuChannel.getModifyTime());
                 menuPagesBusiness.update(menuPages);
-            }else{
+            } else {
                 menuPages.setCreateTime(menuChannel.getModifyTime());
                 menuPages.setCreator(menuChannel.getCreator());
                 menuPagesBusiness.insert(menuPages);

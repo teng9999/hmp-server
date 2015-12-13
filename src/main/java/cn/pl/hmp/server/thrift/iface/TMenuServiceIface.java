@@ -22,46 +22,46 @@ import cn.pl.hmp.server.thrift.transform.ServerTransform;
 @Component
 @ThriftService
 public class TMenuServiceIface implements TMenuService.Iface {
-	
-	@Autowired
-	private IMenuBusiness menuBusiness;
-	@Override
-	public List<TMenu> queryAll() throws TException {
-		return ObjectConverter.convet(menuBusiness.selectAll(), TMenu.class);
-	}
 
-	@Override
-	public int deleteById(long id) throws TException {
-		return menuBusiness.deleteByMenuId(id);
-	}
-
-	@Override
-	public int save(TMenu record) throws TException {
-		return menuBusiness.insert(ObjectConverter.convet(record, Menu.class));
-	}
-
-	@Override
-	public TMenu queryById(long id) throws TException {
-		Menu menu = menuBusiness.selectByMenuId(id);
-		return ObjectConverter.convet(menu, TMenu.class);
-	}
-
-	@Override
-	public int update(TMenu record) throws TException {
-		return menuBusiness.update(ObjectConverter.convet(record, Menu.class));
-	}
+    @Autowired
+    private IMenuBusiness menuBusiness;
 
     @Override
-    public Map<TPages, List<TMenu>> queryByPages(TPages pages)
-            throws TException {
-        Map<TPages,List<TMenu>> tmap = new HashMap<TPages, List<TMenu>>();
+    public List<TMenu> queryAll() throws TException {
+        return ObjectConverter.convet(menuBusiness.selectAll(), TMenu.class);
+    }
+
+    @Override
+    public int deleteById(long id) throws TException {
+        return menuBusiness.deleteByMenuId(id);
+    }
+
+    @Override
+    public int save(TMenu record) throws TException {
+        return menuBusiness.insert(ObjectConverter.convet(record, Menu.class));
+    }
+
+    @Override
+    public TMenu queryById(long id) throws TException {
+        Menu menu = menuBusiness.selectByMenuId(id);
+        return ObjectConverter.convet(menu, TMenu.class);
+    }
+
+    @Override
+    public int update(TMenu record) throws TException {
+        return menuBusiness.update(ObjectConverter.convet(record, Menu.class));
+    }
+
+    @Override
+    public Map<TPages, List<TMenu>> queryByPages(TPages pages) throws TException {
+        Map<TPages, List<TMenu>> tmap = new HashMap<TPages, List<TMenu>>();
         TPages tempPage = null;
-        Map<Pages,List<Menu>> menuMap = menuBusiness.selectByPages(null,ObjectConverter.convet(pages, Pages.class));
-        if(null != menuMap&& !menuMap.isEmpty()){
+        Map<Pages, List<Menu>> menuMap = menuBusiness.selectByPages(null, ObjectConverter.convet(pages, Pages.class));
+        if (null != menuMap && !menuMap.isEmpty()) {
             Set<Pages> set = menuMap.keySet();
-            for(Pages page:set){
+            for (Pages page : set) {
                 tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage,ObjectConverter.convet(menuMap.get(page), TMenu.class));
+                tmap.put(tempPage, ObjectConverter.convet(menuMap.get(page), TMenu.class));
             }
         }
         return tmap;
@@ -78,17 +78,16 @@ public class TMenuServiceIface implements TMenuService.Iface {
     }
 
     @Override
-    public Map<TPages, List<TMenu>> queryHotelMenu(TPages pages, long hotelId,
-            long parentId) throws TException {
-        Map<TPages,List<TMenu>> tmap = new HashMap<TPages, List<TMenu>>();
+    public Map<TPages, List<TMenu>> queryHotelMenu(TPages pages, long hotelId, long parentId) throws TException {
+        Map<TPages, List<TMenu>> tmap = new HashMap<TPages, List<TMenu>>();
         TPages tempPage = null;
-        Map<Pages,List<Menu>> menuMap = menuBusiness.selectHotelMenuByHotelId(hotelId,parentId,
+        Map<Pages, List<Menu>> menuMap = menuBusiness.selectHotelMenuByHotelId(hotelId, parentId,
                 ObjectConverter.convet(pages, Pages.class));
-        if(null != menuMap&& !menuMap.isEmpty()){
+        if (null != menuMap && !menuMap.isEmpty()) {
             Set<Pages> set = menuMap.keySet();
-            for(Pages page:set){
+            for (Pages page : set) {
                 tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage,ObjectConverter.convet(menuMap.get(page), TMenu.class));
+                tmap.put(tempPage, ObjectConverter.convet(menuMap.get(page), TMenu.class));
             }
         }
         return tmap;

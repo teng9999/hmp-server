@@ -13,6 +13,7 @@ import cn.pl.hmp.server.business.iface.IClearLitterBusiness;
 public class TClearLitterServiceIface implements TClearLitterService.Iface {
     @Autowired
     private IClearLitterBusiness clearLitterBusiness;
+
     @Override
     public long deleteAllDataExceptHotelId(long hotelId) throws TException {
         try {
@@ -20,15 +21,14 @@ public class TClearLitterServiceIface implements TClearLitterService.Iface {
             return 1;
         } catch (Exception e) {
             e.printStackTrace();
-        }    
+        }
         return 0;
     }
 
     @Override
-    public long deleteAllDataExceptHotelName(String hotelName)
-            throws TException {
+    public long deleteAllDataExceptHotelName(String hotelName) throws TException {
         // TODO Auto-generated method stub
         return 0;
     }
-	
+
 }

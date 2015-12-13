@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
 
+import cn.pl.frame.annotation.ThriftService;
 import cn.pl.hmp.commons.thrift.service.TPublishService;
 import cn.pl.hmp.server.business.iface.IHmpRoomTvBusiness;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
 import cn.pl.hmp.server.business.iface.IHotelRoomBusiness;
 import cn.pl.hmp.server.business.iface.IMenuChannelBusiness;
-import cn.pl.frame.annotation.ThriftService;
 
 @Component
 @ThriftService
@@ -24,6 +24,7 @@ public class TPublishServiceIface implements TPublishService.Iface {
     private IHotelRoomBusiness roomBusiness;
     @Autowired
     private IHmpRoomTvBusiness roomTvBusiness;
+
     @Override
     public String publish(long hotelId) throws TException {
         JSONObject topObj = new JSONObject();

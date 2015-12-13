@@ -24,12 +24,12 @@ public class THmpRoomTvServiceIface implements THmpRoomTvService.Iface {
     @Override
     public THmpRoomTv selectByHotelId(long hotelId) throws TException {
         HmpRoomTv roomTv = business.selectByHotelId(hotelId);
-        if(null == roomTv) {
+        if (null == roomTv) {
             roomTv = new HmpRoomTv();
         }
-    	return ObjectConverter.convet(roomTv, THmpRoomTv.class);
+        return ObjectConverter.convet(roomTv, THmpRoomTv.class);
     }
-    
+
     @Override
     public int deleteById(long id) throws TException {
         return business.deleteByHmpRoomTvId(id);
@@ -48,7 +48,7 @@ public class THmpRoomTvServiceIface implements THmpRoomTvService.Iface {
     @Override
     public List<THmpRoomTv> selectAll() throws TException {
         List<HmpRoomTv> roomTvList = business.selectAll();
-        if(null == roomTvList) {
+        if (null == roomTvList) {
             roomTvList = new ArrayList<HmpRoomTv>();
         }
         return ObjectConverter.convet(roomTvList, THmpRoomTv.class);

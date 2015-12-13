@@ -21,6 +21,6 @@ public interface HotelInfoMapper {
     int updateByPrimaryKeySelective(HotelInfo record);
 
     int updateByPrimaryKey(HotelInfo record);
-    
+
     List<HotelInfo> selectByUserId(@Param("userId")Long userId);
 }

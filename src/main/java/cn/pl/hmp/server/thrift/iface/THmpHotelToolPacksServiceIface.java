@@ -42,15 +42,15 @@ public class THmpHotelToolPacksServiceIface implements THmpHotelToolPacksService
     public int update(THmpHotelToolPacks record) throws TException {
         return business.update(ObjectConverter.convet(record, HmpHotelToolPacks.class));
     }
-    
+
     @Override
     public List<THmpHotelToolPacks> queryList() throws TException {
-    	List<HmpHotelToolPacks> list=business.queryList();
-    	List<THmpHotelToolPacks> tlist = new ArrayList<>();
-    	for(HmpHotelToolPacks info:list) {
-    		tlist.add(ServerTransform.transform(info));
-    	}
-    	return tlist;
+        List<HmpHotelToolPacks> list = business.queryList();
+        List<THmpHotelToolPacks> tlist = new ArrayList<>();
+        for (HmpHotelToolPacks info : list) {
+            tlist.add(ServerTransform.transform(info));
+        }
+        return tlist;
     };
 
     @Override
@@ -62,20 +62,22 @@ public class THmpHotelToolPacksServiceIface implements THmpHotelToolPacksService
     public Map<TPages, List<THmpHotelToolPacks>> loadPages(TPages page) throws TException {
         Map<TPages, List<THmpHotelToolPacks>> tMap = new HashMap<TPages, List<THmpHotelToolPacks>>();
         TPages tempPage = null;
-        Map<Pages, List<HmpHotelToolPacks>> tvMap = business.selectByPages(null, ObjectConverter.convet(page, Pages.class));
+        Map<Pages, List<HmpHotelToolPacks>> tvMap = business.selectByPages(null,
+                ObjectConverter.convet(page, Pages.class));
         if (null != tvMap && !tvMap.isEmpty()) {
             Set<Pages> set = tvMap.keySet();
             for (Pages pages : set) {
                 tempPage = ServerTransform.transform(pages);
-//                tMap.put(tempPage, ObjectConverter.convet(tvMap.get(pages), THmpHotelToolPacks.class));
+                // tMap.put(tempPage, ObjectConverter.convet(tvMap.get(pages),
+                // THmpHotelToolPacks.class));
                 tMap.put(tempPage, ServerTransform.transform(tvMap.get(pages)));
             }
         }
         return tMap;
     }
-    
-	@Override
-	public THmpHotelToolPacks selectById(long id) throws TException {
-		return ServerTransform.transform(business.selectById(id));
-	}
+
+    @Override
+    public THmpHotelToolPacks selectById(long id) throws TException {
+        return ServerTransform.transform(business.selectById(id));
+    }
 }

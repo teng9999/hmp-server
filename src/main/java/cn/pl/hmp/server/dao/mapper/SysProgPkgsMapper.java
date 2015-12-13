@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.SysProgPkgs;
 import cn.pl.hmp.server.dao.entity.SysProgPkgsExample;
-import java.util.List;
 
 public interface SysProgPkgsMapper {
     int deleteByPrimaryKey(Long id);

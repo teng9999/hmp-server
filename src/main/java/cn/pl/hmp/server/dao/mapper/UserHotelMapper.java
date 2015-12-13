@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.UserHotel;
 import cn.pl.hmp.server.dao.entity.UserHotelExample;
-import java.util.List;
 
 public interface UserHotelMapper {
     int deleteByPrimaryKey(Long id);

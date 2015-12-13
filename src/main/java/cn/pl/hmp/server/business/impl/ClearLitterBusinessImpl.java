@@ -46,8 +46,8 @@ import cn.pl.hmp.server.dao.mapper.UserHotelMapper;
 import cn.pl.hmp.server.dao.mapper.UserMapper;
 
 @Service
-public class ClearLitterBusinessImpl extends BoostBusinessImpl implements IClearLitterBusiness{
-    
+public class ClearLitterBusinessImpl extends BoostBusinessImpl implements IClearLitterBusiness {
+
     @Autowired
     private HotelInfoMapper hotelMapper;
     @Autowired
@@ -63,7 +63,7 @@ public class ClearLitterBusinessImpl extends BoostBusinessImpl implements IClear
     @Autowired
     private AirModeMapper airModeMapper;
     @Autowired
-    private  HmpHotelToolPacksMapper hotelToolPacksMapper;
+    private HmpHotelToolPacksMapper hotelToolPacksMapper;
     @Autowired
     private MenuChannelMapper menuChannelMapper;
     @Autowired
@@ -74,10 +74,11 @@ public class ClearLitterBusinessImpl extends BoostBusinessImpl implements IClear
     private PublishPkgsMapper publishPkgsMapper;
     @Autowired
     private HmpRoomTvMapper roomTvMapper;
-    
+
     @Override
     public long deleteAllDataExceptHotelId(Long hotelId) throws Exception {
-        System.err.println("--------------------------------------------------------------------------------------------------------------------------------");
+        System.err.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
         deleteAirModel(hotelId);
         deleteHotel(hotelId);
         deleteHotelRcu(hotelId);
@@ -92,42 +93,43 @@ public class ClearLitterBusinessImpl extends BoostBusinessImpl implements IClear
         deleteUserHotel(hotelId);
         return 1;
     }
+
     /**
      * 删除酒店信息
+     * 
      * @param hotelId
      */
-    public void deleteHotel(Long hotelId){
+    public void deleteHotel(Long hotelId) {
         HotelInfoExample example = new HotelInfoExample();
         example.createCriteria().andIdNotEqualTo(hotelId);
         List<HotelInfo> list = hotelMapper.selectByExample(example);
-        if(null != list && !list.isEmpty()) {
-            for(HotelInfo entity: list) {
-                if(null == entity) {
+        if (null != list && !list.isEmpty()) {
+            for (HotelInfo entity : list) {
+                if (null == entity) {
                     continue;
                 }
                 hotelMapper.deleteByPrimaryKey(entity.getId());
             }
         }
     }
-    
-    public void deleteUser(Long hotelId){
+
+    public void deleteUser(Long hotelId) {
         UserHotelExample userHotelExample = new UserHotelExample();
         userHotelExample.createCriteria().andHotelIdEqualTo(hotelId);
         List<UserHotel> userHotelList = userHotelMapper.selectByExample(userHotelExample);
-        if(null != userHotelList && !userHotelList.isEmpty()) {
+        if (null != userHotelList && !userHotelList.isEmpty()) {
             UserHotel userHotel = userHotelList.get(0);
-            if(null == userHotel) {
+            if (null == userHotel) {
                 return;
             }
             Long userId = userHotel.getUserId();
-            if(userId != null) {
+            if (userId != null) {
                 UserExample userExample = new UserExample();
-                userExample.createCriteria().andIdNotEqualTo(userId)
-                .andUserTypeNotEqualTo(UserType.ADMIN.name());
+                userExample.createCriteria().andIdNotEqualTo(userId).andUserTypeNotEqualTo(UserType.ADMIN.name());
                 List<User> userList = userMapper.selectByExample(userExample);
-                if(null != userList && !userList.isEmpty()) {
-                    for(User user : userList) {
-                        if(null == user) {
+                if (null != userList && !userList.isEmpty()) {
+                    for (User user : userList) {
+                        if (null == user) {
                             continue;
                         }
                         userMapper.deleteByPrimaryKey(user.getId());
@@ -136,159 +138,175 @@ public class ClearLitterBusinessImpl extends BoostBusinessImpl implements IClear
             }
         }
     }
-    public void deleteUserHotel(Long hotelId){
+
+    public void deleteUserHotel(Long hotelId) {
         UserHotelExample userHotelExample = new UserHotelExample();
         userHotelExample.createCriteria().andHotelIdNotEqualTo(hotelId);
         List<UserHotel> userHotelList = userHotelMapper.selectByExample(userHotelExample);
-        if(null != userHotelList && !userHotelList.isEmpty()) {
-            for(UserHotel userHotel: userHotelList) {
-                if(null == userHotel) {
+        if (null != userHotelList && !userHotelList.isEmpty()) {
+            for (UserHotel userHotel : userHotelList) {
+                if (null == userHotel) {
                     continue;
                 }
                 User user = userMapper.selectByPrimaryKey(userHotel.getUserId());
-                
-                if(user != null && !UserType.ADMIN.name().equals(user.getUserType())){
+
+                if (user != null && !UserType.ADMIN.name().equals(user.getUserType())) {
                     userMapper.deleteByPrimaryKey(userHotel.getUserId());
                 }
                 userHotelMapper.deleteByPrimaryKey(userHotel.getId());
             }
         }
     }
-    public void deleteAirModel(Long hotelId){
+
+    public void deleteAirModel(Long hotelId) {
         AirModeExample example = new AirModeExample();
         example.createCriteria().andHotelIdNotEqualTo(hotelId);
         List<AirMode> list = airModeMapper.selectByExample(example);
-        if(null != list && !list.isEmpty()) {
-            for(AirMode entity: list) {
-                if(null == entity) {
+        if (null != list && !list.isEmpty()) {
+            for (AirMode entity : list) {
+                if (null == entity) {
                     continue;
                 }
                 airModeMapper.deleteByPrimaryKey(entity.getId());
             }
         }
     }
-    public void deleteHotelRcu(Long hotelId){
+
+    public void deleteHotelRcu(Long hotelId) {
         HotelRCUCfgExample example = new HotelRCUCfgExample();
         example.createCriteria().andHotelIdNotEqualTo(hotelId);
         List<HotelRCUCfg> list = hotelRcuMapper.selectByExample(example);
-        if(null != list && !list.isEmpty()) {
-            for(HotelRCUCfg entity: list) {
-                if(null == entity) {
+        if (null != list && !list.isEmpty()) {
+            for (HotelRCUCfg entity : list) {
+                if (null == entity) {
                     continue;
                 }
                 hotelRcuMapper.deleteByPrimaryKey(entity.getId());
             }
         }
     }
-    public void deleteHotelRoom(Long hotelId){
+
+    public void deleteHotelRoom(Long hotelId) {
         HotelRoomExample example = new HotelRoomExample();
         example.createCriteria().andHotelIdNotEqualTo(hotelId);
         List<HotelRoom> list = roomMapper.selectByExample(example);
-        if(null != list && !list.isEmpty()) {
-            for(HotelRoom entity: list) {
-                if(null == entity) {
+        if (null != list && !list.isEmpty()) {
+            for (HotelRoom entity : list) {
+                if (null == entity) {
                     continue;
                 }
                 roomMapper.deleteByPrimaryKey(entity.getId());
             }
         }
     }
+
     /**
      * 删除房间rcu配置
+     * 
      * @param hotelId
      */
-    public void deleteRoomRcu(Long hotelId){
+    public void deleteRoomRcu(Long hotelId) {
         RoomRCUCfgExample example = new RoomRCUCfgExample();
         example.createCriteria().andHotelIdNotEqualTo(hotelId);
         List<RoomRCUCfg> list = roomRcuMapper.selectByExample(example);
-        if(null != list && !list.isEmpty()) {
-            for(RoomRCUCfg entity: list) {
-                if(null == entity) {
+        if (null != list && !list.isEmpty()) {
+            for (RoomRCUCfg entity : list) {
+                if (null == entity) {
                     continue;
                 }
                 roomRcuMapper.deleteByPrimaryKey(entity.getId());
             }
         }
     }
+
     /**
      * 删除酒店电影中间表
+     * 
      * @param hotelId
      */
-    public void deleteMGHotel(Long hotelId){
+    public void deleteMGHotel(Long hotelId) {
         HmpMGHotelExample example = new HmpMGHotelExample();
         example.createCriteria().andHotelIdNotEqualTo(hotelId);
         List<HmpMGHotel> list = mgHotelMapper.selectByExample(example);
-        if(null != list && !list.isEmpty()) {
-            for(HmpMGHotel entity: list) {
-                if(null == entity) {
+        if (null != list && !list.isEmpty()) {
+            for (HmpMGHotel entity : list) {
+                if (null == entity) {
                     continue;
                 }
                 mgHotelMapper.deleteByPrimaryKey(entity.getId());
             }
         }
     }
+
     /**
      * 删除酒店发布包
+     * 
      * @param hotelId
      */
-    public void deletePublishPkgs(Long hotelId){
+    public void deletePublishPkgs(Long hotelId) {
         PublishPkgsExample example = new PublishPkgsExample();
         example.createCriteria().andHotelIdNotEqualTo(hotelId);
         List<PublishPkgs> list = publishPkgsMapper.selectByExample(example);
-        if(null != list && !list.isEmpty()) {
-            for(PublishPkgs entity: list) {
-                if(null == entity) {
+        if (null != list && !list.isEmpty()) {
+            for (PublishPkgs entity : list) {
+                if (null == entity) {
                     continue;
                 }
                 publishPkgsMapper.deleteByPrimaryKey(entity.getId());
             }
         }
     }
+
     /**
      * 删除酒店房间电视
+     * 
      * @param hotelId
      */
-    public void deleteRoomTv(Long hotelId){
+    public void deleteRoomTv(Long hotelId) {
         HmpRoomTvExample example = new HmpRoomTvExample();
         example.createCriteria().andHotelIdNotEqualTo(hotelId);
         List<HmpRoomTv> list = roomTvMapper.selectByExample(example);
-        if(null != list && !list.isEmpty()) {
-            for(HmpRoomTv entity: list) {
-                if(null == entity) {
+        if (null != list && !list.isEmpty()) {
+            for (HmpRoomTv entity : list) {
+                if (null == entity) {
                     continue;
                 }
                 roomTvMapper.deleteByPrimaryKey(entity.getId());
             }
         }
     }
+
     /**
      * 删除工具包
+     * 
      * @param hotelId
      */
-    public void deleteToolPacks(Long hotelId){
+    public void deleteToolPacks(Long hotelId) {
         HmpHotelToolPacksExample example = new HmpHotelToolPacksExample();
         example.createCriteria().andHotelIdNotEqualTo(hotelId);
         List<HmpHotelToolPacks> list = hotelToolPacksMapper.selectByExample(example);
-        if(null != list && !list.isEmpty()) {
-            for(HmpHotelToolPacks entity: list) {
-                if(null == entity) {
+        if (null != list && !list.isEmpty()) {
+            for (HmpHotelToolPacks entity : list) {
+                if (null == entity) {
                     continue;
                 }
                 hotelToolPacksMapper.deleteByPrimaryKey(entity.getId());
             }
         }
     }
+
     /**
      * 删除电视菜单频道
+     * 
      * @param hotelId
      */
-    public void deleteMenuChannel(Long hotelId){
+    public void deleteMenuChannel(Long hotelId) {
         MenuChannelExample example = new MenuChannelExample();
         example.createCriteria().andHotelIdNotEqualTo(hotelId);
         List<MenuChannel> list = menuChannelMapper.selectByExample(example);
-        if(null != list && !list.isEmpty()) {
-            for(MenuChannel  entity: list) {
-                if(null == entity) {
+        if (null != list && !list.isEmpty()) {
+            for (MenuChannel entity : list) {
+                if (null == entity) {
                     continue;
                 }
                 menuPagesMapper.deleteByChannelId(entity.getId());
@@ -296,7 +314,5 @@ public class ClearLitterBusinessImpl extends BoostBusinessImpl implements IClear
             }
         }
     }
-    
-    
-    
+
 }

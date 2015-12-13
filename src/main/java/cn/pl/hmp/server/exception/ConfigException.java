@@ -9,22 +9,22 @@ package cn.pl.hmp.server.exception;
  * 配置异常
  *
  * @author Alan
- *        
+ * 
  */
 public class ConfigException extends Exception {
-    
+
     /**
      *
      */
     private static final long serialVersionUID = 6813261615182125008L;
-    
+
     /**
      *
      */
     public ConfigException() {
         // TODO Auto-generated constructor stub
     }
-    
+
     /**
      * @param msg
      */
@@ -32,7 +32,7 @@ public class ConfigException extends Exception {
         super(msg);
         // TODO Auto-generated constructor stub
     }
-    
+
     /**
      * @param e
      */
@@ -40,7 +40,7 @@ public class ConfigException extends Exception {
         super(e);
         // TODO Auto-generated constructor stub
     }
-    
+
     /**
      * @param msg
      * @param e
@@ -49,5 +49,5 @@ public class ConfigException extends Exception {
         super(msg, e);
         // TODO Auto-generated constructor stub
     }
-    
+
 }

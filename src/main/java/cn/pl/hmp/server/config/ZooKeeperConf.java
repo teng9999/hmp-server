@@ -4,7 +4,7 @@
  */
 package cn.pl.hmp.server.config;
 
-import cn.pl.hmp.server.zk.IZooKeeperRegister;
+import cn.pl.frame.spring.zk.register.IZooKeeperRegister;
 
 /**
  * ZooKeeper配置

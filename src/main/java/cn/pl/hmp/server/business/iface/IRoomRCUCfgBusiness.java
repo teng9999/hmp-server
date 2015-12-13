@@ -19,7 +19,7 @@ import cn.pl.hmp.server.datasource.DataSource;
  * @author zhoujianbiao
  */
 public interface IRoomRCUCfgBusiness extends IBusiness {
-	/**
+    /**
 	 * 按条件查询
 	 *
 	 * @param example
@@ -28,7 +28,7 @@ public interface IRoomRCUCfgBusiness extends IBusiness {
 	@DataSource("cluster")
 	public List<RoomRCUCfg> query(RoomRCUCfgExample example);
 
-	/**
+    /**
 	 * 按条件查询
 	 *
 	 * @param example
@@ -39,7 +39,7 @@ public interface IRoomRCUCfgBusiness extends IBusiness {
 	public Map<Pages, List<RoomRCUCfg>> queryPages(RoomRCUCfgExample example,
 			Pages pages);
 
-	/**
+    /**
 	 * 获取
 	 *
 	 * @param id
@@ -48,7 +48,7 @@ public interface IRoomRCUCfgBusiness extends IBusiness {
 	@DataSource("cluster")
 	public RoomRCUCfg get(Long id);
 
-	/**
+    /**
 	 * 创建
 	 *
 	 * @param record
@@ -56,7 +56,7 @@ public interface IRoomRCUCfgBusiness extends IBusiness {
 	 */
 	public int create(RoomRCUCfg record);
 
-	/**
+    /**
 	 * 更新
 	 *
 	 * @param record
@@ -64,7 +64,7 @@ public interface IRoomRCUCfgBusiness extends IBusiness {
 	 */
 	public int update(RoomRCUCfg record);
 
-	/**
+    /**
 	 * 删除
 	 *
 	 * @param id
@@ -72,7 +72,7 @@ public interface IRoomRCUCfgBusiness extends IBusiness {
 	 */
 	public int remove(Long id);
 
-	/**
+    /**
 	 * @Title: apply2room
 	 * @Description: 模板配置页面的应用功能。
 	 * @param @param roomType 房间类型
@@ -82,7 +82,7 @@ public interface IRoomRCUCfgBusiness extends IBusiness {
 	 */
 	public int apply2room(String roomType, long hotelId);
 
-	/**
+    /**
 	 * @Title: queryListByRoomTypeAndHotelId
 	 * @Description: 根据酒店ID和roomType来查询模板。
 	 * @param @param roomType

@@ -4,10 +4,9 @@
  */
 package cn.pl.hmp.server.utils;
 
-import cn.pl.commons.utils.NetUtil;
-import cn.pl.hmp.server.config.Property;
-import cn.pl.hmp.server.config.ServerConfig;
-import cn.pl.hmp.server.config.ThriftConf;
+import java.util.Hashtable;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.TProcessor;
@@ -17,8 +16,10 @@ import org.apache.thrift.transport.TFramedTransport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Hashtable;
-import java.util.concurrent.TimeUnit;
+import cn.pl.commons.utils.NetUtil;
+import cn.pl.hmp.server.config.Property;
+import cn.pl.hmp.server.config.ServerConfig;
+import cn.pl.hmp.server.config.ThriftConf;
 
 /**
  * Thrift配置Helper
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThriftConfHelper {
     private static Logger logger = LoggerFactory.getLogger(ThriftConfHelper.class);
-    
+
     /**
      * 构建配置
      *
@@ -60,10 +61,10 @@ public class ThriftConfHelper {
             conf.setSocketAddress(NetUtil.getInetSocketAddress(conf.getHost(), conf.getPort()));
             conf.setProcessor(BeanUtil.createProcessor(conf.getProcessorClass()));
             conf.setProtocolFactory(BeanUtil.createProtocolFactory(conf.getProtocolFactoryClass()));
-            
+
             conf.setServerTransport(BeanUtil.createServerTransport(conf.getServerTransportClass(),
                     conf.getSocketAddress(), conf.getTimeout()));
-                    
+
             conf.setServerArgs(BeanUtil.createServerArgs(conf.getServerArgsClass(), conf.getServerTransport()));
             AbstractServerArgs<?> args = conf.getServerArgs();
             if (args != null) {
@@ -72,7 +73,7 @@ public class ThriftConfHelper {
                 if (conf.getServerClass().equalsIgnoreCase(ServerConfig.DEFAULT_SERVER_CLASS)
                         || conf.getServerClass().equalsIgnoreCase(ServerConfig.HSHA_SERVER_CLASS)) {
                     args.transportFactory(new TFramedTransport.Factory(conf.getMaxReadBufferBytes()));
-                    
+
                     if (args instanceof TThreadedSelectorServer.Args) {
                         ((TThreadedSelectorServer.Args) args).maxReadBufferBytes = conf.getMaxReadBufferBytes();
                         if (properties != null
@@ -134,7 +135,7 @@ public class ThriftConfHelper {
             }
         }
     }
-    
+
     private static boolean check(ThriftConf conf) {
         if (conf == null) {
             logger.error("Thrift Config Error: {}", conf);

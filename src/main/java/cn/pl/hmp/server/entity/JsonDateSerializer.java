@@ -19,9 +19,10 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  * @author alanyuan
  */
 public class JsonDateSerializer extends JsonSerializer<Date> {
-    
+
     /*
      * (non-Javadoc)
+     * 
      * @see org.codehaus.jackson.map.JsonSerializer#serialize(java.lang.Object,
      * org.codehaus.jackson.JsonGenerator,
      * org.codehaus.jackson.map.SerializerProvider)
@@ -33,5 +34,5 @@ public class JsonDateSerializer extends JsonSerializer<Date> {
         String formattedDate = formatter.format(value);
         jgen.writeString(formattedDate);
     }
-    
+
 }

@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.HmpMGHotel;
 import cn.pl.hmp.server.dao.entity.HmpMGHotelExample;
-import java.util.List;
 
 public interface HmpMGHotelMapper {
     int countByExample(HmpMGHotelExample example);
@@ -20,12 +21,12 @@ public interface HmpMGHotelMapper {
     int updateByPrimaryKeySelective(HmpMGHotel record);
 
     int updateByPrimaryKey(HmpMGHotel record);
-    
+
     List<Long> selectByHotelId(Long hotelId);
-    
+
     int delelteByHotelId(Long hotelId);
-    
+
     int deleteOnBatch(List<Long> groupId , Long hotelId);
-    
+
     int saveOnBatch(List<HmpMGHotel> lists);
 }

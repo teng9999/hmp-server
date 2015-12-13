@@ -17,15 +17,15 @@ import org.springframework.util.Assert;
  * 数据源路由Selector
  * 
  * @author alanyuan
- *        
+ * 
  */
 public class DataSourceSelector extends AbstractRoutingDataSource {
-    public static final String      CLUSTER_KEY_WORDS  = "CLUSTER";
-    public static final String      CLUSTER_KEY_PREFIX = "CLUSTER@@";
+    public static final String CLUSTER_KEY_WORDS = "CLUSTER";
+    public static final String CLUSTER_KEY_PREFIX = "CLUSTER@@";
     /**
      * 集群配置
      */
-    private List<Object>            cluster;
+    private List<Object> cluster;
     /**
      * 集群数据源
      */
@@ -33,10 +33,11 @@ public class DataSourceSelector extends AbstractRoutingDataSource {
     /**
      * 当前集群选定的数据源序号
      */
-    private AtomicInteger           currCluster        = new AtomicInteger(0);
-                                                       
+    private AtomicInteger currCluster = new AtomicInteger(0);
+
     /*
      * (non-Javadoc)
+     * 
      * @see
      * org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource#
      * afterPropertiesSet()
@@ -58,9 +59,10 @@ public class DataSourceSelector extends AbstractRoutingDataSource {
             }
         }
     }
-    
+
     /*
      * (non-Javadoc)
+     * 
      * @see
      * org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource#
      * determineTargetDataSource()
@@ -83,12 +85,13 @@ public class DataSourceSelector extends AbstractRoutingDataSource {
             ds = super.determineTargetDataSource();
             logger.debug("Get Target DataSource from default[" + ds + "]");
         }
-        
+
         return ds;
     }
-    
+
     /*
      * (non-Javadoc)
+     * 
      * @see
      * org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource#
      * determineCurrentLookupKey()
@@ -97,15 +100,15 @@ public class DataSourceSelector extends AbstractRoutingDataSource {
     protected Object determineCurrentLookupKey() {
         return RoutingContextHolder.getContext();
     }
-    
+
     public void setCluster(List<Object> cluster) {
         this.cluster = cluster;
     }
-    
+
     public void setClusterDataSources(Map<Object, DataSource> dataSources) {
         this.clusterDataSources = dataSources;
     }
-    
+
     /**
      * 选择集群数据源
      * 
@@ -131,5 +134,5 @@ public class DataSourceSelector extends AbstractRoutingDataSource {
         ds = clusterDataSources.get(key);
         return ds;
     }
-    
+
 }

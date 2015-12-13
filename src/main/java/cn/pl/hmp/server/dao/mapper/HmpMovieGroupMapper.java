@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.HmpMovieGroup;
 import cn.pl.hmp.server.dao.entity.HmpMovieGroupExample;
-import java.util.List;
 
 public interface HmpMovieGroupMapper {
     int countByExample(HmpMovieGroupExample example);
@@ -20,6 +21,6 @@ public interface HmpMovieGroupMapper {
     int updateByPrimaryKeySelective(HmpMovieGroup record);
 
     int updateByPrimaryKey(HmpMovieGroup record);
-    
+
     List<HmpMovieGroup> selectByGroupType(Long groupType);
 }

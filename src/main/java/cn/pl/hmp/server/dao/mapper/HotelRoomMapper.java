@@ -15,7 +15,7 @@ public interface HotelRoomMapper {
     int insertSelective(HotelRoom record);
 
     List<HotelRoom> selectByExample(HotelRoomExample example);
-    
+
     List<HotelRoom> selectListAddUniqueNum(@Param(value="hotelId") Long hotelId);
 
     HotelRoom selectByPrimaryKey(Long id);
@@ -23,6 +23,6 @@ public interface HotelRoomMapper {
     int updateByPrimaryKeySelective(HotelRoom record);
 
     int updateByPrimaryKey(HotelRoom record);
-    
+
     int insertBatch(List<HotelRoom> list);
 }

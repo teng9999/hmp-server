@@ -11,21 +11,21 @@ import cn.pl.hmp.server.entity.BaseEntity;
  * @author alanyuan
  */
 public class Context extends BaseEntity {
-    
+
     public static final String DEFAULT_RELEASE_VERSION = "1.0";
-    public static final String DEFAULT_PLATFORM        = "HMP";
+    public static final String DEFAULT_PLATFORM = "HMP";
     /**
      *
      */
-    private static final long  serialVersionUID        = -1584496454579585052L;
-    protected static String    releaseVersion;
-    protected static String    platform;
-                               
+    private static final long serialVersionUID = -1584496454579585052L;
+    protected static String releaseVersion;
+    protected static String platform;
+
     static {
         releaseVersion = DEFAULT_RELEASE_VERSION;
         platform = DEFAULT_PLATFORM;
     }
-    
+
     /**
      * 获取系统版本号
      *
@@ -34,7 +34,7 @@ public class Context extends BaseEntity {
     public static String getReleaseVersion() {
         return releaseVersion;
     }
-    
+
     /**
      * 设置系统版本号
      *
@@ -44,7 +44,7 @@ public class Context extends BaseEntity {
     public static void setReleaseVersion(String ver) {
         releaseVersion = ver;
     }
-    
+
     /**
      * 获取平台
      *
@@ -53,7 +53,7 @@ public class Context extends BaseEntity {
     public static String getPlatform() {
         return platform;
     }
-    
+
     /**
      * 设置平台
      *
@@ -63,10 +63,10 @@ public class Context extends BaseEntity {
     public static void setPlatform(String p) {
         platform = p;
     }
-    
+
     public static void init() {
         releaseVersion = DEFAULT_RELEASE_VERSION;
         platform = DEFAULT_PLATFORM;
     }
-    
+
 }

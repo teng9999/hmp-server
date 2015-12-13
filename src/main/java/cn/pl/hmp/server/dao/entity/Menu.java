@@ -52,7 +52,7 @@ public class Menu {
     private Boolean available;
 
     private Long moduleId;
-    
+
     private String target;
 
     public Long getId() {

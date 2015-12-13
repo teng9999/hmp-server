@@ -4,11 +4,9 @@
  */
 package cn.pl.hmp.server.utils;
 
-import cn.pl.frame.annotation.ThriftService;
-import cn.pl.hmp.server.config.Env;
-import cn.pl.hmp.server.config.ThriftConf;
-import cn.pl.hmp.server.exception.ConfigException;
-import cn.pl.hmp.server.global.ThriftServiceInitializationLock;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.TProcessor;
@@ -23,8 +21,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import cn.pl.frame.annotation.ThriftService;
+import cn.pl.hmp.server.config.Env;
+import cn.pl.hmp.server.config.ThriftConf;
+import cn.pl.hmp.server.exception.ConfigException;
+import cn.pl.hmp.server.global.ThriftServiceInitializationLock;
 
 /**
  * Thrift相关注解工具 此工具不用调用，将会被Spring上下文初始化时自动执行
@@ -33,9 +34,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class ThriftAnnotationUtil implements InitializingBean, DisposableBean, ApplicationContextAware {
-    private static Logger      logger = LoggerFactory.getLogger(ThriftAnnotationUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(ThriftAnnotationUtil.class);
     private ApplicationContext springContext;
-                               
+
     public ThriftAnnotationUtil() {
         super();
         boolean lock = ThriftServiceInitializationLock.lock();
@@ -50,18 +51,18 @@ public class ThriftAnnotationUtil implements InitializingBean, DisposableBean, A
             }
         }
     }
-    
+
     @Override
     public void setApplicationContext(ApplicationContext springContext) throws BeansException {
         this.springContext = springContext;
     }
-    
+
     @Override
     public void destroy() throws Exception {
         // TODO Auto-generated method stub
-        
+
     }
-    
+
     @Override
     public void afterPropertiesSet() throws Exception {
         if (!ThriftServiceInitializationLock.isOk()) {
@@ -73,7 +74,7 @@ public class ThriftAnnotationUtil implements InitializingBean, DisposableBean, A
             logger.info("Spring Scan Annotation Complete");
         }
     }
-    
+
     /**
      * 扫描ThriftService注解自动注册Iface，依赖于Srping上下文
      *
@@ -102,12 +103,13 @@ public class ThriftAnnotationUtil implements InitializingBean, DisposableBean, A
                     } else {
                         for (Class<?> iface : interfaces) {
                             String cname = iface.getSimpleName();
-                            if (StringUtils.isNotBlank(cname) && (cname.equals("Iface") || cname.equals("AsyncIface"))) {
+                            if (StringUtils.isNotBlank(cname)
+                                    && (cname.equals("Iface") || cname.equals("AsyncIface"))) {
                                 String pname = iface.getEnclosingClass().getName() + "$Processor";
                                 Class<?> pclass;
                                 try {
                                     pclass = springContext.getClassLoader().loadClass(pname);
-                                    
+
                                     if (TProcessor.class.isAssignableFrom(pclass)) {
                                         Object processor = BeanUtils.instantiateClass(pclass.getConstructor(iface),
                                                 obj);
@@ -128,5 +130,5 @@ public class ThriftAnnotationUtil implements InitializingBean, DisposableBean, A
             }
         }
     }
-    
+
 }

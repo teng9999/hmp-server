@@ -11,10 +11,10 @@ import java.io.Serializable;
  * @author alanyuan
  */
 public class BaseEntity implements Serializable {
-    
+
     /**
      *
      */
     private static final long serialVersionUID = -8814505965067712154L;
-    
+
 }

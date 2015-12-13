@@ -4,18 +4,20 @@
  */
 package cn.pl.hmp.server.thrift.iface;
 
-import cn.pl.frame.annotation.ThriftService;
-import cn.pl.frame.thrfit.service.TDruidStatService.Iface;
-import cn.pl.frame.thrift.define.TDruidSpringMethodStat;
-import cn.pl.hmp.server.druid.Statistics;
-import com.alibaba.druid.support.spring.stat.SpringMethodStatValue;
-import org.apache.thrift.TException;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.thrift.TException;
+import org.springframework.stereotype.Component;
+
+import com.alibaba.druid.support.spring.stat.SpringMethodStatValue;
+
+import cn.pl.frame.annotation.ThriftService;
+import cn.pl.frame.thrfit.service.TDruidStatService.Iface;
+import cn.pl.frame.thrift.define.TDruidSpringMethodStat;
+import cn.pl.hmp.server.druid.Statistics;
 
 /**
  * Druid统计服务接口实现
@@ -25,9 +27,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @ThriftService
 public class TDruidStatServiceIface implements Iface {
-    
+
     /*
      * (non-Javadoc)
+     * 
      * @see cn.pl.frame.thrift.service.TDruidStatService.Iface#
      * getDruidSpringMethodStat()
      */
@@ -35,7 +38,7 @@ public class TDruidStatServiceIface implements Iface {
     public Map<String, List<TDruidSpringMethodStat>> getDruidSpringMethodStat() throws TException {
         Map<String, List<TDruidSpringMethodStat>> tMethodStats = new ConcurrentHashMap<String, List<TDruidSpringMethodStat>>();
         Map<String, List<SpringMethodStatValue>> methodStats = Statistics.springStat();
-        
+
         if (methodStats != null) {
             for (String name : methodStats.keySet()) {
                 List<SpringMethodStatValue> list = methodStats.get(name);
@@ -45,7 +48,7 @@ public class TDruidStatServiceIface implements Iface {
                 for (SpringMethodStatValue tstat : list) {
                     if (tstat == null)
                         continue;
-                        
+
                     TDruidSpringMethodStat stat = new TDruidSpringMethodStat();
                     stat.setClassName(tstat.getClassName());
                     stat.setSignature(tstat.getSignature());
@@ -69,7 +72,7 @@ public class TDruidStatServiceIface implements Iface {
                     stat.setLastErrorMessage(0);
                     stat.setLastErrorStackTrace(0);
                     stat.setLastErrorTimeMillis(tstat.getLastErrorTimeMillis());
-                    
+
                     stats.add(stat);
                 }
                 if (!stats.isEmpty()) {
@@ -77,8 +80,8 @@ public class TDruidStatServiceIface implements Iface {
                 }
             }
         }
-        
+
         return tMethodStats;
     }
-    
+
 }

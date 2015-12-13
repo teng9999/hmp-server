@@ -6,7 +6,7 @@ import cn.pl.hmp.server.dao.entity.CommondityType;
 import cn.pl.hmp.server.dao.entity.CommondityTypeExample;
 
 public interface ICommondityTypeBusiness {
-    
+
     int deleteByMenuChannelId(Long menuChannelId);
 
     List<CommondityType> selectByExample(CommondityTypeExample example);

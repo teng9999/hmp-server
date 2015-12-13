@@ -2,7 +2,7 @@ package cn.pl.hmp.server.dao.entity;
 
 import java.util.Date;
 
-public class HotelRoom implements Cloneable{
+public class HotelRoom implements Cloneable {
     private Long id;
 
     private Long sysId;
@@ -40,7 +40,7 @@ public class HotelRoom implements Cloneable{
     private Long modifier;
 
     private Boolean available;
-    
+
     private String uniqueNum;
 
     public Long getId() {
@@ -202,14 +202,14 @@ public class HotelRoom implements Cloneable{
     public void setUniqueNum(String uniqueNum) {
         this.uniqueNum = uniqueNum;
     }
-    
-    public HotelRoom clone(HotelRoom room){
-        HotelRoom o = null; 
-        try{ 
-            o = (HotelRoom)super.clone(); 
-        }catch(CloneNotSupportedException e){ 
-            e.printStackTrace(); 
-        } 
-        return o; 
+
+    public HotelRoom clone(HotelRoom room) {
+        HotelRoom o = null;
+        try {
+            o = (HotelRoom) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return o;
     }
 }

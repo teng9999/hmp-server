@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.HotelRCUCfg;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfgExample;
-import java.util.List;
 
 public interface HotelRCUCfgMapper {
     int countByExample(HotelRCUCfgExample example);

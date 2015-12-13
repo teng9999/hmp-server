@@ -18,14 +18,14 @@ import cn.pl.hmp.server.datasource.RoutingContextHolder;
  * 数据源切面
  * 
  * @author alanyuan
- *        
+ * 
  */
 public class DataSourceAspect {
     private Logger logger = LoggerFactory.getLogger(DataSourceAspect.class);
-    
+
     public void pointCut() {
     };
-    
+
     public void before(JoinPoint point) {
         Object target = point.getTarget();
         logger.debug("DataSourceAspect Cut: {}", target.toString());
@@ -46,10 +46,10 @@ public class DataSourceAspect {
                 RoutingContextHolder.setContext(data.value());
                 logger.debug("DataSourceAspect Routing [{}]", data.value());
             }
-            
+
         } catch (Exception e) {
             logger.error("Join Point Error.", e);
         }
     }
-    
+
 }

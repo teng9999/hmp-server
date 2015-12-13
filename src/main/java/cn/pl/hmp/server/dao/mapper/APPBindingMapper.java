@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.APPBinding;
 import cn.pl.hmp.server.dao.entity.APPBindingExample;
-import java.util.List;
 
 public interface APPBindingMapper {
     int countByExample(APPBindingExample example);

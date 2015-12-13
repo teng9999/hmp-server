@@ -18,7 +18,7 @@ import cn.pl.hmp.server.datasource.DataSource;
  * @author zhoujianbiao
  */
 public interface IAPPBindingBusiness extends IBusiness {
-	/**
+    /**
 	 * 按条件查询
 	 *
 	 * @param example
@@ -27,7 +27,7 @@ public interface IAPPBindingBusiness extends IBusiness {
 	@DataSource("cluster")
 	public List<APPBinding> query(APPBindingExample example);
 
-	/**
+    /**
 	 * 按条件查询
 	 *
 	 * @param example
@@ -38,7 +38,7 @@ public interface IAPPBindingBusiness extends IBusiness {
 	public Map<Pages, List<APPBinding>> queryPages(APPBindingExample example,
 			Pages pages);
 
-	/**
+    /**
 	 * 获取
 	 *
 	 * @param id
@@ -47,7 +47,7 @@ public interface IAPPBindingBusiness extends IBusiness {
 	@DataSource("cluster")
 	public APPBinding get(Long id);
 
-	/**
+    /**
 	 * 创建
 	 *
 	 * @param record
@@ -55,7 +55,7 @@ public interface IAPPBindingBusiness extends IBusiness {
 	 */
 	public int create(APPBinding record);
 
-	/**
+    /**
 	 * 更新
 	 *
 	 * @param record
@@ -63,7 +63,7 @@ public interface IAPPBindingBusiness extends IBusiness {
 	 */
 	public int update(APPBinding record);
 
-	/**
+    /**
 	 * 删除
 	 *
 	 * @param id

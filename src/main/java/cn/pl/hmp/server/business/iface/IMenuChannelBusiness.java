@@ -10,36 +10,41 @@ import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.MenuChannel;
 import cn.pl.hmp.server.dao.entity.MenuChannelExample;
 
-public interface IMenuChannelBusiness  extends IBusiness {
+public interface IMenuChannelBusiness extends IBusiness {
     /**
      * 通过id删除
      * @param id
      * @return
      */
 	int deleteByMenuChannelId(Long id);
-	 /**
+
+    /**
      * 通过id删除频道以及关联
      * @param id
      * @return
      */
     int deleteAllId(Long id);
-	/**
+
+    /**
 	 * 新增
 	 * @param record
 	 * @return
 	 */
 	long insert(MenuChannel record);
+
     /**
      * 通过编号查询
      * @param id
      * @return
      */
     MenuChannel selectByMenuChannelId(Long id);
+
     /**
      * 查询全部
      * @return
      */
     List<MenuChannel> selectAll();
+
     /**
      * 条件分页查询
      * @param example
@@ -47,6 +52,7 @@ public interface IMenuChannelBusiness  extends IBusiness {
      * @return
      */
     Map<Pages, List<MenuChannel>> selectByPages(MenuChannelExample example,Pages page);
+
     /**
      * 根据父级编号和酒店分页查询
      * @param example
@@ -54,23 +60,27 @@ public interface IMenuChannelBusiness  extends IBusiness {
      * @return
      */
     Map<Pages, List<MenuChannel>> queryByParentIdList(Long parentId,Long hotelId,Pages page);
+
     /**
      * 更新
      * @param record
      * @return
      */
     int update(MenuChannel record);
+
     /**
      * 批量删除
      * @param idList
      * @return
      */
     int deleteOnBatch(List<Long> idList);
+
     /**
      * 根据用户名查用户
      * @return
      */
     List<MenuChannel> selectByExample(MenuChannelExample example);
+
     /**
      * 电视频道的发布
      * @param hotelId

@@ -1,11 +1,12 @@
 package cn.pl.hmp.server.dao.mapper;
 
-import cn.pl.hmp.server.dao.entity.HmpMovie;
-import cn.pl.hmp.server.dao.entity.HmpMovieExample;
 import java.util.List;
 
+import cn.pl.hmp.server.dao.entity.HmpMovie;
+import cn.pl.hmp.server.dao.entity.HmpMovieExample;
+
 public interface HmpMovieMapper {
-	
+
     int countByExample(HmpMovieExample example);
 
     int deleteByPrimaryKey(Long id);
@@ -25,9 +26,9 @@ public interface HmpMovieMapper {
     int updateByPrimaryKeyWithBLOBs(HmpMovie record);
 
     int updateByPrimaryKey(HmpMovie record);
-    
+
     List<HmpMovie> queryByIds(List<Long> ids);
-    
+
     List<HmpMovie> queryByHotelId(Long hotelId);
-    
+
 }

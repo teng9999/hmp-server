@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.APPInfo;
 import cn.pl.hmp.server.dao.entity.APPInfoExample;
-import java.util.List;
 
 public interface APPInfoMapper {
     int countByExample(APPInfoExample example);

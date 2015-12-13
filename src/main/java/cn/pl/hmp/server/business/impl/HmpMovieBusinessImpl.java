@@ -92,9 +92,9 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
         // TODO Auto-generated method stub
         if (record == null)
             return 0;
-        int rlt =  hmpMovieMapper.insertSelective(record);
-        if(rlt >0){
-        	return record.getId().intValue();
+        int rlt = hmpMovieMapper.insertSelective(record);
+        if (rlt > 0) {
+            return record.getId().intValue();
         }
         return -1;
     }

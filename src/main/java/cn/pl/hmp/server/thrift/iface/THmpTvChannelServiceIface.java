@@ -23,54 +23,54 @@ import cn.pl.hmp.server.thrift.transform.ServerTransform;
 @Component
 @ThriftService
 public class THmpTvChannelServiceIface implements THmpTvChannelService.Iface {
-	
-	@Autowired
-	private ITvChannelBusiness business;
-	
-	@Override
-	public int deleteByPrimaryKey(long id) throws TException {
-		return business.deleteByTvChannelId(id);
-	}
 
-	@Override
-	public long insert(THmpTvChannel record) throws TException {
-		return business.insert(ObjectConverter.convet(record, TvChannel.class));
-	}
+    @Autowired
+    private ITvChannelBusiness business;
 
-	@Override
-	public int updateById(THmpTvChannel record) throws TException {
-		return business.update(ObjectConverter.convet(record, TvChannel.class));
-	}
+    @Override
+    public int deleteByPrimaryKey(long id) throws TException {
+        return business.deleteByTvChannelId(id);
+    }
 
-	@Override
-	public int deleteOnBatch(List<Long> idList) throws TException {
-		return business.deleteOnBatch(idList);
-	}
-	
-	@Override
-	public List<THmpTvChannel> selectByTvName(String tvName) throws TException {
-		TvChannelExample example = new TvChannelExample();
-		example.createCriteria().andTvNameLike(tvName);
-		return ObjectConverter.convet(business.selectByExample(example), THmpTvChannel.class);
-	}
+    @Override
+    public long insert(THmpTvChannel record) throws TException {
+        return business.insert(ObjectConverter.convet(record, TvChannel.class));
+    }
 
-	@Override
-	public List<THmpTvChannel> selectAll() throws TException {
-		return ObjectConverter.convet(business.selectAll(), THmpTvChannel.class);
-	}
+    @Override
+    public int updateById(THmpTvChannel record) throws TException {
+        return business.update(ObjectConverter.convet(record, TvChannel.class));
+    }
 
-	@Override
-	public Map<TPages, List<THmpTvChannel>> loadPages(TPages page) throws TException {
-		Map<TPages, List<THmpTvChannel>> tMap = new HashMap<TPages, List<THmpTvChannel>>();
-		TPages tempPage = null;
-		Map<Pages, List<TvChannel>> tvMap = business.selectByPages(null, ObjectConverter.convet(page, Pages.class));
-		if (null != tvMap && !tvMap.isEmpty()) {
-			Set<Pages> set = tvMap.keySet();
-			for(Pages pages:set) {
-				tempPage = ServerTransform.transform(pages);
-				tMap.put(tempPage, ObjectConverter.convet(tvMap.get(pages), THmpTvChannel.class));
-			}
-		}
-		return tMap;
-	}
+    @Override
+    public int deleteOnBatch(List<Long> idList) throws TException {
+        return business.deleteOnBatch(idList);
+    }
+
+    @Override
+    public List<THmpTvChannel> selectByTvName(String tvName) throws TException {
+        TvChannelExample example = new TvChannelExample();
+        example.createCriteria().andTvNameLike(tvName);
+        return ObjectConverter.convet(business.selectByExample(example), THmpTvChannel.class);
+    }
+
+    @Override
+    public List<THmpTvChannel> selectAll() throws TException {
+        return ObjectConverter.convet(business.selectAll(), THmpTvChannel.class);
+    }
+
+    @Override
+    public Map<TPages, List<THmpTvChannel>> loadPages(TPages page) throws TException {
+        Map<TPages, List<THmpTvChannel>> tMap = new HashMap<TPages, List<THmpTvChannel>>();
+        TPages tempPage = null;
+        Map<Pages, List<TvChannel>> tvMap = business.selectByPages(null, ObjectConverter.convet(page, Pages.class));
+        if (null != tvMap && !tvMap.isEmpty()) {
+            Set<Pages> set = tvMap.keySet();
+            for (Pages pages : set) {
+                tempPage = ServerTransform.transform(pages);
+                tMap.put(tempPage, ObjectConverter.convet(tvMap.get(pages), THmpTvChannel.class));
+            }
+        }
+        return tMap;
+    }
 }

@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.Module;
 import cn.pl.hmp.server.dao.entity.ModuleExample;
-import java.util.List;
 
 public interface ModuleMapper {
     int deleteByPrimaryKey(Long id);

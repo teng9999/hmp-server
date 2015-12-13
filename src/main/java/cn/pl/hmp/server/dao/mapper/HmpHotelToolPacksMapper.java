@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacksExample;
-import java.util.List;
 
 public interface HmpHotelToolPacksMapper {
     int countByExample(HmpHotelToolPacksExample example);
@@ -20,6 +21,6 @@ public interface HmpHotelToolPacksMapper {
     int updateByPrimaryKeySelective(HmpHotelToolPacks record);
 
     int updateByPrimaryKey(HmpHotelToolPacks record);
-    
+
     List<HmpHotelToolPacks> queryList();
 }

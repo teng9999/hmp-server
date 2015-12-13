@@ -25,46 +25,46 @@ import cn.pl.hmp.server.thrift.transform.ServerTransform;
 @Component
 @ThriftService
 public class TUserServiceIface implements TUserService.Iface {
-	
-	@Autowired
-	private IUserBusiness userBusiness;
-	@Override
-	public List<TUser> queryAll() throws TException {
-		return ObjectConverter.convet(userBusiness.selectAll(), TUser.class);
-	}
 
-	@Override
-	public int deleteById(long id) throws TException {
-		return userBusiness.deleteUserAndHotelByUserId(id);
-	}
-
-	@Override
-	public long save(TUser record) throws TException {
-		return userBusiness.insert(ObjectConverter.convet(record, User.class));
-	}
-
-	@Override
-	public TUser queryById(long id) throws TException {
-		User user = userBusiness.selectByUserId(id);
-		return ObjectConverter.convet(user, TUser.class);
-	}
-
-	@Override
-	public int update(TUser record) throws TException {
-		return userBusiness.update(ObjectConverter.convet(record, User.class));
-	}
+    @Autowired
+    private IUserBusiness userBusiness;
 
     @Override
-    public Map<TPages, List<TUser>> queryByPages(TPages pages)
-            throws TException {
-        Map<TPages,List<TUser>> tmap = new HashMap<TPages, List<TUser>>();
+    public List<TUser> queryAll() throws TException {
+        return ObjectConverter.convet(userBusiness.selectAll(), TUser.class);
+    }
+
+    @Override
+    public int deleteById(long id) throws TException {
+        return userBusiness.deleteUserAndHotelByUserId(id);
+    }
+
+    @Override
+    public long save(TUser record) throws TException {
+        return userBusiness.insert(ObjectConverter.convet(record, User.class));
+    }
+
+    @Override
+    public TUser queryById(long id) throws TException {
+        User user = userBusiness.selectByUserId(id);
+        return ObjectConverter.convet(user, TUser.class);
+    }
+
+    @Override
+    public int update(TUser record) throws TException {
+        return userBusiness.update(ObjectConverter.convet(record, User.class));
+    }
+
+    @Override
+    public Map<TPages, List<TUser>> queryByPages(TPages pages) throws TException {
+        Map<TPages, List<TUser>> tmap = new HashMap<TPages, List<TUser>>();
         TPages tempPage = null;
-        Map<Pages,List<User>> userMap = userBusiness.selectByPages(null,ObjectConverter.convet(pages, Pages.class));
-        if(null != userMap&& !userMap.isEmpty()){
+        Map<Pages, List<User>> userMap = userBusiness.selectByPages(null, ObjectConverter.convet(pages, Pages.class));
+        if (null != userMap && !userMap.isEmpty()) {
             Set<Pages> set = userMap.keySet();
-            for(Pages page:set){
+            for (Pages page : set) {
                 tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage,ObjectConverter.convet(userMap.get(page), TUser.class));
+                tmap.put(tempPage, ObjectConverter.convet(userMap.get(page), TUser.class));
             }
         }
         return tmap;
@@ -81,7 +81,7 @@ public class TUserServiceIface implements TUserService.Iface {
         example.createCriteria().andUserNameEqualTo(userName);
         User user = new User();
         List<User> list = userBusiness.selectByExample(example);
-        if(null != list && list.size()>0) {
+        if (null != list && list.size() > 0) {
             user = list.get(0);
         }
         return ObjectConverter.convet(user, TUser.class);

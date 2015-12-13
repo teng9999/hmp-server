@@ -3,11 +3,9 @@
  */
 package cn.pl.hmp.server.utils;
 
-import cn.pl.frame.annotation.ThriftService;
-import cn.pl.commons.utils.StringUtils;
-import cn.pl.hmp.server.config.ServerConfig;
-import cn.pl.hmp.server.config.ThriftConf;
-import cn.pl.hmp.server.zk.IZooKeeperRegister;
+import java.lang.reflect.Constructor;
+import java.net.InetSocketAddress;
+
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.server.TServer;
@@ -18,8 +16,11 @@ import org.apache.thrift.transport.TServerTransport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Constructor;
-import java.net.InetSocketAddress;
+import cn.pl.commons.utils.StringUtils;
+import cn.pl.frame.annotation.ThriftService;
+import cn.pl.frame.spring.zk.register.IZooKeeperRegister;
+import cn.pl.hmp.server.config.ServerConfig;
+import cn.pl.hmp.server.config.ThriftConf;
 
 /**
  * Bean工具
@@ -28,7 +29,7 @@ import java.net.InetSocketAddress;
  */
 public class BeanUtil {
     private static Logger logger = LoggerFactory.getLogger(BeanUtil.class);
-    
+
     /**
      * 获取Class
      *
@@ -40,10 +41,10 @@ public class BeanUtil {
         if (StringUtils.isBlank(className))
             return null;
         Class<?> clazz = Class.forName(className);
-        
+
         return clazz;
     }
-    
+
     /**
      * 获取实例
      *
@@ -60,7 +61,7 @@ public class BeanUtil {
         else
             return null;
     }
-    
+
     /**
      * 创建Bean实例
      *
@@ -74,10 +75,10 @@ public class BeanUtil {
             return null;
         X x = null;
         x = ctor.newInstance(args);
-        
+
         return x;
     }
-    
+
     /**
      * 生成Thrift处理器
      *
@@ -90,10 +91,10 @@ public class BeanUtil {
             return null;
         TProcessor processor = null;
         processor = (TProcessor) Class.forName(className).newInstance();
-        
+
         return processor;
     }
-    
+
     /**
      * 生成Thrift协议工厂
      *
@@ -106,10 +107,10 @@ public class BeanUtil {
             return null;
         TProtocolFactory factory = null;
         factory = (TProtocolFactory) Class.forName(className).newInstance();
-        
+
         return factory;
     }
-    
+
     /**
      * 生成Thrift服务传输配置
      *
@@ -118,7 +119,7 @@ public class BeanUtil {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public static TServerTransport createServerTransport(String className, InetSocketAddress addr, int clientTimeout)
             throws Exception {
         if (StringUtils.isBlank(className) || addr == null)
@@ -130,10 +131,10 @@ public class BeanUtil {
         if (timeout <= 0)
             timeout = ServerConfig.DEFAULT_TRANSPORT_TIMEOUT;
         serverTransport = clazz1.newInstance(addr, timeout);
-        
+
         return serverTransport;
     }
-    
+
     /**
      * 生成Thrift服务参数
      *
@@ -142,7 +143,7 @@ public class BeanUtil {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public static AbstractServerArgs<?> createServerArgs(String className, TServerTransport transport)
             throws Exception {
         if (StringUtils.isBlank(className) || transport == null)
@@ -156,10 +157,10 @@ public class BeanUtil {
         else
             clazz1 = clazz.getDeclaredConstructor(TServerTransport.class);
         server = clazz1.newInstance(transport);
-        
+
         return server;
     }
-    
+
     /**
      * 生成Thrift服务
      *
@@ -168,7 +169,7 @@ public class BeanUtil {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings( "unchecked" )
+    @SuppressWarnings("unchecked")
     public static TServer createServer(String className, AbstractServerArgs<?> args) throws Exception {
         if (StringUtils.isBlank(className) || args == null)
             return null;
@@ -177,10 +178,10 @@ public class BeanUtil {
         Constructor<TServer> clazz1 = null;
         clazz1 = clazz.getDeclaredConstructor(args.getClass());
         server = clazz1.newInstance(args);
-        
+
         return server;
     }
-    
+
     /**
      * 生成ZooKeeper注册器
      *
@@ -193,10 +194,10 @@ public class BeanUtil {
             return null;
         IZooKeeperRegister register = null;
         register = (IZooKeeperRegister) Class.forName(className).newInstance();
-        
+
         return register;
     }
-    
+
     /**
      * 装载Processer的接口实现实例
      *
@@ -209,7 +210,7 @@ public class BeanUtil {
         Object obj;
         try {
             obj = getObject(className);
-            
+
             if (obj.getClass().isAnnotationPresent(ThriftService.class)) {
                 ThriftService service = obj.getClass().getAnnotation(ThriftService.class);
                 String serviceName = StringUtils.isNotBlank(service.name()) ? service.name()
@@ -218,7 +219,7 @@ public class BeanUtil {
                 if (TProcessor.class.isAssignableFrom(pClazz)) {
                     thriftConf.setInterface(serviceName,
                             (TProcessor) (BeanUtil.createBean(pClazz.getConstructors()[0], obj)));
-                            
+
                 } else {
                     Class<?>[] interfaces = obj.getClass().getInterfaces();
                     if (interfaces.length == 0) {
@@ -226,7 +227,8 @@ public class BeanUtil {
                     } else {
                         for (Class<?> iface : interfaces) {
                             String cname = iface.getSimpleName();
-                            if (StringUtils.isNotBlank(cname) && (cname.equals("Iface") || cname.equals("AsyncIface"))) {
+                            if (StringUtils.isNotBlank(cname)
+                                    && (cname.equals("Iface") || cname.equals("AsyncIface"))) {
                                 String pname = iface.getEnclosingClass().getName() + "$Processor";
                                 Class<?> pclass = ServerConfig.class.getClassLoader().loadClass(pname);
                                 if (TProcessor.class.isAssignableFrom(pclass)) {

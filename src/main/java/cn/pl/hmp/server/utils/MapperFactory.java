@@ -4,12 +4,12 @@
  */
 package cn.pl.hmp.server.utils;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionUtils;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 数据源工厂
@@ -17,20 +17,20 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author alanyuan
  */
 public class MapperFactory {
-    private static MapperFactory           instance       = new MapperFactory();
+    private static MapperFactory instance = new MapperFactory();
     /**
      * 多数据源散列
      */
     private Map<String, SqlSessionFactory> sessionFactory = null;
-                                                          
+
     private MapperFactory() {
         sessionFactory = new ConcurrentHashMap<String, SqlSessionFactory>();
     }
-    
+
     public static MapperFactory getInstance() {
         return instance;
     }
-    
+
     /**
      * 加入数据源
      *
@@ -42,7 +42,7 @@ public class MapperFactory {
             return;
         sessionFactory.put(id, factory);
     }
-    
+
     /**
      * 获取SqlSessionFactory
      *
@@ -54,7 +54,7 @@ public class MapperFactory {
             return null;
         return sessionFactory.get(factoryId);
     }
-    
+
     /**
      * 获取数据库Session
      *
@@ -71,7 +71,7 @@ public class MapperFactory {
         // 如果自己实现需要实现事务相关功能
         return SqlSessionUtils.getSqlSession(factory);
     }
-    
+
     /**
      * 关闭数据库Session
      *
@@ -86,7 +86,7 @@ public class MapperFactory {
             return;
         SqlSessionUtils.closeSqlSession(session, factory);
     }
-    
+
     /**
      * 获取Mapper实例
      *

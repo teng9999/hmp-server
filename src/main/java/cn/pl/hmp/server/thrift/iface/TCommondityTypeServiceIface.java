@@ -16,16 +16,15 @@ import cn.pl.hmp.server.dao.entity.CommondityTypeExample;
 @Component
 @ThriftService
 public class TCommondityTypeServiceIface implements TCommondityTypeService.Iface {
-    
+
     @Autowired
     private ICommondityTypeBusiness commondityBusiness;
+
     @Override
-    public List<TCommondityType> queryByMenuId(long menuChannelId)
-            throws TException {
+    public List<TCommondityType> queryByMenuId(long menuChannelId) throws TException {
         CommondityTypeExample example = new CommondityTypeExample();
         example.createCriteria().andMenuIdEqualTo(menuChannelId);
-        return ObjectConverter.convet(commondityBusiness.selectByExample(example)
-                ,TCommondityType.class);
+        return ObjectConverter.convet(commondityBusiness.selectByExample(example), TCommondityType.class);
     }
 
 }

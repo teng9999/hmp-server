@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.AirMode;
 import cn.pl.hmp.server.dao.entity.AirModeExample;
-import java.util.List;
 
 public interface AirModeMapper {
     int countByExample(AirModeExample example);

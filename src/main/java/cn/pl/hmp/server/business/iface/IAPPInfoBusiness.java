@@ -19,7 +19,7 @@ import cn.pl.hmp.server.datasource.DataSource;
  * @author zhoujianbiao
  */
 public interface IAPPInfoBusiness extends IBusiness {
-	/**
+    /**
 	 * 按条件查询
 	 *
 	 * @param example
@@ -28,7 +28,7 @@ public interface IAPPInfoBusiness extends IBusiness {
 	@DataSource("cluster")
 	public List<APPInfo> query(APPInfoExample example);
 
-	/**
+    /**
 	 * 按条件查询
 	 *
 	 * @param example
@@ -39,7 +39,7 @@ public interface IAPPInfoBusiness extends IBusiness {
 	public Map<Pages, List<APPInfo>> queryPages(APPInfoExample example,
 			Pages pages);
 
-	/**
+    /**
 	 * 获取
 	 *
 	 * @param id
@@ -48,7 +48,7 @@ public interface IAPPInfoBusiness extends IBusiness {
 	@DataSource("cluster")
 	public APPInfo get(Long id);
 
-	/**
+    /**
 	 * 创建
 	 *
 	 * @param record
@@ -56,7 +56,7 @@ public interface IAPPInfoBusiness extends IBusiness {
 	 */
 	public int create(APPInfo record);
 
-	/**
+    /**
 	 * 更新
 	 *
 	 * @param record
@@ -64,7 +64,7 @@ public interface IAPPInfoBusiness extends IBusiness {
 	 */
 	public int update(APPInfo record);
 
-	/**
+    /**
 	 * 删除
 	 *
 	 * @param id

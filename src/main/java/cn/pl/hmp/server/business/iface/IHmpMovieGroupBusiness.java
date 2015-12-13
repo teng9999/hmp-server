@@ -13,7 +13,7 @@ import cn.pl.hmp.server.datasource.DataSource;
 * 
 */
 public interface IHmpMovieGroupBusiness extends IBusiness {
-	/**
+    /**
 	 * 按条件查询
 	 *
 	 * @param example
@@ -22,7 +22,7 @@ public interface IHmpMovieGroupBusiness extends IBusiness {
 	@DataSource("cluster")
 	public List<HmpMovieGroup> query(HmpMovieGroupExample example);
 
-	/**
+    /**
 	 * 按条件查询
 	 *
 	 * @param example
@@ -32,7 +32,7 @@ public interface IHmpMovieGroupBusiness extends IBusiness {
 	@DataSource("cluster")
 	public Map<Pages, List<HmpMovieGroup>> queryPages(HmpMovieGroupExample example,Pages pages);
 
-	/**
+    /**
 	 * 获取
 	 *
 	 * @param id
@@ -41,7 +41,7 @@ public interface IHmpMovieGroupBusiness extends IBusiness {
 	@DataSource("cluster")
 	public HmpMovieGroup get(Long id);
 
-	/**
+    /**
 	 * 创建
 	 *
 	 * @param record
@@ -49,7 +49,7 @@ public interface IHmpMovieGroupBusiness extends IBusiness {
 	 */
 	public int create(HmpMovieGroup record);
 
-	/**
+    /**
 	 * 更新
 	 *
 	 * @param record
@@ -57,15 +57,15 @@ public interface IHmpMovieGroupBusiness extends IBusiness {
 	 */
 	public int update(HmpMovieGroup record);
 
-	/**
+    /**
 	 * 删除
 	 *
 	 * @param id
 	 * @return
 	 */
 	public int remove(Long id);
-	
-	/**
+
+    /**
 	 * 按照组类型获取分组
 	 * 
 	 * @param groupId

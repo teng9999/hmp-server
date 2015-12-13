@@ -8,6 +8,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.iface.IHmpRoomTvBusiness;
 import cn.pl.hmp.server.dao.entity.HmpRoomTv;
@@ -15,13 +19,8 @@ import cn.pl.hmp.server.dao.entity.HmpRoomTvExample;
 import cn.pl.hmp.server.dao.mapper.HmpRoomTvMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 @Service
-public class HmpRoomTvBusinessImpl extends BoostBusinessImpl implements
-        IHmpRoomTvBusiness {
+public class HmpRoomTvBusinessImpl extends BoostBusinessImpl implements IHmpRoomTvBusiness {
     @Autowired
     private HmpRoomTvMapper mapper;
 
@@ -47,8 +46,7 @@ public class HmpRoomTvBusinessImpl extends BoostBusinessImpl implements
     }
 
     @Override
-    public Map<Pages, List<HmpRoomTv>> selectByPages(HmpRoomTvExample example,
-            Pages page) {
+    public Map<Pages, List<HmpRoomTv>> selectByPages(HmpRoomTvExample example, Pages page) {
         Map<Pages, List<HmpRoomTv>> map = new HashMap<Pages, List<HmpRoomTv>>();
         if (null == example)
             example = new HmpRoomTvExample();
@@ -66,8 +64,7 @@ public class HmpRoomTvBusinessImpl extends BoostBusinessImpl implements
 
     @Override
     public int update(HmpRoomTv record) {
-        if (record == null || record.getId() == null
-                || record.getHotelId() == null)
+        if (record == null || record.getId() == null || record.getHotelId() == null)
             return 0;
         return mapper.updateByPrimaryKey(record);
     }
@@ -81,9 +78,9 @@ public class HmpRoomTvBusinessImpl extends BoostBusinessImpl implements
     public HmpRoomTv selectByHotelId(Long hotelId) {
         List<HmpRoomTv> roomTvList = mapper.selectByHotelId(hotelId);
         HmpRoomTv roomTv = null;
-        if(null != roomTvList && !roomTvList.isEmpty()){
+        if (null != roomTvList && !roomTvList.isEmpty()) {
             roomTv = roomTvList.get(0);
-        }else{
+        } else {
             roomTv = new HmpRoomTv();
         }
         return roomTv;
