@@ -56,6 +56,17 @@ public class MenuChannel {
     private String contentEn;
 
     private String img;
+    
+    private String QRCodeImg;
+    
+
+    public String getQRCodeImg() {
+        return QRCodeImg;
+    }
+
+    public void setQRCodeImg(String qRCodeImg) {
+        QRCodeImg = qRCodeImg;
+    }
 
     public String getContentCn() {
         return contentCn;

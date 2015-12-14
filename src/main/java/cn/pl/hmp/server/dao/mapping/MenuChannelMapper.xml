@@ -367,13 +367,13 @@
   </select>
   <!-- 查询混合信息列表展示 -->
   <select id="selectByParentIdList" resultMap="BaseResultMap">
-	  select hmc.*,pages.content_cn,pages.content_en,pages.img
+	  select hmc.*,pages.content_cn,pages.content_en,pages.img,pages.back_img as QRCodeImg 
      from hmp_menu_channel hmc left join sys_menu_pages pages on hmc.id = pages.menu_id
 	 where parent_id = #{parentId} and hotel_id = #{hotelId} order by hmc.order_num 
   </select>
   <!-- 根据id查看混合信息 -->
   <select id="selectByMenuId" resultType="cn.pl.hmp.server.dao.entity.MenuChannel">
-	  select hmc.*,pages.content_cn,pages.content_en,pages.img
+	  select hmc.*,pages.content_cn,pages.content_en,pages.img,pages.back_img as QRCodeImg 
 	 from hmp_menu_channel hmc,sys_menu_pages pages where hmc.id = pages.menu_id
 	 and hmc.id = #{menuId}
   </select>
