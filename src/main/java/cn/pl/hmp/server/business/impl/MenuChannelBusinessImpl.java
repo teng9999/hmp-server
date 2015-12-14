@@ -8,14 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.commons.enums.roomRcu.MenuType;
-import cn.pl.hmp.commons.enums.roomRcu.ServiceType;
 import cn.pl.hmp.commons.enums.roomRcu.SubMenuType;
 import cn.pl.hmp.server.business.iface.IMenuChannelBusiness;
 import cn.pl.hmp.server.dao.entity.MenuChannel;
@@ -24,6 +18,11 @@ import cn.pl.hmp.server.dao.entity.MenuPages;
 import cn.pl.hmp.server.dao.mapper.MenuChannelMapper;
 import cn.pl.hmp.server.dao.mapper.MenuPagesMapper;
 import cn.pl.hmp.server.utils.PageConverter;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuChannelBusiness {
@@ -144,7 +143,8 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         if (null == topChannelList || topChannelList.size() < 1) {
             return array;
         }
-        dtreeSaveMassage(array, topChannelList);
+        StringBuffer serviceType = new StringBuffer();
+        dtreeSaveMassage(array, topChannelList,serviceType);
         return array;
     }
 
@@ -154,14 +154,14 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
      * @param topArray
      * @param topChannelList
      */
-    public void dtreeSaveMassage(JSONArray topArray, List<MenuChannel> topChannelList) {
+    public void dtreeSaveMassage(JSONArray topArray, List<MenuChannel> topChannelList,StringBuffer serviceType) {
         JSONObject menuChannelObj = null;
         for (MenuChannel menuChannel : topChannelList) {
             menuChannelObj = new JSONObject();
             if (null == menuChannel) {
                 continue;
             }
-            saveChannel(menuChannelObj, menuChannel);
+            saveChannel(menuChannelObj, menuChannel,serviceType);
             List<MenuPages> pagesList = pagesMapper.selectByMenuId(menuChannel.getId());
             JSONObject pagesObj = new JSONObject();
             if (null != pagesList && pagesList.size() > 0) {
@@ -173,12 +173,12 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
             topArray.add(menuChannelObj);
             List<MenuChannel> childList = mapper.selectByParentId(menuChannel.getId());
             if (null != childList && childList.size() > 0) {
-                dtreeSaveMassage(childArray, childList);
+                dtreeSaveMassage(childArray, childList,serviceType);
             }
         }
     }
 
-    public void saveChannel(JSONObject pObj, MenuChannel pChannel) {
+    public void saveChannel(JSONObject pObj, MenuChannel pChannel,StringBuffer serviceType) {
         pObj.put("id", pChannel.getId());
         pObj.put("backImg", pChannel.getBackImg());
         pObj.put("menuImg", pChannel.getMenuImg());
@@ -186,9 +186,15 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         pObj.put("nameCn", pChannel.getNameCn());
         pObj.put("nameEn", pChannel.getNameEn());
         pObj.put("orderNum", pChannel.getOrderNum());
-        ServiceType serviceType = ServiceType.enValuesOf(pChannel.getServiceType());
-        pObj.put("serviceType", (null == serviceType) ? null : serviceType.toIntVal());
-        pObj.put("subMenuType", getSubMenuVal(pChannel.getServiceType()));
+        if(null != pChannel.getServiceType() && !("".equals(pChannel.getServiceType()))) {
+            serviceType.delete(0, serviceType.length());
+            serviceType.append(pChannel.getServiceType());
+        }
+        if(serviceType.length() < 1) {
+            pObj.put("subMenuType", getSubMenuVal(pChannel.getServiceType()));
+        }else {
+            pObj.put("subMenuType", getSubMenuVal(serviceType.toString()));
+        }
         pObj.put("hotelId", pChannel.getHotelId());
         pObj.put("parentId", pChannel.getParentId());
         pObj.put("propertyType", pChannel.getPropertyYpe()); // 属性类型：食品（0），商品（1）
@@ -220,6 +226,8 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
             return SubMenuType.VIDEO.toIntVal();
         case "TV":
             return SubMenuType.TV.toIntVal();
+        case "AMIBITUSCOLLECT":
+            return SubMenuType.AMIBITUSCOLLECT.toIntVal();
         default:
             return SubMenuType.SERVICE.toIntVal();
         }
