@@ -17,6 +17,7 @@ import cn.pl.hmp.commons.thrift.service.TSysProgPkgsService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.ISysProgPkgsBusiness;
 import cn.pl.hmp.server.dao.entity.SysProgPkgs;
+import cn.pl.hmp.server.dao.entity.SysProgPkgsExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -66,5 +67,18 @@ public class TSysProgPkgsServiceIface implements TSysProgPkgsService.Iface {
     @Override
     public int deleteOnbatch(List<Long> idList) throws TException {
         return progPkgsBusiness.deleteOnBatch(idList);
+    }
+
+    @Override
+    public TSysProgPkgs queryLastestByPkgType(String pkgType) throws TException {
+        SysProgPkgsExample packsExample = new SysProgPkgsExample();
+        packsExample.createCriteria().andPkgTypeEqualTo(pkgType);
+        packsExample.setOrderByClause("createTime desc");
+        SysProgPkgs progPkgs = new SysProgPkgs();
+        List<SysProgPkgs> pkgsList = progPkgsBusiness.selectByExample(packsExample);
+        if(null != pkgsList && !pkgsList.isEmpty()) {
+            progPkgs = pkgsList.get(0);
+        }
+        return ObjectConverter.convet(progPkgs, TSysProgPkgs.class);
     }
 }

@@ -1,6 +1,7 @@
 package cn.pl.hmp.server.business.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,22 +9,25 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import cn.pl.commons.pages.Pages;
+import cn.pl.hmp.commons.enums.roomRcu.ToolPkgsType;
 import cn.pl.hmp.server.business.iface.IUserBusiness;
+import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
 import cn.pl.hmp.server.dao.entity.HmpMGHotel;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.dao.entity.UserExample;
 import cn.pl.hmp.server.dao.entity.UserHotel;
 import cn.pl.hmp.server.dao.entity.UserHotelExample;
+import cn.pl.hmp.server.dao.mapper.HmpHotelToolPacksMapper;
 import cn.pl.hmp.server.dao.mapper.HmpMGHotelMapper;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
 import cn.pl.hmp.server.dao.mapper.UserHotelMapper;
 import cn.pl.hmp.server.dao.mapper.UserMapper;
 import cn.pl.hmp.server.utils.PageConverter;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness {
@@ -35,6 +39,8 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
     private HmpMGHotelMapper mgHotelMapper;
     @Autowired
     private UserHotelMapper userHotelMapper;
+    @Autowired
+    private HmpHotelToolPacksMapper toolPkgsMapper;
 
     @Override
     public int deleteUserAndHotelByUserId(Long id) {
@@ -128,6 +134,20 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
             mgHotel.setHotelId(hotelInfo.getId());
             mgHotelMapper.insertSelective(mgHotel);
         }
+        //添加酒店安装包信息
+        HmpHotelToolPacks tookPacks = new HmpHotelToolPacks();
+        tookPacks.setCreateDate(new Date());
+        tookPacks.setCurVersion("");
+        tookPacks.setHotelId(hotelRes);
+        ToolPkgsType[] pkgsTypes = ToolPkgsType.values();
+        if(null != pkgsTypes && pkgsTypes.length > 0 ) {
+            for(ToolPkgsType pkgsType : pkgsTypes) {
+                tookPacks.setId(null);
+                tookPacks.setPkgType(pkgsType.intVal()+"");
+                toolPkgsMapper.insertSelective(tookPacks);
+            }
+        }
+        
         return user.getId();
     }
 
