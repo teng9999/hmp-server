@@ -116,4 +116,11 @@ public class TDataDictServiceIface implements TDataDictService.Iface {
         }
         return ObjectConverter.convet(dataDictBusiness.selectByCase(example), TDataDict.class);
     }
+
+    @Override
+    public List<TDataDict> queryByParentName(String parentName)
+            throws TException {
+        return ObjectConverter.convet(dataDictBusiness.selectByParentName(parentName),
+                TDataDict.class);
+    }
 }

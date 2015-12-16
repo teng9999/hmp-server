@@ -79,4 +79,9 @@ public class DataDictBusinessImpl extends BoostBusinessImpl implements IDataDict
         return mapper.selectByExample(example);
     }
 
+    @Override
+    public List<DataDict> selectByParentName(String parentName) {
+        return mapper.selectByParentName(parentName);
+    }
+
 }

@@ -63,4 +63,10 @@ public interface IDataDictBusiness extends IBusiness {
      * @return
      */
     int deleteOnBatch(List<Long> idList);
+    
+    /**
+     * 通过父级唯一名查询所有字典项
+     * @return
+     */
+    List<DataDict> selectByParentName(String parentName);
 }
