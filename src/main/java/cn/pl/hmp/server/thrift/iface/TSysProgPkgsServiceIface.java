@@ -73,7 +73,7 @@ public class TSysProgPkgsServiceIface implements TSysProgPkgsService.Iface {
     public TSysProgPkgs queryLastestByPkgType(String pkgType) throws TException {
         SysProgPkgsExample packsExample = new SysProgPkgsExample();
         packsExample.createCriteria().andPkgTypeEqualTo(pkgType);
-        packsExample.setOrderByClause("createTime desc");
+        packsExample.setOrderByClause("create_time desc");
         SysProgPkgs progPkgs = new SysProgPkgs();
         List<SysProgPkgs> pkgsList = progPkgsBusiness.selectByExample(packsExample);
         if(null != pkgsList && !pkgsList.isEmpty()) {
