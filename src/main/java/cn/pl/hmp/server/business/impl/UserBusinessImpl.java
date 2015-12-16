@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
-import cn.pl.hmp.commons.enums.roomRcu.ToolPkgsType;
 import cn.pl.hmp.server.business.iface.IUserBusiness;
+import cn.pl.hmp.server.dao.entity.DataDict;
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
 import cn.pl.hmp.server.dao.entity.HmpMGHotel;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
@@ -19,6 +19,7 @@ import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.dao.entity.UserExample;
 import cn.pl.hmp.server.dao.entity.UserHotel;
 import cn.pl.hmp.server.dao.entity.UserHotelExample;
+import cn.pl.hmp.server.dao.mapper.DataDictMapper;
 import cn.pl.hmp.server.dao.mapper.HmpHotelToolPacksMapper;
 import cn.pl.hmp.server.dao.mapper.HmpMGHotelMapper;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
@@ -41,6 +42,8 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
     private UserHotelMapper userHotelMapper;
     @Autowired
     private HmpHotelToolPacksMapper toolPkgsMapper;
+    @Autowired
+    private DataDictMapper dictMapper;
 
     @Override
     public int deleteUserAndHotelByUserId(Long id) {
@@ -139,11 +142,14 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
         tookPacks.setCreateDate(new Date());
         tookPacks.setCurVersion("");
         tookPacks.setHotelId(hotelRes);
-        ToolPkgsType[] pkgsTypes = ToolPkgsType.values();
-        if(null != pkgsTypes && pkgsTypes.length > 0 ) {
-            for(ToolPkgsType pkgsType : pkgsTypes) {
+        
+        List<DataDict> dictList = dictMapper.selectByParentName("PKGType");
+        tookPacks.setPkgType("1");
+        toolPkgsMapper.insertSelective(tookPacks);
+        if(null != dictList && !dictList.isEmpty()) {
+            for(DataDict dict : dictList) {
                 tookPacks.setId(null);
-                tookPacks.setPkgType(pkgsType.intVal()+"");
+                tookPacks.setPkgType(dict.getName());
                 toolPkgsMapper.insertSelective(tookPacks);
             }
         }
