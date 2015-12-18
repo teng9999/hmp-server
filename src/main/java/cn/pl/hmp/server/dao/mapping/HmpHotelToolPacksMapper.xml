@@ -212,4 +212,7 @@
   	left join hmp_hotel_info b 
   	on a.hotel_id = b.id
   </select>
+  <delete id="deleteByHotelId">
+    delete from hmp_hotel_tool_packs where hotel_id = #{hotelId}
+  </delete>
 </mapper>

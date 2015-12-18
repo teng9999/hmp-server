@@ -2,6 +2,8 @@ package cn.pl.hmp.server.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacksExample;
 
@@ -23,4 +25,6 @@ public interface HmpHotelToolPacksMapper {
     int updateByPrimaryKey(HmpHotelToolPacks record);
 
     List<HmpHotelToolPacks> queryList();
+    
+    int deleteByHotelId(@Param(value="hotelId") long hotelId);
 }

@@ -20,6 +20,7 @@ import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.HotelInfoExample;
 import cn.pl.hmp.server.dao.entity.UserHotel;
 import cn.pl.hmp.server.dao.entity.UserHotelExample;
+import cn.pl.hmp.server.dao.mapper.HmpHotelToolPacksMapper;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
 import cn.pl.hmp.server.dao.mapper.UserHotelMapper;
 import cn.pl.hmp.server.dao.mapper.UserMapper;
@@ -34,6 +35,8 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
     private UserMapper userMapper;
     @Autowired
     private UserHotelMapper userHotelMapper;
+    @Autowired
+    private HmpHotelToolPacksMapper toolPacksMapper;
 
     @Override
     public int deleteHotelAndUserByHotelId(Long id) {
@@ -46,6 +49,7 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
                 userHotelMapper.deleteByPrimaryKey(userHotel.getId());
             }
         }
+        toolPacksMapper.deleteByHotelId(id);
         return mapper.deleteByPrimaryKey(id);
     }
 
