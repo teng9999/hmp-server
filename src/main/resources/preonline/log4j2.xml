@@ -75,14 +75,18 @@
 	</appenders>
 
 	<Loggers>
-		<Logger name="BackupLogger" level="debug">
+		<!-- <Logger name="BackupLogger" level="debug">
 			<appender-ref ref="debugFile" level="debug"/>
 			<appender-ref ref="infoFile" level="info"/>
 			<appender-ref ref="warnFile" level="warn"/>
 			<appender-ref ref="errorlFile" level="error"/>
-		</Logger>
-		<Root level="info">
-			<appender-ref ref="Console"/>
+		</Logger> -->
+		<Root level="trace">
+			<appender-ref ref="debugFile" level="debug"/>
+			<appender-ref ref="infoFile" level="info"/>
+			<appender-ref ref="warnFile" level="warn"/>
+			<appender-ref ref="errorlFile" level="error"/>
+			<appender-ref ref="Console" level="info"/>
 		</Root>
 	</Loggers>
 </Configuration>
