@@ -24,7 +24,7 @@ public interface HmpHotelToolPacksMapper {
 
     int updateByPrimaryKey(HmpHotelToolPacks record);
 
-    List<HmpHotelToolPacks> queryList();
+    List<HmpHotelToolPacks> queryList(HmpHotelToolPacks packs);
     
     int deleteByHotelId(@Param(value="hotelId") long hotelId);
 }

@@ -929,7 +929,7 @@ public class ServerTransform extends ThriftTransform {
     }
 
     public static THmpHotelToolPacks transform(HmpHotelToolPacks info) {
-        if (null == info) {
+        if (null == info || null == info.getId()) {
             return null;
         }
         THmpHotelToolPacks result = new THmpHotelToolPacks();
@@ -960,8 +960,8 @@ public class ServerTransform extends ThriftTransform {
             result.setLastVersion(info.getLastVersion());
         if (null != info.getLink())
             result.setLink(info.getLink());
-
-        result.setOnline(info.getOnline());
+        if (null != info.getOnline())
+        	result.setOnline(info.getOnline());
         return result;
     }
 
@@ -971,8 +971,12 @@ public class ServerTransform extends ThriftTransform {
         }
         List<THmpHotelToolPacks> newList = new ArrayList<THmpHotelToolPacks>();
         for (HmpHotelToolPacks info : list) {
+        	if (null == info || null == info.getHotelId()) {
+        		continue;
+        	}
             THmpHotelToolPacks result = new THmpHotelToolPacks();
-            result.setId(info.getId());
+            if (null != info.getId()) 
+            	result.setId(info.getId());
             if (null != info.getSysId())
                 result.setSysId(info.getSysId());
             if (null != info.getOrgId())
@@ -999,8 +1003,8 @@ public class ServerTransform extends ThriftTransform {
                 result.setLastVersion(info.getLastVersion());
             if (null != info.getLink())
                 result.setLink(info.getLink());
-
-            result.setOnline(info.getOnline());
+            if (null != info.getOnline())
+                result.setOnline(info.getOnline());
             newList.add(result);
         }
 

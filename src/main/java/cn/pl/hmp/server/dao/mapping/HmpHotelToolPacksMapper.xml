@@ -206,11 +206,35 @@
   </resultMap>
   <!-- 自定义方法 -->
   <!-- 查询列表 -->
-  <select id="queryList" resultMap="PackResultMap">
-  	select a.*, b.name as hotel_name,b.sub_name,b.type,b.address 
-  	from hmp_hotel_tool_packs a 
-  	left join hmp_hotel_info b 
-  	on a.hotel_id = b.id
+  <select id="queryList" resultMap="PackResultMap" parameterType="cn.pl.hmp.server.dao.entity.HmpHotelToolPacks">
+  	SELECT
+	a.id,
+	a.sys_id,
+	a.org_id,
+	a.pkg_type,
+	a.cur_version,
+	a.online,
+	a.create_date,
+	a.modify_time,
+	b.name AS hotel_name,
+	b.sub_name,
+	b.type,
+	b.address,
+	b.id hotel_id
+FROM
+	hmp_hotel_info b
+LEFT JOIN hmp_hotel_tool_packs a ON a.hotel_id = b.id
+  	<!-- where b.name = #{hotelName,jdbcType=VARCHAR}
+  	  and (b.sub_name = #{subName,jdbcType=VARCHAR} or b.sub_name is null) 
+  	  and a.online = #{online,jdbcType=BIT}-->
+  	  where 1=1 
+  	  <if test="subName != null" >
+  		and b.sub_name like #{subName,jdbcType=VARCHAR}
+  	  </if>
+  	  <if test="address != null" >
+  		and b.address like #{address,jdbcType=VARCHAR}
+  	  </if>
+  	order by a.create_date desc
   </select>
   <delete id="deleteByHotelId">
     delete from hmp_hotel_tool_packs where hotel_id = #{hotelId}

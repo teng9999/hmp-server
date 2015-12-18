@@ -46,7 +46,7 @@ public interface IHmpHotelToolPacksBusiness extends IBusiness {
      * 列表查询
      * @return
      */
-    List<HmpHotelToolPacks> queryList();
+    List<HmpHotelToolPacks> queryList(HmpHotelToolPacks packs);
 
     /**
      * 条件分页查询
@@ -54,7 +54,7 @@ public interface IHmpHotelToolPacksBusiness extends IBusiness {
      * @param page
      * @return
      */
-    Map<Pages, List<HmpHotelToolPacks>> selectByPages(HmpHotelToolPacksExample example,Pages page);
+    Map<Pages, List<HmpHotelToolPacks>> selectByPages(Pages page, HmpHotelToolPacks packs);
 
     /**
      * 更新
