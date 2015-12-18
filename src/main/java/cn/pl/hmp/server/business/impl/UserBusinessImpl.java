@@ -119,8 +119,10 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
 
     @Override
     public long insertAll(User user, HotelInfo hotelInfo) {
-        Long userRes = mapper.insertSelective(user);
-        Long hotelRes = hotelMapper.insertSelective(hotelInfo);
+        mapper.insertSelective(user);
+        long userRes = user.getId();
+        hotelMapper.insertSelective(hotelInfo);
+        Long hotelRes = hotelInfo.getId();
         if (userRes > 0 && hotelRes > 0) {
             UserHotel userHotel = new UserHotel();
             userHotel.setUserId(user.getId());
