@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
-import cn.pl.hmp.commons.enums.roomRcu.MenuType;
-import cn.pl.hmp.commons.enums.roomRcu.SubMenuType;
+import cn.pl.hmp.commons.enums.MenuType;
+import cn.pl.hmp.commons.enums.SubMenuType;
 import cn.pl.hmp.server.business.iface.IMenuChannelBusiness;
 import cn.pl.hmp.server.dao.entity.MenuChannel;
 import cn.pl.hmp.server.dao.entity.MenuChannelExample;

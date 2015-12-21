@@ -16,8 +16,8 @@ import com.github.pagehelper.PageInfo;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.commons.utils.StringUtils;
-import cn.pl.hmp.commons.enums.roomRcu.BoardType;
-import cn.pl.hmp.commons.enums.roomRcu.RcuLineType;
+import cn.pl.hmp.commons.enums.BoardType;
+import cn.pl.hmp.commons.enums.RcuLineType;
 import cn.pl.hmp.server.business.iface.IHotelRoomBusiness;
 import cn.pl.hmp.server.dao.entity.DataDict;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfg;

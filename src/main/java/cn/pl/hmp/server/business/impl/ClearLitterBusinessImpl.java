@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.pl.hmp.commons.enums.roomRcu.UserType;
+import cn.pl.hmp.commons.enums.UserType;
 import cn.pl.hmp.server.business.iface.IClearLitterBusiness;
 import cn.pl.hmp.server.dao.entity.AirMode;
 import cn.pl.hmp.server.dao.entity.AirModeExample;
