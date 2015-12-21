@@ -32,6 +32,8 @@ public class HmpHotelToolPacks {
     private String lastVersion;
 
     private String link;
+    
+    private String isOnline;
 
     public Long getId() {
         return id;
@@ -151,5 +153,13 @@ public class HmpHotelToolPacks {
 
     public void setLink(String link) {
         this.link = link;
+    }
+    
+    public String getIsOnline() {
+    	return this.isOnline;
+    }
+    
+    public void setIsOnline(String isOnline) {
+    	this.isOnline = isOnline;
     }
 }

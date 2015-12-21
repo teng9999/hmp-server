@@ -922,7 +922,8 @@ public class ServerTransform extends ThriftTransform {
             result.setLastVersion(info.getLastVersion());
         if (null != info.getLink())
             result.setLink(info.getLink());
-
+        if (null != info.getIsOnline())
+            result.setIsOnline(info.getIsOnline());
         result.setOnline(info.isOnline());
 
         return result;
@@ -962,6 +963,9 @@ public class ServerTransform extends ThriftTransform {
             result.setLink(info.getLink());
         if (null != info.getOnline())
         	result.setOnline(info.getOnline());
+        if (null != info.getIsOnline())
+        	result.setIsOnline(info.getIsOnline());
+        
         return result;
     }
 
@@ -1005,6 +1009,8 @@ public class ServerTransform extends ThriftTransform {
                 result.setLink(info.getLink());
             if (null != info.getOnline())
                 result.setOnline(info.getOnline());
+            if (null != info.getIsOnline())
+                result.setIsOnline(info.getIsOnline());
             newList.add(result);
         }
 
