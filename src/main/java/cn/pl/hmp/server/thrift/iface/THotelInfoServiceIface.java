@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.thrift.TException;
-import org.jboss.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -83,13 +82,12 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
     public List<THotelInfo> selectByUserId(long id) throws TException {
         return ObjectConverter.convet(hotelBusiness.selectByUserId(id), THotelInfo.class);
     }
-    
+
     @Override
-    public Map<TPages, List<THotelInfo>> queryByAreaAndBland(TPages pages,
-            String province, String name) throws TException {
+    public Map<TPages, List<THotelInfo>> queryByAreaAndBland(TPages pages, String province, String name)
+            throws TException {
         HotelInfoExample example = new HotelInfoExample();
-        example.createCriteria().andProvinceEqualTo(province)
-        .andNameEqualTo(name);
+        example.createCriteria().andProvinceEqualTo(province).andNameEqualTo(name);
         Map<TPages, List<THotelInfo>> tmap = new HashMap<TPages, List<THotelInfo>>();
         TPages tempPage = null;
         Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectByPages(example,
@@ -105,10 +103,9 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
     }
 
     @Override
-    public Map<TPages, List<THotelInfo>> queryByHotelConditions(TPages pages,
-            String condition) throws TException {
+    public Map<TPages, List<THotelInfo>> queryByHotelConditions(TPages pages, String condition) throws TException {
         HotelInfoExample example = new HotelInfoExample();
-        if(StringUtils.isNotBlank(condition)) {
+        if (StringUtils.isNotBlank(condition)) {
             example.or(example.createCriteria().andAddressLike(condition));
             example.or(example.createCriteria().andSubNameEqualTo(condition));
             example.or(example.createCriteria().andChainIdEqualTo(condition));
