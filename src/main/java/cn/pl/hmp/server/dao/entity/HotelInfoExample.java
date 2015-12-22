@@ -2215,6 +2215,136 @@ public class HotelInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andTvLockTimeIsNull() {
+            addCriterion("tv_lock_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeIsNotNull() {
+            addCriterion("tv_lock_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeEqualTo(Date value) {
+            addCriterion("tv_lock_time =", value, "tvLockTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeNotEqualTo(Date value) {
+            addCriterion("tv_lock_time <>", value, "tvLockTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeGreaterThan(Date value) {
+            addCriterion("tv_lock_time >", value, "tvLockTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("tv_lock_time >=", value, "tvLockTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeLessThan(Date value) {
+            addCriterion("tv_lock_time <", value, "tvLockTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeLessThanOrEqualTo(Date value) {
+            addCriterion("tv_lock_time <=", value, "tvLockTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeIn(List<Date> values) {
+            addCriterion("tv_lock_time in", values, "tvLockTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeNotIn(List<Date> values) {
+            addCriterion("tv_lock_time not in", values, "tvLockTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeBetween(Date value1, Date value2) {
+            addCriterion("tv_lock_time between", value1, value2, "tvLockTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockTimeNotBetween(Date value1, Date value2) {
+            addCriterion("tv_lock_time not between", value1, value2, "tvLockTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentIsNull() {
+            addCriterion("tv_lock_percent is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentIsNotNull() {
+            addCriterion("tv_lock_percent is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentEqualTo(String value) {
+            addCriterion("tv_lock_percent =", value, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentNotEqualTo(String value) {
+            addCriterion("tv_lock_percent <>", value, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentGreaterThan(String value) {
+            addCriterion("tv_lock_percent >", value, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentGreaterThanOrEqualTo(String value) {
+            addCriterion("tv_lock_percent >=", value, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentLessThan(String value) {
+            addCriterion("tv_lock_percent <", value, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentLessThanOrEqualTo(String value) {
+            addCriterion("tv_lock_percent <=", value, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentLike(String value) {
+            addCriterion("tv_lock_percent like", value, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentNotLike(String value) {
+            addCriterion("tv_lock_percent not like", value, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentIn(List<String> values) {
+            addCriterion("tv_lock_percent in", values, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentNotIn(List<String> values) {
+            addCriterion("tv_lock_percent not in", values, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentBetween(String value1, String value2) {
+            addCriterion("tv_lock_percent between", value1, value2, "tvLockPercent");
+            return (Criteria) this;
+        }
+
+        public Criteria andTvLockPercentNotBetween(String value1, String value2) {
+            addCriterion("tv_lock_percent not between", value1, value2, "tvLockPercent");
+            return (Criteria) this;
+        }
+
         public Criteria andAirConfigIsNull() {
             addCriterion("air_config is null");
             return (Criteria) this;
@@ -2582,6 +2712,76 @@ public class HotelInfoExample {
 
         public Criteria andAvailableNotBetween(Boolean value1, Boolean value2) {
             addCriterion("available not between", value1, value2, "available");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatIsNull() {
+            addCriterion("lbs_lng_lat is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatIsNotNull() {
+            addCriterion("lbs_lng_lat is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatEqualTo(String value) {
+            addCriterion("lbs_lng_lat =", value, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatNotEqualTo(String value) {
+            addCriterion("lbs_lng_lat <>", value, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatGreaterThan(String value) {
+            addCriterion("lbs_lng_lat >", value, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatGreaterThanOrEqualTo(String value) {
+            addCriterion("lbs_lng_lat >=", value, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatLessThan(String value) {
+            addCriterion("lbs_lng_lat <", value, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatLessThanOrEqualTo(String value) {
+            addCriterion("lbs_lng_lat <=", value, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatLike(String value) {
+            addCriterion("lbs_lng_lat like", value, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatNotLike(String value) {
+            addCriterion("lbs_lng_lat not like", value, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatIn(List<String> values) {
+            addCriterion("lbs_lng_lat in", values, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatNotIn(List<String> values) {
+            addCriterion("lbs_lng_lat not in", values, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatBetween(String value1, String value2) {
+            addCriterion("lbs_lng_lat between", value1, value2, "lbsLngLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLbsLngLatNotBetween(String value1, String value2) {
+            addCriterion("lbs_lng_lat not between", value1, value2, "lbsLngLat");
             return (Criteria) this;
         }
     }

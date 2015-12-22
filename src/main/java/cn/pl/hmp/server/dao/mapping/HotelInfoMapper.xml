@@ -33,12 +33,15 @@
     <result column="chain_id" property="chainId" jdbcType="VARCHAR" />
     <result column="service_ip" property="serviceIp" jdbcType="VARCHAR" />
     <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="tv_lock_time" property="tvLockTime" jdbcType="TIMESTAMP" />
+    <result column="tv_lock_percent" property="tvLockPercent" jdbcType="VARCHAR" />
     <result column="air_config" property="airConfig" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="creator" property="creator" jdbcType="BIGINT" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="modifier" property="modifier" jdbcType="BIGINT" />
     <result column="available" property="available" jdbcType="BIT" />
+    <result column="lbs_lng_lat" property="lbsLngLat" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,15 +76,15 @@
     id, sys_id, org_id, address, bus, city, env, fax, hotel_num, name, phone, post_code, 
     sub_name, type, country, province, cr_iso_code, unique_num, need_rcu, need_tv, screen, 
     welcomes_cn, welcomes_en, weather_code, city_name_en, roll_cn, roll_en, movie_group, 
-    chain_id, service_ip, brand_id, air_config, create_time, creator, modify_time, modifier, 
-    available
+    chain_id, service_ip, brand_id, tv_lock_time, tv_lock_percent, air_config, create_time, 
+    creator, modify_time, modifier, available, lbs_lng_lat
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.HotelInfoExample" >
     select
     <if test="distinct" >
       distinct
     </if>
-    'false' as QUERYID,
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from hmp_hotel_info
     <if test="_parameter != null" >
@@ -101,7 +104,7 @@
     delete from hmp_hotel_info
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" keyProperty="id" useGeneratedKeys="true" >
     insert into hmp_hotel_info (id, sys_id, org_id, 
       address, bus, city, 
       env, fax, hotel_num, 
@@ -112,8 +115,9 @@
       welcomes_en, weather_code, city_name_en, 
       roll_cn, roll_en, movie_group, 
       chain_id, service_ip, brand_id, 
-      air_config, create_time, creator, 
-      modify_time, modifier, available
+      tv_lock_time, tv_lock_percent, air_config, 
+      create_time, creator, modify_time, 
+      modifier, available, lbs_lng_lat
       )
     values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
       #{address,jdbcType=VARCHAR}, #{bus,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
@@ -125,11 +129,12 @@
       #{welcomesEn,jdbcType=VARCHAR}, #{weatherCode,jdbcType=VARCHAR}, #{cityNameEn,jdbcType=VARCHAR}, 
       #{rollCn,jdbcType=VARCHAR}, #{rollEn,jdbcType=VARCHAR}, #{movieGroup,jdbcType=VARCHAR}, 
       #{chainId,jdbcType=VARCHAR}, #{serviceIp,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, 
-      #{airConfig,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}
+      #{tvLockTime,jdbcType=TIMESTAMP}, #{tvLockPercent,jdbcType=VARCHAR}, #{airConfig,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}, #{lbsLngLat,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" keyProperty="id" useGeneratedKeys="true" >
     insert into hmp_hotel_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -225,6 +230,12 @@
       <if test="brandId != null" >
         brand_id,
       </if>
+      <if test="tvLockTime != null" >
+        tv_lock_time,
+      </if>
+      <if test="tvLockPercent != null" >
+        tv_lock_percent,
+      </if>
       <if test="airConfig != null" >
         air_config,
       </if>
@@ -242,6 +253,9 @@
       </if>
       <if test="available != null" >
         available,
+      </if>
+      <if test="lbsLngLat != null" >
+        lbs_lng_lat,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -338,6 +352,12 @@
       <if test="brandId != null" >
         #{brandId,jdbcType=VARCHAR},
       </if>
+      <if test="tvLockTime != null" >
+        #{tvLockTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tvLockPercent != null" >
+        #{tvLockPercent,jdbcType=VARCHAR},
+      </if>
       <if test="airConfig != null" >
         #{airConfig,jdbcType=VARCHAR},
       </if>
@@ -356,8 +376,17 @@
       <if test="available != null" >
         #{available,jdbcType=BIT},
       </if>
+      <if test="lbsLngLat != null" >
+        #{lbsLngLat,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
+  <select id="countByExample" parameterType="cn.pl.hmp.server.dao.entity.HotelInfoExample" resultType="java.lang.Integer" >
+    select count(*) from hmp_hotel_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
   <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" >
     update hmp_hotel_info
     <set >
@@ -451,6 +480,12 @@
       <if test="brandId != null" >
         brand_id = #{brandId,jdbcType=VARCHAR},
       </if>
+      <if test="tvLockTime != null" >
+        tv_lock_time = #{tvLockTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tvLockPercent != null" >
+        tv_lock_percent = #{tvLockPercent,jdbcType=VARCHAR},
+      </if>
       <if test="airConfig != null" >
         air_config = #{airConfig,jdbcType=VARCHAR},
       </if>
@@ -468,6 +503,9 @@
       </if>
       <if test="available != null" >
         available = #{available,jdbcType=BIT},
+      </if>
+      <if test="lbsLngLat != null" >
+        lbs_lng_lat = #{lbsLngLat,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -504,12 +542,15 @@
       chain_id = #{chainId,jdbcType=VARCHAR},
       service_ip = #{serviceIp,jdbcType=VARCHAR},
       brand_id = #{brandId,jdbcType=VARCHAR},
+      tv_lock_time = #{tvLockTime,jdbcType=TIMESTAMP},
+      tv_lock_percent = #{tvLockPercent,jdbcType=VARCHAR},
       air_config = #{airConfig,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=BIGINT},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=BIGINT},
-      available = #{available,jdbcType=BIT}
+      available = #{available,jdbcType=BIT},
+      lbs_lng_lat = #{lbsLngLat,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- 自定义 -->

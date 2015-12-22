@@ -12,8 +12,6 @@
     <result column="pwd_salt" property="pwdSalt" jdbcType="VARCHAR" />
     <result column="server_id" property="serverId" jdbcType="VARCHAR" />
     <result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
-    <result column="tv_lock_time" property="tvLockTime" jdbcType="TIMESTAMP" />
-    <result column="tv_lock_percent" property="tvLockPercent" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="creator" property="creator" jdbcType="BIGINT" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
@@ -51,15 +49,14 @@
   </sql>
   <sql id="Base_Column_List" >
     id, sys_id, org_id, real_name, user_name, user_type, password, pwd_salt, server_id, 
-    hotel_name, tv_lock_time, tv_lock_percent, create_time, creator, modify_time, modifier, 
-    available
+    hotel_name, create_time, creator, modify_time, modifier, available
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.UserExample" >
     select
     <if test="distinct" >
       distinct
     </if>
-    'false' as QUERYID,
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from hmp_user
     <if test="_parameter != null" >
@@ -79,21 +76,21 @@
     delete from hmp_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.User" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.User" keyProperty="id" useGeneratedKeys="true" >
     insert into hmp_user (id, sys_id, org_id, 
       real_name, user_name, user_type, 
       password, pwd_salt, server_id, 
-      hotel_name, tv_lock_time, tv_lock_percent, 
-      create_time, creator, modify_time, 
-      modifier, available)
+      hotel_name, create_time, creator, 
+      modify_time, modifier, available
+      )
     values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
       #{realName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{pwdSalt,jdbcType=VARCHAR}, #{serverId,jdbcType=VARCHAR}, 
-      #{hotelName,jdbcType=VARCHAR}, #{tvLockTime,jdbcType=TIMESTAMP}, #{tvLockPercent,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT})
+      #{hotelName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.User" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.User" keyProperty="id" useGeneratedKeys="true" >
     insert into hmp_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -125,12 +122,6 @@
       </if>
       <if test="hotelName != null" >
         hotel_name,
-      </if>
-      <if test="tvLockTime != null" >
-        tv_lock_time,
-      </if>
-      <if test="tvLockPercent != null" >
-        tv_lock_percent,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -179,12 +170,6 @@
       <if test="hotelName != null" >
         #{hotelName,jdbcType=VARCHAR},
       </if>
-      <if test="tvLockTime != null" >
-        #{tvLockTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="tvLockPercent != null" >
-        #{tvLockPercent,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -202,6 +187,12 @@
       </if>
     </trim>
   </insert>
+  <select id="countByExample" parameterType="cn.pl.hmp.server.dao.entity.UserExample" resultType="java.lang.Integer" >
+    select count(*) from hmp_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
   <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.User" >
     update hmp_user
     <set >
@@ -232,12 +223,6 @@
       <if test="hotelName != null" >
         hotel_name = #{hotelName,jdbcType=VARCHAR},
       </if>
-      <if test="tvLockTime != null" >
-        tv_lock_time = #{tvLockTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="tvLockPercent != null" >
-        tv_lock_percent = #{tvLockPercent,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -267,8 +252,6 @@
       pwd_salt = #{pwdSalt,jdbcType=VARCHAR},
       server_id = #{serverId,jdbcType=VARCHAR},
       hotel_name = #{hotelName,jdbcType=VARCHAR},
-      tv_lock_time = #{tvLockTime,jdbcType=TIMESTAMP},
-      tv_lock_percent = #{tvLockPercent,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=BIGINT},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},

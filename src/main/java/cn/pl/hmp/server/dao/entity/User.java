@@ -23,10 +23,6 @@ public class User {
 
     private String hotelName;
 
-    private Date tvLockTime;
-
-    private String tvLockPercent;
-
     private Date createTime;
 
     private Long creator;
@@ -115,22 +111,6 @@ public class User {
 
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName == null ? null : hotelName.trim();
-    }
-
-    public Date getTvLockTime() {
-        return tvLockTime;
-    }
-
-    public void setTvLockTime(Date tvLockTime) {
-        this.tvLockTime = tvLockTime;
-    }
-
-    public String getTvLockPercent() {
-        return tvLockPercent;
-    }
-
-    public void setTvLockPercent(String tvLockPercent) {
-        this.tvLockPercent = tvLockPercent == null ? null : tvLockPercent.trim();
     }
 
     public Date getCreateTime() {

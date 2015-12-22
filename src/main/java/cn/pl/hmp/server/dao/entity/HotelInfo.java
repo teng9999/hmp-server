@@ -45,17 +45,17 @@ public class HotelInfo {
 
     private Boolean screen;
 
-    private String welcomesCn = "";
+    private String welcomesCn;
 
-    private String welcomesEn = "";
+    private String welcomesEn;
 
-    private String weatherCode = "";
+    private String weatherCode;
 
-    private String cityNameEn = "";
+    private String cityNameEn;
 
-    private String rollCn = "";
+    private String rollCn;
 
-    private String rollEn = "";
+    private String rollEn;
 
     private String movieGroup;
 
@@ -64,6 +64,10 @@ public class HotelInfo {
     private String serviceIp;
 
     private String brandId;
+
+    private Date tvLockTime;
+
+    private String tvLockPercent;
 
     private String airConfig;
 
@@ -76,6 +80,8 @@ public class HotelInfo {
     private Long modifier;
 
     private Boolean available;
+
+    private String lbsLngLat;
 
     public Long getId() {
         return id;
@@ -325,6 +331,22 @@ public class HotelInfo {
         this.brandId = brandId == null ? null : brandId.trim();
     }
 
+    public Date getTvLockTime() {
+        return tvLockTime;
+    }
+
+    public void setTvLockTime(Date tvLockTime) {
+        this.tvLockTime = tvLockTime;
+    }
+
+    public String getTvLockPercent() {
+        return tvLockPercent;
+    }
+
+    public void setTvLockPercent(String tvLockPercent) {
+        this.tvLockPercent = tvLockPercent == null ? null : tvLockPercent.trim();
+    }
+
     public String getAirConfig() {
         return airConfig;
     }
@@ -371,5 +393,13 @@ public class HotelInfo {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    public String getLbsLngLat() {
+        return lbsLngLat;
+    }
+
+    public void setLbsLngLat(String lbsLngLat) {
+        this.lbsLngLat = lbsLngLat == null ? null : lbsLngLat.trim();
     }
 }
