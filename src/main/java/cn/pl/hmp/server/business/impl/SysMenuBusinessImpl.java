@@ -25,7 +25,16 @@ public class SysMenuBusinessImpl extends BoostBusinessImpl implements ISysMenuBu
     private SysMenuMapper menuMapper;
     @Override
     public int deleteByMenuId(Long id) {
-        return menuMapper.deleteByPrimaryKey(id);
+        SysMenuExample menuExample = new SysMenuExample();
+        menuExample.createCriteria().andPathLike("%"+id+"%");
+        List<SysMenu> menuList = menuMapper.selectByExample(menuExample);
+        int res = 0;
+        if(null != menuList && menuList.size() >0) {
+            for(SysMenu menu:menuList) {
+                res+=menuMapper.deleteByPrimaryKey(menu.getId());
+            }
+        }
+        return res;
     }
 
     @Override
