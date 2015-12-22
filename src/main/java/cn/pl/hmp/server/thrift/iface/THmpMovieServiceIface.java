@@ -17,6 +17,7 @@ import cn.pl.hmp.commons.thrift.define.THmpMovie;
 import cn.pl.hmp.commons.thrift.service.THmpMovieService.Iface;
 import cn.pl.hmp.server.business.iface.IHmpMovieBusiness;
 import cn.pl.hmp.server.dao.entity.HmpMovie;
+import cn.pl.hmp.server.dao.entity.HmpMovieExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;;
 
 /**
@@ -96,7 +97,7 @@ public class THmpMovieServiceIface implements Iface {
     }
 
     @Override
-    public Map<TPages, List<THmpMovie>> loadPages(TPages tPages) throws ThriftException, TException {
+    public Map<TPages, List<THmpMovie>> loadPages(TPages tPages, THmpMovie record) throws ThriftException, TException {
         // TODO Auto-generated method stub
         if (business == null)
             return null;
@@ -105,7 +106,16 @@ public class THmpMovieServiceIface implements Iface {
         if (pages == null)
             pages = new Pages();
         // 分页查询
-        Map<Pages, List<HmpMovie>> result = business.queryPages(null, pages);
+        HmpMovieExample example = new HmpMovieExample();
+        if (null != record.getNameCn()) {
+        	String name = "%" + record.getNameCn() + "%";
+        	example.or(example.createCriteria().andAreaLike(name));
+            example.or(example.createCriteria().andDirectLike(name));
+            example.or(example.createCriteria().andNameCnLike(name));
+        }
+        if (null != record.getFirstClass())
+        	example.createCriteria().andFirstClassEqualTo(record.getFirstClass());
+        Map<Pages, List<HmpMovie>> result = business.queryPages(example, pages);
         // 处理查询结果
         Map<TPages, List<THmpMovie>> rtn = new HashMap<>();
         TPages rtnPages = null;
