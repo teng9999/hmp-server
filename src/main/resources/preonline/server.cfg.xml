@@ -28,7 +28,7 @@
         <property name="thrift.server.work.threads" value="5"/>
         <property name="thrift.server.accept.queue.size.per.thread" value="5"/>
         <property name="thrift.server.stop.timeout.unit" value="SECONDS"/>
-        <property name="thrift.server.stop.timeout.val" value="3"/>
+        <property name="thrift.server.stop.timeout.val" value="10"/>
         <property name="zookeeper.ens.enable" value="true"/>
         <property name="zookeeper.ens.ip" value="10.144.161.31:2181,10.169.21.7:2181,10.163.97.183:2181"/>
     </properties>
