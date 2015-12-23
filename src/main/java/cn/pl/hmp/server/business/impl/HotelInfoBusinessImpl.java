@@ -1,6 +1,7 @@
 package cn.pl.hmp.server.business.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,23 +9,28 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import cn.pl.commons.pages.Pages;
+import cn.pl.commons.utils.StringUtils;
 import cn.pl.hmp.commons.utils.AreaUtil;
 import cn.pl.hmp.commons.utils.TypeConvert;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
+import cn.pl.hmp.server.dao.entity.DataDict;
+import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.HotelInfoExample;
+import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.dao.entity.UserHotel;
 import cn.pl.hmp.server.dao.entity.UserHotelExample;
+import cn.pl.hmp.server.dao.mapper.DataDictMapper;
 import cn.pl.hmp.server.dao.mapper.HmpHotelToolPacksMapper;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
 import cn.pl.hmp.server.dao.mapper.UserHotelMapper;
 import cn.pl.hmp.server.dao.mapper.UserMapper;
 import cn.pl.hmp.server.utils.PageConverter;
+
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelInfoBusiness {
@@ -37,6 +43,8 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
     private UserHotelMapper userHotelMapper;
     @Autowired
     private HmpHotelToolPacksMapper toolPacksMapper;
+    @Autowired
+    private DataDictMapper dictMapper;
 
     @Override
     public int deleteHotelAndUserByHotelId(Long id) {
@@ -138,5 +146,99 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
         } catch (Exception e) {
             return "";
         }
+    }
+
+    @Override
+    public Map<Pages, List<HotelInfo>> selectListWithUser(Pages page) {
+        Map<Pages, List<HotelInfo>> map = new HashMap<Pages, List<HotelInfo>>();
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<HotelInfo> hotelList = mapper.selectListWithUser();
+        if (null == hotelList)
+            hotelList = new ArrayList<HotelInfo>();
+        PageInfo<HotelInfo> pageInfo = new PageInfo<HotelInfo>(hotelList);
+        Pages pages = PageConverter.converter(pageInfo);
+        map.put(pages, hotelList);
+        return map;
+    }
+
+    @Override
+    public Map<Pages, List<HotelInfo>> selectListWithUserByAreaAndName(
+            String province, String name, Pages page) {
+        if(StringUtils.isBlank(province)) {
+            province = null;
+        }
+        if(StringUtils.isBlank(name)) {
+            name = null;
+        }
+        Map<Pages, List<HotelInfo>> map = new HashMap<Pages, List<HotelInfo>>();
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<HotelInfo> hotelList = mapper.selectListWithUserByAreaAndName(province,
+                name);
+        if (null == hotelList)
+            hotelList = new ArrayList<HotelInfo>();
+        PageInfo<HotelInfo> pageInfo = new PageInfo<HotelInfo>(hotelList);
+        Pages pages = PageConverter.converter(pageInfo);
+        map.put(pages, hotelList);
+        return map;
+    }
+
+    @Override
+    public Map<Pages, List<HotelInfo>> selectListWithUserByCondition(
+            String condition, Pages page) {
+        if(StringUtils.isBlank(condition)) {
+            condition = null;
+        }
+        Map<Pages, List<HotelInfo>> map = new HashMap<Pages, List<HotelInfo>>();
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<HotelInfo> hotelList = mapper.selectListWithUserByCondition(condition);
+        if (null == hotelList)
+            hotelList = new ArrayList<HotelInfo>();
+        PageInfo<HotelInfo> pageInfo = new PageInfo<HotelInfo>(hotelList);
+        Pages pages = PageConverter.converter(pageInfo);
+        map.put(pages, hotelList);
+        return map;
+    }
+
+    @Override
+    public HotelInfo selectListWithUserByHotelId(Long hotelId) {
+        HotelInfo hotel = mapper.selectListWithUserByHotelId(hotelId);
+        if (hotel == null) {
+            hotel = new HotelInfo();
+        }
+        return hotel;
+    }
+
+    @Override
+    public long saveAll(HotelInfo hotelInfo, User user) {
+        mapper.insertSelective(hotelInfo);
+        long hotelRes = hotelInfo.getId();
+        userMapper.insertSelective(user);
+        Long userRes = user.getId();
+        if (userRes > 0 && hotelRes > 0) {
+            UserHotel userHotel = new UserHotel();
+            userHotel.setUserId(user.getId());
+            userHotel.setHotelId(hotelInfo.getId());
+            userHotel.setCreateTime(hotelInfo.getCreateTime());
+            userHotel.setCreator(hotelInfo.getCreator());
+            userHotelMapper.insert(userHotel);
+        }
+        //添加酒店安装包信息
+        HmpHotelToolPacks tookPacks = new HmpHotelToolPacks();
+        tookPacks.setCreateDate(new Date());
+        tookPacks.setCurVersion("");
+        tookPacks.setHotelId(hotelRes);
+        
+        List<DataDict> dictList = dictMapper.selectByParentName("PKGType");
+        tookPacks.setPkgType("1");
+        toolPacksMapper.insertSelective(tookPacks);
+        if(null != dictList && !dictList.isEmpty()) {
+            for(DataDict dict : dictList) {
+                tookPacks.setId(null);
+                tookPacks.setPkgType(dict.getName());
+                toolPacksMapper.insertSelective(tookPacks);
+            }
+        }
+        
+        return user.getId();
     }
 }

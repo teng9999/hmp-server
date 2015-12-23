@@ -105,4 +105,10 @@ public class TUserServiceIface implements TUserService.Iface {
         return null;
     }
 
+    @Override
+    public TUser queryByHotelId(long hotelId) throws TException {
+        return ObjectConverter.convet(userBusiness.selectByHotelId(hotelId), 
+                TUser.class);
+    }
+
 }

@@ -14,11 +14,12 @@ import cn.pl.commons.utils.StringUtils;
 import cn.pl.frame.annotation.ThriftService;
 import cn.pl.frame.thrift.define.TPages;
 import cn.pl.hmp.commons.thrift.define.THotelInfo;
+import cn.pl.hmp.commons.thrift.define.TUser;
 import cn.pl.hmp.commons.thrift.service.THotelInfoService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
-import cn.pl.hmp.server.dao.entity.HotelInfoExample;
+import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -42,7 +43,7 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
 
     @Override
     public THotelInfo selectByHotelId(long id) throws TException {
-        return ObjectConverter.convet(hotelBusiness.selectByHotelId(id), THotelInfo.class);
+        return ObjectConverter.convet(hotelBusiness.selectListWithUserByHotelId(id), THotelInfo.class);
     }
 
     @Override
@@ -60,7 +61,7 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
 
         Map<TPages, List<THotelInfo>> tmap = new HashMap<TPages, List<THotelInfo>>();
         TPages tempPage = null;
-        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectByPages(null,
+        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectListWithUser(
                 ObjectConverter.convet(pages, Pages.class));
         if (null != userMap && !userMap.isEmpty()) {
             Set<Pages> set = userMap.keySet();
@@ -86,12 +87,10 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
     @Override
     public Map<TPages, List<THotelInfo>> queryByAreaAndBland(TPages pages, String province, String name)
             throws TException {
-        HotelInfoExample example = new HotelInfoExample();
-        example.createCriteria().andProvinceEqualTo(province).andNameEqualTo(name);
         Map<TPages, List<THotelInfo>> tmap = new HashMap<TPages, List<THotelInfo>>();
         TPages tempPage = null;
-        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectByPages(example,
-                ObjectConverter.convet(pages, Pages.class));
+        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectListWithUserByAreaAndName(province,
+                name, ObjectConverter.convet(pages, Pages.class));
         if (null != userMap && !userMap.isEmpty()) {
             Set<Pages> set = userMap.keySet();
             for (Pages page : set) {
@@ -104,15 +103,11 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
 
     @Override
     public Map<TPages, List<THotelInfo>> queryByHotelConditions(TPages pages, String condition) throws TException {
-        HotelInfoExample example = new HotelInfoExample();
         if (StringUtils.isNotBlank(condition)) {
-            example.or(example.createCriteria().andAddressLike(condition));
-            example.or(example.createCriteria().andSubNameEqualTo(condition));
-            example.or(example.createCriteria().andChainIdEqualTo(condition));
         }
         Map<TPages, List<THotelInfo>> tmap = new HashMap<TPages, List<THotelInfo>>();
         TPages tempPage = null;
-        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectByPages(example,
+        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectListWithUserByCondition(condition,
                 ObjectConverter.convet(pages, Pages.class));
         if (null != userMap && !userMap.isEmpty()) {
             Set<Pages> set = userMap.keySet();
@@ -123,5 +118,9 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
         }
         return tmap;
     }
-
+    @Override
+    public long saveAll(THotelInfo record, TUser user) throws TException {
+        return hotelBusiness.saveAll(ObjectConverter.convet(record, HotelInfo.class),
+                ObjectConverter.convet(user, User.class));
+    }
 }

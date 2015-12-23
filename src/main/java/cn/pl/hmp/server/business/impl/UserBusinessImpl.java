@@ -189,4 +189,16 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
         return userRes + hotelRes;
     }
 
+    @Override
+    public User selectByHotelId(Long hotelId) {
+        List<User> userList = mapper.selectByHotelId(hotelId);
+        User user = null;
+        if(null != userList && userList.size()>0) {
+            user = userList.get(0);
+       }else {
+           user = new User();
+       }
+        return user;
+    }
+
 }

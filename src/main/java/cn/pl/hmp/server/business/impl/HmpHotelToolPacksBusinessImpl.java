@@ -67,7 +67,7 @@ public class HmpHotelToolPacksBusinessImpl extends BoostBusinessImpl implements 
         	packs.setSubName(packs.getSubName() + "%");
         if(StringUtils.isNotBlank(packs.getAddress()))
         	packs.setAddress(packs.getAddress() + "%");
-        if (null != packs.getIsOnline()) {
+        if (null != packs.getIsOnline() && !packs.getIsOnline().equals("")) {
         	if(packs.getIsOnline().equals("0"))
     			packs.setOnline(false);
             else

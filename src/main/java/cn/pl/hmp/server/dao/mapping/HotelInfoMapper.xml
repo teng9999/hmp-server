@@ -561,4 +561,89 @@
     where hotel.id = userHotel.hotel_id and user.id = userHotel.user_id
     and user.id = #{userId}
   </select>
+  
+   <resultMap id="UserResultMap" type="cn.pl.hmp.server.dao.entity.HotelInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="bus" property="bus" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="env" property="env" jdbcType="VARCHAR" />
+    <result column="fax" property="fax" jdbcType="VARCHAR" />
+    <result column="hotel_num" property="hotelNum" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="post_code" property="postCode" jdbcType="VARCHAR" />
+    <result column="sub_name" property="subName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="cr_iso_code" property="crIsoCode" jdbcType="CHAR" />
+    <result column="unique_num" property="uniqueNum" jdbcType="VARCHAR" />
+    <result column="need_rcu" property="needRcu" jdbcType="BIT" />
+    <result column="need_tv" property="needTv" jdbcType="BIT" />
+    <result column="screen" property="screen" jdbcType="BIT" />
+    <result column="welcomes_cn" property="welcomesCn" jdbcType="VARCHAR" />
+    <result column="welcomes_en" property="welcomesEn" jdbcType="VARCHAR" />
+    <result column="weather_code" property="weatherCode" jdbcType="VARCHAR" />
+    <result column="city_name_en" property="cityNameEn" jdbcType="VARCHAR" />
+    <result column="roll_cn" property="rollCn" jdbcType="VARCHAR" />
+    <result column="roll_en" property="rollEn" jdbcType="VARCHAR" />
+    <result column="movie_group" property="movieGroup" jdbcType="VARCHAR" />
+    <result column="chain_id" property="chainId" jdbcType="VARCHAR" />
+    <result column="service_ip" property="serviceIp" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="tv_lock_time" property="tvLockTime" jdbcType="TIMESTAMP" />
+    <result column="tv_lock_percent" property="tvLockPercent" jdbcType="VARCHAR" />
+    <result column="air_config" property="airConfig" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="BIGINT" />
+    <result column="available" property="available" jdbcType="BIT" />
+    <result column="lbs_lng_lat" property="lbsLngLat" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectListWithUser"  resultMap="UserResultMap">
+    select hotel.*,userfix.user_name,userfix.password 
+    from hmp_hotel_info hotel left join (select user.*,uh.hotel_id from 
+    hmp_user_hotel uh,hmp_user user where uh.user_id = user.id) userfix on
+     hotel.id = userfix.hotel_id 
+  </select>
+  
+  <select id="selectListWithUserByHotelId"  resultMap="UserResultMap">
+    select hotel.*,userfix.user_name,userfix.password 
+    from hmp_hotel_info hotel left join (select user.*,uh.hotel_id from 
+    hmp_user_hotel uh,hmp_user user where uh.user_id = user.id) userfix on
+     hotel.id = userfix.hotel_id where hotel.id=#{hotelId}
+  </select>
+  
+  <select id="selectListWithUserByAreaAndName"  resultMap="UserResultMap">
+    select hotel.*,userfix.user_name,userfix.password 
+    from hmp_hotel_info hotel left join (select user.*,uh.hotel_id from 
+    hmp_user_hotel uh,hmp_user user where uh.user_id = user.id) userfix on
+     hotel.id = userfix.hotel_id where 1=1  
+     <if test="province != null">
+         and hotel.province = #{province}
+     </if>
+     <if test="name != null">
+         and hotel.name = #{name}
+     </if>
+  </select>
+  
+  <select id="selectListWithUserByCondition"  resultMap="UserResultMap">
+    select hotel.*,userfix.user_name,userfix.password 
+    from hmp_hotel_info hotel left join (select user.*,uh.hotel_id from 
+    hmp_user_hotel uh,hmp_user user where uh.user_id = user.id) userfix on
+     hotel.id = userfix.hotel_id where 1=1 
+     <if test="condition != null">
+         (hotel.sub_name like '%${condition}%'
+           or hotel.address like '%${condition}%'
+           or hotel.chain_id like '%${condition}%'
+         )
+     </if>
+  </select>
+  
 </mapper>
