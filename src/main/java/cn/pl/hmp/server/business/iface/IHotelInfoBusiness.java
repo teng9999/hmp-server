@@ -3,12 +3,13 @@ package cn.pl.hmp.server.business.iface;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSONObject;
-
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.HotelInfoExample;
+import cn.pl.hmp.server.dao.entity.User;
+
+import com.alibaba.fastjson.JSONObject;
 
 public interface IHotelInfoBusiness extends IBusiness {
     /**
@@ -64,5 +65,28 @@ public interface IHotelInfoBusiness extends IBusiness {
      * @return
      */
     public JSONObject publish(Long hotelId);
-
+    
+    /**
+     * 包含用户名密码的查询
+     */
+    Map<Pages, List<HotelInfo>> selectListWithUser(Pages page);
+    /**
+     * 包含用户名密码的查询 通过地区和酒店品牌
+     * @param area
+     * @param name
+     * @return
+     */
+    Map<Pages, List<HotelInfo>> selectListWithUserByAreaAndName(String area,String name
+            ,Pages page);
+    /**
+     * 包含用户名密码的查询  多条件查询
+     * @param condition
+     * @return
+     */
+    Map<Pages, List<HotelInfo>> selectListWithUserByCondition(String condition
+            ,Pages page);
+    
+    HotelInfo selectListWithUserByHotelId(Long hotelId);
+    
+    long saveAll(HotelInfo hotelInfo,User user);
 }

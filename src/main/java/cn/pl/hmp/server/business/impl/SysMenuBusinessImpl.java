@@ -28,13 +28,12 @@ public class SysMenuBusinessImpl extends BoostBusinessImpl implements ISysMenuBu
         SysMenuExample menuExample = new SysMenuExample();
         menuExample.createCriteria().andPathLike("%"+id+"%");
         List<SysMenu> menuList = menuMapper.selectByExample(menuExample);
-        int res = 0;
         if(null != menuList && menuList.size() >0) {
             for(SysMenu menu:menuList) {
-                res+=menuMapper.deleteByPrimaryKey(menu.getId());
+                menuMapper.deleteByPrimaryKey(menu.getId());
             }
         }
-        return res;
+        return menuMapper.deleteByPrimaryKey(id);
     }
 
     @Override

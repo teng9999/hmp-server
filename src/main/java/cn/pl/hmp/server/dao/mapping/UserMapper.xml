@@ -269,4 +269,9 @@
             #{ids}
       </foreach>
   </delete>
+  
+  <select id="selectByHotelId" resultMap="BaseResultMap">
+    select * from hmp_user user left join hmp_user_hotel uh on user.id = uh.user_id 
+    where uh.hotel_id = #{hotelId}
+  </select>
 </mapper>

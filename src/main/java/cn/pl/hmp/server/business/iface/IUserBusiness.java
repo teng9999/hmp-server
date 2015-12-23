@@ -78,5 +78,10 @@ public interface IUserBusiness extends IBusiness {
      * @return
      */
     List<User> selectByExample(UserExample example);
+    /**
+     * 根据酒店编号查用户
+     * @return
+     */
+    User selectByHotelId(Long hotelId);
 
 }
