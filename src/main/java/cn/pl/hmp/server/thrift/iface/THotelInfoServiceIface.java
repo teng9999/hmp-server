@@ -19,6 +19,8 @@ import cn.pl.hmp.commons.thrift.service.THotelInfoService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
+import cn.pl.hmp.server.dao.entity.HotelInfoExample;
+import cn.pl.hmp.server.dao.entity.HotelInfoExample.Criteria;
 import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
@@ -122,5 +124,34 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
     public long saveAll(THotelInfo record, TUser user) throws TException {
         return hotelBusiness.saveAll(ObjectConverter.convet(record, HotelInfo.class),
                 ObjectConverter.convet(user, User.class));
+    }
+
+    @Override
+    public Map<TPages, List<THotelInfo>> queryByPagesWithMonitor(TPages pages,
+            String condition, String name) throws TException {
+        HotelInfoExample example = null;
+        if(StringUtils.isNotBlank(condition) 
+                || StringUtils.isNotBlank(name)) {
+            example = new HotelInfoExample();
+            Criteria criteria = example.createCriteria();
+            if(StringUtils.isNotBlank(condition)) {
+                criteria.andSubNameLike("%"+condition+"%");
+            }
+            if(StringUtils.isNotBlank(name)) {
+                criteria.andNameEqualTo(name);
+            }
+        }
+        Map<TPages, List<THotelInfo>> tmap = new HashMap<TPages, List<THotelInfo>>();
+        TPages tempPage = null;
+        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectByPages(example,
+                ObjectConverter.convet(pages, Pages.class));
+        if (null != userMap && !userMap.isEmpty()) {
+            Set<Pages> set = userMap.keySet();
+            for (Pages page : set) {
+                tempPage = ServerTransform.transform(page);
+                tmap.put(tempPage, ObjectConverter.convet(userMap.get(page), THotelInfo.class));
+            }
+        }
+        return tmap;
     }
 }
