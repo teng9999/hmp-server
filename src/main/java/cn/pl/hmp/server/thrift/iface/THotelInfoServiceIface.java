@@ -63,7 +63,7 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
 
         Map<TPages, List<THotelInfo>> tmap = new HashMap<TPages, List<THotelInfo>>();
         TPages tempPage = null;
-        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectListWithUser(
+        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectByPages(null,
                 ObjectConverter.convet(pages, Pages.class));
         if (null != userMap && !userMap.isEmpty()) {
             Set<Pages> set = userMap.keySet();
@@ -86,40 +86,6 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
         return ObjectConverter.convet(hotelBusiness.selectByUserId(id), THotelInfo.class);
     }
 
-    @Override
-    public Map<TPages, List<THotelInfo>> queryByAreaAndBland(TPages pages, String province, String name)
-            throws TException {
-        Map<TPages, List<THotelInfo>> tmap = new HashMap<TPages, List<THotelInfo>>();
-        TPages tempPage = null;
-        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectListWithUserByAreaAndName(province,
-                name, ObjectConverter.convet(pages, Pages.class));
-        if (null != userMap && !userMap.isEmpty()) {
-            Set<Pages> set = userMap.keySet();
-            for (Pages page : set) {
-                tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage, ObjectConverter.convet(userMap.get(page), THotelInfo.class));
-            }
-        }
-        return tmap;
-    }
-
-    @Override
-    public Map<TPages, List<THotelInfo>> queryByHotelConditions(TPages pages, String condition) throws TException {
-        if (StringUtils.isNotBlank(condition)) {
-        }
-        Map<TPages, List<THotelInfo>> tmap = new HashMap<TPages, List<THotelInfo>>();
-        TPages tempPage = null;
-        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectListWithUserByCondition(condition,
-                ObjectConverter.convet(pages, Pages.class));
-        if (null != userMap && !userMap.isEmpty()) {
-            Set<Pages> set = userMap.keySet();
-            for (Pages page : set) {
-                tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage, ObjectConverter.convet(userMap.get(page), THotelInfo.class));
-            }
-        }
-        return tmap;
-    }
     @Override
     public long saveAll(THotelInfo record, TUser user) throws TException {
         return hotelBusiness.saveAll(ObjectConverter.convet(record, HotelInfo.class),
@@ -145,6 +111,33 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
         TPages tempPage = null;
         Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectByPages(example,
                 ObjectConverter.convet(pages, Pages.class));
+        if (null != userMap && !userMap.isEmpty()) {
+            Set<Pages> set = userMap.keySet();
+            for (Pages page : set) {
+                tempPage = ServerTransform.transform(page);
+                tmap.put(tempPage, ObjectConverter.convet(userMap.get(page), THotelInfo.class));
+            }
+        }
+        return tmap;
+    }
+
+    @Override
+    public Map<TPages, List<THotelInfo>> queryByPagesWithUser(TPages pages,
+            String province, String name, String condition) throws TException {
+        if (StringUtils.isBlank(province)) {
+            province = null;
+        }
+        if (StringUtils.isBlank(name)) {
+            name = null;
+        }
+        if (StringUtils.isBlank(condition)) {
+            condition = null;
+        }
+        Map<TPages, List<THotelInfo>> tmap = new HashMap<TPages, List<THotelInfo>>();
+        TPages tempPage = null;
+        Map<Pages, List<HotelInfo>> userMap = hotelBusiness.selectByPagesWithUser(
+                ObjectConverter.convet(pages, Pages.class), 
+                province, name, condition);
         if (null != userMap && !userMap.isEmpty()) {
             Set<Pages> set = userMap.keySet();
             for (Pages page : set) {

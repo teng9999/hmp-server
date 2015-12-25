@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
-import cn.pl.commons.utils.StringUtils;
 import cn.pl.hmp.commons.utils.AreaUtil;
 import cn.pl.hmp.commons.utils.TypeConvert;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
@@ -149,57 +148,6 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
     }
 
     @Override
-    public Map<Pages, List<HotelInfo>> selectListWithUser(Pages page) {
-        Map<Pages, List<HotelInfo>> map = new HashMap<Pages, List<HotelInfo>>();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<HotelInfo> hotelList = mapper.selectListWithUser();
-        if (null == hotelList)
-            hotelList = new ArrayList<HotelInfo>();
-        PageInfo<HotelInfo> pageInfo = new PageInfo<HotelInfo>(hotelList);
-        Pages pages = PageConverter.converter(pageInfo);
-        map.put(pages, hotelList);
-        return map;
-    }
-
-    @Override
-    public Map<Pages, List<HotelInfo>> selectListWithUserByAreaAndName(
-            String province, String name, Pages page) {
-        if(StringUtils.isBlank(province)) {
-            province = null;
-        }
-        if(StringUtils.isBlank(name)) {
-            name = null;
-        }
-        Map<Pages, List<HotelInfo>> map = new HashMap<Pages, List<HotelInfo>>();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<HotelInfo> hotelList = mapper.selectListWithUserByAreaAndName(province,
-                name);
-        if (null == hotelList)
-            hotelList = new ArrayList<HotelInfo>();
-        PageInfo<HotelInfo> pageInfo = new PageInfo<HotelInfo>(hotelList);
-        Pages pages = PageConverter.converter(pageInfo);
-        map.put(pages, hotelList);
-        return map;
-    }
-
-    @Override
-    public Map<Pages, List<HotelInfo>> selectListWithUserByCondition(
-            String condition, Pages page) {
-        if(StringUtils.isBlank(condition)) {
-            condition = null;
-        }
-        Map<Pages, List<HotelInfo>> map = new HashMap<Pages, List<HotelInfo>>();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<HotelInfo> hotelList = mapper.selectListWithUserByCondition(condition);
-        if (null == hotelList)
-            hotelList = new ArrayList<HotelInfo>();
-        PageInfo<HotelInfo> pageInfo = new PageInfo<HotelInfo>(hotelList);
-        Pages pages = PageConverter.converter(pageInfo);
-        map.put(pages, hotelList);
-        return map;
-    }
-
-    @Override
     public HotelInfo selectListWithUserByHotelId(Long hotelId) {
         HotelInfo hotel = mapper.selectListWithUserByHotelId(hotelId);
         if (hotel == null) {
@@ -240,5 +188,19 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
         }
         
         return user.getId();
+    }
+
+    @Override
+    public Map<Pages, List<HotelInfo>> selectByPagesWithUser(Pages page,
+            String province, String name, String condition) {
+        Map<Pages, List<HotelInfo>> map = new HashMap<Pages, List<HotelInfo>>();
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<HotelInfo> hotelList = mapper.selectListWithUser(province, name, condition);
+        if (null == hotelList)
+            hotelList = new ArrayList<HotelInfo>();
+        PageInfo<HotelInfo> pageInfo = new PageInfo<HotelInfo>(hotelList);
+        Pages pages = PageConverter.converter(pageInfo);
+        map.put(pages, hotelList);
+        return map;
     }
 }

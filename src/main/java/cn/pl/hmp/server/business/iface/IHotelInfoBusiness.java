@@ -67,24 +67,12 @@ public interface IHotelInfoBusiness extends IBusiness {
     public JSONObject publish(Long hotelId);
     
     /**
-     * 包含用户名密码的查询
-     */
-    Map<Pages, List<HotelInfo>> selectListWithUser(Pages page);
-    /**
-     * 包含用户名密码的查询 通过地区和酒店品牌
-     * @param area
-     * @param name
-     * @return
-     */
-    Map<Pages, List<HotelInfo>> selectListWithUserByAreaAndName(String area,String name
-            ,Pages page);
-    /**
      * 包含用户名密码的查询  多条件查询
      * @param condition
      * @return
      */
-    Map<Pages, List<HotelInfo>> selectListWithUserByCondition(String condition
-            ,Pages page);
+    Map<Pages, List<HotelInfo>> selectByPagesWithUser(Pages page,String province,
+            String name,String condition);
     
     HotelInfo selectListWithUserByHotelId(Long hotelId);
     

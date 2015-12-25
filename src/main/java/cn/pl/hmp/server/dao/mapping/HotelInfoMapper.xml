@@ -606,12 +606,6 @@
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="selectListWithUser"  resultMap="UserResultMap">
-    select hotel.*,userfix.user_name,userfix.password 
-    from hmp_hotel_info hotel left join (select user.*,uh.hotel_id from 
-    hmp_user_hotel uh,hmp_user user where uh.user_id = user.id) userfix on
-     hotel.id = userfix.hotel_id 
-  </select>
   
   <select id="selectListWithUserByHotelId"  resultMap="UserResultMap">
     select hotel.*,userfix.user_name,userfix.password 
@@ -620,7 +614,7 @@
      hotel.id = userfix.hotel_id where hotel.id=#{hotelId}
   </select>
   
-  <select id="selectListWithUserByAreaAndName"  resultMap="UserResultMap">
+  <select id="selectListWithUser"  resultMap="UserResultMap">
     select hotel.*,userfix.user_name,userfix.password 
     from hmp_hotel_info hotel left join (select user.*,uh.hotel_id from 
     hmp_user_hotel uh,hmp_user user where uh.user_id = user.id) userfix on
@@ -631,19 +625,11 @@
      <if test="name != null">
          and hotel.name = #{name}
      </if>
-  </select>
-  
-  <select id="selectListWithUserByCondition"  resultMap="UserResultMap">
-    select hotel.*,userfix.user_name,userfix.password 
-    from hmp_hotel_info hotel left join (select user.*,uh.hotel_id from 
-    hmp_user_hotel uh,hmp_user user where uh.user_id = user.id) userfix on
-     hotel.id = userfix.hotel_id where 1=1 
      <if test="condition != null">
-         (hotel.sub_name like '%${condition}%'
+         and (hotel.sub_name like '%${condition}%'
            or hotel.address like '%${condition}%'
            or hotel.chain_id like '%${condition}%'
          )
      </if>
   </select>
-  
 </mapper>

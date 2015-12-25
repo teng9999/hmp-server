@@ -24,11 +24,8 @@ public interface HotelInfoMapper {
 
     List<HotelInfo> selectByUserId(@Param("userId") Long userId);
     
-    List<HotelInfo> selectListWithUser();
-    
     HotelInfo selectListWithUserByHotelId(@Param("hotelId") Long hotelId);
     
-    List<HotelInfo> selectListWithUserByAreaAndName(@Param("province") String province,
-            @Param("name") String name);
-    List<HotelInfo> selectListWithUserByCondition(@Param("condition") String condition);
+    List<HotelInfo> selectListWithUser(@Param("province") String province,
+            @Param("name") String name,@Param("condition") String condition);
 }
