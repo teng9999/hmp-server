@@ -66,5 +66,9 @@ public class THotelRoomRcuServiceIface implements THotelRoomRcuService.Iface {
         }
         return tmap;
     }
+    @Override
+    public int update(THotelRoomRcu roomRcu) throws TException {
+        return roomRcuBusiness.update(ObjectConverter.convet(roomRcu, HotelRoomRcu.class));
+    }
 
 }
