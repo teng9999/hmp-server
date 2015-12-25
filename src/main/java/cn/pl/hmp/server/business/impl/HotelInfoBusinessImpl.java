@@ -18,6 +18,7 @@ import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.HotelInfoExample;
 import cn.pl.hmp.server.dao.entity.User;
+import cn.pl.hmp.server.dao.entity.UserExample;
 import cn.pl.hmp.server.dao.entity.UserHotel;
 import cn.pl.hmp.server.dao.entity.UserHotelExample;
 import cn.pl.hmp.server.dao.mapper.DataDictMapper;
@@ -158,6 +159,19 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
 
     @Override
     public long saveAll(HotelInfo hotelInfo, User user) {
+        HotelInfoExample hotelExample = new HotelInfoExample();
+        hotelExample.createCriteria().andChainIdEqualTo(hotelInfo.getChainId());
+        List<HotelInfo> hotelList = mapper.selectByExample(hotelExample);
+        if(null != hotelList && !hotelList.isEmpty()) {
+            return -100;
+        }
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andUserNameEqualTo(user.getUserName());
+        List<User> userList = userMapper.selectByExample(userExample);
+        if(null != userList && !userList.isEmpty()) {
+            return -200;
+        }
+        
         mapper.insertSelective(hotelInfo);
         long hotelRes = hotelInfo.getId();
         userMapper.insertSelective(user);
