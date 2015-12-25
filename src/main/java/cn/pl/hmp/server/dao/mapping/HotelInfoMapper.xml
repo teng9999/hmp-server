@@ -556,7 +556,7 @@
   <!-- 自定义 -->
   <select id="selectByUserId" resultMap="BaseResultMap">
      select
-    hotel.*
+    hotel.*,user.user_name,user.password 
     from hmp_hotel_info hotel,hmp_user_hotel userHotel,hmp_user user
     where hotel.id = userHotel.hotel_id and user.id = userHotel.user_id
     and user.id = #{userId}
