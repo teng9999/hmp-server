@@ -55,6 +55,7 @@ public class HotelRoomRcuBusinessImpl extends BoostBusinessImpl implements IHote
 
     @Override
     public int update(HotelRoomRcu record) {
+        record.setRunningTime(null);
         return mapper.updateByPrimaryKeySelective(record);
     }
 
