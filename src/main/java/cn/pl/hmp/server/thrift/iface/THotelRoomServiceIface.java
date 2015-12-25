@@ -34,6 +34,14 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
 
     @Override
     public long save(THotelRoom record) throws TException {
+        HotelRoomExample example = new HotelRoomExample();
+        example.createCriteria().andHotelIdEqualTo(record.getHotelId())
+        .andRoomNumEqualTo(record.getRoomNum());
+        List<HotelRoom> roomList = hotelRoomBusiness.selectByExample(example);
+        if(null != roomList && !roomList.isEmpty()) {
+            record.setId(roomList.get(0).getId());
+            return hotelRoomBusiness.update(ObjectConverter.convet(record, HotelRoom.class));
+        }
         return hotelRoomBusiness.insert(ObjectConverter.convet(record, HotelRoom.class));
     }
 

@@ -48,6 +48,16 @@ public class HmpRoomTv {
     private Long modifier;
 
     private Boolean available;
+    
+    private String signalSource;
+
+    public String getSignalSource() {
+        return signalSource;
+    }
+
+    public void setSignalSource(String signalSource) {
+        this.signalSource = signalSource;
+    }
 
     public Long getId() {
         return id;

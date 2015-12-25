@@ -25,6 +25,7 @@
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="modifier" property="modifier" jdbcType="BIGINT" />
     <result column="available" property="available" jdbcType="BIT" />
+    <result column="signal_source" property="signalSource" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -58,14 +59,14 @@
   <sql id="Base_Column_List" >
     id, sys_id, org_id, back_music, help_img, home_img, logo_img, screen_img, solgan, 
     tv_code, tv_model, tv_num, room_id, hotel_id, welcome_ct, welcome_ct_en, welcome_img, 
-    solgan_cn, create_time, creator, modify_time, modifier, available
+    solgan_cn, create_time, creator, modify_time, modifier, available, signal_source
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTvExample" >
     select
     <if test="distinct" >
       distinct
     </if>
-    'true' as QUERYID,
+    'false' as QUERYID,
     <include refid="Base_Column_List" />
     from hmp_room_tv
     <if test="_parameter != null" >
@@ -85,7 +86,7 @@
     delete from hmp_room_tv
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" >
     insert into hmp_room_tv (id, sys_id, org_id, 
       back_music, help_img, home_img, 
       logo_img, screen_img, solgan, 
@@ -93,7 +94,8 @@
       room_id, hotel_id, welcome_ct, 
       welcome_ct_en, welcome_img, solgan_cn, 
       create_time, creator, modify_time, 
-      modifier, available)
+      modifier, available, signal_source
+      )
     values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
       #{backMusic,jdbcType=VARCHAR}, #{helpImg,jdbcType=VARCHAR}, #{homeImg,jdbcType=VARCHAR}, 
       #{logoImg,jdbcType=VARCHAR}, #{screenImg,jdbcType=VARCHAR}, #{solgan,jdbcType=VARCHAR}, 
@@ -101,9 +103,10 @@
       #{roomId,jdbcType=BIGINT}, #{hotelId,jdbcType=BIGINT}, #{welcomeCt,jdbcType=VARCHAR}, 
       #{welcomeCtEn,jdbcType=VARCHAR}, #{welcomeImg,jdbcType=VARCHAR}, #{solganCn,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT})
+      #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}, #{signalSource,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" >
     insert into hmp_room_tv
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -174,6 +177,9 @@
       </if>
       <if test="available != null" >
         available,
+      </if>
+      <if test="signalSource != null" >
+        signal_source,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -246,14 +252,11 @@
       <if test="available != null" >
         #{available,jdbcType=BIT},
       </if>
+      <if test="signalSource != null" >
+        #{signalSource,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTvExample" resultType="java.lang.Integer" >
-    select count(*) from hmp_room_tv
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
   <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" >
     update hmp_room_tv
     <set >
@@ -323,6 +326,9 @@
       <if test="available != null" >
         available = #{available,jdbcType=BIT},
       </if>
+      <if test="signalSource != null" >
+        signal_source = #{signalSource,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -349,11 +355,12 @@
       creator = #{creator,jdbcType=BIGINT},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=BIGINT},
-      available = #{available,jdbcType=BIT}
+      available = #{available,jdbcType=BIT},
+      signal_source = #{signalSource,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- 自定义 -->
   <select id="selectByHotelId" resultMap="BaseResultMap" parameterType="java.lang.Long">
-  	select * from hmp_room_tv where hotel_id = #{hotelId,jdbcType=BIGINT};
+    select * from hmp_room_tv where hotel_id = #{hotelId,jdbcType=BIGINT};
   </select>
 </mapper>

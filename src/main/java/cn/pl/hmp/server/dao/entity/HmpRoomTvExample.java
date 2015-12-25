@@ -1614,6 +1614,76 @@ public class HmpRoomTvExample {
             addCriterion("available not between", value1, value2, "available");
             return (Criteria) this;
         }
+
+        public Criteria andSignalSourceIsNull() {
+            addCriterion("signal_source is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceIsNotNull() {
+            addCriterion("signal_source is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceEqualTo(String value) {
+            addCriterion("signal_source =", value, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceNotEqualTo(String value) {
+            addCriterion("signal_source <>", value, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceGreaterThan(String value) {
+            addCriterion("signal_source >", value, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceGreaterThanOrEqualTo(String value) {
+            addCriterion("signal_source >=", value, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceLessThan(String value) {
+            addCriterion("signal_source <", value, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceLessThanOrEqualTo(String value) {
+            addCriterion("signal_source <=", value, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceLike(String value) {
+            addCriterion("signal_source like", value, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceNotLike(String value) {
+            addCriterion("signal_source not like", value, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceIn(List<String> values) {
+            addCriterion("signal_source in", values, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceNotIn(List<String> values) {
+            addCriterion("signal_source not in", values, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceBetween(String value1, String value2) {
+            addCriterion("signal_source between", value1, value2, "signalSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignalSourceNotBetween(String value1, String value2) {
+            addCriterion("signal_source not between", value1, value2, "signalSource");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
