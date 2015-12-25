@@ -86,7 +86,7 @@
     delete from hmp_room_tv
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" >
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" keyProperty="id" useGeneratedKeys="true" >
     insert into hmp_room_tv (id, sys_id, org_id, 
       back_music, help_img, home_img, 
       logo_img, screen_img, solgan, 
@@ -106,7 +106,7 @@
       #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}, #{signalSource,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" >
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HmpRoomTv" keyProperty="id" useGeneratedKeys="true">
     insert into hmp_room_tv
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
