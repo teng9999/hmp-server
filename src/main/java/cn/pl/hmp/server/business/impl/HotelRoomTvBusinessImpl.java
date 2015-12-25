@@ -59,4 +59,20 @@ public class HotelRoomTvBusinessImpl extends BoostBusinessImpl implements IHotel
         return mapper.updateByPrimaryKeySelective(record);
     }
 
+    @Override
+    public Map<Pages, List<HotelRoomTv>> selectPagesByRoom(Long hotelId,
+            Pages page) {
+        Map<Pages, List<HotelRoomTv>> map = new HashMap<Pages, List<HotelRoomTv>>();
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<HotelRoomTv> hotelRoomTvList = mapper.selectListByHotel(hotelId);
+        if (null == hotelRoomTvList) {
+            hotelRoomTvList = new ArrayList<HotelRoomTv>();
+        }
+        PageInfo<HotelRoomTv> pageInfo = new PageInfo<HotelRoomTv>(hotelRoomTvList);
+        Pages pages = PageConverter.converter(pageInfo);
+
+        map.put(pages, hotelRoomTvList);
+        return map;
+    }
+
 }

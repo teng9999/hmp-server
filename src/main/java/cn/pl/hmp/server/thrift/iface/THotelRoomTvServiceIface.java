@@ -17,7 +17,6 @@ import cn.pl.hmp.commons.thrift.service.THotelRoomTvService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IHotelRoomTvBusiness;
 import cn.pl.hmp.server.dao.entity.HotelRoomTv;
-import cn.pl.hmp.server.dao.entity.HotelRoomTvExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -29,9 +28,8 @@ public class THotelRoomTvServiceIface implements THotelRoomTvService.Iface {
     public Map<TPages, List<THotelRoomTv>> queryByPages(TPages pages,
             long hotelId) throws TException {
         Map<TPages, List<THotelRoomTv>> tmap = new HashMap<TPages, List<THotelRoomTv>>();
-        HotelRoomTvExample example = new HotelRoomTvExample();
-        example.createCriteria().andHotelIdEqualTo(hotelId);
-        Map<Pages,List<HotelRoomTv>> roomRcuMap = roomRcuBusiness.selectByPages(example, ObjectConverter
+        
+        Map<Pages,List<HotelRoomTv>> roomRcuMap = roomRcuBusiness.selectPagesByRoom(hotelId,ObjectConverter
                 .convet(pages, Pages.class));
         TPages tempPage = null;
         if (null != roomRcuMap && !roomRcuMap.isEmpty()) {

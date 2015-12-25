@@ -183,4 +183,14 @@
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <!-- 自定义 -->
+  <select id="selectListByHotel" resultMap="BaseResultMap">
+    select room.room_num,room.hotel_id,roomRcu.
+    id, sys_id, org_id,limited_time, running_time, create_time,modify_time
+    from (select DISTINCT(room_num), hotel_id from hmp_hotel_room
+     where hotel_id =#{hotelId}) room left join hmp_hotel_room_rcu roomRcu 
+     on (room.room_num = roomRcu.room_num and
+     room.hotel_id = roomRcu.hotel_id)
+  </select>
 </mapper>

@@ -59,4 +59,17 @@ public class HotelRoomRcuBusinessImpl extends BoostBusinessImpl implements IHote
         return mapper.updateByPrimaryKeySelective(record);
     }
 
+    @Override
+    public Map<Pages, List<HotelRoomRcu>> selectPagesByRoom(Long hotelId,
+            Pages page) {
+        Map<Pages, List<HotelRoomRcu>> map = new HashMap<Pages, List<HotelRoomRcu>>();
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<HotelRoomRcu> hotelRoomRcuList = mapper.selectListByHotel(hotelId);
+        PageInfo<HotelRoomRcu> pageInfo = new PageInfo<HotelRoomRcu>(hotelRoomRcuList);
+        Pages pages = PageConverter.converter(pageInfo);
+
+        map.put(pages, hotelRoomRcuList);
+        return map;
+    }
+
 }

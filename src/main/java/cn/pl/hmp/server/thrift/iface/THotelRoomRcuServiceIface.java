@@ -21,7 +21,6 @@ import cn.pl.hmp.server.business.iface.IHotelRoomRcuBusiness;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfg;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfgExample;
 import cn.pl.hmp.server.dao.entity.HotelRoomRcu;
-import cn.pl.hmp.server.dao.entity.HotelRoomRcuExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -35,8 +34,6 @@ public class THotelRoomRcuServiceIface implements THotelRoomRcuService.Iface {
     public Map<TPages, List<THotelRoomRcu>> queryByPages(TPages pages,
             long hotelId) throws TException {
         Map<TPages, List<THotelRoomRcu>> tmap = new HashMap<TPages, List<THotelRoomRcu>>();
-        HotelRoomRcuExample example = new HotelRoomRcuExample();
-        example.createCriteria().andHotelIdEqualTo(hotelId);
         
         HotelRCUCfgExample cfgExample = new HotelRCUCfgExample();
         cfgExample.createCriteria().andHotelIdEqualTo(hotelId);
@@ -48,7 +45,7 @@ public class THotelRoomRcuServiceIface implements THotelRoomRcuService.Iface {
                 limitTime = Integer.parseInt(timeLock);
             }
         }
-        Map<Pages,List<HotelRoomRcu>> roomRcuMap = roomRcuBusiness.selectByPages(example, ObjectConverter
+        Map<Pages,List<HotelRoomRcu>> roomRcuMap = roomRcuBusiness.selectPagesByRoom(hotelId,ObjectConverter
                 .convet(pages, Pages.class));
         TPages tempPage = null;
         if (null != roomRcuMap && !roomRcuMap.isEmpty()) {

@@ -44,5 +44,11 @@ public interface IHotelRoomTvBusiness  extends IBusiness {
      * @return
      */
     int update(HotelRoomTv record);
+    /**
+     * 条件分页查询已房间为准
+     * @param record
+     * @return
+     */
+    Map<Pages, List<HotelRoomTv>> selectPagesByRoom(Long hotelId,Pages page);
 
 }
