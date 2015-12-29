@@ -62,8 +62,8 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
     }
 
     @Override
-    public int saveBatch(THotelRoom record, String roomNums) throws TException {
-        return hotelRoomBusiness.saveOnBatch(ObjectConverter.convet(record, HotelRoom.class), roomNums);
+    public int saveBatch(THotelRoom record, String templateCfg, String roomNums) throws TException {
+        return hotelRoomBusiness.saveOnBatch(ObjectConverter.convet(record, HotelRoom.class), templateCfg, roomNums);
     }
 
     @Override

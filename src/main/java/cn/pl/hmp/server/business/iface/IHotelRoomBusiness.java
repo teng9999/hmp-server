@@ -80,7 +80,7 @@ public interface IHotelRoomBusiness extends IBusiness {
 	 * @param idList
 	 * @return
 	 */
-	int saveOnBatch(HotelRoom record, String roomNums);
+	int saveOnBatch(HotelRoom record, String rcutemplateStr,String roomNums);
 
     /**
 	 * @param hotelId
@@ -92,7 +92,7 @@ public interface IHotelRoomBusiness extends IBusiness {
 	 * @return int 返回类型
 	 * @throws
 	 */
-	long updateAndRcu(HotelRoom convet, String rcutemplateStr, long hotelId);
+	long updateAndRcu(HotelRoom convet, String templateCfg, long hotelId);
 
     /**
 	 * 发布

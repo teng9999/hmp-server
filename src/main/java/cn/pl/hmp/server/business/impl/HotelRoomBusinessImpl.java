@@ -93,20 +93,188 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
     }
 
     @Override
-    public int saveOnBatch(HotelRoom record, String roomNums) {
+    public int saveOnBatch(HotelRoom record, String templateCfg, String roomNums) {
         if (null == record || null == roomNums || "".equals(roomNums.trim()))
             return 0;
-        List<HotelRoom> roomList = new ArrayList<HotelRoom>();
-        HotelRoom tempRoom = null;
-        String[] roomNumArray = roomNums.split("-");
-        if (null == roomNumArray || roomNums.length() < 2)
+//        List<HotelRoom> roomList = new ArrayList<HotelRoom>();
+        int count = Integer.parseInt(roomNums);
+        if (count < 1)
             return 0;
-        for (int i = Integer.parseInt(roomNumArray[0]); i <= Integer.parseInt(roomNumArray[1]); i++) {
-            tempRoom = record.clone(record);
-            tempRoom.setRoomNum(i + "");
-            roomList.add(tempRoom);
+        int roomNum = Integer.parseInt(record.getRoomNum());
+        int ip = -1;
+        int rcuIp = -1;
+        
+        String[] ipArray = new String[4];
+        if (null != record.getIp()) {
+        	ipArray = record.getIp().split("\\.");
+        	ip = Integer.parseInt(ipArray[ipArray.length - 1]);
         }
-        return mapper.insertBatch(roomList);
+        	
+        
+        String[] rcuIpArray = new String[4];
+        if (null != record.getRcuIp()) {
+        	rcuIpArray = record.getRcuIp().split("\\.");
+        	rcuIp = Integer.parseInt(rcuIpArray[rcuIpArray.length - 1]);
+        }	
+        
+        HotelRoomExample example = new HotelRoomExample();
+        example.createCriteria().andUnitEqualTo(record.getUnit());
+        List<HotelRoom> list = mapper.selectByExample(example);
+        List<String> roomNumList = new ArrayList<String>();
+        for(HotelRoom hotelRoom:list) {
+        	if (null != hotelRoom.getRoomNum())
+        		roomNumList.add(hotelRoom.getRoomNum());
+        }
+        
+        for (int i = 0; i < count; i++, ip++, rcuIp++, roomNum++) {
+    		String room = String.format("%0" + record.getRoomNum().length() + "d", roomNum);
+        	if (!roomNumList.contains(room)) {
+        		record = record.clone(record);
+        		record.setId(new Long(0));
+        		record.setRoomNum(room);
+        		if (null != ipArray[0])
+        			record.setIp(ipArray[0] + "." + ipArray[1] + "." + ipArray[2] + "." + ip + "");
+        		if (null != rcuIpArray[0])
+        			record.setRcuIp(rcuIpArray[0] + "." + rcuIpArray[1] + "." + rcuIpArray[2] + "." + rcuIp + "");
+                
+             // 解析templateCfg
+                List<RoomRCUCfg> roomRCUCfgs = new ArrayList<RoomRCUCfg>();
+                // light:1@镜前灯;2@卫间灯带;Air:1@中央空调;
+                if (null != templateCfg && !"".equals(templateCfg)) {
+                	String light = templateCfg.substring(templateCfg.indexOf("Light") + 6, templateCfg.indexOf("Air"));
+                    String[] lightStrs = light.split(";");
+                    for (int j = 0; j < lightStrs.length; j++) {
+                        String tempStr = lightStrs[j];
+                        if (tempStr.length() > 0) {
+                            String[] lightSingleStr = tempStr.split("@");
+                            RoomRCUCfg roomRCUCfg = new RoomRCUCfg();
+                            roomRCUCfg.setHotelId(record.getHotelId());
+                            roomRCUCfg.setNum(lightSingleStr[0]);
+
+                            if (lightSingleStr.length >= 2) {
+                                roomRCUCfg.setName(lightSingleStr[1]);
+                            } else {
+                                roomRCUCfg.setName("");
+                            }
+                            roomRCUCfg.setRoomType(record.getRoomType());
+                            roomRCUCfg.setRoomId(record.getId());
+                            roomRCUCfg.setCreateTime(new Date());
+                            roomRCUCfg.setModifyTime(new Date());
+                            roomRCUCfg.setLineType("Light");
+                            roomRCUCfgs.add(roomRCUCfg);
+                        }
+                    }
+                    String air = templateCfg.substring(templateCfg.indexOf("Air") + 4, templateCfg.indexOf("Curtain"));
+                    lightStrs = air.split(";");
+                    for (int j = 0; j < lightStrs.length; j++) {
+                        String tempStr = lightStrs[j];
+                        if (tempStr.length() > 0) {
+                            String[] lightSingleStr = tempStr.split("@");
+                            RoomRCUCfg roomRCUCfg = new RoomRCUCfg();
+                            roomRCUCfg.setHotelId(record.getHotelId());
+                            roomRCUCfg.setNum(lightSingleStr[0]);
+                            if (lightSingleStr.length >= 2) {
+                                roomRCUCfg.setName(lightSingleStr[1]);
+                            } else {
+                                roomRCUCfg.setName("");
+                            }
+                            roomRCUCfg.setRoomType(record.getRoomType());
+                            roomRCUCfg.setRoomId(record.getId());
+                            roomRCUCfg.setCreateTime(new Date());
+                            roomRCUCfg.setModifyTime(new Date());
+                            roomRCUCfg.setLineType("Air");
+                            roomRCUCfgs.add(roomRCUCfg);
+                        }
+                    }
+
+                    String curtain = templateCfg.substring(templateCfg.indexOf("Curtain") + 8, templateCfg.indexOf("PWMLight"));
+                    lightStrs = curtain.split(";");
+                    for (int j = 0; j < lightStrs.length; j++) {
+                        String tempStr = lightStrs[j];
+                        if (tempStr.length() > 0) {
+                            String[] lightSingleStr = tempStr.split("@");
+                            RoomRCUCfg roomRCUCfg = new RoomRCUCfg();
+                            roomRCUCfg.setHotelId(record.getHotelId());
+                            roomRCUCfg.setNum(lightSingleStr[0]);
+                            if (lightSingleStr.length >= 2) {
+                                roomRCUCfg.setName(lightSingleStr[1]);
+                            } else {
+                                roomRCUCfg.setName("");
+                            }
+                            roomRCUCfg.setRoomType(record.getRoomType());
+                            roomRCUCfg.setRoomId(record.getId());
+                            roomRCUCfg.setCreateTime(new Date());
+                            roomRCUCfg.setModifyTime(new Date());
+                            roomRCUCfg.setLineType("Curtain");
+                            roomRCUCfgs.add(roomRCUCfg);
+                        }
+                    }
+                    String pwmLight = templateCfg.substring(templateCfg.indexOf("PWMLight") + 9,
+                            templateCfg.indexOf("AdjustLight"));
+                    lightStrs = pwmLight.split(";");
+                    for (int j = 0; j < lightStrs.length; j++) {
+                        String tempStr = lightStrs[j];
+                        if (tempStr.length() > 0) {
+                            String[] lightSingleStr = tempStr.split("@");
+                            RoomRCUCfg roomRCUCfg = new RoomRCUCfg();
+                            roomRCUCfg.setHotelId(record.getHotelId());
+                            roomRCUCfg.setNum(lightSingleStr[0]);
+                            if (lightSingleStr.length >= 2) {
+                                roomRCUCfg.setName(lightSingleStr[1]);
+                            } else {
+                                roomRCUCfg.setName("");
+                            }
+                            roomRCUCfg.setRoomType(record.getRoomType());
+                            roomRCUCfg.setRoomId(record.getId());
+                            roomRCUCfg.setCreateTime(new Date());
+                            roomRCUCfg.setModifyTime(new Date());
+                            roomRCUCfg.setLineType("PWMLight");
+                            roomRCUCfgs.add(roomRCUCfg);
+                        }
+                    }
+                    String adjustLight = templateCfg.substring(templateCfg.indexOf("AdjustLight") + 12);
+                    lightStrs = adjustLight.split(";");
+                    for (int j = 0; j < lightStrs.length; j++) {
+                        String tempStr = lightStrs[j];
+                        if (tempStr.length() > 0) {
+                            String[] lightSingleStr = tempStr.split("@");
+                            RoomRCUCfg roomRCUCfg = new RoomRCUCfg();
+                            roomRCUCfg.setHotelId(record.getHotelId());
+                            roomRCUCfg.setNum(lightSingleStr[0]);
+                            if (lightSingleStr.length >= 2) {
+                                roomRCUCfg.setName(lightSingleStr[1]);
+                            } else {
+                                roomRCUCfg.setName("");
+                            }
+                            roomRCUCfg.setRoomType(record.getRoomType());
+                            roomRCUCfg.setRoomId(record.getId());
+                            roomRCUCfg.setCreateTime(new Date());
+                            roomRCUCfg.setModifyTime(new Date());
+                            roomRCUCfg.setLineType("AdjustLight");
+                            roomRCUCfgs.add(roomRCUCfg);
+                        }
+                    }
+                }
+                
+//                int rets = mapper.insertBatch(roomList);
+            	record.setCreateTime(new Date());
+            	record.setModifyTime(new Date());
+                long roomId = insert(record);
+                if (roomId < 1) {
+                	return 0;
+                }
+                // 插入修改后的模板。
+                if (roomRCUCfgs.size() > 0) {
+                    for (RoomRCUCfg entity : roomRCUCfgs) {
+                        entity.setRoomId(roomId);
+                        roomRCUCfgMapper.insert(entity);
+                    }
+                }
+                
+        	}
+        }
+        
+        return 1;
     }
 
     @Override
@@ -126,7 +294,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
                 for (RoomRCUCfg roomRCUCfg : oldRoomRCUCfgs) {
                     roomRCUCfgMapper.deleteByPrimaryKey(roomRCUCfg.getId());
                 }
-            }
+            }   
             // 解析templateCfg
             List<RoomRCUCfg> roomRCUCfgs = new ArrayList<RoomRCUCfg>();
             // light:1@镜前灯;2@卫间灯带;Air:1@中央空调;
