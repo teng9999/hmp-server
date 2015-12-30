@@ -107,15 +107,17 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         String[] ipArray = new String[4];
         if (null != record.getIp()) {
         	ipArray = record.getIp().split("\\.");
-        	ip = Integer.parseInt(ipArray[ipArray.length - 1]);
+        	if (4 == ipArray.length)
+        		ip = Integer.parseInt(ipArray[ipArray.length - 1]);
         }
-        	
+        
         
         String[] rcuIpArray = new String[4];
         if (null != record.getRcuIp()) {
         	rcuIpArray = record.getRcuIp().split("\\.");
-        	rcuIp = Integer.parseInt(rcuIpArray[rcuIpArray.length - 1]);
-        }	
+        	if (4 == rcuIpArray.length)
+        		rcuIp = Integer.parseInt(rcuIpArray[rcuIpArray.length - 1]);
+        }
         
         HotelRoomExample example = new HotelRoomExample();
         example.createCriteria().andUnitEqualTo(record.getUnit());
@@ -126,17 +128,24 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         		roomNumList.add(hotelRoom.getRoomNum());
         }
         
-        for (int i = 0; i < count; i++, ip++, rcuIp++, roomNum++) {
+        for (int i = 0; i < count; i++, roomNum++) {
     		String room = String.format("%0" + record.getRoomNum().length() + "d", roomNum);
         	if (!roomNumList.contains(room)) {
         		record = record.clone(record);
         		record.setId(new Long(0));
         		record.setRoomNum(room);
-        		if (null != ipArray[0])
+        		if (-1 != ip) {
         			record.setIp(ipArray[0] + "." + ipArray[1] + "." + ipArray[2] + "." + ip + "");
-        		if (null != rcuIpArray[0])
+        			ip++; 
+        		} else if (null != record.getIp()) {
+        			record.setIp((Integer.parseInt(ipArray[ipArray.length - 1]) + i + ""));
+        		}
+        		if (-1 != rcuIp) {
         			record.setRcuIp(rcuIpArray[0] + "." + rcuIpArray[1] + "." + rcuIpArray[2] + "." + rcuIp + "");
-                
+        			rcuIp++;
+        		} else if (null != record.getRcuIp()) {
+        			record.setIp((Integer.parseInt(rcuIpArray[rcuIpArray.length - 1]) + i + ""));
+        		}
              // 解析templateCfg
                 List<RoomRCUCfg> roomRCUCfgs = new ArrayList<RoomRCUCfg>();
                 // light:1@镜前灯;2@卫间灯带;Air:1@中央空调;
