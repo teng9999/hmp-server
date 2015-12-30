@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.pl.hmp.server.dao.mapper.PmsCheckInInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.PmsCheckInInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="guest_id" property="guestId" jdbcType="BIGINT" />
+    <result column="chain_id" property="chainId" jdbcType="BIGINT" />
+    <result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
+    <result column="source_id" property="sourceId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="room_num" property="roomNum" jdbcType="VARCHAR" />
+    <result column="room_type_cn" property="roomTypeCn" jdbcType="VARCHAR" />
+    <result column="room_type_en" property="roomTypeEn" jdbcType="VARCHAR" />
+    <result column="new_room_num" property="newRoomNum" jdbcType="VARCHAR" />
+    <result column="old_room_num" property="oldRoomNum" jdbcType="VARCHAR" />
+    <result column="check_in_time" property="checkInTime" jdbcType="TIMESTAMP" />
+    <result column="check_out_time" property="checkOutTime" jdbcType="TIMESTAMP" />
+    <result column="change_time" property="changeTime" jdbcType="TIMESTAMP" />
+    <result column="check_flag" property="checkFlag" jdbcType="CHAR" />
+    <result column="post_type" property="postType" jdbcType="CHAR" />
+    <result column="tran_id" property="tranId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sys_id, org_id, guest_id, chain_id, hotel_name, source_id, group_id, room_num, 
+    room_type_cn, room_type_en, new_room_num, old_room_num, check_in_time, check_out_time, 
+    change_time, check_flag, post_type, tran_id, create_time, modify_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.PmsCheckInInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from pms_check_in_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from pms_check_in_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from pms_check_in_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.PmsCheckInInfo" >
+    insert into pms_check_in_info (id, sys_id, org_id, 
+      guest_id, chain_id, hotel_name, 
+      source_id, group_id, room_num, 
+      room_type_cn, room_type_en, new_room_num, 
+      old_room_num, check_in_time, check_out_time, 
+      change_time, check_flag, post_type, 
+      tran_id, create_time, modify_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
+      #{guestId,jdbcType=BIGINT}, #{chainId,jdbcType=BIGINT}, #{hotelName,jdbcType=VARCHAR}, 
+      #{sourceId,jdbcType=BIGINT}, #{groupId,jdbcType=VARCHAR}, #{roomNum,jdbcType=VARCHAR}, 
+      #{roomTypeCn,jdbcType=VARCHAR}, #{roomTypeEn,jdbcType=VARCHAR}, #{newRoomNum,jdbcType=VARCHAR}, 
+      #{oldRoomNum,jdbcType=VARCHAR}, #{checkInTime,jdbcType=TIMESTAMP}, #{checkOutTime,jdbcType=TIMESTAMP}, 
+      #{changeTime,jdbcType=TIMESTAMP}, #{checkFlag,jdbcType=CHAR}, #{postType,jdbcType=CHAR}, 
+      #{tranId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.PmsCheckInInfo" >
+    insert into pms_check_in_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysId != null" >
+        sys_id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="guestId != null" >
+        guest_id,
+      </if>
+      <if test="chainId != null" >
+        chain_id,
+      </if>
+      <if test="hotelName != null" >
+        hotel_name,
+      </if>
+      <if test="sourceId != null" >
+        source_id,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="roomNum != null" >
+        room_num,
+      </if>
+      <if test="roomTypeCn != null" >
+        room_type_cn,
+      </if>
+      <if test="roomTypeEn != null" >
+        room_type_en,
+      </if>
+      <if test="newRoomNum != null" >
+        new_room_num,
+      </if>
+      <if test="oldRoomNum != null" >
+        old_room_num,
+      </if>
+      <if test="checkInTime != null" >
+        check_in_time,
+      </if>
+      <if test="checkOutTime != null" >
+        check_out_time,
+      </if>
+      <if test="changeTime != null" >
+        change_time,
+      </if>
+      <if test="checkFlag != null" >
+        check_flag,
+      </if>
+      <if test="postType != null" >
+        post_type,
+      </if>
+      <if test="tranId != null" >
+        tran_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sysId != null" >
+        #{sysId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="guestId != null" >
+        #{guestId,jdbcType=BIGINT},
+      </if>
+      <if test="chainId != null" >
+        #{chainId,jdbcType=BIGINT},
+      </if>
+      <if test="hotelName != null" >
+        #{hotelName,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceId != null" >
+        #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNum != null" >
+        #{roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTypeCn != null" >
+        #{roomTypeCn,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTypeEn != null" >
+        #{roomTypeEn,jdbcType=VARCHAR},
+      </if>
+      <if test="newRoomNum != null" >
+        #{newRoomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="oldRoomNum != null" >
+        #{oldRoomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="checkInTime != null" >
+        #{checkInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkOutTime != null" >
+        #{checkOutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeTime != null" >
+        #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkFlag != null" >
+        #{checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="postType != null" >
+        #{postType,jdbcType=CHAR},
+      </if>
+      <if test="tranId != null" >
+        #{tranId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.PmsCheckInInfo" >
+    update pms_check_in_info
+    <set >
+      <if test="sysId != null" >
+        sys_id = #{sysId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="guestId != null" >
+        guest_id = #{guestId,jdbcType=BIGINT},
+      </if>
+      <if test="chainId != null" >
+        chain_id = #{chainId,jdbcType=BIGINT},
+      </if>
+      <if test="hotelName != null" >
+        hotel_name = #{hotelName,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceId != null" >
+        source_id = #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNum != null" >
+        room_num = #{roomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTypeCn != null" >
+        room_type_cn = #{roomTypeCn,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTypeEn != null" >
+        room_type_en = #{roomTypeEn,jdbcType=VARCHAR},
+      </if>
+      <if test="newRoomNum != null" >
+        new_room_num = #{newRoomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="oldRoomNum != null" >
+        old_room_num = #{oldRoomNum,jdbcType=VARCHAR},
+      </if>
+      <if test="checkInTime != null" >
+        check_in_time = #{checkInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkOutTime != null" >
+        check_out_time = #{checkOutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeTime != null" >
+        change_time = #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkFlag != null" >
+        check_flag = #{checkFlag,jdbcType=CHAR},
+      </if>
+      <if test="postType != null" >
+        post_type = #{postType,jdbcType=CHAR},
+      </if>
+      <if test="tranId != null" >
+        tran_id = #{tranId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.pl.hmp.server.dao.entity.PmsCheckInInfo" >
+    update pms_check_in_info
+    set sys_id = #{sysId,jdbcType=BIGINT},
+      org_id = #{orgId,jdbcType=BIGINT},
+      guest_id = #{guestId,jdbcType=BIGINT},
+      chain_id = #{chainId,jdbcType=BIGINT},
+      hotel_name = #{hotelName,jdbcType=VARCHAR},
+      source_id = #{sourceId,jdbcType=BIGINT},
+      group_id = #{groupId,jdbcType=VARCHAR},
+      room_num = #{roomNum,jdbcType=VARCHAR},
+      room_type_cn = #{roomTypeCn,jdbcType=VARCHAR},
+      room_type_en = #{roomTypeEn,jdbcType=VARCHAR},
+      new_room_num = #{newRoomNum,jdbcType=VARCHAR},
+      old_room_num = #{oldRoomNum,jdbcType=VARCHAR},
+      check_in_time = #{checkInTime,jdbcType=TIMESTAMP},
+      check_out_time = #{checkOutTime,jdbcType=TIMESTAMP},
+      change_time = #{changeTime,jdbcType=TIMESTAMP},
+      check_flag = #{checkFlag,jdbcType=CHAR},
+      post_type = #{postType,jdbcType=CHAR},
+      tran_id = #{tranId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 自定义 -->
+  <resultMap id="CombResultMap" type="cn.pl.hmp.server.dao.entity.PmsCheckInInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="guest_id" property="guestId" jdbcType="BIGINT" />
+    <result column="chain_id" property="chainId" jdbcType="BIGINT" />
+    <result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
+    <result column="source_id" property="sourceId" jdbcType="BIGINT" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="room_num" property="roomNum" jdbcType="VARCHAR" />
+    <result column="room_type_cn" property="roomTypeCn" jdbcType="VARCHAR" />
+    <result column="room_type_en" property="roomTypeEn" jdbcType="VARCHAR" />
+    <result column="new_room_num" property="newRoomNum" jdbcType="VARCHAR" />
+    <result column="old_room_num" property="oldRoomNum" jdbcType="VARCHAR" />
+    <result column="check_in_time" property="checkInTime" jdbcType="TIMESTAMP" />
+    <result column="check_out_time" property="checkOutTime" jdbcType="TIMESTAMP" />
+    <result column="change_time" property="changeTime" jdbcType="TIMESTAMP" />
+    <result column="check_flag" property="checkFlag" jdbcType="CHAR" />
+    <result column="post_type" property="postType" jdbcType="CHAR" />
+    <result column="tran_id" property="tranId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    
+    <result column="guest_name" property="guestName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="room_type" property="roomType" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+  </resultMap>
+  <!-- 条件查询查询 -->
+  <select id="selectCombInfoList" resultMap="CombResultMap" 
+     parameterType="cn.pl.hmp.server.dao.entity.PmsCheckInInfoCondition" >
+    select guestInfo.med_name as guest_name,guestInfo.sex,(year(now())-year(guestInfo.birthday)) as age ,guestInfo.mobile,tinfo.* from 
+    (select roomType.name as room_type,info.* from pms_check_in_info info 
+    left join hmp_hotel_room_type roomType on 
+    info.room_type_cn = roomType.id) tinfo left join 
+    pms_guest_info guestInfo on tinfo.guest_id = guestInfo.id 
+    where 1=1
+	<if test="hotelName != null">
+         and tinfo.hotel_name like '%${hotelName}%'
+     </if>
+	<if test="guestName != null">
+         and guestInfo.med_name like '%${guestName}%'
+     </if>
+	<if test="sex != null">
+         and guestInfo.sex = #{sex}
+     </if>
+	<if test="age > 0">
+         and (year(now())-year(birthday) = #{age})
+     </if>
+	<if test="roomType != null">
+         and tinfo.room_type_cn = #{roomType}
+     </if>
+	<if test="beginTime != null">
+         and ((tinfo.check_in_time &gt;  #{beginTime}) or 
+         (tinfo.check_out_time &gt; #{beginTime}))
+     </if>
+	<if test="endTime != null">
+         and ((tinfo.check_in_time &lt;  #{endTime}) or 
+         (tinfo.check_out_time &lt;  #{endTime}))
+     </if>
+     
+	<if test="chainId > 0">
+         and tinfo.chain_id = #{chainId}
+     </if>
+  </select>
+</mapper>
