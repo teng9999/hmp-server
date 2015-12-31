@@ -86,6 +86,6 @@ public interface IHotelRoomTypeBusiness extends IBusiness {
 	 * 查看不重复的房间类型列表
 	 * @return
 	 */
-	List<String> queryAllDistinct();
+	List<String> queryAllDistinct(long hotelId);
 
 }

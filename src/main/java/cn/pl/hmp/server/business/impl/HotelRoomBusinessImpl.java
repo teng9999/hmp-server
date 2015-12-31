@@ -9,28 +9,30 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import cn.pl.commons.pages.Pages;
 import cn.pl.commons.utils.StringUtils;
 import cn.pl.hmp.commons.enums.BoardType;
 import cn.pl.hmp.commons.enums.RcuLineType;
 import cn.pl.hmp.server.business.iface.IHotelRoomBusiness;
-import cn.pl.hmp.server.dao.entity.DataDict;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfg;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfgExample;
 import cn.pl.hmp.server.dao.entity.HotelRoom;
 import cn.pl.hmp.server.dao.entity.HotelRoomExample;
+import cn.pl.hmp.server.dao.entity.HotelRoomType;
+import cn.pl.hmp.server.dao.entity.HotelRoomTypeExample;
 import cn.pl.hmp.server.dao.entity.RoomRCUCfg;
 import cn.pl.hmp.server.dao.entity.RoomRCUCfgExample;
 import cn.pl.hmp.server.dao.mapper.DataDictMapper;
 import cn.pl.hmp.server.dao.mapper.HotelRCUCfgMapper;
 import cn.pl.hmp.server.dao.mapper.HotelRoomMapper;
+import cn.pl.hmp.server.dao.mapper.HotelRoomTypeMapper;
 import cn.pl.hmp.server.dao.mapper.RoomRCUCfgMapper;
 import cn.pl.hmp.server.utils.PageConverter;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRoomBusiness {
@@ -45,6 +47,8 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
     private HotelRCUCfgMapper hotelRcuMapper;
     @Autowired
     private DataDictMapper dictMapper;
+    @Autowired
+    private HotelRoomTypeMapper roomTypeMapper;
 
     @Override
     public int deleteByHotelRoomId(Long id) {
@@ -575,12 +579,14 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         }
 
         // 查询房型字典信息
-        List<DataDict> roomTypeList = dictMapper.selectByParentName("RoomType");
+        HotelRoomTypeExample example = new HotelRoomTypeExample();
+        example.createCriteria().andHotelIdEqualTo(hotelId);
+        List<HotelRoomType> roomTypeList = roomTypeMapper.selectByExample(example);
         Map<String, String> roomTypeNameMap = new HashMap<String, String>();
         if (null != roomTypeList && roomTypeList.size() > 0) {
-            for (DataDict dict : roomTypeList) {
-                if (null != dict) {
-                    roomTypeNameMap.put(dict.getName(), dict.getNameCn());
+            for (HotelRoomType roomType : roomTypeList) {
+                if (null != roomType) {
+                    roomTypeNameMap.put(roomType.getId()+"", roomType.getName());
                 }
             }
         }

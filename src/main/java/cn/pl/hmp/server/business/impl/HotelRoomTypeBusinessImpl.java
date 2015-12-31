@@ -161,8 +161,8 @@ public class HotelRoomTypeBusinessImpl extends BoostBusinessImpl implements IHot
     }
 
     @Override
-    public List<String> queryAllDistinct() {
-        return roomTypeMapper.selectDistinctName();
+    public List<String> queryAllDistinct(long hotelId) {
+        return roomTypeMapper.selectDistinctName(hotelId);
     }
 
 }

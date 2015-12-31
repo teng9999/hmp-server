@@ -207,6 +207,9 @@
   </update>
   <!-- 自定义 -->
   <select id="selectDistinctName" resultType="java.lang.String">
-    select distinct(name) from hmp_hotel_room_type
+    select distinct(name) from hmp_hotel_room_type where 1=1 
+    <if test="hotelId > 0">
+        and hotel_id = #{hotelId}
+    </if>
   </select>
 </mapper>

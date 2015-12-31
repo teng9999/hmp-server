@@ -80,8 +80,8 @@ public class THotelRoomTypeServiceIface implements THotelRoomTypeService.Iface {
     }
 
     @Override
-    public List<String> queryAllDistinct() throws TException {
-        return roomTypeBusiness.queryAllDistinct();
+    public List<String> queryAllDistinct(long hotelId) throws TException {
+        return roomTypeBusiness.queryAllDistinct(hotelId);
     }
 
 }

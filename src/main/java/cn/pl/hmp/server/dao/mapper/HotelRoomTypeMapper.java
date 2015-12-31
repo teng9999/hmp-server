@@ -2,6 +2,8 @@ package cn.pl.hmp.server.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.pl.hmp.server.dao.entity.HotelRoomType;
 import cn.pl.hmp.server.dao.entity.HotelRoomTypeExample;
 
@@ -20,5 +22,5 @@ public interface HotelRoomTypeMapper {
 
     int updateByPrimaryKey(HotelRoomType record);
     
-    List<String> selectDistinctName();
+    List<String> selectDistinctName(@Param("hotelId") long hotelId);
 }

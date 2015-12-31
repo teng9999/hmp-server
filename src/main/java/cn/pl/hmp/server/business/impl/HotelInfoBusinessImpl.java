@@ -17,6 +17,7 @@ import cn.pl.hmp.server.dao.entity.DataDict;
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.HotelInfoExample;
+import cn.pl.hmp.server.dao.entity.HotelRoomType;
 import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.dao.entity.UserExample;
 import cn.pl.hmp.server.dao.entity.UserHotel;
@@ -24,6 +25,7 @@ import cn.pl.hmp.server.dao.entity.UserHotelExample;
 import cn.pl.hmp.server.dao.mapper.DataDictMapper;
 import cn.pl.hmp.server.dao.mapper.HmpHotelToolPacksMapper;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
+import cn.pl.hmp.server.dao.mapper.HotelRoomTypeMapper;
 import cn.pl.hmp.server.dao.mapper.UserHotelMapper;
 import cn.pl.hmp.server.dao.mapper.UserMapper;
 import cn.pl.hmp.server.utils.PageConverter;
@@ -45,6 +47,8 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
     private HmpHotelToolPacksMapper toolPacksMapper;
     @Autowired
     private DataDictMapper dictMapper;
+    @Autowired
+    private HotelRoomTypeMapper roomTypeMapper;
 
     @Override
     public int deleteHotelAndUserByHotelId(Long id) {
@@ -200,7 +204,24 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
                 toolPacksMapper.insertSelective(tookPacks);
             }
         }
-        
+      //添加默认房间类型
+        List<String> typeNameList = new ArrayList<String>();
+        typeNameList.add("经济房");
+        typeNameList.add("传统大床房");
+        typeNameList.add("自主大床房");
+        typeNameList.add("商务大床房");
+        typeNameList.add("商务双床房");
+        typeNameList.add("豪华大床房");
+        typeNameList.add("豪华双床房");
+        typeNameList.add("商务大床房");
+        HotelRoomType roomType = new HotelRoomType();
+        roomType.setCreateTime(new Date());
+        roomType.setHotelId(hotelRes);
+        for(String typeName : typeNameList ) {
+            roomType.setId(null);
+            roomType.setName(typeName);
+            roomTypeMapper.insertSelective(roomType);
+        }
         return user.getId();
     }
 
