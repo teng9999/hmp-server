@@ -1,8 +1,9 @@
 package cn.pl.hmp.server.dao.mapper;
 
+import java.util.List;
+
 import cn.pl.hmp.server.dao.entity.HotelRoomType;
 import cn.pl.hmp.server.dao.entity.HotelRoomTypeExample;
-import java.util.List;
 
 public interface HotelRoomTypeMapper {
     int deleteByPrimaryKey(Long id);
@@ -18,4 +19,6 @@ public interface HotelRoomTypeMapper {
     int updateByPrimaryKeySelective(HotelRoomType record);
 
     int updateByPrimaryKey(HotelRoomType record);
+    
+    List<String> selectDistinctName();
 }

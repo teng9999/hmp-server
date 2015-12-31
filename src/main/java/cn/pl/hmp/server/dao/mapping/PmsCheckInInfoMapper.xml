@@ -378,7 +378,7 @@
          and (year(now())-year(birthday) = #{age})
      </if>
 	<if test="roomType != null">
-         and tinfo.room_type_cn = #{roomType}
+         and tinfo.room_type = #{roomType}
      </if>
 	<if test="beginTime != null">
          and ((tinfo.check_in_time &gt;  #{beginTime}) or 

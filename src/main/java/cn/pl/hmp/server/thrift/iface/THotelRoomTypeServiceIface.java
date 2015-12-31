@@ -74,4 +74,14 @@ public class THotelRoomTypeServiceIface implements THotelRoomTypeService.Iface {
         return roomTypeBusiness.checkName(hotelId, name);
     }
 
+    @Override
+    public int addDefaultTypes(List<String> typeList) throws TException {
+        return roomTypeBusiness.addDefaultTypes(typeList);
+    }
+
+    @Override
+    public List<String> queryAllDistinct() throws TException {
+        return roomTypeBusiness.queryAllDistinct();
+    }
+
 }

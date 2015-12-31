@@ -71,7 +71,7 @@
     delete from hmp_hotel_room_type
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomType" >
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomType" keyProperty="id" useGeneratedKeys="true">
     insert into hmp_hotel_room_type (id, sys_id, org_id, 
       hotel_id, name, create_time, 
       creator, modify_time, modifier, 
@@ -81,7 +81,7 @@
       #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, 
       #{available,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomType" >
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomType"  keyProperty="id" useGeneratedKeys="true">
     insert into hmp_hotel_room_type
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -194,4 +194,8 @@
       available = #{available,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- 自定义 -->
+  <select id="selectDistinctName" resultType="java.lang.String">
+    select distinct(name) from hmp_hotel_room_type
+  </select>
 </mapper>

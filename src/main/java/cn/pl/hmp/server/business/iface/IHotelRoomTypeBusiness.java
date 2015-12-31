@@ -76,5 +76,16 @@ public interface IHotelRoomTypeBusiness extends IBusiness {
 	 * @return
 	 */
 	boolean checkName(Long hotelId,String name);
+	/**
+	 * 为已存在酒店添加默认房间类型
+	 * @param typeList
+	 * @return
+	 */
+	int addDefaultTypes(List<String> typeList);
+	/**
+	 * 查看不重复的房间类型列表
+	 * @return
+	 */
+	List<String> queryAllDistinct();
 
 }

@@ -1,6 +1,7 @@
 package cn.pl.hmp.server.business.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +11,11 @@ import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.iface.IHotelRoomTypeBusiness;
+import cn.pl.hmp.server.dao.entity.HotelInfo;
+import cn.pl.hmp.server.dao.entity.HotelInfoExample;
 import cn.pl.hmp.server.dao.entity.HotelRoomType;
 import cn.pl.hmp.server.dao.entity.HotelRoomTypeExample;
+import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
 import cn.pl.hmp.server.dao.mapper.HotelRoomTypeMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 
@@ -22,6 +26,8 @@ public class HotelRoomTypeBusinessImpl extends BoostBusinessImpl implements IHot
     
     @Autowired
     private HotelRoomTypeMapper roomTypeMapper;
+    @Autowired
+    private HotelInfoMapper hotelMapper;
     @Override
     public int delete(Long id) {
         if(null == id) {
@@ -125,6 +131,38 @@ public class HotelRoomTypeBusinessImpl extends BoostBusinessImpl implements IHot
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int addDefaultTypes(List<String> typeList) {
+        List<HotelInfo> hotelList = hotelMapper.selectByExample(new HotelInfoExample());
+        HotelRoomType roomType = new HotelRoomType();
+        roomType.setCreateTime(new Date());
+        int res = 0;
+        if(null != hotelList && !hotelList.isEmpty()) {
+            for(HotelInfo hotel: hotelList) {
+                if(null != typeList && !typeList.isEmpty()) {
+                    for(String typeName: typeList) {
+                        if(checkName(hotel.getId(),typeName)) {
+                            continue;
+                        }
+                        roomType.setHotelId(hotel.getId());
+                        roomType.setId(null);
+                        roomType.setName(typeName);
+                        int result = roomTypeMapper.insert(roomType);
+                        if(result > 0) {
+                            res++;
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public List<String> queryAllDistinct() {
+        return roomTypeMapper.selectDistinctName();
     }
 
 }
