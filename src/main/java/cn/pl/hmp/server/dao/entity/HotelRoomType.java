@@ -23,6 +23,8 @@ public class HotelRoomType {
 
     private Boolean available;
 
+    private String rcuConfigInfo;
+
     public Long getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class HotelRoomType {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    public String getRcuConfigInfo() {
+        return rcuConfigInfo;
+    }
+
+    public void setRcuConfigInfo(String rcuConfigInfo) {
+        this.rcuConfigInfo = rcuConfigInfo == null ? null : rcuConfigInfo.trim();
     }
 }

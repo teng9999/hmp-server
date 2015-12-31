@@ -226,7 +226,7 @@ public class DealOldDataBusinessImpl extends BoostBusinessImpl implements
         roomType.setHotelId(hotelId);
         roomType.setName(typeName);
         roomType.setCreateTime(new Date());
-        roomTypeMapper.insert(roomType);
+        roomTypeMapper.insertSelective(roomType);
         return roomType.getId();
     }
 

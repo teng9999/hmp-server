@@ -12,6 +12,7 @@
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="modifier" property="modifier" jdbcType="BIGINT" />
     <result column="available" property="available" jdbcType="BIT" />
+    <result column="rcu_config_info" property="rcuConfigInfo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -44,7 +45,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, sys_id, org_id, hotel_id, name, create_time, creator, modify_time, modifier, 
-    available
+    available, rcu_config_info
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomTypeExample" >
     select
@@ -75,13 +76,13 @@
     insert into hmp_hotel_room_type (id, sys_id, org_id, 
       hotel_id, name, create_time, 
       creator, modify_time, modifier, 
-      available)
+      available, rcu_config_info)
     values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
       #{hotelId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, 
-      #{available,jdbcType=BIT})
+      #{available,jdbcType=BIT}, #{rcuConfigInfo,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomType"  keyProperty="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomType" keyProperty="id" useGeneratedKeys="true">
     insert into hmp_hotel_room_type
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -113,6 +114,9 @@
       </if>
       <if test="available != null" >
         available,
+      </if>
+      <if test="rcuConfigInfo != null" >
+        rcu_config_info,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -146,6 +150,9 @@
       <if test="available != null" >
         #{available,jdbcType=BIT},
       </if>
+      <if test="rcuConfigInfo != null" >
+        #{rcuConfigInfo,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomType" >
@@ -178,6 +185,9 @@
       <if test="available != null" >
         available = #{available,jdbcType=BIT},
       </if>
+      <if test="rcuConfigInfo != null" >
+        rcu_config_info = #{rcuConfigInfo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -191,7 +201,8 @@
       creator = #{creator,jdbcType=BIGINT},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=BIGINT},
-      available = #{available,jdbcType=BIT}
+      available = #{available,jdbcType=BIT},
+      rcu_config_info = #{rcuConfigInfo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- 自定义 -->

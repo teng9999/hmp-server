@@ -41,7 +41,7 @@ public class HotelRoomTypeBusinessImpl extends BoostBusinessImpl implements IHot
         if(null == record) {
             return -1;
         }
-        return roomTypeMapper.insert(record);
+        return roomTypeMapper.insertSelective(record);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class HotelRoomTypeBusinessImpl extends BoostBusinessImpl implements IHot
                         roomType.setHotelId(hotel.getId());
                         roomType.setId(null);
                         roomType.setName(typeName);
-                        int result = roomTypeMapper.insert(roomType);
+                        int result = roomTypeMapper.insertSelective(roomType);
                         if(result > 0) {
                             res++;
                         }

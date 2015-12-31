@@ -714,6 +714,76 @@ public class HotelRoomTypeExample {
             addCriterion("available not between", value1, value2, "available");
             return (Criteria) this;
         }
+
+        public Criteria andRcuConfigInfoIsNull() {
+            addCriterion("rcu_config_info is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoIsNotNull() {
+            addCriterion("rcu_config_info is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoEqualTo(String value) {
+            addCriterion("rcu_config_info =", value, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoNotEqualTo(String value) {
+            addCriterion("rcu_config_info <>", value, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoGreaterThan(String value) {
+            addCriterion("rcu_config_info >", value, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoGreaterThanOrEqualTo(String value) {
+            addCriterion("rcu_config_info >=", value, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoLessThan(String value) {
+            addCriterion("rcu_config_info <", value, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoLessThanOrEqualTo(String value) {
+            addCriterion("rcu_config_info <=", value, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoLike(String value) {
+            addCriterion("rcu_config_info like", value, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoNotLike(String value) {
+            addCriterion("rcu_config_info not like", value, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoIn(List<String> values) {
+            addCriterion("rcu_config_info in", values, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoNotIn(List<String> values) {
+            addCriterion("rcu_config_info not in", values, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoBetween(String value1, String value2) {
+            addCriterion("rcu_config_info between", value1, value2, "rcuConfigInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuConfigInfoNotBetween(String value1, String value2) {
+            addCriterion("rcu_config_info not between", value1, value2, "rcuConfigInfo");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
