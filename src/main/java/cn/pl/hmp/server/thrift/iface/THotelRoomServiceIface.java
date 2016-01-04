@@ -1,5 +1,6 @@
 package cn.pl.hmp.server.thrift.iface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +97,24 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
             }
         }
         return tmap;
+    }
+
+    @Override
+    public List<THotelRoom> queryByRoomType(long hotelId, long typeId)
+            throws TException {
+        HotelRoomExample roomExample = new HotelRoomExample();
+        roomExample.createCriteria().andHotelIdEqualTo(hotelId)
+        .andRoomTypeEqualTo(typeId+"");
+        List<HotelRoom> roomList = hotelRoomBusiness.selectByExample(roomExample); 
+        if(null == roomList) {
+            roomList = new ArrayList<HotelRoom>();
+        }
+        return ObjectConverter.convet(roomList, THotelRoom.class);
+    }
+
+    @Override
+    public long saveRoomAndType(THotelRoom record) throws TException {
+        return hotelRoomBusiness.insertRoomAndType(ObjectConverter.convet(record, HotelRoom.class));
     }
 
 }

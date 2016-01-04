@@ -84,11 +84,11 @@ public class PmsCheckInInfoBusinessImpl extends BoostBusinessImpl implements IPm
         //日期
         if(StringUtils.isNotBlank(timeRange)) {
             String[] times = timeRange.split("~");
-            if(null != times && times.length == 2) {
-                if(StringUtils.isNotBlank(times[0])) {
+            if(null != times) {
+                if(times.length > 0 && StringUtils.isNotBlank(times[0])) {
                         condition.setBeginTime(times[0]);
                 }
-                if(StringUtils.isNotBlank(times[1]) ) {
+                if(times.length > 1 && StringUtils.isNotBlank(times[1]) ) {
                     condition.setEndTime(times[1]);
                 }
             }

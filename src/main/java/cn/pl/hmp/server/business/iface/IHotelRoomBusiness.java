@@ -100,4 +100,6 @@ public interface IHotelRoomBusiness extends IBusiness {
 	 * @return
 	 */
     JSONArray publish(Long hotelId);
+    
+    Long insertRoomAndType(HotelRoom room);
 }
