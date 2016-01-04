@@ -13,6 +13,7 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.commons.utils.StringUtils;
 import cn.pl.hmp.commons.enums.BoardType;
 import cn.pl.hmp.commons.enums.RcuLineType;
+import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IHotelRoomBusiness;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfg;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfgExample;
@@ -645,6 +646,15 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         roomType.setCreator(room.getCreator());
         roomTypeMapper.insertSelective(roomType);
         room.setRoomType(roomType.getId()+"");
+        
+        HotelRoomExample example = new HotelRoomExample();
+        example.createCriteria().andHotelIdEqualTo(room.getHotelId())
+        .andRoomNumEqualTo(room.getRoomNum());
+        List<HotelRoom> roomList = mapper.selectByExample(example);
+        if(null != roomList && !roomList.isEmpty()) {
+            room.setId(roomList.get(0).getId());
+            return (long) mapper.updateByPrimaryKeySelective(room);
+        }
         mapper.insertSelective(room);
         return room.getId();
     }
