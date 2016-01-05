@@ -124,6 +124,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         }
         
         HotelRoomExample example = new HotelRoomExample();
+        example.createCriteria().andHotelIdEqualTo(record.getHotelId());
         example.createCriteria().andUnitEqualTo(record.getUnit());
         List<HotelRoom> list = mapper.selectByExample(example);
         List<String> roomNumList = new ArrayList<String>();
