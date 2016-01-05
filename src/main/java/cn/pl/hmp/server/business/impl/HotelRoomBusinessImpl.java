@@ -13,7 +13,6 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.commons.utils.StringUtils;
 import cn.pl.hmp.commons.enums.BoardType;
 import cn.pl.hmp.commons.enums.RcuLineType;
-import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IHotelRoomBusiness;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfg;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfgExample;
