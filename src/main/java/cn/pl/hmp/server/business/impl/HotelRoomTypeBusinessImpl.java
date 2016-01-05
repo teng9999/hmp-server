@@ -122,12 +122,15 @@ public class HotelRoomTypeBusinessImpl extends BoostBusinessImpl implements IHot
     }
 
     @Override
-    public boolean checkName(Long hotelId, String name) {
+    public boolean checkName(HotelRoomType roomType) {
         HotelRoomTypeExample example = new HotelRoomTypeExample();
-        example.createCriteria().andHotelIdEqualTo(hotelId)
-        .andNameEqualTo(name);
+        example.createCriteria().andHotelIdEqualTo(roomType.getHotelId())
+        .andNameEqualTo(roomType.getName());
         List<HotelRoomType> roomTypeList = roomTypeMapper.selectByExample(example);
         if(null != roomTypeList && !roomTypeList.isEmpty()) {
+            if(roomType.getId() != null && roomType.getId() == roomTypeList.get(0).getId()) {
+                return false;
+            }
             return true;
         }
         return false;
@@ -143,12 +146,12 @@ public class HotelRoomTypeBusinessImpl extends BoostBusinessImpl implements IHot
             for(HotelInfo hotel: hotelList) {
                 if(null != typeList && !typeList.isEmpty()) {
                     for(String typeName: typeList) {
-                        if(checkName(hotel.getId(),typeName)) {
-                            continue;
-                        }
                         roomType.setHotelId(hotel.getId());
                         roomType.setId(null);
                         roomType.setName(typeName);
+                        if(checkName(roomType)) {
+                            continue;
+                        }
                         int result = roomTypeMapper.insertSelective(roomType);
                         if(result > 0) {
                             res++;

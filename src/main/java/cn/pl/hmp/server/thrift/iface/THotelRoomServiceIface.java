@@ -73,11 +73,15 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
     }
 
     @Override
-    public boolean checkByRoomNum(String roomNum, long hotelId) throws TException {
+    public boolean checkByRoomNum(THotelRoom hotelRoom) throws TException {
         HotelRoomExample roomExample = new HotelRoomExample();
-        roomExample.createCriteria().andHotelIdEqualTo(hotelId).andRoomNumEqualTo(roomNum);
+        roomExample.createCriteria().andHotelIdEqualTo(hotelRoom.getHotelId())
+        .andRoomNumEqualTo(hotelRoom.getRoomNum());
         List<HotelRoom> roomList = hotelRoomBusiness.selectByExample(roomExample);
         if (null != roomList && roomList.size() > 0) {
+            if(hotelRoom.getId() > 0 && hotelRoom.getId() == roomList.get(0).getId()) {
+                return false;
+            }
             return true;
         }
         return false;

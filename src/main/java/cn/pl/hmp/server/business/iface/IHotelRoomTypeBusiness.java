@@ -75,7 +75,7 @@ public interface IHotelRoomTypeBusiness extends IBusiness {
 	 * @param name
 	 * @return
 	 */
-	boolean checkName(Long hotelId,String name);
+	boolean checkName(HotelRoomType roomType);
 	/**
 	 * 为已存在酒店添加默认房间类型
 	 * @param typeList

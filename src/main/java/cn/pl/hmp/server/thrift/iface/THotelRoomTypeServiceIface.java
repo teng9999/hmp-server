@@ -70,9 +70,9 @@ public class THotelRoomTypeServiceIface implements THotelRoomTypeService.Iface {
     }
 
     @Override
-    public boolean checkRoomTypeName(String name, long hotelId)
+    public boolean checkRoomTypeName(THotelRoomType roomType)
             throws TException {
-        return roomTypeBusiness.checkName(hotelId, name);
+        return roomTypeBusiness.checkName(ObjectConverter.convet(roomType, HotelRoomType.class));
     }
 
     @Override
