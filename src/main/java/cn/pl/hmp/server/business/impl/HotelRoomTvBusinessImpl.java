@@ -63,7 +63,7 @@ public class HotelRoomTvBusinessImpl extends BoostBusinessImpl implements IHotel
     public Map<Pages, List<HotelRoomTv>> selectPagesByRoom(Long hotelId,
             Pages page) {
         Map<Pages, List<HotelRoomTv>> map = new HashMap<Pages, List<HotelRoomTv>>();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page.getPageNum(), page.getPageSize(),page.getOrderBy());
         List<HotelRoomTv> hotelRoomTvList = mapper.selectListByHotel(hotelId);
         if (null == hotelRoomTvList) {
             hotelRoomTvList = new ArrayList<HotelRoomTv>();

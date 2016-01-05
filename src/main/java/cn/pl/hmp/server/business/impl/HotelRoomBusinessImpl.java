@@ -634,4 +634,29 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         return mapper.selectByExample(example);
     }
 
+    @Override
+    public Long insertRoomAndType(HotelRoom room) {
+        if(null == room) {
+            return 0L;
+        }
+        HotelRoomType roomType = new HotelRoomType();
+        roomType.setCreateTime(new Date());
+        roomType.setHotelId(room.getHotelId());
+        roomType.setName(room.getRoomType());
+        roomType.setCreator(room.getCreator());
+        roomTypeMapper.insertSelective(roomType);
+        room.setRoomType(roomType.getId()+"");
+        
+        HotelRoomExample example = new HotelRoomExample();
+        example.createCriteria().andHotelIdEqualTo(room.getHotelId())
+        .andRoomNumEqualTo(room.getRoomNum());
+        List<HotelRoom> roomList = mapper.selectByExample(example);
+        if(null != roomList && !roomList.isEmpty()) {
+            room.setId(roomList.get(0).getId());
+            return (long) mapper.updateByPrimaryKeySelective(room);
+        }
+        mapper.insertSelective(room);
+        return room.getId();
+    }
+
 }

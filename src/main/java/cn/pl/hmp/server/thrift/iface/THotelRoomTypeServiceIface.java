@@ -1,5 +1,6 @@
 package cn.pl.hmp.server.thrift.iface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,15 @@ public class THotelRoomTypeServiceIface implements THotelRoomTypeService.Iface {
     @Override
     public List<String> queryAllDistinct(long hotelId) throws TException {
         return roomTypeBusiness.queryAllDistinct(hotelId);
+    }
+
+    @Override
+    public List<THotelRoomType> queryByHotel(long hotelId) throws TException {
+        List<HotelRoomType> roomTypeList = roomTypeBusiness.selectByHotel(hotelId);
+        if(null == roomTypeList) {
+            roomTypeList = new ArrayList<HotelRoomType>();
+        }
+        return ObjectConverter.convet(roomTypeList, THotelRoomType.class);
     }
 
 }

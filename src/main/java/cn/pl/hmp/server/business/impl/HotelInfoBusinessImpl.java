@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
+import cn.pl.commons.utils.StringUtils;
 import cn.pl.hmp.commons.utils.AreaUtil;
 import cn.pl.hmp.commons.utils.TypeConvert;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
@@ -96,7 +97,11 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
         Map<Pages, List<HotelInfo>> map = new HashMap<Pages, List<HotelInfo>>();
         if (null == example)
             example = new HotelInfoExample();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        if(StringUtils.isNotBlank(page.getOrderBy())) {
+            PageHelper.startPage(page.getPageNum(), page.getPageSize(),page.getOrderBy());
+        }else {
+            PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        }
         List<HotelInfo> hotelList = mapper.selectByExample(example);
         if (null == hotelList)
             hotelList = new ArrayList<HotelInfo>();
