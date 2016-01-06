@@ -643,14 +643,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         if(null == room) {
             return 0L;
         }
-        HotelRoomType roomType = new HotelRoomType();
-        roomType.setCreateTime(new Date());
-        roomType.setHotelId(room.getHotelId());
-        roomType.setName(room.getRoomType());
-        roomType.setCreator(room.getCreator());
-        roomTypeMapper.insertSelective(roomType);
-        room.setRoomType(roomType.getId()+"");
-        
+        room.setRoomType(getRoomTypeId(room)+"");
         HotelRoomExample example = new HotelRoomExample();
         example.createCriteria().andHotelIdEqualTo(room.getHotelId())
         .andRoomNumEqualTo(room.getRoomNum());
@@ -661,6 +654,24 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         }
         mapper.insertSelective(room);
         return room.getId();
+    }
+    
+    public Long getRoomTypeId(HotelRoom room) {
+        HotelRoomTypeExample example = new HotelRoomTypeExample();
+        example.createCriteria().andHotelIdEqualTo(room.getHotelId())
+        .andNameEqualTo(room.getRoomType());
+        List<HotelRoomType> roomTypeList = roomTypeMapper.selectByExample(example);
+        if(null != roomTypeList && !roomTypeList.isEmpty()) {
+            return roomTypeList.get(0).getId();
+        }else {
+            HotelRoomType roomType = new HotelRoomType();
+            roomType.setCreateTime(new Date());
+            roomType.setHotelId(room.getHotelId());
+            roomType.setName(room.getRoomType());
+            roomType.setCreator(room.getCreator());
+            roomTypeMapper.insertSelective(roomType);
+            return roomType.getId();
+        }
     }
 
 }

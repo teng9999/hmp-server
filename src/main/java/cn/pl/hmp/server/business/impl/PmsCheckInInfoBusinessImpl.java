@@ -61,8 +61,14 @@ public class PmsCheckInInfoBusinessImpl extends BoostBusinessImpl implements IPm
         if(page == null ) {
             page = new Pages(); 
         }
-        this.formatCodition(condition);
         Map<Pages, List<PmsCheckInInfo>> map = new HashMap<Pages, List<PmsCheckInInfo>>();
+        //如果酒店的pms编号为空时 返回空列表
+        String schainId = condition.getSchainId();
+        if(StringUtils.isNotBlank(schainId) && "hotelBlankPms".equals(schainId)) {
+            return map;
+        }
+        
+        this.formatCodition(condition);
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
         List<PmsCheckInInfo> hotelRoomList = infoMapper.selectCombInfoList(condition);
         if (null == hotelRoomList)
