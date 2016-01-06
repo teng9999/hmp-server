@@ -11,7 +11,6 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.iface.IHotelRoomRcuBusiness;
 import cn.pl.hmp.server.dao.entity.HotelRoomRcu;
 import cn.pl.hmp.server.dao.entity.HotelRoomRcuExample;
-import cn.pl.hmp.server.dao.mapper.HotelRCUCfgMapper;
 import cn.pl.hmp.server.dao.mapper.HotelRoomRcuMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 
@@ -22,8 +21,8 @@ import com.github.pagehelper.PageInfo;
 public class HotelRoomRcuBusinessImpl extends BoostBusinessImpl implements IHotelRoomRcuBusiness{
     @Autowired
     private HotelRoomRcuMapper mapper;
-    @Autowired
-    private HotelRCUCfgMapper rcuCfgMapper;
+//    @Autowired
+//    private HotelRCUCfgMapper rcuCfgMapper;
     @Override
     public int delete(Long id) {
         return mapper.deleteByPrimaryKey(id);
