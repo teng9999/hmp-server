@@ -128,7 +128,7 @@ public class HotelRoomTypeBusinessImpl extends BoostBusinessImpl implements IHot
         .andNameEqualTo(roomType.getName());
         List<HotelRoomType> roomTypeList = roomTypeMapper.selectByExample(example);
         if(null != roomTypeList && !roomTypeList.isEmpty()) {
-            if(roomType.getId() != null && roomType.getId() == roomTypeList.get(0).getId()) {
+            if(roomType.getId() != null && roomType.getId().longValue() == roomTypeList.get(0).getId().longValue()) {
                 return false;
             }
             return true;
