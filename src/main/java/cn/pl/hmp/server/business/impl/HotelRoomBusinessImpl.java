@@ -108,16 +108,18 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         int ip = -1;
         int rcuIp = -1;
         
-        String[] ipArray = new String[4];
-        if (null != record.getIp()) {
+        String[] ipArray = null;
+        if (StringUtils.isNotBlank(record.getIp())) {
+            ipArray = new String[4];
         	ipArray = record.getIp().split("\\.");
         	if (4 == ipArray.length)
         		ip = Integer.parseInt(ipArray[ipArray.length - 1]);
         }
         
         
-        String[] rcuIpArray = new String[4];
-        if (null != record.getRcuIp()) {
+        String[] rcuIpArray = null;
+        if (StringUtils.isNotBlank(record.getRcuIp())) {
+            rcuIpArray = new String[4];
         	rcuIpArray = record.getRcuIp().split("\\.");
         	if (4 == rcuIpArray.length)
         		rcuIp = Integer.parseInt(rcuIpArray[rcuIpArray.length - 1]);
@@ -139,17 +141,19 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         		record = record.clone(record);
         		record.setId(new Long(0));
         		record.setRoomNum(room);
-        		if (-1 != ip) {
-        			record.setIp(ipArray[0] + "." + ipArray[1] + "." + ipArray[2] + "." + ip + "");
-        			ip++; 
-        		} else if (null != record.getIp()) {
-        			record.setIp((Integer.parseInt(ipArray[ipArray.length - 1]) + i + ""));
+        		
+        		if(ipArray != null ) {
+        		    if (-1 != ip) {
+        		        record.setIp(ipArray[0] + "." + ipArray[1] + "." + ipArray[2] + "." + ip + "");
+        		        ip++; 
+        		    }
         		}
-        		if (-1 != rcuIp) {
-        			record.setRcuIp(rcuIpArray[0] + "." + rcuIpArray[1] + "." + rcuIpArray[2] + "." + rcuIp + "");
-        			rcuIp++;
-        		} else if (null != record.getRcuIp()) {
-        			record.setIp((Integer.parseInt(rcuIpArray[rcuIpArray.length - 1]) + i + ""));
+        		
+        		if(rcuIpArray != null ) {
+            		if (-1 != rcuIp) {
+            			record.setRcuIp(rcuIpArray[0] + "." + rcuIpArray[1] + "." + rcuIpArray[2] + "." + rcuIp + "");
+            			rcuIp++;
+            		}
         		}
              // 解析templateCfg
                 List<RoomRCUCfg> roomRCUCfgs = new ArrayList<RoomRCUCfg>();
