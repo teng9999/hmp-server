@@ -168,11 +168,14 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
 
     @Override
     public long saveAll(HotelInfo hotelInfo, User user) {
-        HotelInfoExample hotelExample = new HotelInfoExample();
-        hotelExample.createCriteria().andChainIdEqualTo(hotelInfo.getChainId());
-        List<HotelInfo> hotelList = mapper.selectByExample(hotelExample);
-        if(null != hotelList && !hotelList.isEmpty()) {
-            return -100;
+        
+        if(StringUtils.isNotBlank(hotelInfo.getChainId())) {
+            HotelInfoExample hotelExample = new HotelInfoExample();
+            hotelExample.createCriteria().andChainIdEqualTo(hotelInfo.getChainId());
+            List<HotelInfo> hotelList = mapper.selectByExample(hotelExample);
+            if(null != hotelList && !hotelList.isEmpty()) {
+                return -100;
+            }
         }
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUserNameEqualTo(user.getUserName());
