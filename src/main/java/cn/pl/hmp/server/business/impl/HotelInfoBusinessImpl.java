@@ -221,7 +221,6 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
         typeNameList.add("商务双床房");
         typeNameList.add("豪华大床房");
         typeNameList.add("豪华双床房");
-        typeNameList.add("商务大床房");
         HotelRoomType roomType = new HotelRoomType();
         roomType.setCreateTime(new Date());
         roomType.setHotelId(hotelRes);
