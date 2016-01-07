@@ -25,4 +25,6 @@ public interface MenuPagesMapper {
     List<MenuPages> selectByMenuId(@Param(value="channelId")Long channelId);
 
     int deleteByChannelId(@Param(value="channelId") Long channelId);
+    
+    List<MenuPages> selectByHotel(@Param(value="hotelId") Long hotelId);
 }

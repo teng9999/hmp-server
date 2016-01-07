@@ -575,15 +575,92 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         if (null == roomList || roomList.size() < 1) {
             return array;
         }
-
+        
+        //获取酒店rcu配置信息
+        HotelRCUCfg hotelRcuTemplate = null;
         HotelRCUCfgExample hotelRcuExample = new HotelRCUCfgExample();
         hotelRcuExample.createCriteria().andHotelIdEqualTo(hotelId);
         List<HotelRCUCfg> hotelRcuList = hotelRcuMapper.selectByExample(hotelRcuExample);
         if (null == hotelRcuList || hotelRcuList.size() < 1) {
             return array;
+        }else {
+            hotelRcuTemplate = hotelRcuList.get(0);
         }
+        if (null == hotelRcuTemplate) {
+            return array;
+        }
+        
+        //获取酒店所有房间rcu配置信息
+        Map<String, List<RoomRCUCfg>> hotelRoomRcuMap = queryHotelRoomRcuCfg(hotelId);
 
         // 查询房型字典信息
+        Map<String, String> roomTypeNameMap = queryHotelRoomType(hotelId);
+        
+        //板卡类型
+        String sboardType = hotelRcuTemplate.getBoardType();
+        BoardType boardType = BoardType.PINGLIAN;
+        if (null != sboardType && !("".equals(sboardType.trim()))) {
+            sboardType = dictMapper.selectByPrimaryKey(Long.parseLong(sboardType)).getNameEn();
+            boardType = BoardType.valuesOf(sboardType);
+        }
+        int lightStart = hotelRcuTemplate.getLightStart();
+        int airStart = hotelRcuTemplate.getAirConditionerStart();
+        
+        List<RoomRCUCfg> tempRoomRcuList = null;
+        for (HotelRoom room : roomList) {
+            JSONObject roomObj = new JSONObject();
+            saveHotelRoom(room, roomObj, hotelRcuTemplate, roomTypeNameMap);
+            RcuLineType[] RcuLineTypes = RcuLineType.values();
+            JSONArray roomRcuArray = null;
+            JSONObject roomRcuTemp = null;
+            for (RcuLineType lineType : RcuLineTypes) {
+                roomRcuArray = new JSONArray();
+                tempRoomRcuList = hotelRoomRcuMap.get(room.getId()+"-"+lineType.name());
+                if(tempRoomRcuList != null && !tempRoomRcuList.isEmpty()) {
+                    for (RoomRCUCfg roomRcu : tempRoomRcuList) {
+                        roomRcuTemp = new JSONObject();
+                        saveRcu(roomRcu, roomRcuTemp, boardType, lightStart, airStart);
+                        roomRcuArray.add(roomRcuTemp);
+                    }
+                }
+                roomObj.put(lineType.name(), roomRcuArray);
+            }
+            array.add(roomObj);
+        }
+        return array;
+    }
+    /**
+     * 获取某酒店的所有房间rcu配置信息
+     * @param hotelId
+     * @return
+     */
+    public Map<String,List<RoomRCUCfg>> queryHotelRoomRcuCfg(Long hotelId) {
+        Map<String,List<RoomRCUCfg>> roomRcuMap = new HashMap<String, List<RoomRCUCfg>>();
+        RoomRCUCfgExample roomRcuExample = new RoomRCUCfgExample();
+        roomRcuExample.createCriteria().andHotelIdEqualTo(hotelId);
+        List<RoomRCUCfg> roomRcuList = rcuMapper.selectByExample(roomRcuExample);
+        String tempKey = null;
+        List<RoomRCUCfg> tempRoomRcuList = null;
+        if(null != roomRcuList && !roomRcuList.isEmpty()) {
+            for(RoomRCUCfg roomRcu : roomRcuList) {
+                tempKey = roomRcu.getRoomId()+"-"+roomRcu.getLineType();
+                if(roomRcuMap.containsKey(tempKey)) {
+                    roomRcuMap.get(tempKey).add(roomRcu);
+                }else {
+                    tempRoomRcuList = new ArrayList<RoomRCUCfg>();
+                    tempRoomRcuList.add(roomRcu);
+                    roomRcuMap.put(tempKey, tempRoomRcuList);
+                }
+            }
+        }
+        return roomRcuMap;
+    }
+    /**
+     * 获取某酒店的所有房间类型配置信息
+     * @param hotelId
+     * @return
+     */
+    public Map<String,String> queryHotelRoomType(Long hotelId) {
         HotelRoomTypeExample example = new HotelRoomTypeExample();
         example.createCriteria().andHotelIdEqualTo(hotelId);
         List<HotelRoomType> roomTypeList = roomTypeMapper.selectByExample(example);
@@ -595,42 +672,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
                 }
             }
         }
-
-        HotelRCUCfg hotelRcuTemplate = hotelRcuList.get(0);
-        if (null == hotelRcuTemplate) {
-            return array;
-        }
-
-        String sboardType = hotelRcuTemplate.getBoardType();
-        BoardType boardType = BoardType.PINGLIAN;
-        if (null != sboardType && !("".equals(sboardType.trim()))) {
-            sboardType = dictMapper.selectByPrimaryKey(Long.parseLong(sboardType)).getNameEn();
-            boardType = BoardType.valuesOf(sboardType);
-        }
-        int lightStart = hotelRcuTemplate.getLightStart();
-        int airStart = hotelRcuTemplate.getAirConditionerStart();
-        for (HotelRoom room : roomList) {
-            JSONObject roomObj = new JSONObject();
-            saveHotelRoom(room, roomObj, hotelRcuTemplate, roomTypeNameMap);
-            RcuLineType[] RcuLineTypes = RcuLineType.values();
-            List<RoomRCUCfg> roomRcuList = null;
-            JSONArray roomRcuArray = null;
-            JSONObject roomRcuTemp = null;
-            for (RcuLineType lineType : RcuLineTypes) {
-                roomRcuArray = new JSONArray();
-                roomRcuList = rcuMapper.selectByLineType(lineType.name(), room.getId());
-                if (null != roomRcuList && roomRcuList.size() > 0) {
-                    for (RoomRCUCfg roomRcu : roomRcuList) {
-                        roomRcuTemp = new JSONObject();
-                        saveRcu(roomRcu, roomRcuTemp, boardType, lightStart, airStart);
-                        roomRcuArray.add(roomRcuTemp);
-                    }
-                }
-                roomObj.put(lineType.name(), roomRcuArray);
-            }
-            array.add(roomObj);
-        }
-        return array;
+        return roomTypeNameMap;
     }
 
     @Override

@@ -283,4 +283,9 @@
   <delete id="deleteByChannelId">
     delete from sys_menu_pages where menu_id = #{channelId}
   </delete>
+  
+  <select id="selectByHotel" resultMap="BaseResultMap">
+	 select count(*) from sys_menu_pages 
+	 where menu_id in (select id from hmp_menu_channel where hotel_id = #{hotelId})
+  </select>
 </mapper>

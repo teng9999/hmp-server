@@ -136,25 +136,31 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         if (null == hotelId) {
             return array;
         }
-
-        MenuChannelExample channelExample = new MenuChannelExample();
-        channelExample.createCriteria().andHotelIdEqualTo(hotelId).andParentIdEqualTo(0L);
-        List<MenuChannel> topChannelList = mapper.selectByExample(channelExample);
+        //全部菜单页面信息
+        Map<Long,MenuPages> menuIdPagemap = new HashMap<Long, MenuPages>();
+        //酒店下的全部菜单信息
+        Map<Long,List<MenuChannel>> parentIdMenumap = new HashMap<Long, List<MenuChannel>>();
+        initMenuMap(parentIdMenumap, hotelId);
+        initPageMap(menuIdPagemap, hotelId);
+        
+        List<MenuChannel> topChannelList = parentIdMenumap.get(0L);
         if (null == topChannelList || topChannelList.size() < 1) {
             return array;
         }
         StringBuffer serviceType = new StringBuffer();
-        dtreeSaveMassage(array, topChannelList,serviceType);
+        dtreeSaveMassage(array, topChannelList,serviceType,menuIdPagemap,parentIdMenumap);
         return array;
     }
-
+    
     /**
-     * 递归查询保存电视频道
+     * 递归保存电视频道
      * 
      * @param topArray
      * @param topChannelList
      */
-    public void dtreeSaveMassage(JSONArray topArray, List<MenuChannel> topChannelList,StringBuffer serviceType) {
+    public void dtreeSaveMassage(JSONArray topArray, List<MenuChannel> topChannelList,
+            StringBuffer serviceType,Map<Long,MenuPages> menuIdPagemap,
+            Map<Long,List<MenuChannel>> parentIdMenumap) {
         JSONObject menuChannelObj = null;
         for (MenuChannel menuChannel : topChannelList) {
             menuChannelObj = new JSONObject();
@@ -162,18 +168,20 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
                 continue;
             }
             saveChannel(menuChannelObj, menuChannel,serviceType);
-            List<MenuPages> pagesList = pagesMapper.selectByMenuId(menuChannel.getId());
+            
+            MenuPages menuPages = menuIdPagemap.get(menuChannel.getId());
             JSONObject pagesObj = new JSONObject();
-            if (null != pagesList && pagesList.size() > 0) {
-                savePages(pagesList.get(0), pagesObj);
+            if (null != menuPages) {
+                savePages(menuPages, pagesObj);
             }
+            
             JSONArray childArray = new JSONArray();
             menuChannelObj.put("pages", pagesObj);
             menuChannelObj.put("childList", childArray);
             topArray.add(menuChannelObj);
-            List<MenuChannel> childList = mapper.selectByParentId(menuChannel.getId());
-            if (null != childList && childList.size() > 0) {
-                dtreeSaveMassage(childArray, childList,serviceType);
+            List<MenuChannel> childList = parentIdMenumap.get(menuChannel.getId());
+            if (null != childList && !childList.isEmpty()) {
+                dtreeSaveMassage(childArray, childList,serviceType,menuIdPagemap,parentIdMenumap);
             }
         }
     }
@@ -230,6 +238,51 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
             return SubMenuType.AMIBITUSCOLLECT.toIntVal();
         default:
             return SubMenuType.SERVICE.toIntVal();
+        }
+    }
+    
+    /**
+     * 获取某酒店下的全部菜单信息
+     * @param parentIdMenumap
+     * @param hotelId
+     */
+    public void initMenuMap(Map<Long,List<MenuChannel>> parentIdMenumap,
+            long hotelId) {
+        MenuChannelExample example = new MenuChannelExample();
+        example.createCriteria().andHotelIdEqualTo(hotelId);
+        List<MenuChannel> menuList = mapper.selectByExample(example);
+        Long parentId = null;
+        List<MenuChannel> tempMenuList = null;
+        if(null != menuList && !menuList.isEmpty()) {
+            for(MenuChannel menu: menuList) {
+                if(menu == null ) {
+                    continue;
+                }
+                parentId = menu.getParentId();
+                if(parentIdMenumap.containsKey(parentId)) {
+                    parentIdMenumap.get(parentId).add(menu);
+                }else {
+                    tempMenuList = new ArrayList<MenuChannel>();
+                    tempMenuList.add(menu);
+                    parentIdMenumap.put(parentId, tempMenuList);
+                }
+            }
+        }
+    }
+    /**
+     * 获取某酒店下的全部菜单页面信息
+     * @param parentIdMenumap
+     * @param hotelId
+     */
+    public void initPageMap(Map<Long,MenuPages> menuIdPagemap,Long hotelId) {
+        List<MenuPages> menuPagesList = pagesMapper.selectByHotel(hotelId);
+        if(null != menuPagesList && !menuPagesList.isEmpty()) {
+            for(MenuPages menuPages: menuPagesList) {
+                if(menuPages == null ) {
+                    continue;
+                }
+                menuIdPagemap.put(menuPages.getMenuId(), menuPages);
+            }
         }
     }
 
