@@ -23,6 +23,7 @@ import cn.pl.hmp.server.dao.mapper.DataDictMapper;
 import cn.pl.hmp.server.dao.mapper.HmpHotelToolPacksMapper;
 import cn.pl.hmp.server.dao.mapper.HmpMGHotelMapper;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
+import cn.pl.hmp.server.dao.mapper.HotelRoomTypeMapper;
 import cn.pl.hmp.server.dao.mapper.UserHotelMapper;
 import cn.pl.hmp.server.dao.mapper.UserMapper;
 import cn.pl.hmp.server.utils.PageConverter;
@@ -44,6 +45,8 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
     private HmpHotelToolPacksMapper toolPkgsMapper;
     @Autowired
     private DataDictMapper dictMapper;
+    @Autowired
+    private HotelRoomTypeMapper roomTypeMapper;
 
     @Override
     public int deleteUserAndHotelByUserId(Long id) {
@@ -158,7 +161,6 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
                 toolPkgsMapper.insertSelective(tookPacks);
             }
         }
-        
         return user.getId();
     }
 
