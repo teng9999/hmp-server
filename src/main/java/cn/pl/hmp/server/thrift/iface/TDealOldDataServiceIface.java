@@ -19,5 +19,9 @@ public class TDealOldDataServiceIface  implements TDealOldDataService.Iface {
         
        return dealDataBusiness.dealOldRoomType();
     }
+    @Override
+    public int dealMenuChannelLitter() throws TException {
+        return dealDataBusiness.dealMenuChannelLitter();
+    }
 
 }

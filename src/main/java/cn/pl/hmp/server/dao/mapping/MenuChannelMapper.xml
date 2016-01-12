@@ -3,29 +3,7 @@
 <mapper namespace="cn.pl.hmp.server.dao.mapper.MenuChannelMapper" >
   <resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.MenuChannel" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
-    <result column="org_id" property="orgId" jdbcType="BIGINT" />
-    <result column="back_img" property="backImg" jdbcType="VARCHAR" />
-    <result column="hide" property="hide" jdbcType="BIT" />
-    <result column="menu_img" property="menuImg" jdbcType="VARCHAR" />
-    <result column="menu_type" property="menuType" jdbcType="VARCHAR" />
-    <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
-    <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
-    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
-    <result column="service_type" property="serviceType" jdbcType="VARCHAR" />
-    <result column="sub_menu_type" property="subMenuType" jdbcType="VARCHAR" />
-    <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
-    <result column="pages_id" property="pagesId" jdbcType="BIGINT" />
-    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
-    <result column="is_property" property="isProperty" jdbcType="CHAR" />
-    <result column="property_ype" property="propertyYpe" jdbcType="CHAR" />
-    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
-    <result column="breed_id" property="breedId" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="creator" property="creator" jdbcType="BIGINT" />
-    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
-    <result column="modifier" property="modifier" jdbcType="BIGINT" />
-    <result column="available" property="available" jdbcType="BIT" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -59,7 +37,7 @@
   <sql id="Base_Column_List" >
     id, sys_id, org_id, back_img, hide, menu_img, menu_type, name_cn, name_en, order_num, 
     service_type, sub_menu_type, hotel_id, pages_id, parent_id, is_property, property_ype, 
-    brand_id, breed_id, create_time, creator, modify_time, modifier, available
+    brand_id, breed_id, create_time, creator, modify_time, modifier, available, path
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.MenuChannelExample" >
     select
@@ -94,8 +72,8 @@
       hotel_id, pages_id, parent_id, 
       is_property, property_ype, brand_id, 
       breed_id, create_time, creator, 
-      modify_time, modifier, available
-      )
+      modify_time, modifier, available, 
+      path)
     values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
       #{backImg,jdbcType=VARCHAR}, #{hide,jdbcType=BIT}, #{menuImg,jdbcType=VARCHAR}, 
       #{menuType,jdbcType=VARCHAR}, #{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, 
@@ -103,8 +81,8 @@
       #{hotelId,jdbcType=BIGINT}, #{pagesId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
       #{isProperty,jdbcType=CHAR}, #{propertyYpe,jdbcType=CHAR}, #{brandId,jdbcType=VARCHAR}, 
       #{breedId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}
-      )
+      #{modifyTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}, 
+      #{path,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.MenuChannel"  keyProperty="id" useGeneratedKeys="true">
     insert into hmp_menu_channel
@@ -181,6 +159,9 @@
       <if test="available != null" >
         available,
       </if>
+      <if test="path != null" >
+        path,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -254,6 +235,9 @@
       </if>
       <if test="available != null" >
         #{available,jdbcType=BIT},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -329,6 +313,9 @@
       <if test="available != null" >
         available = #{available,jdbcType=BIT},
       </if>
+      <if test="path != null" >
+        path = #{path,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -356,7 +343,8 @@
       creator = #{creator,jdbcType=BIGINT},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=BIGINT},
-      available = #{available,jdbcType=BIT}
+      available = #{available,jdbcType=BIT},
+      path = #{path,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- 自定义 -->
@@ -374,7 +362,7 @@
   <!-- 根据id查看混合信息 -->
   <select id="selectByMenuId" resultType="cn.pl.hmp.server.dao.entity.MenuChannel">
 	  select hmc.*,pages.content_cn,pages.content_en,pages.img,pages.back_img as QRCodeImg 
-	 from hmp_menu_channel hmc,sys_menu_pages pages where hmc.id = pages.menu_id
-	 and hmc.id = #{menuId}
+	 from hmp_menu_channel hmc left join sys_menu_pages pages on hmc.id = pages.menu_id
+	  where hmc.id = #{menuId}
   </select>
 </mapper>

@@ -34,11 +34,21 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
 
     @Override
     public int deleteByMenuChannelId(Long id) {
+        MenuChannelExample menuExample = new MenuChannelExample();
+        menuExample.createCriteria().andPathLike("%"+id+"%");
+        List<MenuChannel> menuList = mapper.selectByExample(menuExample);
+        if(null != menuList && menuList.size() >0) {
+            for(MenuChannel menu:menuList) {
+                mapper.deleteByPrimaryKey(menu.getId());
+            }
+        }
         return mapper.deleteByPrimaryKey(id);
     }
 
     @Override
     public long insert(MenuChannel record) {
+        
+        
         if (record != null && null != record.getOrderNum()) {
             MenuChannelExample example = new MenuChannelExample();
             example.createCriteria().andParentIdEqualTo(record.getParentId()).andOrderNumEqualTo(record.getOrderNum())
@@ -48,6 +58,15 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
                 return -2;
             }
         }
+        
+        MenuChannel menu = mapper.selectByPrimaryKey(record.getParentId());
+        String path = "";
+        if(null == menu) {
+            path = record.getParentId()+"";
+        }else {
+            path = menu.getPath()+"@"+record.getParentId();
+        }
+        record.setPath(path);
         int res = mapper.insertSelective(record);
         if (res < 0) {
             return -1L;
@@ -57,7 +76,11 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
 
     @Override
     public MenuChannel selectByMenuChannelId(Long id) {
-        return mapper.selectByMenuId(id);
+        MenuChannel menu = mapper.selectByMenuId(id);
+        if(menu == null ) {
+            menu = new MenuChannel();
+        }
+        return menu;
     }
 
     @Override
@@ -288,12 +311,22 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
 
     @Override
     public int deleteAllId(Long id) {
-        int res = mapper.deleteByPrimaryKey(id);
+        int res = -1;
+        MenuChannelExample menuExample = new MenuChannelExample();
+        menuExample.createCriteria().andPathLike("%"+id+"%");
+        List<MenuChannel> menuList = mapper.selectByExample(menuExample);
+        if(null != menuList && menuList.size() >0) {
+            for(MenuChannel menu:menuList) {
+                res = mapper.deleteByPrimaryKey(menu.getId());
+                if (res > 0) {
+                    pagesMapper.deleteByChannelId(menu.getId());
+                }
+            }
+        }
+        res = mapper.deleteByPrimaryKey(id);
         if (res > 0) {
             pagesMapper.deleteByChannelId(id);
-        } else {
-            return -1;
-        }
+        } 
         return res;
     }
 }

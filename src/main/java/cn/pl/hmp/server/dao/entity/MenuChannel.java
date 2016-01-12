@@ -48,6 +48,8 @@ public class MenuChannel {
     private Date modifyTime;
 
     private Long modifier;
+    
+    private String path;
 
     private Boolean available;
 
@@ -59,6 +61,14 @@ public class MenuChannel {
     
     private String QRCodeImg;
     
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public String getQRCodeImg() {
         return QRCodeImg;

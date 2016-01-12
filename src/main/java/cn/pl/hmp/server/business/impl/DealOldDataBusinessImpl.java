@@ -15,6 +15,8 @@ import cn.pl.hmp.server.dao.entity.HotelRoom;
 import cn.pl.hmp.server.dao.entity.HotelRoomExample;
 import cn.pl.hmp.server.dao.entity.HotelRoomType;
 import cn.pl.hmp.server.dao.entity.HotelRoomTypeExample;
+import cn.pl.hmp.server.dao.entity.MenuChannel;
+import cn.pl.hmp.server.dao.entity.MenuChannelExample;
 import cn.pl.hmp.server.dao.entity.PmsCheckInInfo;
 import cn.pl.hmp.server.dao.entity.PmsCheckInInfoExample;
 import cn.pl.hmp.server.dao.entity.RoomRCUCfg;
@@ -22,6 +24,8 @@ import cn.pl.hmp.server.dao.entity.RoomRCUCfgExample;
 import cn.pl.hmp.server.dao.mapper.DataDictMapper;
 import cn.pl.hmp.server.dao.mapper.HotelRoomMapper;
 import cn.pl.hmp.server.dao.mapper.HotelRoomTypeMapper;
+import cn.pl.hmp.server.dao.mapper.MenuChannelMapper;
+import cn.pl.hmp.server.dao.mapper.MenuPagesMapper;
 import cn.pl.hmp.server.dao.mapper.PmsCheckInInfoMapper;
 import cn.pl.hmp.server.dao.mapper.RoomRCUCfgMapper;
 
@@ -39,6 +43,10 @@ public class DealOldDataBusinessImpl extends BoostBusinessImpl implements
     private PmsCheckInInfoMapper pmsInfoMapper;
     @Autowired
     private DataDictMapper dictMapper;
+    @Autowired
+    private MenuChannelMapper menuChannelMapper;
+    @Autowired
+    private MenuPagesMapper pagesMapper;
     // oldtypeId:oldtypeName
     Map<String, String> allOldTypeMap = null;
     // hotelid-typeId:newTypeId
@@ -228,6 +236,40 @@ public class DealOldDataBusinessImpl extends BoostBusinessImpl implements
         roomType.setCreateTime(new Date());
         roomTypeMapper.insertSelective(roomType);
         return roomType.getId();
+    }
+
+    @Override
+    public int dealMenuChannelLitter() {
+        MenuChannelExample menuExample = new MenuChannelExample();
+        menuExample.setOrderByClause("parent_id asc");
+        List<MenuChannel> menuList = menuChannelMapper.selectByExample(menuExample);
+        int res = -1;
+        int count = 0;
+        if(null != menuList && ! menuList.isEmpty()) {
+            for(MenuChannel menu : menuList) {
+                if(null == menu) {
+                    continue;
+                }
+                MenuChannel parentMenu = menuChannelMapper.selectByPrimaryKey(menu.getParentId());
+                if(null == parentMenu) {
+                    if(menu.getParentId() == 0) {
+                        menu.setPath("0");
+                        menuChannelMapper.updateByPrimaryKeySelective(menu);
+                    }else {
+                        res = menuChannelMapper.deleteByPrimaryKey(menu.getId());
+                        count++;
+                        if (res > 0) {
+                            pagesMapper.deleteByChannelId(menu.getId());
+                        }
+                    }
+                }else {
+                    String path = parentMenu.getPath()+"@"+menu.getParentId();
+                    menu.setPath(path);
+                    menuChannelMapper.updateByPrimaryKeySelective(menu);
+                }
+            }
+        }
+        return count;
     }
 
 }
