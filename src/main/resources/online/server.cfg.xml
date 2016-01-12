@@ -22,7 +22,7 @@
         <property name="thrift.server.nodename" value="hmp"/>
         <property name="thrift.server.ip" value="0.0.0.0"/>
         <property name="thrift.server.port" value="9090"/>
-        <property name="thrift.server.timeout" value="5000"/>
+        <property name="thrift.server.timeout" value="30000"/>
         <property name="thrift.server.readbuffer" value="16384000"/>
         <property name="thrift.server.selector.threads" value="60"/>
         <property name="thrift.server.work.threads" value="20"/>
