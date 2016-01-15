@@ -1314,6 +1314,66 @@ public class HotelRoomExample {
             addCriterion("available not between", value1, value2, "available");
             return (Criteria) this;
         }
+
+        public Criteria andRcuTimeIsNull() {
+            addCriterion("rcu_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeIsNotNull() {
+            addCriterion("rcu_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeEqualTo(Integer value) {
+            addCriterion("rcu_time =", value, "rcuTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeNotEqualTo(Integer value) {
+            addCriterion("rcu_time <>", value, "rcuTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeGreaterThan(Integer value) {
+            addCriterion("rcu_time >", value, "rcuTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("rcu_time >=", value, "rcuTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeLessThan(Integer value) {
+            addCriterion("rcu_time <", value, "rcuTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeLessThanOrEqualTo(Integer value) {
+            addCriterion("rcu_time <=", value, "rcuTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeIn(List<Integer> values) {
+            addCriterion("rcu_time in", values, "rcuTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeNotIn(List<Integer> values) {
+            addCriterion("rcu_time not in", values, "rcuTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeBetween(Integer value1, Integer value2) {
+            addCriterion("rcu_time between", value1, value2, "rcuTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRcuTimeNotBetween(Integer value1, Integer value2) {
+            addCriterion("rcu_time not between", value1, value2, "rcuTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

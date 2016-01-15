@@ -50,5 +50,13 @@ public interface IHotelRoomRcuBusiness  extends IBusiness {
      * @return
      */
     Map<Pages, List<HotelRoomRcu>> selectPagesByRoom(Long hotelId,Pages page);
+    
+    /**
+     * 批量修改
+     * 
+     * @param idList
+     * @return
+     */
+    int updateOnBatch(HotelRoomRcu record, String roomNums);
 
 }

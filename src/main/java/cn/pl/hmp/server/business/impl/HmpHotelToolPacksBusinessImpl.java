@@ -61,7 +61,7 @@ public class HmpHotelToolPacksBusinessImpl extends BoostBusinessImpl implements 
     @Override
     public Map<Pages, List<HmpHotelToolPacks>> selectByPages(Pages page, HmpHotelToolPacks packs) {
         Map<Pages, List<HmpHotelToolPacks>> map = new HashMap<Pages, List<HmpHotelToolPacks>>();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page.getPageNum(), page.getPageSize(),page.getOrderBy());
         System.out.println(page.getPageNum() + "--" + page.getPageSize());
         if(StringUtils.isNotBlank(packs.getSubName()))
         	packs.setSubName(packs.getSubName() + "%");

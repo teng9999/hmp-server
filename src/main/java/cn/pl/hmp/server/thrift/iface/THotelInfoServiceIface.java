@@ -94,18 +94,17 @@ public class THotelInfoServiceIface implements THotelInfoService.Iface {
 
     @Override
     public Map<TPages, List<THotelInfo>> queryByPagesWithMonitor(TPages pages,
-            String condition, String name) throws TException {
-        HotelInfoExample example = null;
-        if(StringUtils.isNotBlank(condition) 
-                || StringUtils.isNotBlank(name)) {
-            example = new HotelInfoExample();
-            Criteria criteria = example.createCriteria();
-            if(StringUtils.isNotBlank(condition)) {
-                criteria.andSubNameLike("%"+condition+"%");
-            }
-            if(StringUtils.isNotBlank(name)) {
-                criteria.andNameEqualTo(name);
-            }
+            String condition, String name,String province) throws TException {
+        HotelInfoExample example = new HotelInfoExample();
+        Criteria criteria = example.createCriteria();
+        if(StringUtils.isNotBlank(condition)) {
+            criteria.andSubNameLike("%"+condition+"%");
+        }
+        if(StringUtils.isNotBlank(name)) {
+            criteria.andNameEqualTo(name);
+        }
+        if(StringUtils.isNotBlank(province)) {
+            criteria.andProvinceEqualTo(province);
         }
         Map<TPages, List<THotelInfo>> tmap = new HashMap<TPages, List<THotelInfo>>();
         TPages tempPage = null;

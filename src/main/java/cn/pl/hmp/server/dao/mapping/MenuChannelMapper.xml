@@ -3,29 +3,6 @@
 <mapper namespace="cn.pl.hmp.server.dao.mapper.MenuChannelMapper" >
   <resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.MenuChannel" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
-    <result column="org_id" property="orgId" jdbcType="BIGINT" />
-    <result column="back_img" property="backImg" jdbcType="VARCHAR" />
-    <result column="hide" property="hide" jdbcType="BIT" />
-    <result column="menu_img" property="menuImg" jdbcType="VARCHAR" />
-    <result column="menu_type" property="menuType" jdbcType="VARCHAR" />
-    <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
-    <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
-    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
-    <result column="service_type" property="serviceType" jdbcType="VARCHAR" />
-    <result column="sub_menu_type" property="subMenuType" jdbcType="VARCHAR" />
-    <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
-    <result column="pages_id" property="pagesId" jdbcType="BIGINT" />
-    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
-    <result column="is_property" property="isProperty" jdbcType="CHAR" />
-    <result column="property_ype" property="propertyYpe" jdbcType="CHAR" />
-    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
-    <result column="breed_id" property="breedId" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="creator" property="creator" jdbcType="BIGINT" />
-    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
-    <result column="modifier" property="modifier" jdbcType="BIGINT" />
-    <result column="available" property="available" jdbcType="BIT" />
     <result column="path" property="path" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >

@@ -359,11 +359,17 @@
   <!-- 条件查询查询 -->
   <select id="selectCombInfoList" resultMap="CombResultMap" 
      parameterType="cn.pl.hmp.server.dao.entity.PmsCheckInInfoCondition" >
-    select guestInfo.med_name as guest_name,guestInfo.sex,(year(now())-year(guestInfo.birthday)) as age ,guestInfo.mobile,tinfo.* from 
-    (select roomType.name as room_type,info.* from pms_check_in_info info 
-    left join hmp_hotel_room_type roomType on 
-    info.room_type_cn = roomType.id) tinfo left join 
-    pms_guest_info guestInfo on tinfo.guest_id = guestInfo.id 
+     select guestInfo.med_name as guest_name,guestInfo.sex,
+     (year(now())-year(guestInfo.birthday)) as age ,guestInfo.mobile,totalinfo.* from  
+        (select roomType.name as room_type,selectinfo.* from    
+          (select pmsinfo.* from pms_check_in_info pmsinfo left join   
+	          hmp_hotel_info hotel on pmsinfo.chain_id = hotel.chain_id where 1=1 
+	          <if test="hotelBrand != null">
+		         and hotel.name = #{hotelBrand}
+		     </if>  
+           ) selectinfo  left join hmp_hotel_room_type roomType on      
+    selectinfo.room_type_cn = roomType.id) totalinfo left join      
+    pms_guest_info guestInfo on totalinfo.guest_id = guestInfo.id 
     where 1=1
 	<if test="hotelName != null">
          and tinfo.hotel_name like '%${hotelName}%'

@@ -121,4 +121,11 @@ public class THotelRoomServiceIface implements THotelRoomService.Iface {
         return hotelRoomBusiness.insertRoomAndType(ObjectConverter.convet(record, HotelRoom.class));
     }
 
+    @Override
+    public int updateRcuTimeOnBatch(THotelRoom record, String roomNums)
+            throws TException {
+        return hotelRoomBusiness.updateRcuTimeOnBatch(ObjectConverter.convet(record, HotelRoom.class),
+                roomNums);
+    }
+
 }

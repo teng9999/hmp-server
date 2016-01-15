@@ -70,7 +70,7 @@
     delete from hmp_hotel_room_rcu
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomRcu"  keyProperty="id" useGeneratedKeys="true">
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomRcu" >
     insert into hmp_hotel_room_rcu (id, sys_id, org_id, 
       hotel_id, room_num, limited_time, 
       running_time, create_time, modify_time
@@ -80,7 +80,7 @@
       #{runningTime,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomRcu" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelRoomRcu" >
     insert into hmp_hotel_room_rcu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -185,10 +185,22 @@
   </update>
   
   <!-- 自定义 -->
-  <select id="selectListByHotel" resultMap="BaseResultMap">
-    select room.room_num,room.hotel_id,roomRcu.
-    id, sys_id, org_id,limited_time, running_time, create_time,modify_time
-    from (select DISTINCT(room_num), hotel_id from hmp_hotel_room
+  <resultMap id="RoomResultMap" type="cn.pl.hmp.server.dao.entity.HotelRoomRcu" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
+    <result column="room_num" property="roomNum" jdbcType="VARCHAR" />
+    <result column="limited_time" property="limitedTime" jdbcType="INTEGER" />
+    <result column="running_time" property="runningTime" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="conf_time" property="confTime" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectListByHotel" resultMap="RoomResultMap">
+    select room.room_num,room.hotel_id,room.rcu_time as conf_time,
+    roomRcu.limited_time,roomRcu.running_time
+    from (select room_num, hotel_id , rcu_time from hmp_hotel_room
      where hotel_id =#{hotelId}) room left join hmp_hotel_room_rcu roomRcu 
      on (room.room_num = roomRcu.room_num and
      room.hotel_id = roomRcu.hotel_id)

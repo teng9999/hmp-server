@@ -3,12 +3,12 @@ package cn.pl.hmp.server.business.iface;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSONArray;
-
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.HotelRoom;
 import cn.pl.hmp.server.dao.entity.HotelRoomExample;
+
+import com.alibaba.fastjson.JSONArray;
 
 public interface IHotelRoomBusiness extends IBusiness {
     /**
@@ -102,4 +102,11 @@ public interface IHotelRoomBusiness extends IBusiness {
     JSONArray publish(Long hotelId);
     
     Long insertRoomAndType(HotelRoom room);
+    /**
+     * 批量修改
+     * 
+     * @param idList
+     * @return
+     */
+    int updateRcuTimeOnBatch(HotelRoom record, String roomNums);
 }

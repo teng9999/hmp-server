@@ -42,6 +42,16 @@ public class HotelRoom implements Cloneable {
     private Boolean available;
 
     private String uniqueNum;
+    
+    private Integer rcuTime;
+
+    public Integer getRcuTime() {
+        return rcuTime;
+    }
+
+    public void setRcuTime(Integer rcuTime) {
+        this.rcuTime = rcuTime;
+    }
 
     public Long getId() {
         return id;

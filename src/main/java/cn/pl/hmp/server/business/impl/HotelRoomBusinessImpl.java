@@ -716,4 +716,37 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         }
     }
 
+    @Override
+    public int updateRcuTimeOnBatch(HotelRoom record, String roomNums) {
+        int count = 0;
+        if(StringUtils.isBlank(roomNums)) {
+            return count;
+        }
+        HotelRoomExample roomExample = new HotelRoomExample();
+        roomExample.createCriteria().andHotelIdEqualTo(record.getHotelId());
+        List<HotelRoom> roomList = mapper.selectByExample(roomExample);
+        Map<String,HotelRoom> roomNumMap = new HashMap<String,HotelRoom>();
+        for(HotelRoom room : roomList) {
+            roomNumMap.put(room.getRoomNum(), room);
+        }
+        Date nowDate = new Date();
+        HotelRoom updateRoom = null;
+        int res = -1;
+        String[] roomNumArray = roomNums.split(",");
+        if(null != roomNumArray && roomNumArray.length > 0 ) {
+            for(String roomNum : roomNumArray) {
+                if(roomNumMap.containsKey(roomNum)) {
+                    updateRoom = roomNumMap.get(roomNum);
+                    updateRoom.setModifyTime(nowDate);
+                    updateRoom.setRcuTime(record.getRcuTime());
+                    res = mapper.updateByPrimaryKeySelective(updateRoom);
+                    if(res > 0) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
 }

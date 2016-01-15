@@ -16,6 +16,8 @@ public class HotelRoomRcu {
     private Integer limitedTime;
 
     private Integer runningTime;
+    
+    private Integer confTime;
 
     private Date createTime;
 
@@ -23,6 +25,14 @@ public class HotelRoomRcu {
     
     private Integer templateTime;
     
+    public Integer getConfTime() {
+        return confTime;
+    }
+
+    public void setConfTime(Integer confTime) {
+        this.confTime = confTime;
+    }
+
     public Integer getTemplateTime() {
         return templateTime;
     }

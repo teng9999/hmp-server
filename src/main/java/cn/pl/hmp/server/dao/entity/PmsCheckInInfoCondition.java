@@ -25,6 +25,16 @@ public class PmsCheckInInfoCondition{
     
     private String ageRange;
     
+    private String hotelBrand;
+    
+    public String getHotelBrand() {
+        return hotelBrand;
+    }
+
+    public void setHotelBrand(String hotelBrand) {
+        this.hotelBrand = hotelBrand;
+    }
+
     public String getAgeRange() {
         return ageRange;
     }
