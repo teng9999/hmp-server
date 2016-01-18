@@ -372,7 +372,7 @@
     pms_guest_info guestInfo on totalinfo.guest_id = guestInfo.id 
     where 1=1
 	<if test="hotelName != null">
-         and tinfo.hotel_name like '%${hotelName}%'
+         and totalinfo.hotel_name like '%${hotelName}%'
      </if>
 	<if test="guestName != null">
          and guestInfo.med_name like '%${guestName}%'
@@ -384,23 +384,23 @@
          and (year(now())-year(birthday) = #{age})
      </if>
 	<if test="roomType != null">
-         and tinfo.room_type = #{roomType}
+         and totalinfo.room_type = #{roomType}
      </if>
 	<if test="beginTime != null and endTime == null">
-         and ((tinfo.check_in_time &gt;  #{beginTime}) or 
-         (tinfo.check_out_time &gt; #{beginTime}))
+         and ((totalinfo.check_in_time &gt;  #{beginTime}) or 
+         (totalinfo.check_out_time &gt; #{beginTime}))
      </if>
 	<if test="beginTime != null and endTime != null">
-         and ((tinfo.check_in_time between #{beginTime} and #{endTime}) or 
-         (tinfo.check_out_time between #{beginTime} and #{endTime}))
+         and ((totalinfo.check_in_time between #{beginTime} and #{endTime}) or 
+         (totalinfo.check_out_time between #{beginTime} and #{endTime}))
      </if>
     <if test="beginTime == null and endTime != null">
-         and ((tinfo.check_in_time &lt;  #{endTime}) or 
-         (tinfo.check_out_time &lt;  #{endTime}))
+         and ((totalinfo.check_in_time &lt;  #{endTime}) or 
+         (totalinfo.check_out_time &lt;  #{endTime}))
      </if>
      
 	<if test="chainId > 0">
-         and tinfo.chain_id = #{chainId}
+         and totalinfo.chain_id = #{chainId}
      </if>
   </select>
 </mapper>
