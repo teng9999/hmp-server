@@ -64,11 +64,12 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
                     airModeMap.put(air.getNid(), air);
                 }
             }
-            
+            boolean token = false;
             List<RoomRCUCfg> roomRcuCfgList = roomRcuCfgMapper
                     .selectByLineType(info.getDeviceType(), info.getRoomId());
             Map<String,RoomRCUCfg>  roomRcuCfgMap = new HashMap<String, RoomRCUCfg>();
             if(null != roomRcuCfgList && !roomRcuCfgList.isEmpty()) {
+                token = true;
                 for(RoomRCUCfg roomRcuCfg : roomRcuCfgList) {
                     if(null == roomRcuCfg) {
                         continue;
@@ -80,11 +81,26 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
             }
             Date nowDate = new Date();
             list = new ArrayList<AppOpInfo>();
+            String opName = "";
             for(String key :map.keySet()) {
                 tempRoomCfg = roomRcuCfgMap.get(key);
-                if(tempRoomCfg == null) {
-                    continue;
+                if("SCENE".equalsIgnoreCase(info.getDeviceType())) {
+                    opName = "灯光场景模式";
+                }else {
+                    if(tempRoomCfg == null) {
+                        if("Air".equalsIgnoreCase(info.getDeviceType())) {
+                            if(!token) {
+                                continue;
+                            }
+                            opName = "Air";
+                        }else {
+                            continue;
+                        }
+                    }else {
+                        opName = tempRoomCfg.getName();
+                    }
                 }
+                
                 tempInfo = new AppOpInfo();
                 tempInfo.setCreateTime(nowDate);
                 tempInfo.setOpTime(nowDate);
@@ -92,7 +108,7 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
                 tempInfo.setDeviceType(info.getDeviceType());
                 tempInfo.setLoginId(info.getLoginId());
                 String deviceName = getDevice(info.getDeviceType(), key,
-                        map.get(key), tempRoomCfg.getName(), airModeMap);
+                        map.get(key), opName, airModeMap);
                 tempInfo.setDeviceName(deviceName);
                 logger.error("tempInfo"+tempInfo.toString()+"++++++++++++++++++++++++++++++++++++++++++");
                 list.add(tempInfo);
@@ -113,6 +129,13 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
         String deviceName = "";
         if("LIGHT".equalsIgnoreCase(lineType)) {
             deviceName = "第"+status+"路"+name;
+            if("0".equals(key)) {
+                deviceName = "关闭"+deviceName;
+            }else if("1".equals(key)) {
+                deviceName = "打开"+deviceName;
+            }else {
+                deviceName = "未知操作";
+            }
         }else if("CURTAIN".equalsIgnoreCase(lineType)) {
             deviceName =  name;
         }else if("AIR".equalsIgnoreCase(lineType)) {
