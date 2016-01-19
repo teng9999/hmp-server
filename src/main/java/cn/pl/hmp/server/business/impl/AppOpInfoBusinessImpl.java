@@ -126,9 +126,9 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
         String deviceName = "";
         if("LIGHT".equalsIgnoreCase(lineType)) {
             deviceName = "第"+status+"路"+name;
-            if("0".equals(key)) {
+            if("0".equals(status)) {
                 deviceName = "关闭"+deviceName;
-            }else if("1".equals(key)) {
+            }else if("1".equals(status)) {
                 deviceName = "打开"+deviceName;
             }else {
                 deviceName = "未知操作";
