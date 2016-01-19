@@ -64,7 +64,7 @@ public class HotelRoomRcuBusinessImpl extends BoostBusinessImpl implements IHote
     public Map<Pages, List<HotelRoomRcu>> selectPagesByRoom(Long hotelId,
             Pages page) {
         Map<Pages, List<HotelRoomRcu>> map = new HashMap<Pages, List<HotelRoomRcu>>();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page.getPageNum(), page.getPageSize(),page.getOrderBy());
         List<HotelRoomRcu> hotelRoomRcuList = mapper.selectListByHotel(hotelId);
         PageInfo<HotelRoomRcu> pageInfo = new PageInfo<HotelRoomRcu>(hotelRoomRcuList);
         Pages pages = PageConverter.converter(pageInfo);
