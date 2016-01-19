@@ -100,16 +100,14 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
     
     private String getDevice(String lineType,String key ,String status,String name,Map<String,AirMode> modeMap) {
         String deviceName = "";
-        if("LIGHT".equals(lineType)) {
+        if("LIGHT".equalsIgnoreCase(lineType)) {
             deviceName = "第"+status+"路"+name;
-        }else if("CURTAIN".equals(lineType)) {
+        }else if("CURTAIN".equalsIgnoreCase(lineType)) {
             deviceName =  name;
-        }else if("AIR".equals(lineType)) {
+        }else if("AIR".equalsIgnoreCase(lineType)) {
             if("1".equals(key.trim())) {
-                deviceName = "室内温度为："+status;
-            }else if("2".equals(key.trim())) {
                 deviceName = "设置温度为："+status;
-            }else if("3".equals(key.trim())) {
+            }else if("2".equals(key.trim())) {
                 deviceName = "空调模式为：";
                 if("0".equals(status)) {
                     deviceName = deviceName+"制冷";
@@ -122,11 +120,24 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
                 }else {
                     deviceName = "未知操作";
                 }
-            }else if("4".equals(key.trim())) {
+            }else if("3".equals(key.trim())) {
                 if("0".equals(status)) {
                     deviceName = "关阀";
                 }else if("1".equals(status)){
                     deviceName = "开阀";
+                }else {
+                    deviceName = "未知操作";
+                }
+            }else if("4".equals(key.trim())) {
+                deviceName = "空调模式为：";
+                if("0".equals(status)) {
+                    deviceName =deviceName + "自动";
+                }else if("1".equals(status)) {
+                    deviceName =deviceName + "低速";
+                }else if("2".equals(status)){
+                    deviceName =deviceName + "中速";
+                }else if("3".equals(status)){
+                    deviceName =deviceName + "高速";
                 }else {
                     deviceName = "未知操作";
                 }
@@ -141,7 +152,7 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
             }else if("6".equals(key.trim())) {
                 deviceName = "未开发操作";
             }
-        }else if("SCENE".equals(lineType)) {
+        }else if("SCENE".equalsIgnoreCase(lineType)) {
             if(modeMap.containsKey(key)) {
                 deviceName = modeMap.get(key).getMode();
             }else {
