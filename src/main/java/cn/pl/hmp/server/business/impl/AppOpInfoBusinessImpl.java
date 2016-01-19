@@ -136,15 +136,15 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
         }else if("CURTAIN".equalsIgnoreCase(lineType)) {
             logger.error("CURTAIN key:"+key+",value:"+status+"-----------------------------------");
             deviceName =  name;
-            if("1".equals(key)) {
-                deviceName = "关闭"+deviceName;
-            }else if("2".equals(key)) {
-                deviceName = "打开"+deviceName;
-            }else if("0".equals(key)) {
-                deviceName = "停止"+deviceName;
+            if("0".equals(status)) {
+                deviceName = "停止"+ deviceName;
+            }else if("1".equals(status)) {
+                deviceName ="打开" + deviceName;
+            }else if("2".equals(status)) {
+                deviceName ="关闭" + deviceName;
             }else {
                 deviceName = "未知操作";
-            }
+            } 
         }else if("AIR".equalsIgnoreCase(lineType)) {
             if("1".equals(key.trim())) {
                 deviceName = "设置温度为："+status;
