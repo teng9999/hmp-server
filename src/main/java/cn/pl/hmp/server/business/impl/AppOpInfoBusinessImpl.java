@@ -45,7 +45,6 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
         AppOpInfo tempInfo = null;
         List<AppOpInfo> list = null;
         RoomRCUCfg tempRoomCfg = null;
-        logger.error("参数："+map.toString()+",info:"+info.toString()+"--------------------------------------");
         if(null != map && !map.isEmpty()) {
             HotelRoom room = roomMapper.selectByPrimaryKey(info.getRoomId());
             Long hotelId = -1L;
@@ -110,14 +109,12 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
                 String deviceName = getDevice(info.getDeviceType(), key,
                         map.get(key), opName, airModeMap);
                 tempInfo.setDeviceName(deviceName);
-                logger.error("tempInfo"+tempInfo.toString()+"++++++++++++++++++++++++++++++++++++++++++");
                 list.add(tempInfo);
             }
-            logger.error("list:"+list.size()+"================================");
             if(list.isEmpty()) {
                 return 0;
             }else {
-                logger.error("list:"+list.size()+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                logger.error("add op info ："+list.size());
                 return opInfoMapper.insertOnBatch(list);
             }
             
@@ -138,6 +135,15 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
             }
         }else if("CURTAIN".equalsIgnoreCase(lineType)) {
             deviceName =  name;
+            if("1".equals(key)) {
+                deviceName = "关闭"+deviceName;
+            }else if("2".equals(key)) {
+                deviceName = "打开"+deviceName;
+            }else if("0".equals(key)) {
+                deviceName = "停止"+deviceName;
+            }else {
+                deviceName = "未知操作";
+            }
         }else if("AIR".equalsIgnoreCase(lineType)) {
             if("1".equals(key.trim())) {
                 deviceName = "设置温度为："+status;
