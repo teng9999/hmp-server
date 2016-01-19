@@ -11,10 +11,15 @@ import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.iface.IAppOpInfoBusiness;
+import cn.pl.hmp.server.dao.entity.AirMode;
+import cn.pl.hmp.server.dao.entity.AirModeExample;
 import cn.pl.hmp.server.dao.entity.AppOpInfo;
 import cn.pl.hmp.server.dao.entity.AppOpInfoExample;
+import cn.pl.hmp.server.dao.entity.HotelRoom;
 import cn.pl.hmp.server.dao.entity.RoomRCUCfg;
+import cn.pl.hmp.server.dao.mapper.AirModeMapper;
 import cn.pl.hmp.server.dao.mapper.AppOpInfoMapper;
+import cn.pl.hmp.server.dao.mapper.HotelRoomMapper;
 import cn.pl.hmp.server.dao.mapper.RoomRCUCfgMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 
@@ -27,12 +32,35 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
     private AppOpInfoMapper opInfoMapper;
     @Autowired
     private RoomRCUCfgMapper roomRcuCfgMapper;
+    @Autowired
+    private HotelRoomMapper roomMapper;
+    @Autowired
+    private AirModeMapper airModeMapper;
     @Override
     public int saveOnBatch(AppOpInfo info, Map<String,String> map) {
         AppOpInfo tempInfo = null;
         List<AppOpInfo> list = null;
         RoomRCUCfg tempRoomCfg = null;
         if(null != map && !map.isEmpty()) {
+            
+            HotelRoom room = roomMapper.selectByPrimaryKey(info.getRoomId());
+            Long hotelId = -1L;
+            if(null == room) {
+                return 0;
+            }else {
+                hotelId = room.getHotelId();
+            }
+            AirModeExample airModeExample = new AirModeExample();
+            airModeExample.createCriteria().andHotelIdEqualTo(hotelId);
+            List<AirMode> airModes = airModeMapper.selectByExample(airModeExample);
+            Map<String,AirMode> airModeMap = new HashMap<String, AirMode>();
+            if(null !=airModes && !airModes.isEmpty()) {
+                for(AirMode air : airModes) {
+                    if(null == air) continue;
+                    airModeMap.put(air.getNid(), air);
+                }
+            }
+            
             List<RoomRCUCfg> roomRcuCfgList = roomRcuCfgMapper
                     .selectByLineType(info.getDeviceType(), info.getRoomId());
             Map<String,RoomRCUCfg>  roomRcuCfgMap = new HashMap<String, RoomRCUCfg>();
@@ -59,13 +87,68 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
                 tempInfo.setDeviceStatu(map.get(key));
                 tempInfo.setDeviceType(info.getDeviceType());
                 tempInfo.setLoginId(info.getLoginId());
-                tempInfo.setDeviceName("第"+key+"路"+tempRoomCfg.getName());
+                String deviceName = getDevice(info.getDeviceType(), key,
+                        map.get(key), tempRoomCfg.getName(), airModeMap);
+                tempInfo.setDeviceName(deviceName);
                 list.add(tempInfo);
             }
             return opInfoMapper.insertOnBatch(list);
             
         }
         return 0;
+    }
+    
+    private String getDevice(String lineType,String key ,String status,String name,Map<String,AirMode> modeMap) {
+        String deviceName = "";
+        if("Light".equals(lineType)) {
+            deviceName = "第"+status+"路"+name;
+        }else if("Curtain".equals(lineType)) {
+            deviceName =  name;
+        }else if("Air".equals(lineType)) {
+            if("1".equals(key.trim())) {
+                deviceName = "室内温度为："+status;
+            }else if("2".equals(key.trim())) {
+                deviceName = "设置温度为："+status;
+            }else if("3".equals(key.trim())) {
+                deviceName = "空调模式为：";
+                if("0".equals(status)) {
+                    deviceName = deviceName+"制冷";
+                }else if("1".equals(status)) {
+                    deviceName = deviceName + "制热";
+                }else if("2".equals(status)) {
+                    deviceName = deviceName + "通风";
+                }else if("3".equals(status)) {
+                    deviceName = deviceName + "除湿";
+                }else {
+                    deviceName = "未知操作";
+                }
+            }else if("4".equals(key.trim())) {
+                if("0".equals(status)) {
+                    deviceName = "关阀";
+                }else if("1".equals(status)){
+                    deviceName = "开阀";
+                }else {
+                    deviceName = "未知操作";
+                }
+            }else if("5".equals(key.trim())) {
+                if("0".equals(status)) {
+                    deviceName = "关机";
+                }else if("1".equals(status)){
+                    deviceName = "开机";
+                }else {
+                    deviceName = "未知操作";
+                }
+            }else if("6".equals(key.trim())) {
+                deviceName = "未开发操作";
+            }
+        }else if("Scene".equals(lineType)) {
+            if(modeMap.containsKey(key)) {
+                deviceName = modeMap.get(key).getMode();
+            }else {
+                deviceName = "未知操作";
+            }
+        }
+        return deviceName;
     }
 
     @Override
