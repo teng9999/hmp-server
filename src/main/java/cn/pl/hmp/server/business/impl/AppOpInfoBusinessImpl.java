@@ -97,9 +97,11 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
                 logger.error("tempInfo"+tempInfo.toString()+"++++++++++++++++++++++++++++++++++++++++++");
                 list.add(tempInfo);
             }
+            logger.error("list:"+list.size()+"================================");
             if(list.isEmpty()) {
                 return 0;
             }else {
+                logger.error("list:"+list.size()+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 return opInfoMapper.insertOnBatch(list);
             }
             
