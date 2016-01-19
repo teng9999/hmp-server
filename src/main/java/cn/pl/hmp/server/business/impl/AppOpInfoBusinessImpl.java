@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,13 +37,15 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
     private HotelRoomMapper roomMapper;
     @Autowired
     private AirModeMapper airModeMapper;
+    
+    Logger logger = Logger.getLogger(AppOpInfoBusinessImpl.class);
     @Override
     public int saveOnBatch(AppOpInfo info, Map<String,String> map) {
         AppOpInfo tempInfo = null;
         List<AppOpInfo> list = null;
         RoomRCUCfg tempRoomCfg = null;
+        logger.error("参数："+map.toString()+",info:"+info.toString()+"--------------------------------------");
         if(null != map && !map.isEmpty()) {
-            
             HotelRoom room = roomMapper.selectByPrimaryKey(info.getRoomId());
             Long hotelId = -1L;
             if(null == room) {
@@ -90,9 +93,14 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
                 String deviceName = getDevice(info.getDeviceType(), key,
                         map.get(key), tempRoomCfg.getName(), airModeMap);
                 tempInfo.setDeviceName(deviceName);
+                logger.error("tempInfo"+tempInfo.toString()+"++++++++++++++++++++++++++++++++++++++++++");
                 list.add(tempInfo);
             }
-            return opInfoMapper.insertOnBatch(list);
+            if(list.isEmpty()) {
+                return 0;
+            }else {
+                return opInfoMapper.insertOnBatch(list);
+            }
             
         }
         return 0;
