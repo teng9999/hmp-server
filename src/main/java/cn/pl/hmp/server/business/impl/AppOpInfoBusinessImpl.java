@@ -100,11 +100,11 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
     
     private String getDevice(String lineType,String key ,String status,String name,Map<String,AirMode> modeMap) {
         String deviceName = "";
-        if("Light".equals(lineType)) {
+        if("LIGHT".equals(lineType)) {
             deviceName = "第"+status+"路"+name;
-        }else if("Curtain".equals(lineType)) {
+        }else if("CURTAIN".equals(lineType)) {
             deviceName =  name;
-        }else if("Air".equals(lineType)) {
+        }else if("AIR".equals(lineType)) {
             if("1".equals(key.trim())) {
                 deviceName = "室内温度为："+status;
             }else if("2".equals(key.trim())) {
@@ -141,12 +141,14 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
             }else if("6".equals(key.trim())) {
                 deviceName = "未开发操作";
             }
-        }else if("Scene".equals(lineType)) {
+        }else if("SCENE".equals(lineType)) {
             if(modeMap.containsKey(key)) {
                 deviceName = modeMap.get(key).getMode();
             }else {
                 deviceName = "未知操作";
             }
+        }else {
+            deviceName = "未知错误";
         }
         return deviceName;
     }
