@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
     @Autowired
     private AirModeMapper airModeMapper;
     
-    Logger logger = Logger.getLogger(AppOpInfoBusinessImpl.class);
+    private Logger logger = LoggerFactory.getLogger(AppOpInfoBusinessImpl.class);
     @Override
     public int saveOnBatch(AppOpInfo info, Map<String,String> map) {
         AppOpInfo tempInfo = null;
