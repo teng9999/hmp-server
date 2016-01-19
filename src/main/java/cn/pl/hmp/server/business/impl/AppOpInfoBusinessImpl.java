@@ -134,6 +134,7 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
                 deviceName = "未知操作";
             }
         }else if("CURTAIN".equalsIgnoreCase(lineType)) {
+            logger.error("CURTAIN key:"+key+",value:"+status+"-----------------------------------");
             deviceName =  name;
             if("1".equals(key)) {
                 deviceName = "关闭"+deviceName;
