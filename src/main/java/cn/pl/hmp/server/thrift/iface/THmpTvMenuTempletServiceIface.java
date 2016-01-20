@@ -15,12 +15,10 @@ import cn.pl.frame.annotation.ThriftService;
 import cn.pl.frame.thrift.define.TPages;
 import cn.pl.frame.thrift.exception.ThriftException;
 import cn.pl.hmp.commons.thrift.define.THmpTvMenuTemplet;
-import cn.pl.hmp.commons.thrift.define.THotelRCUCfg;
 import cn.pl.hmp.commons.thrift.service.THmpTvMenuTempletService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IHmpTvMenuTempletBusiness;
 import cn.pl.hmp.server.dao.entity.HmpTvMenuTemplet;
-import cn.pl.hmp.server.dao.entity.HotelRCUCfg;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
