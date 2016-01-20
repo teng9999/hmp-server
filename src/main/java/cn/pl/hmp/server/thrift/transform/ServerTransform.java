@@ -21,6 +21,7 @@ import cn.pl.hmp.commons.thrift.define.THmpMG;
 import cn.pl.hmp.commons.thrift.define.THmpMGHotel;
 import cn.pl.hmp.commons.thrift.define.THmpMovie;
 import cn.pl.hmp.commons.thrift.define.THmpMovieGroup;
+import cn.pl.hmp.commons.thrift.define.THmpTvMenuTemplet;
 import cn.pl.hmp.commons.thrift.define.THotelRCUCfg;
 import cn.pl.hmp.commons.thrift.define.TRoomRCUCfg;
 import cn.pl.hmp.server.dao.entity.APPBinding;
@@ -32,6 +33,7 @@ import cn.pl.hmp.server.dao.entity.HmpMGHotel;
 import cn.pl.hmp.server.dao.entity.HmpMovie;
 import cn.pl.hmp.server.dao.entity.HmpMovieGroup;
 import cn.pl.hmp.server.dao.entity.HmpTest;
+import cn.pl.hmp.server.dao.entity.HmpTvMenuTemplet;
 import cn.pl.hmp.server.dao.entity.HotelRCUCfg;
 import cn.pl.hmp.server.dao.entity.RoomRCUCfg;
 
@@ -1015,5 +1017,89 @@ public class ServerTransform extends ThriftTransform {
         }
 
         return newList;
+    }
+    
+    /**
+     * @Title: transform
+     * @Description: TODO 将HotelRCUCfg对象转化为THotelRCUCfg对象。
+     * @param rlt
+     *            待转化的HotelRCUCfg对象。
+     * @return THotelRCUCfg 如果rlt为null，则返回null。相反则返回转化好的THotelRCUCfg对象。
+     */
+    public static THmpTvMenuTemplet transform(HmpTvMenuTemplet entity) {
+        if (entity == null)
+            return null;
+        THmpTvMenuTemplet result = new THmpTvMenuTemplet();
+             
+        if (entity.getId() != null) {
+            result.setId(entity.getId());
+        }
+        if (entity.getSysId() != null) {
+            result.setSysId(entity.getSysId());
+        }
+        if (entity.getOrgId() != null) {
+            result.setOrgId(entity.getOrgId());
+        }
+        if (entity.getNameCn() != null) {
+        	result.setNameCn(entity.getNameCn());
+        }
+        if (entity.getNameEn() != null) {
+        	result.setNameEn(entity.getNameEn());
+        }
+        if (entity.getBackImg() != null) {
+        	result.setBackImg(entity.getBackImg());
+        }
+        if (entity.getMenuImg() != null) {
+        	result.setMenuImg(entity.getMenuImg());
+        }
+        if (entity.getMenuType() != null) {
+        	result.setMenuType(entity.getMenuType());
+        }
+        if (entity.getServiceType() != null) {
+        	result.setServiceType(entity.getServiceType());
+        }
+        if (entity.getSubMenuType() != null) {
+        	result.setSubMenuType(entity.getSubMenuType());
+        }
+        if (entity.getOrderNum() != null) {
+        	result.setOrderNum(entity.getOrderNum());
+        }
+        if (entity.getIsProperty() != null) {
+        	result.setIsProperty(entity.getIsProperty());
+        }
+        if (entity.getPropertyType() != null) {
+        	result.setPropertyType(entity.getPropertyType());
+        }
+        if (entity.getHide() != null) {
+        	result.setHide(entity.getHide());
+        }
+        if (entity.getBrandId() != null) {
+        	result.setBrandId(entity.getBrandId());
+        }
+        if (entity.getBreedId() != null) {
+        	result.setBreedId(entity.getBreedId());
+        }
+        if (entity.getParentId() != null) {
+        	result.setParentId(entity.getParentId());
+        }
+        if (entity.getPath() != null) {
+        	result.setPath(entity.getPath());
+        }
+        if (entity.getAvailable() != null) {
+            result.setAvailable(entity.getAvailable());
+        }
+        if (entity.getCreateTime() != null) {
+        	result.setCreateTime(DateUtil.date2Text(entity.getCreateTime(), null));
+        }
+        if (entity.getCreator() != null) {
+            result.setCreator(entity.getCreator());
+        }
+        if (entity.getModifier() != null) {
+            result.setModifier(entity.getModifier());
+        }
+        if (entity.getModifyTime() != null) {
+            result.setModifyTime(DateUtil.date2Text(entity.getModifyTime(), null));
+        }
+        return result;
     }
 }
