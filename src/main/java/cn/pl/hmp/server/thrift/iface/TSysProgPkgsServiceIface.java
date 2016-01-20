@@ -52,7 +52,9 @@ public class TSysProgPkgsServiceIface implements TSysProgPkgsService.Iface {
     public Map<TPages, List<TSysProgPkgs>> queryByPages(TPages pages) throws TException {
         Map<TPages, List<TSysProgPkgs>> tmap = new HashMap<TPages, List<TSysProgPkgs>>();
         TPages tempPage = null;
-        Map<Pages, List<SysProgPkgs>> progPkgsMap = progPkgsBusiness.selectByPages(null,
+        SysProgPkgsExample example = new SysProgPkgsExample();
+        example.setOrderByClause("pub_time desc");
+        Map<Pages, List<SysProgPkgs>> progPkgsMap = progPkgsBusiness.selectByPages(example,
                 ObjectConverter.convet(pages, Pages.class));
         if (null != progPkgsMap && !progPkgsMap.isEmpty()) {
             Set<Pages> set = progPkgsMap.keySet();
