@@ -109,6 +109,7 @@ public class HmpRoomTvBusinessImpl extends BoostBusinessImpl implements IHmpRoom
         json.put("welcomeCtEn", roomTv.getWelcomeCtEn());
         json.put("welcomeImg", roomTv.getWelcomeImg());
         json.put("solganCn", roomTv.getSolganCn());
+        json.put("signalSource", roomTv.getSignalSource());
         return json;
     }
 }
