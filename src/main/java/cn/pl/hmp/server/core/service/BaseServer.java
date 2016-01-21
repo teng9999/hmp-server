@@ -8,7 +8,6 @@ package cn.pl.hmp.server.core.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -26,6 +25,7 @@ import cn.pl.commons.thread.ThreadTask;
 import cn.pl.commons.thread.impl.DaemonServiceImpl;
 import cn.pl.commons.thread.impl.ScheduledServiceImpl;
 import cn.pl.commons.thread.impl.ThreadTaskImpl;
+import cn.pl.commons.thread.task.CallableTask;
 import cn.pl.hmp.server.config.Env;
 import cn.pl.hmp.server.config.ServerConfig;
 import cn.pl.hmp.server.thrift.ThriftServer;
@@ -81,7 +81,7 @@ public class BaseServer implements Runnable {
     // 普通任务队列
     private LinkedBlockingQueue<Runnable> runQueue;
     // 回调任务队列
-    private LinkedBlockingQueue<Callable<?>> callQueue;
+    private LinkedBlockingQueue<Runnable> callQueue;
     // 回调结果散列
     private Map<String, Future<?>> callFuture;
     // 定时任务回调结果散列
@@ -89,7 +89,7 @@ public class BaseServer implements Runnable {
     // 普通定时任务队列
     private LinkedBlockingQueue<Runnable> scheduledRunQueue;
     // 回调定时任务队列
-    private LinkedBlockingQueue<Callable<?>> scheduledCallQueue;
+    private LinkedBlockingQueue<Runnable> scheduledCallQueue;
 
     // 扩展功能线程组
     private ThreadGroup extendGroup;
@@ -114,12 +114,12 @@ public class BaseServer implements Runnable {
 
         // 普通任务队列初始化
         runQueue = new LinkedBlockingQueue<Runnable>(workQueueSize);
-        callQueue = new LinkedBlockingQueue<Callable<?>>(callQueueSize);
+        callQueue = new LinkedBlockingQueue<Runnable>(callQueueSize);
         callFuture = new ConcurrentHashMap<String, Future<?>>();
         // 定时任务队列初始化
         scheduledCallFuture = new ConcurrentHashMap<String, Future<?>>();
         scheduledRunQueue = new LinkedBlockingQueue<Runnable>(workQueueSize);
-        scheduledCallQueue = new LinkedBlockingQueue<Callable<?>>(callQueueSize);
+        scheduledCallQueue = new LinkedBlockingQueue<Runnable>(callQueueSize);
         // 通用服务初始化
         service = new DaemonServiceImpl(serverName, corePoolSize, maxPoolSize, keepAliveTime, timeUnit, runQueue,
                 new ThreadPoolExecutor.CallerRunsPolicy(), callQueue, callFuture);
@@ -244,9 +244,9 @@ public class BaseServer implements Runnable {
                 runQueue.clear();
             }
             if (callQueue != null && !callQueue.isEmpty()) {
-                for (Callable<?> task : callQueue) {
-                    if (ThreadCallableTask.class.isAssignableFrom(task.getClass())) {
-                        ((ThreadCallableTask<?>) task).cancel();
+                for (Runnable task : callQueue) {
+                    if (CallableTask.class.isAssignableFrom(task.getClass())) {
+                        ((CallableTask<?>) task).cancel(true);
                     }
                 }
                 callQueue.clear();
@@ -267,9 +267,9 @@ public class BaseServer implements Runnable {
                 scheduledRunQueue.clear();
             }
             if (scheduledCallQueue != null && !scheduledCallQueue.isEmpty()) {
-                for (Callable<?> task : scheduledCallQueue) {
-                    if (ThreadCallableTask.class.isAssignableFrom(task.getClass())) {
-                        ((ThreadCallableTask<?>) task).cancel();
+                for (Runnable task : scheduledCallQueue) {
+                    if (CallableTask.class.isAssignableFrom(task.getClass())) {
+                        ((CallableTask<?>) task).cancel(true);
                     }
                 }
                 scheduledCallQueue.clear();
@@ -307,7 +307,7 @@ public class BaseServer implements Runnable {
     public void put(ThreadTask task) throws InterruptedException {
         if (running && !runQueue.contains(task)) {
             logger.debug("=> put a task[{}] into queue", task.getName());
-            runQueue.put(task);
+            service.putTask(task);
         }
     }
 
@@ -320,7 +320,7 @@ public class BaseServer implements Runnable {
     public void put(ThreadCallableTask<?> task) throws InterruptedException {
         if (running && !callQueue.contains(task)) {
             logger.debug("=> submit a task[{}] into callQueue", task.getName());
-            callQueue.put(task);
+            service.putTask(task);
         }
     }
 

@@ -68,7 +68,7 @@ public class HmpTvMenuTempletBusinessImpl extends BoostBusinessImpl implements I
 
     @Override
     public int update(HmpTvMenuTemplet record) {
-        if (record == null || record.getId() == null || "".equals(record.getId()))
+        if (record == null || record.getId() == null)
             return 0;
         return mapper.updateByPrimaryKey(record);
     }
