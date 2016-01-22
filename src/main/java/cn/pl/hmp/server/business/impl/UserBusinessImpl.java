@@ -45,6 +45,7 @@ public class UserBusinessImpl extends BoostBusinessImpl implements IUserBusiness
     private HmpHotelToolPacksMapper toolPkgsMapper;
     @Autowired
     private DataDictMapper dictMapper;
+    @SuppressWarnings("unused")
     @Autowired
     private HotelRoomTypeMapper roomTypeMapper;
 

@@ -60,8 +60,6 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
 
     @Override
     public long insert(MenuChannel record) {
-        
-        
         if (record != null && null != record.getOrderNum()) {
             MenuChannelExample example = new MenuChannelExample();
             example.createCriteria().andParentIdEqualTo(record.getParentId()).andOrderNumEqualTo(record.getOrderNum())
@@ -72,19 +70,27 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
             }
         }
         
-        MenuChannel menu = mapper.selectByPrimaryKey(record.getParentId());
         String path = "";
-        if(null == menu) {
-            path = record.getParentId()+"";
-        }else {
-            path = menu.getPath()+"@"+record.getParentId();
+        MenuChannel menu = null;
+        if(record != null){
+            if(record.getParentId() != null)
+                menu = mapper.selectByPrimaryKey(record.getParentId());
+            if(null == menu) {
+                path = record.getParentId()+"";
+            }else {
+                path = menu.getPath()+"@"+record.getParentId();
+            }
+
+            record.setPath(path);
+
+            int res = mapper.insertSelective(record);
+            if (res < 0) {
+                return -1L;
+            }else{
+                record.getId();
+            }
         }
-        record.setPath(path);
-        int res = mapper.insertSelective(record);
-        if (res < 0) {
-            return -1L;
-        }
-        return record.getId();
+        return -1L;
     }
 
     @Override

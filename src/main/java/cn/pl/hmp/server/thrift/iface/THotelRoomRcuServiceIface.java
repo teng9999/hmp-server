@@ -25,6 +25,7 @@ import cn.pl.hmp.server.thrift.transform.ServerTransform;
 public class THotelRoomRcuServiceIface implements THotelRoomRcuService.Iface {
     @Autowired
     private IHotelRoomRcuBusiness roomRcuBusiness;
+    @SuppressWarnings("unused")
     @Autowired
     private IHotelRCUCfgBusiness rcuCfgBusiness;
     @Override
