@@ -2,10 +2,8 @@ package cn.pl.hmp.server.business.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -381,7 +379,7 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         List<MenuChannel> menuChannelList = mapper.selectByExample(menuExample);
         
         List<MenuChannel> hotelMenuList = null;
-        Set<String> hotelMenuNameSet = null;
+        Map<String,MenuChannel> hotelExsitMenuMap = null;
         Map<Long,List<MenuChannel>> totalHotelMenuMap = new HashMap<Long, List<MenuChannel>>();
         if(null != menuChannelList && ! menuChannelList.isEmpty()) {
             for(MenuChannel menu : menuChannelList) {
@@ -413,13 +411,13 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
                 //删除与模板不同的一级菜单
                 hotelMenuList = totalHotelMenuMap.get(hotelId);
                 if(null != hotelMenuList && ! hotelMenuList.isEmpty()) {
-                    hotelMenuNameSet = new HashSet<String>();
+                    hotelExsitMenuMap = new HashMap<String,MenuChannel>();
                     for(MenuChannel tempMenuChannel: hotelMenuList) {
                         orderNumKey = tempMenuChannel.getParentId() + "_"+ tempMenuChannel.getOrderNum();
                         if(!tempMenuMap.containsKey(orderNumKey)){
                             this.deleteByMenuChannelId(tempMenuChannel.getId());
                         }else {
-                            hotelMenuNameSet.add(orderNumKey);
+                            hotelExsitMenuMap.put(orderNumKey, tempMenuChannel);
                         }
                     }
                 }
@@ -429,19 +427,29 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
                         if(null == menuTemp) {
                             continue; 
                         }
-                        if(hotelMenuNameSet.add(menuTemp.getParentId() + "_"+ menuTemp.getOrderNum())) {
+                        orderNumKey = menuTemp.getParentId() + "_"+ menuTemp.getOrderNum();
+                        if(!hotelExsitMenuMap.containsKey(orderNumKey)) {
                             menuChannel = convertMenu(menuTemp, hotelId);
                             mapper.insertSelective(menuChannel);
+                        }else {
+                            convertModifyMenu(menuTemp, hotelExsitMenuMap.get(orderNumKey));
+                            mapper.updateByPrimaryKeySelective(hotelExsitMenuMap.get(orderNumKey));
                         }
                     }
                 }
-                hotelMenuNameSet.clear();
+                hotelExsitMenuMap.clear();
                 count++;
                 
             }
         }
         return count;
     }
+    /**
+     * 添加新菜单
+     * @param menuTemp
+     * @param hotelId
+     * @return
+     */
     private MenuChannel convertMenu(HmpTvMenuTemplet menuTemp,Long hotelId) {
         MenuChannel menuChannel = new MenuChannel();
         menuChannel.setBackImg(menuTemp.getBackImg());
@@ -464,5 +472,31 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         menuChannel.setSysId(menuTemp.getSysId());
         menuChannel.setHotelId(hotelId);
         return menuChannel;
+    }
+    /**
+     * 修改菜单信息
+     * @param menuTemp
+     * @param hotelId
+     * @return
+     */
+    private void convertModifyMenu(HmpTvMenuTemplet menuTemp,MenuChannel menuChannel) {
+        menuChannel.setBackImg(menuTemp.getBackImg());
+        menuChannel.setBrandId(menuTemp.getBrandId());
+        menuChannel.setBreedId(menuTemp.getBreedId());
+        menuChannel.setMenuImg(menuTemp.getMenuImg());
+        menuChannel.setIsProperty(menuTemp.getIsProperty());
+        menuChannel.setMenuType(menuTemp.getMenuType());
+        menuChannel.setNameCn(menuTemp.getNameCn());
+        menuChannel.setNameEn(menuTemp.getNameEn());
+        menuChannel.setOrderNum(menuTemp.getOrderNum());
+        menuChannel.setOrgId(menuTemp.getOrgId());
+        //menuChannel.setParentId(menuTemp.getParentId());
+        //menuChannel.setParentId(0L);
+        //menuChannel.setPath(menuTemp.getPath());
+        //menuChannel.setPath("0");
+        menuChannel.setPropertyYpe(menuTemp.getPropertyType());
+        menuChannel.setServiceType(menuTemp.getServiceType());
+        menuChannel.setSubMenuType(menuTemp.getSubMenuType());
+        menuChannel.setSysId(menuTemp.getSysId());
     }
 }
