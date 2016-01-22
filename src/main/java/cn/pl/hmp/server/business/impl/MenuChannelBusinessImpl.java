@@ -87,7 +87,7 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
             if (res < 0) {
                 return -1L;
             }else{
-                record.getId();
+                return record.getId();
             }
         }
         return -1L;
