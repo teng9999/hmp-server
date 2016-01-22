@@ -132,4 +132,9 @@ public class TMenuChannelServiceIface implements TMenuChannelService.Iface {
         }
         return res;
     }
+
+    @Override
+    public int synchroMenuOnBatch(String hotelIdList) throws TException {
+        return menuChannelBusiness.synchroMenuOnBatch(hotelIdList);
+    }
 }

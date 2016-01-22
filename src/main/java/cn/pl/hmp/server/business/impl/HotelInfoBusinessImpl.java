@@ -16,17 +16,22 @@ import cn.pl.hmp.commons.utils.TypeConvert;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
 import cn.pl.hmp.server.dao.entity.DataDict;
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
+import cn.pl.hmp.server.dao.entity.HmpTvMenuTemplet;
+import cn.pl.hmp.server.dao.entity.HmpTvMenuTempletExample;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.HotelInfoExample;
 import cn.pl.hmp.server.dao.entity.HotelRoomType;
+import cn.pl.hmp.server.dao.entity.MenuChannel;
 import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.dao.entity.UserExample;
 import cn.pl.hmp.server.dao.entity.UserHotel;
 import cn.pl.hmp.server.dao.entity.UserHotelExample;
 import cn.pl.hmp.server.dao.mapper.DataDictMapper;
 import cn.pl.hmp.server.dao.mapper.HmpHotelToolPacksMapper;
+import cn.pl.hmp.server.dao.mapper.HmpTvMenuTempletMapper;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
 import cn.pl.hmp.server.dao.mapper.HotelRoomTypeMapper;
+import cn.pl.hmp.server.dao.mapper.MenuChannelMapper;
 import cn.pl.hmp.server.dao.mapper.UserHotelMapper;
 import cn.pl.hmp.server.dao.mapper.UserMapper;
 import cn.pl.hmp.server.utils.PageConverter;
@@ -50,6 +55,10 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
     private DataDictMapper dictMapper;
     @Autowired
     private HotelRoomTypeMapper roomTypeMapper;
+    @Autowired
+    private HmpTvMenuTempletMapper menuTempMapper;
+    @Autowired
+    private MenuChannelMapper menuChannelMapper;
 
     @Override
     public int deleteHotelAndUserByHotelId(Long id) {
@@ -229,7 +238,45 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
             roomType.setName(typeName);
             roomTypeMapper.insertSelective(roomType);
         }
+        //添加默认菜单模板
+        MenuChannel menuChannel = null;
+        List<HmpTvMenuTemplet> menuTempList = menuTempMapper.selectByExample(new HmpTvMenuTempletExample());
+        if(null != menuTempList && ! menuTempList.isEmpty()) {
+            for(HmpTvMenuTemplet menuTemp: menuTempList) {
+                if(null == menuTemp) {
+                    continue;
+                }
+                menuChannel = convertMenu(menuTemp, hotelRes);
+                if(null != menuChannel) {
+                    menuChannelMapper.insertSelective(menuChannel);
+                }
+            }
+        }
         return user.getId();
+    }
+    
+    private MenuChannel convertMenu(HmpTvMenuTemplet menuTemp,Long hotelId) {
+        MenuChannel menuChannel = new MenuChannel();
+        menuChannel.setBackImg(menuTemp.getBackImg());
+        menuChannel.setBrandId(menuTemp.getBrandId());
+        menuChannel.setBreedId(menuTemp.getBreedId());
+        menuChannel.setMenuImg(menuTemp.getMenuImg());
+        menuChannel.setIsProperty(menuTemp.getIsProperty());
+        menuChannel.setMenuType(menuTemp.getMenuType());
+        menuChannel.setNameCn(menuTemp.getNameCn());
+        menuChannel.setNameEn(menuTemp.getNameEn());
+        menuChannel.setOrderNum(menuTemp.getOrderNum());
+        menuChannel.setOrgId(menuTemp.getOrgId());
+        //menuChannel.setParentId(menuTemp.getParentId());
+        menuChannel.setParentId(0L);
+        //menuChannel.setPath(menuTemp.getPath());
+        menuChannel.setPath("0");
+        menuChannel.setPropertyYpe(menuTemp.getPropertyType());
+        menuChannel.setServiceType(menuTemp.getServiceType());
+        menuChannel.setSubMenuType(menuTemp.getSubMenuType());
+        menuChannel.setSysId(menuTemp.getSysId());
+        menuChannel.setHotelId(hotelId);
+        return menuChannel;
     }
 
     @Override

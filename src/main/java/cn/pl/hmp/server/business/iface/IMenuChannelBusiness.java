@@ -88,4 +88,12 @@ public interface IMenuChannelBusiness extends IBusiness {
      * @throws Exception
      */
     JSONArray publish(Long hotelId);
+
+    /**
+     * 批量同步
+     * @param idList
+     * @return
+     */
+    int synchroMenuOnBatch(String hotelIdList);
+    
 }

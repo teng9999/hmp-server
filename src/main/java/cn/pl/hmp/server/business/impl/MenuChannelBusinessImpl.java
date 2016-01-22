@@ -2,19 +2,28 @@ package cn.pl.hmp.server.business.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
+import cn.pl.commons.utils.StringUtils;
 import cn.pl.hmp.commons.enums.MenuType;
 import cn.pl.hmp.commons.enums.SubMenuType;
 import cn.pl.hmp.server.business.iface.IMenuChannelBusiness;
+import cn.pl.hmp.server.dao.entity.HmpTvMenuTemplet;
+import cn.pl.hmp.server.dao.entity.HmpTvMenuTempletExample;
+import cn.pl.hmp.server.dao.entity.HotelInfo;
+import cn.pl.hmp.server.dao.entity.HotelInfoExample;
 import cn.pl.hmp.server.dao.entity.MenuChannel;
 import cn.pl.hmp.server.dao.entity.MenuChannelExample;
 import cn.pl.hmp.server.dao.entity.MenuPages;
+import cn.pl.hmp.server.dao.mapper.HmpTvMenuTempletMapper;
+import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
 import cn.pl.hmp.server.dao.mapper.MenuChannelMapper;
 import cn.pl.hmp.server.dao.mapper.MenuPagesMapper;
 import cn.pl.hmp.server.utils.PageConverter;
@@ -31,6 +40,10 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
     private MenuChannelMapper mapper;
     @Autowired
     private MenuPagesMapper pagesMapper;
+    @Autowired
+    private HmpTvMenuTempletMapper menuTempMapper;
+    @Autowired
+    private HotelInfoMapper hotelMapper;
 
     @Override
     public int deleteByMenuChannelId(Long id) {
@@ -328,5 +341,122 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
             pagesMapper.deleteByChannelId(id);
         } 
         return res;
+    }
+
+    @Override
+    public int synchroMenuOnBatch(String hotelIds) {
+        int count = 0;
+        List<Long> hotelIdList = new ArrayList<Long>();
+        MenuChannelExample menuExample = new MenuChannelExample();
+        if(StringUtils.isBlank(hotelIds)) {
+            List<HotelInfo> hotelInfoList = hotelMapper.selectByExample(new HotelInfoExample());
+            if(null != hotelInfoList && !hotelInfoList.isEmpty()) {
+                for(HotelInfo hotel: hotelInfoList) {
+                    if(hotel == null) {
+                        continue;
+                    }
+                    hotelIdList.add(hotel.getId());
+                }
+                
+                menuExample.createCriteria().andParentIdEqualTo(0L);
+            }
+        }else {
+            String[] hotelIdArray = hotelIds.split(",");
+            for(String hotelId : hotelIdArray) {
+                if(StringUtils.isBlank(hotelId)) {
+                    continue;
+                }
+                hotelIdList.add(Long.parseLong(hotelId));
+            }
+            menuExample.createCriteria().andParentIdEqualTo(0L)
+            .andHotelIdIn(hotelIdList);
+        }
+        
+        List<MenuChannel> menuChannelList = mapper.selectByExample(menuExample);
+        
+        List<MenuChannel> hotelMenuList = null;
+        Set<String> hotelMenuNameSet = null;
+        Map<Long,List<MenuChannel>> totalHotelMenuMap = new HashMap<Long, List<MenuChannel>>();
+        if(null != menuChannelList && ! menuChannelList.isEmpty()) {
+            for(MenuChannel menu : menuChannelList) {
+                if(totalHotelMenuMap.containsKey(menu.getHotelId())) {
+                    totalHotelMenuMap.get(menu.getHotelId()).add(menu);
+                }else {
+                    hotelMenuList = new ArrayList<MenuChannel>();
+                    hotelMenuList.add(menu);
+                    totalHotelMenuMap.put(menu.getHotelId(), hotelMenuList);
+                    
+                }
+            }
+        }
+        
+        List<HmpTvMenuTemplet> menuTempList = menuTempMapper.selectByExample(new HmpTvMenuTempletExample());
+        Map<String,HmpTvMenuTemplet> tempMenuMap = new HashMap<String, HmpTvMenuTemplet>();
+        if(null != menuTempList && ! menuTempList.isEmpty()) {
+            for(HmpTvMenuTemplet menu : menuTempList) {
+                tempMenuMap.put(menu.getNameCn(), menu);
+            }
+        }
+        
+        if(null != hotelIdList && !hotelIdList.isEmpty()) {
+            MenuChannel menuChannel = null;
+            for(Long hotelId : hotelIdList) {
+                if(null == hotelId) {
+                    continue;
+                }
+                //删除与模板不同的一级菜单
+                hotelMenuList = totalHotelMenuMap.get(hotelId);
+                if(null != hotelMenuList && ! hotelMenuList.isEmpty()) {
+                    hotelMenuNameSet = new HashSet<String>();
+                    for(MenuChannel tempMenuChannel: hotelMenuList) {
+                        
+                        if(!tempMenuMap.containsKey(tempMenuChannel.getNameCn())){
+                            this.deleteByMenuChannelId(tempMenuChannel.getId());
+                        }else {
+                            hotelMenuNameSet.add(tempMenuChannel.getNameCn());
+                        }
+                    }
+                }
+                
+                if(null != menuTempList && ! menuTempList.isEmpty()) {
+                    for(HmpTvMenuTemplet menuTemp: menuTempList) {
+                        if(null == menuTemp) {
+                            continue; 
+                        }
+                        if(hotelMenuNameSet.add(menuTemp.getNameCn())) {
+                            menuChannel = convertMenu(menuTemp, hotelId);
+                            mapper.insertSelective(menuChannel);
+                        }
+                    }
+                }
+                hotelMenuNameSet.clear();
+                count++;
+                
+            }
+        }
+        return count;
+    }
+    private MenuChannel convertMenu(HmpTvMenuTemplet menuTemp,Long hotelId) {
+        MenuChannel menuChannel = new MenuChannel();
+        menuChannel.setBackImg(menuTemp.getBackImg());
+        menuChannel.setBrandId(menuTemp.getBrandId());
+        menuChannel.setBreedId(menuTemp.getBreedId());
+        menuChannel.setMenuImg(menuTemp.getMenuImg());
+        menuChannel.setIsProperty(menuTemp.getIsProperty());
+        menuChannel.setMenuType(menuTemp.getMenuType());
+        menuChannel.setNameCn(menuTemp.getNameCn());
+        menuChannel.setNameEn(menuTemp.getNameEn());
+        menuChannel.setOrderNum(menuTemp.getOrderNum());
+        menuChannel.setOrgId(menuTemp.getOrgId());
+        //menuChannel.setParentId(menuTemp.getParentId());
+        menuChannel.setParentId(0L);
+        //menuChannel.setPath(menuTemp.getPath());
+        menuChannel.setPath("0");
+        menuChannel.setPropertyYpe(menuTemp.getPropertyType());
+        menuChannel.setServiceType(menuTemp.getServiceType());
+        menuChannel.setSubMenuType(menuTemp.getSubMenuType());
+        menuChannel.setSysId(menuTemp.getSysId());
+        menuChannel.setHotelId(hotelId);
+        return menuChannel;
     }
 }
