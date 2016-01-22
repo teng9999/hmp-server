@@ -41,7 +41,8 @@ public class HmpTvMenuTempletBusinessImpl extends BoostBusinessImpl implements
         if (null == record) {
             return 0;
         }
-        if (record != null && null != record.getOrderNum()) {
+        //验证排序号是否重复
+        if (null != record.getOrderNum()) {
             HmpTvMenuTempletExample example = new HmpTvMenuTempletExample();
             example.createCriteria().andParentIdEqualTo(record.getParentId())
                     .andOrderNumEqualTo(record.getOrderNum());
@@ -49,6 +50,16 @@ public class HmpTvMenuTempletBusinessImpl extends BoostBusinessImpl implements
             if (null != menuList && !menuList.isEmpty()) {
                 return -2;
             }
+            
+        }
+        
+        //验证名称是否重复
+        HmpTvMenuTempletExample example2 = new HmpTvMenuTempletExample();
+        example2.createCriteria().andParentIdEqualTo(record.getParentId())
+        .andNameCnEqualTo(record.getNameCn());
+        List<HmpTvMenuTemplet> menuList2 = mapper.selectByExample(example2);
+        if (null != menuList2 && !menuList2.isEmpty()) {
+            return -3;
         }
         mapper.insertSelective(record);
         return record.getId();
@@ -82,15 +93,14 @@ public class HmpTvMenuTempletBusinessImpl extends BoostBusinessImpl implements
     public int update(HmpTvMenuTemplet record) {
         if (record == null || record.getId() == null)
             return 0;
-
+        HmpTvMenuTemplet baseChannel = mapper.selectByPrimaryKey(record
+                .getId());
         if (null != record.getOrderNum()) {
             HmpTvMenuTempletExample example = new HmpTvMenuTempletExample();
             example.createCriteria().andParentIdEqualTo(record.getParentId())
                     .andOrderNumEqualTo(record.getOrderNum());
             List<HmpTvMenuTemplet> menuList = mapper.selectByExample(example);
             if (null != menuList && !menuList.isEmpty()) {
-                HmpTvMenuTemplet baseChannel = mapper.selectByPrimaryKey(record
-                        .getId());
                 if (!(null == menuList.get(0).getOrderNum())) {
                     if (baseChannel.getOrderNum().intValue() != menuList.get(0)
                             .getOrderNum().intValue()) {
@@ -99,6 +109,20 @@ public class HmpTvMenuTempletBusinessImpl extends BoostBusinessImpl implements
                 }
             }
         }
+        
+        //验证名称是否重复
+        HmpTvMenuTempletExample example2 = new HmpTvMenuTempletExample();
+        example2.createCriteria().andParentIdEqualTo(record.getParentId())
+                .andNameCnEqualTo(record.getNameCn());
+        List<HmpTvMenuTemplet> menuList2 = mapper.selectByExample(example2);
+        if (null != menuList2 && !menuList2.isEmpty()) {
+            if (!(null == menuList2.get(0).getNameCn())) {
+                if (!baseChannel.getNameCn().equals(menuList2.get(0).getNameCn())) {
+                    return -3;
+                }
+            }
+        }
+        
         return mapper.updateByPrimaryKey(record);
     }
 
