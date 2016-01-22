@@ -400,10 +400,10 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         Map<String,HmpTvMenuTemplet> tempMenuMap = new HashMap<String, HmpTvMenuTemplet>();
         if(null != menuTempList && ! menuTempList.isEmpty()) {
             for(HmpTvMenuTemplet menu : menuTempList) {
-                tempMenuMap.put(menu.getNameCn(), menu);
+                tempMenuMap.put(menu.getParentId()+"_"+menu.getOrderNum(), menu);
             }
         }
-        
+        String orderNumKey = "";
         if(null != hotelIdList && !hotelIdList.isEmpty()) {
             MenuChannel menuChannel = null;
             for(Long hotelId : hotelIdList) {
@@ -415,11 +415,11 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
                 if(null != hotelMenuList && ! hotelMenuList.isEmpty()) {
                     hotelMenuNameSet = new HashSet<String>();
                     for(MenuChannel tempMenuChannel: hotelMenuList) {
-                        
-                        if(!tempMenuMap.containsKey(tempMenuChannel.getNameCn())){
+                        orderNumKey = tempMenuChannel.getParentId() + "_"+ tempMenuChannel.getOrderNum();
+                        if(!tempMenuMap.containsKey(orderNumKey)){
                             this.deleteByMenuChannelId(tempMenuChannel.getId());
                         }else {
-                            hotelMenuNameSet.add(tempMenuChannel.getNameCn());
+                            hotelMenuNameSet.add(orderNumKey);
                         }
                     }
                 }
@@ -429,7 +429,7 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
                         if(null == menuTemp) {
                             continue; 
                         }
-                        if(hotelMenuNameSet.add(menuTemp.getNameCn())) {
+                        if(hotelMenuNameSet.add(menuTemp.getParentId() + "_"+ menuTemp.getOrderNum())) {
                             menuChannel = convertMenu(menuTemp, hotelId);
                             mapper.insertSelective(menuChannel);
                         }
