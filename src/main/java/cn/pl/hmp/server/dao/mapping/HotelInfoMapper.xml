@@ -42,6 +42,7 @@
     <result column="modifier" property="modifier" jdbcType="BIGINT" />
     <result column="available" property="available" jdbcType="BIT" />
     <result column="lbs_lng_lat" property="lbsLngLat" jdbcType="VARCHAR" />
+    <result column="operate_remark" property="operateRemark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -77,14 +78,14 @@
     sub_name, type, country, province, cr_iso_code, unique_num, need_rcu, need_tv, screen, 
     welcomes_cn, welcomes_en, weather_code, city_name_en, roll_cn, roll_en, movie_group, 
     chain_id, service_ip, brand_id, tv_lock_time, tv_lock_percent, air_config, create_time, 
-    creator, modify_time, modifier, available, lbs_lng_lat
+    creator, modify_time, modifier, available, lbs_lng_lat, operate_remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.HotelInfoExample" >
     select
     <if test="distinct" >
       distinct
     </if>
-    'true' as QUERYID,
+    'false' as QUERYID,
     <include refid="Base_Column_List" />
     from hmp_hotel_info
     <if test="_parameter != null" >
@@ -104,7 +105,7 @@
     delete from hmp_hotel_info
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" keyProperty="id" useGeneratedKeys="true" >
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" useGeneratedKeys="true" keyProperty="id">
     insert into hmp_hotel_info (id, sys_id, org_id, 
       address, bus, city, 
       env, fax, hotel_num, 
@@ -117,8 +118,8 @@
       chain_id, service_ip, brand_id, 
       tv_lock_time, tv_lock_percent, air_config, 
       create_time, creator, modify_time, 
-      modifier, available, lbs_lng_lat
-      )
+      modifier, available, lbs_lng_lat, 
+      operate_remark)
     values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
       #{address,jdbcType=VARCHAR}, #{bus,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
       #{env,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{hotelNum,jdbcType=VARCHAR}, 
@@ -131,10 +132,10 @@
       #{chainId,jdbcType=VARCHAR}, #{serviceIp,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, 
       #{tvLockTime,jdbcType=TIMESTAMP}, #{tvLockPercent,jdbcType=VARCHAR}, #{airConfig,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}, #{lbsLngLat,jdbcType=VARCHAR}
-      )
+      #{modifier,jdbcType=BIGINT}, #{available,jdbcType=BIT}, #{lbsLngLat,jdbcType=VARCHAR}, 
+      #{operateRemark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" keyProperty="id" useGeneratedKeys="true" >
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo"  useGeneratedKeys="true" keyProperty="id">
     insert into hmp_hotel_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -256,6 +257,9 @@
       </if>
       <if test="lbsLngLat != null" >
         lbs_lng_lat,
+      </if>
+      <if test="operateRemark != null" >
+        operate_remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -379,14 +383,11 @@
       <if test="lbsLngLat != null" >
         #{lbsLngLat,jdbcType=VARCHAR},
       </if>
+      <if test="operateRemark != null" >
+        #{operateRemark,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cn.pl.hmp.server.dao.entity.HotelInfoExample" resultType="java.lang.Integer" >
-    select count(*) from hmp_hotel_info
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
   <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.HotelInfo" >
     update hmp_hotel_info
     <set >
@@ -507,6 +508,9 @@
       <if test="lbsLngLat != null" >
         lbs_lng_lat = #{lbsLngLat,jdbcType=VARCHAR},
       </if>
+      <if test="operateRemark != null" >
+        operate_remark = #{operateRemark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -550,7 +554,8 @@
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=BIGINT},
       available = #{available,jdbcType=BIT},
-      lbs_lng_lat = #{lbsLngLat,jdbcType=VARCHAR}
+      lbs_lng_lat = #{lbsLngLat,jdbcType=VARCHAR},
+      operate_remark = #{operateRemark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- 自定义 -->
@@ -605,6 +610,7 @@
     <result column="lbs_lng_lat" property="lbsLngLat" jdbcType="VARCHAR" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="operate_remark" property="operateRemark" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="selectListWithUserByHotelId"  resultMap="UserResultMap">

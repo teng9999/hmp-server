@@ -600,7 +600,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         String sboardType = hotelRcuTemplate.getBoardType();
         BoardType boardType = BoardType.PINGLIAN;
         if (null != sboardType && !("".equals(sboardType.trim()))) {
-            sboardType = dictMapper.selectByPrimaryKey(Long.parseLong(sboardType)).getNameEn();
+            sboardType = dictMapper.selectByPrimaryKey(Long.parseLong(sboardType)).getName();
             boardType = BoardType.valuesOf(sboardType);
         }
         int lightStart = hotelRcuTemplate.getLightStart();
