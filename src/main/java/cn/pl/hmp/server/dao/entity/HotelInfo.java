@@ -86,6 +86,16 @@ public class HotelInfo {
     private String userName;
 
     private String password;
+    
+    private String operateRemark;
+
+    public String getOperateRemark() {
+        return operateRemark;
+    }
+
+    public void setOperateRemark(String operateRemark) {
+        this.operateRemark = operateRemark;
+    }
 
     public String getUserName() {
         return userName;

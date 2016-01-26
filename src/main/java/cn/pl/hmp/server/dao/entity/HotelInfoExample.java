@@ -2784,6 +2784,76 @@ public class HotelInfoExample {
             addCriterion("lbs_lng_lat not between", value1, value2, "lbsLngLat");
             return (Criteria) this;
         }
+
+        public Criteria andOperateRemarkIsNull() {
+            addCriterion("operate_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkIsNotNull() {
+            addCriterion("operate_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkEqualTo(String value) {
+            addCriterion("operate_remark =", value, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkNotEqualTo(String value) {
+            addCriterion("operate_remark <>", value, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkGreaterThan(String value) {
+            addCriterion("operate_remark >", value, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("operate_remark >=", value, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkLessThan(String value) {
+            addCriterion("operate_remark <", value, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkLessThanOrEqualTo(String value) {
+            addCriterion("operate_remark <=", value, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkLike(String value) {
+            addCriterion("operate_remark like", value, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkNotLike(String value) {
+            addCriterion("operate_remark not like", value, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkIn(List<String> values) {
+            addCriterion("operate_remark in", values, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkNotIn(List<String> values) {
+            addCriterion("operate_remark not in", values, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkBetween(String value1, String value2) {
+            addCriterion("operate_remark between", value1, value2, "operateRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateRemarkNotBetween(String value1, String value2) {
+            addCriterion("operate_remark not between", value1, value2, "operateRemark");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
