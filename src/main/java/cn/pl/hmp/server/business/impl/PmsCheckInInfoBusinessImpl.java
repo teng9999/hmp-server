@@ -69,7 +69,7 @@ public class PmsCheckInInfoBusinessImpl extends BoostBusinessImpl implements IPm
         }
         
         this.formatCodition(condition);
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page.getPageNum(), page.getPageSize(),page.getOrderBy());
         List<PmsCheckInInfo> hotelRoomList = infoMapper.selectCombInfoList(condition);
         if (null == hotelRoomList)
             hotelRoomList = new ArrayList<PmsCheckInInfo>();
