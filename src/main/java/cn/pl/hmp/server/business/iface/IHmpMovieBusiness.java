@@ -9,6 +9,8 @@ import cn.pl.hmp.server.dao.entity.HmpMovie;
 import cn.pl.hmp.server.dao.entity.HmpMovieExample;
 import cn.pl.hmp.server.datasource.DataSource;
 
+import com.alibaba.fastjson.JSONArray;
+
 /**
  * 电影资源
  * 
@@ -88,4 +90,11 @@ public interface IHmpMovieBusiness extends IBusiness {
 	 */
 	@DataSource("cluster")
 	public List<HmpMovie> queryByHotel(Long hotelId);
+	
+	/**
+	 * 发布电影信息
+	 * @param HotelId
+	 * @return
+	 */
+	public JSONArray publish(Long HotelId);
 }

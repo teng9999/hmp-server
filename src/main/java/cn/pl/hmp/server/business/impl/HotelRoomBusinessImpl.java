@@ -532,7 +532,7 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
     }
 
     public void saveHotelRoom(HotelRoom room, JSONObject roomObj, HotelRCUCfg hotelRcuTemplate,
-            Map<String, String> roomTypeNameMap) {
+            Map<String, String> roomTypeNameMap,BoardType boardType) {
         String timeLock = hotelRcuTemplate.getTimeLock();
         Boolean hongwai = room.getIrCut();
 
@@ -550,13 +550,6 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
             System.out.println(room.getRoomNum() + "---" + e);
         }
         roomObj.put("roomId", roomId);// roomId
-        String sboardType = hotelRcuTemplate.getBoardType();
-        BoardType boardType = BoardType.PINGLIAN;
-        if (null != sboardType && !("".equals(sboardType.trim()))) {
-            sboardType = dictMapper.selectByPrimaryKey(Long.parseLong(sboardType)).getNameEn();
-            boardType = BoardType.valuesOf(sboardType);
-        }
-
         roomObj.put("boardType", boardType.toIntVal());// boardType
         roomObj.put("card", 1);// card==null?0:1
         roomObj.put("hongwai", null != hongwai ? (hongwai ? 1 : 0) : 0);// hongwai
@@ -600,16 +593,22 @@ public class HotelRoomBusinessImpl extends BoostBusinessImpl implements IHotelRo
         String sboardType = hotelRcuTemplate.getBoardType();
         BoardType boardType = BoardType.PINGLIAN;
         if (null != sboardType && !("".equals(sboardType.trim()))) {
-            sboardType = dictMapper.selectByPrimaryKey(Long.parseLong(sboardType)).getName();
-            boardType = BoardType.valuesOf(sboardType);
+            sboardType = dictMapper.selectByPrimaryKey(Long.parseLong(sboardType)).getNameCn();
+            if(null !=sboardType && sboardType.length() >= 2) {
+                String headToken = sboardType.substring(0,2);
+                if("wt".equals(headToken)) {
+                    boardType = BoardType.WANTONG;
+                }
+            }
         }
+        
         int lightStart = hotelRcuTemplate.getLightStart();
         int airStart = hotelRcuTemplate.getAirConditionerStart();
         
         List<RoomRCUCfg> tempRoomRcuList = null;
         for (HotelRoom room : roomList) {
             JSONObject roomObj = new JSONObject();
-            saveHotelRoom(room, roomObj, hotelRcuTemplate, roomTypeNameMap);
+            saveHotelRoom(room, roomObj, hotelRcuTemplate, roomTypeNameMap,boardType);
             RcuLineType[] RcuLineTypes = RcuLineType.values();
             JSONArray roomRcuArray = null;
             JSONObject roomRcuTemp = null;

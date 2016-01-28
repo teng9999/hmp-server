@@ -1,5 +1,6 @@
 package cn.pl.hmp.server.business.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
@@ -130,6 +133,63 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
         System.out.println("hotelId" + hotelId.toString());
         return hmpMovieMapper.queryByHotelId(hotelId);
 
+    }
+
+    @Override
+    public JSONArray publish(Long hotelId) {
+        JSONArray array = new JSONArray();
+        List<HmpMovie> movieList = this.queryByHotel(hotelId);
+        if(null == movieList || movieList.isEmpty()) {
+            return array;
+        }
+        JSONObject movieTemp = null;
+        String[] tempStr = null;
+        for(HmpMovie movie: movieList) {
+            if(null == movie) {
+                continue;
+            }
+            tempStr = parseFile(movie.getPath());
+            if(null == tempStr || tempStr.length != 3) {
+                continue;
+            }
+            movieTemp = new JSONObject();
+            movieTemp.put("name", movie.getNameCn());
+            movieTemp.put("nameEn", movie.getNameEn());
+            movieTemp.put("dir", tempStr[0]);
+            movieTemp.put("file", tempStr[1]);
+            movieTemp.put("suffix", tempStr[2]);
+            
+            movieTemp.put("type", 1);
+            movieTemp.put("playCount", 20);
+            movieTemp.put("movieId", movie.getId());
+            movieTemp.put("num", 1);
+            //movieTemp.put("price", 0);
+            
+            movieTemp.put("backImg", movie.getBackImg());
+            movieTemp.put("backImgSmall", movie.getBackImgSmall());
+        }
+        return array;
+    }
+    
+    private String[] parseFile(String fn){
+        if(null == fn)
+            return null;
+        File file = new File(fn);
+        
+        String[] str = new String[3];
+        
+        str[0] = file.getParent() + File.separator;
+        String n = file.getName();
+        int index = -1;
+        
+        if((index = n.lastIndexOf(".")) < 0){
+            str[1] = "xxx";
+            str[2] = "xxx";
+        }else{
+            str[1] = n.substring(0,index);
+            str[2] = n.substring(index + 1);
+        }
+        return str;
     }
 
 }
