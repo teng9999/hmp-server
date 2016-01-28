@@ -2,6 +2,8 @@ package cn.pl.hmp.server.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.pl.hmp.server.dao.entity.HmpMovie;
 import cn.pl.hmp.server.dao.entity.HmpMovieExample;
 
@@ -29,6 +31,6 @@ public interface HmpMovieMapper {
 
     List<HmpMovie> queryByIds(List<Long> ids);
 
-    List<HmpMovie> queryByHotelId(Long hotelId);
+    List<HmpMovie> queryByHotel(@Param("hotelId") Long hotelId,@Param("name") String name);
 
 }

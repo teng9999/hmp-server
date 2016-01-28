@@ -531,7 +531,7 @@
 		</foreach>
 	</select>
 	
-	<select id="queryByHotelId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+	<select id="queryByHotel" resultMap="BaseResultMap">
 		select 
 		distinct (a.id), a.sys_id, a.org_id, a.name_cn, a.name_en, a.first_spell,
 		a.all_spell, a.hotel_id,
@@ -542,6 +542,16 @@
 		a.movie_lan,
 		a.time_length, a.create_time, a.creator, a.modify_time, a.modifier, a.available
 		from hmp_movie a, hmp_mg b, hmp_movie_group_hotel c 
-		where a.id = b.movie_id and b.group_id = c.group_id and c.hotel_id = #{hotelId,jdbcType=BIGINT}
+		where a.id = b.movie_id and b.group_id = c.group_id 
+		<if test="hotelId != null">
+			and c.hotel_id = #{hotelId,jdbcType=BIGINT}
+		</if>
+		<if test="name != null">
+		    and (
+		      c.name_cn like '%${name}%' 
+		      or c.direct like '%${name}%' 
+		      or c.area like '%${name}%' 
+		    )
+		</if>
 	</select>
 </mapper>

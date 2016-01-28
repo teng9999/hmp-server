@@ -11,16 +11,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.iface.IHmpMovieBusiness;
 import cn.pl.hmp.server.dao.entity.HmpMovie;
 import cn.pl.hmp.server.dao.entity.HmpMovieExample;
 import cn.pl.hmp.server.dao.mapper.HmpMovieMapper;
+import cn.pl.hmp.server.utils.PageConverter;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 
@@ -131,7 +133,7 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
             return null;
         }
         System.out.println("hotelId" + hotelId.toString());
-        return hmpMovieMapper.queryByHotelId(hotelId);
+        return hmpMovieMapper.queryByHotel(hotelId, null);
 
     }
 
@@ -167,6 +169,7 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
             
             movieTemp.put("backImg", movie.getBackImg());
             movieTemp.put("backImgSmall", movie.getBackImgSmall());
+            array.add(movieTemp);
         }
         return array;
     }
@@ -190,6 +193,20 @@ public class HmpMovieBusinessImpl implements IHmpMovieBusiness {
             str[2] = n.substring(index + 1);
         }
         return str;
+    }
+
+    @Override
+    public Map<Pages, List<HmpMovie>> selectPagesByHotel(Pages page, Long hotelId,String name) {
+        Map<Pages, List<HmpMovie>> map = new HashMap<Pages, List<HmpMovie>>();
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<HmpMovie> hotelMovieList = hmpMovieMapper.queryByHotel(hotelId, name);
+        if (null == hotelMovieList)
+            hotelMovieList = new ArrayList<HmpMovie>();
+        PageInfo<HmpMovie> pageInfo = new PageInfo<HmpMovie>(hotelMovieList);
+        Pages pages = PageConverter.converter(pageInfo);
+
+        map.put(pages, hotelMovieList);
+        return map;// TODO Auto-generated method stub
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,11 @@ import cn.pl.frame.thrift.define.TPages;
 import cn.pl.frame.thrift.exception.ThriftException;
 import cn.pl.hmp.commons.thrift.define.THmpMovie;
 import cn.pl.hmp.commons.thrift.service.THmpMovieService.Iface;
+import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IHmpMovieBusiness;
 import cn.pl.hmp.server.dao.entity.HmpMovie;
 import cn.pl.hmp.server.dao.entity.HmpMovieExample;
-import cn.pl.hmp.server.thrift.transform.ServerTransform;;
+import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 /**
  * 
@@ -162,6 +164,23 @@ public class THmpMovieServiceIface implements Iface {
         if (hotelId > 0)
             return listTransform(business.queryByHotel(hotelId));
         return null;
+    }
+
+    @Override
+    public Map<TPages, List<THmpMovie>> queryPagesByHotel(TPages tPages,
+            long hotelId,String name) throws ThriftException, TException {
+        Map<TPages, List<THmpMovie>> tmap = new HashMap<TPages, List<THmpMovie>>();
+        TPages tempPage = null;
+        Map<Pages, List<HmpMovie>> hotelMovieMap = business.selectPagesByHotel(ObjectConverter.convet(tPages,
+                Pages.class), hotelId,name);
+        if (null != hotelMovieMap && !hotelMovieMap.isEmpty()) {
+            Set<Pages> set = hotelMovieMap.keySet();
+            for (Pages page : set) {
+                tempPage = ServerTransform.transform(page);
+                tmap.put(tempPage, ObjectConverter.convet(hotelMovieMap.get(page), THmpMovie.class));
+            }
+        }
+        return tmap;
     }
 
 }

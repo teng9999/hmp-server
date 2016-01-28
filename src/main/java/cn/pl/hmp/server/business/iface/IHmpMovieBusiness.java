@@ -96,5 +96,12 @@ public interface IHmpMovieBusiness extends IBusiness {
 	 * @param HotelId
 	 * @return
 	 */
-	public JSONArray publish(Long HotelId);
+	public JSONArray publish(Long hotelId);
+	/**
+	 * 分页查询某酒店的电影信息
+	 * @param pages
+	 * @param hotelId
+	 * @return
+	 */
+	Map<Pages, List<HmpMovie>> selectPagesByHotel(Pages pages,Long hotelId,String name);
 }

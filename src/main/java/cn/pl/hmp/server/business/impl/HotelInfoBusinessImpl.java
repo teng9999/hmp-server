@@ -16,6 +16,9 @@ import cn.pl.hmp.commons.utils.TypeConvert;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
 import cn.pl.hmp.server.dao.entity.DataDict;
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
+import cn.pl.hmp.server.dao.entity.HmpMGExample;
+import cn.pl.hmp.server.dao.entity.HmpMGHotel;
+import cn.pl.hmp.server.dao.entity.HmpMGHotelExample;
 import cn.pl.hmp.server.dao.entity.HmpTvMenuTemplet;
 import cn.pl.hmp.server.dao.entity.HmpTvMenuTempletExample;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
@@ -28,6 +31,7 @@ import cn.pl.hmp.server.dao.entity.UserHotel;
 import cn.pl.hmp.server.dao.entity.UserHotelExample;
 import cn.pl.hmp.server.dao.mapper.DataDictMapper;
 import cn.pl.hmp.server.dao.mapper.HmpHotelToolPacksMapper;
+import cn.pl.hmp.server.dao.mapper.HmpMGHotelMapper;
 import cn.pl.hmp.server.dao.mapper.HmpTvMenuTempletMapper;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
 import cn.pl.hmp.server.dao.mapper.HotelRoomTypeMapper;
@@ -59,6 +63,8 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
     private HmpTvMenuTempletMapper menuTempMapper;
     @Autowired
     private MenuChannelMapper menuChannelMapper;
+    @Autowired
+    private HmpMGHotelMapper mgHotelMapper;
 
     @Override
     public int deleteHotelAndUserByHotelId(Long id) {
@@ -95,10 +101,33 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
     }
 
     @Override
-    public int update(HotelInfo record) {
-        if (record == null || record.getId() == null)
+    public int update(HotelInfo hotelInfo) {
+        if (hotelInfo == null || hotelInfo.getId() == null)
             return 0;
-        return mapper.updateByPrimaryKeySelective(record);
+        
+        HmpMGHotelExample mgExample = new HmpMGHotelExample();
+        mgExample.createCriteria().andHotelIdEqualTo(hotelInfo.getId());
+        List<HmpMGHotel> mgHotelList = mgHotelMapper.selectByExample(mgExample);
+        //电影组
+        String movieGroup = hotelInfo.getMovieGroup();
+        HmpMGHotel mgHotel = null;
+        if (null != movieGroup && !("".equals(movieGroup))) {
+            Long movieGroupId = 0L;
+            movieGroupId = Long.parseLong(movieGroup);
+            if(null == mgHotelList || mgHotelList.isEmpty()) {
+                mgHotel = new HmpMGHotel();
+                mgHotel.setCreateTime(hotelInfo.getCreateTime());
+                mgHotel.setCreator(hotelInfo.getCreator());
+                mgHotel.setGroupId(movieGroupId);
+                mgHotel.setHotelId(hotelInfo.getId());
+                mgHotelMapper.insertSelective(mgHotel);
+            }else {
+                mgHotel = mgHotelList.get(0);
+                mgHotel.setGroupId(movieGroupId);
+                mgHotelMapper.updateByPrimaryKey(mgHotel);
+            }
+        }
+        return mapper.updateByPrimaryKeySelective(hotelInfo);
     }
 
     @Override
@@ -204,6 +233,18 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
             userHotel.setCreateTime(hotelInfo.getCreateTime());
             userHotel.setCreator(hotelInfo.getCreator());
             userHotelMapper.insert(userHotel);
+        }
+        //电影组
+        String movieGroup = hotelInfo.getMovieGroup();
+        if (null != movieGroup && !("".equals(movieGroup))) {
+            Long MovieGroupId = 0L;
+            MovieGroupId = Long.parseLong(movieGroup);
+            HmpMGHotel mgHotel = new HmpMGHotel();
+            mgHotel.setCreateTime(hotelInfo.getCreateTime());
+            mgHotel.setCreator(hotelInfo.getCreator());
+            mgHotel.setGroupId(MovieGroupId);
+            mgHotel.setHotelId(hotelInfo.getId());
+            mgHotelMapper.insertSelective(mgHotel);
         }
         //添加酒店安装包信息
         HmpHotelToolPacks tookPacks = new HmpHotelToolPacks();
