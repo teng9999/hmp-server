@@ -522,17 +522,17 @@
 	</select>
 	
 	<select id="queryByHotel" resultMap="BaseResultMap">
-		select a.*
-		from hmp_movie a, hmp_mg b, hmp_movie_group_hotel c 
-		where a.id = b.movie_id and b.group_id = c.group_id 
+		select movie.*
+		from hmp_movie movie, hmp_mg mg, hmp_movie_group_hotel mgh 
+		where movie.id = mg.movie_id and mg.group_id = mgh.group_id 
 		<if test="hotelId != null">
-			and c.hotel_id = #{hotelId,jdbcType=BIGINT}
+			and mgh.hotel_id = #{hotelId,jdbcType=BIGINT}
 		</if>
 		<if test="name != null">
 		    and (
-		      c.name_cn like '%${name}%' 
-		      or c.direct like '%${name}%' 
-		      or c.area like '%${name}%' 
+		      movie.name_cn like '%${name}%' 
+		      or movie.direct like '%${name}%' 
+		      or movie.area like '%${name}%' 
 		    )
 		</if>
 	</select>
