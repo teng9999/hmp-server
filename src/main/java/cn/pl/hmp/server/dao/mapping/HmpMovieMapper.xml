@@ -28,9 +28,6 @@
 		<result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
 		<result column="modifier" property="modifier" jdbcType="BIGINT" />
 		<result column="available" property="available" jdbcType="BIT" />
-	</resultMap>
-	<resultMap id="ResultMapWithBLOBs" type="cn.pl.hmp.server.dao.entity.HmpMovie"
-		extends="BaseResultMap">
 		<result column="intro" property="intro" jdbcType="LONGVARCHAR" />
 	</resultMap>
 	<sql id="Example_Where_Clause">
@@ -73,12 +70,9 @@
 		first_class, second_class, show_year, area, set_num,
 		direct,
 		movie_lan,
-		time_length, create_time, creator, modify_time, modifier, available
+		time_length, create_time, creator, modify_time, modifier, available,intro
 	</sql>
-	<sql id="Blob_Column_List">
-		intro
-	</sql>
-	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+	<select id="selectByExampleWithBLOBs" resultMap="BaseResultMap"
 		parameterType="cn.pl.hmp.server.dao.entity.HmpMovieExample">
 		select
 		<if test="distinct">
@@ -86,8 +80,6 @@
 		</if>
 		'true' as QUERYID,
 		<include refid="Base_Column_List" />
-		,
-		<include refid="Blob_Column_List" />
 		from hmp_movie
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
@@ -112,12 +104,10 @@
 			order by ${orderByClause}
 		</if>
 	</select>
-	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
 		select
 		<include refid="Base_Column_List" />
-		,
-		<include refid="Blob_Column_List" />
 		from hmp_movie
 		where id = #{id,jdbcType=BIGINT}
 	</select>
@@ -532,15 +522,7 @@
 	</select>
 	
 	<select id="queryByHotel" resultMap="BaseResultMap">
-		select 
-		distinct (a.id), a.sys_id, a.org_id, a.name_cn, a.name_en, a.first_spell,
-		a.all_spell, a.hotel_id,
-		a.path, a.back_img,
-		a.back_img_small, a.place_num,
-		a.first_class, a.second_class, a.show_year, a.area, a.set_num,
-		a.direct,
-		a.movie_lan,
-		a.time_length, a.create_time, a.creator, a.modify_time, a.modifier, a.available
+		select a.*
 		from hmp_movie a, hmp_mg b, hmp_movie_group_hotel c 
 		where a.id = b.movie_id and b.group_id = c.group_id 
 		<if test="hotelId != null">

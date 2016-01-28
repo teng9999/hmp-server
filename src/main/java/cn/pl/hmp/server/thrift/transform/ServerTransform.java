@@ -660,8 +660,8 @@ public class ServerTransform extends ThriftTransform {
             result.setPlaceNum(info.getPlaceNum());
         if (null != info.getFirstClass())
             result.setFirstClass(info.getFirstClass());
-        if (null != info.getSencondClass())
-            result.setSecondClass(info.getSencondClass());
+        if (null != info.getSecondClass())
+            result.setSecondClass(info.getSecondClass());
         if (null != info.getShowYear())
             result.setShowYear(info.getShowYear());
         if (null != info.getArea())
@@ -710,7 +710,7 @@ public class ServerTransform extends ThriftTransform {
         if (null != info.getFirstClass())
             result.setFirstClass(info.getFirstClass());
         if (null != info.getSecondClass())
-            result.setSencondClass(info.getSecondClass());
+            result.setSecondClass(info.getSecondClass());
         if (null != info.getShowYear())
             result.setShowYear(info.getShowYear());
         if (null != info.getArea())

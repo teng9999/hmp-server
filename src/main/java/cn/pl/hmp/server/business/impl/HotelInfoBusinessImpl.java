@@ -16,7 +16,6 @@ import cn.pl.hmp.commons.utils.TypeConvert;
 import cn.pl.hmp.server.business.iface.IHotelInfoBusiness;
 import cn.pl.hmp.server.dao.entity.DataDict;
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
-import cn.pl.hmp.server.dao.entity.HmpMGExample;
 import cn.pl.hmp.server.dao.entity.HmpMGHotel;
 import cn.pl.hmp.server.dao.entity.HmpMGHotelExample;
 import cn.pl.hmp.server.dao.entity.HmpTvMenuTemplet;
