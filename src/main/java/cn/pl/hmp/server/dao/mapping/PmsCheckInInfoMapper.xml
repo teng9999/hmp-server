@@ -354,12 +354,13 @@
     <result column="birthday" property="birthday" jdbcType="VARCHAR" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="room_type" property="roomType" jdbcType="VARCHAR" />
+    <result column="cred_num" property="credNum" jdbcType="VARCHAR" />
     <result column="age" property="age" jdbcType="INTEGER" />
   </resultMap>
   <!-- 条件查询查询 -->
   <select id="selectCombInfoList" resultMap="CombResultMap" 
      parameterType="cn.pl.hmp.server.dao.entity.PmsCheckInInfoCondition" >
-     select guestInfo.med_name as guest_name,guestInfo.sex,
+     select guestInfo.med_name as guest_name,guestInfo.sex,guestInfo.cred_num as cred_num,
      (year(now())-year(guestInfo.birthday)) as age ,guestInfo.mobile,totalinfo.* from  
         (select roomType.name as room_type,selectinfo.* from    
           (select pmsinfo.* from pms_check_in_info pmsinfo left join   

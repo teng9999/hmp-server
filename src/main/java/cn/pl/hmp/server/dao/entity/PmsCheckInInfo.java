@@ -55,6 +55,16 @@ public class PmsCheckInInfo {
     
     private String roomType;
     
+    private String credNum;
+    
+    public String getCredNum() {
+        return credNum;
+    }
+
+    public void setCredNum(String credNum) {
+        this.credNum = credNum;
+    }
+
     private Integer age;
     
     public Integer getAge() {
