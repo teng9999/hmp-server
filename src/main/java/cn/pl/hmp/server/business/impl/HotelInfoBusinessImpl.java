@@ -252,8 +252,8 @@ public class HotelInfoBusinessImpl extends BoostBusinessImpl implements IHotelIn
         tookPacks.setHotelId(hotelRes);
         
         List<DataDict> dictList = dictMapper.selectByParentName("PKGType");
-        tookPacks.setPkgType("1");
-        toolPacksMapper.insertSelective(tookPacks);
+//        tookPacks.setPkgType("1");
+//        toolPacksMapper.insertSelective(tookPacks);
         if(null != dictList && !dictList.isEmpty()) {
             for(DataDict dict : dictList) {
                 tookPacks.setId(null);
