@@ -13,9 +13,13 @@ import cn.pl.commons.security.AesUtil;
 import cn.pl.commons.utils.StringUtils;
 import cn.pl.hmp.server.business.AbstractBusiness;
 import cn.pl.hmp.server.business.iface.IAppUserBusiness;
+import cn.pl.hmp.server.dao.entity.AppResidenceInfo;
 import cn.pl.hmp.server.dao.entity.AppUser;
 import cn.pl.hmp.server.dao.entity.AppUserExample;
+import cn.pl.hmp.server.dao.entity.HotelInfo;
+import cn.pl.hmp.server.dao.entity.HotelInfoExample;
 import cn.pl.hmp.server.dao.mapper.AppUserMapper;
+import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 
 import com.github.pagehelper.PageHelper;
@@ -25,6 +29,8 @@ public class AppUserBusinessImpl extends AbstractBusiness implements
         IAppUserBusiness {
     @Autowired
     private AppUserMapper mapper;
+    @Autowired
+    private HotelInfoMapper hotelMapper;
 
     @Override
     public int delete(Long id) {
@@ -101,13 +107,14 @@ public class AppUserBusinessImpl extends AbstractBusiness implements
     }
 
     @Override
-    public int resetPasswordByCred(String password, int credType, String credNum) {
+    public int resetPasswordByCred(String password, int credType, String credNum,String name) {
         if(StringUtils.isBlank(password) || 
                 credType < 1 || StringUtils.isBlank(credNum)) {
             return 0;
         }
         AppUserExample example = new AppUserExample();
-        example.createCriteria().andCredNumEqualTo(credNum).andCredTypeEqualTo(credType);
+        example.createCriteria().andCredNumEqualTo(credNum).andCredTypeEqualTo(credType)
+        .andNameEqualTo(name);
         List<AppUser> list = mapper.selectByExample(example);
         if(null !=list && !list.isEmpty()) {
             AppUser user = list.get(0);
@@ -123,6 +130,29 @@ public class AppUserBusinessImpl extends AbstractBusiness implements
             }
         }
         return 0;
+    }
+
+    @Override
+    public AppResidenceInfo queryResidenceInfo(int credType,
+            String credNum, String name) {
+        List<AppResidenceInfo> list = mapper.queryResidenceInfo(credType, credNum, name);
+        AppResidenceInfo info = null;
+        if(null == list || list.isEmpty()) {
+            info = new AppResidenceInfo();
+            info.setHotelId(-1L);
+        }else {
+            info = list.get(0);
+            info.setCredNum(credNum);
+            info.setCredType(credType);
+            info.setName(name);
+            HotelInfoExample hotelExample = new HotelInfoExample();
+            hotelExample.createCriteria().andChainIdEqualTo(info.getChainId());
+            List<HotelInfo> hotelList =hotelMapper.selectByExample(hotelExample);
+            if(null != hotelList && !hotelList.isEmpty()) {
+                info.setHotelId(hotelList.get(0).getId());
+            }
+        }
+        return info;
     }
 
 }

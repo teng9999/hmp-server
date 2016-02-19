@@ -13,6 +13,7 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.commons.utils.StringUtils;
 import cn.pl.frame.annotation.ThriftService;
 import cn.pl.frame.thrift.define.TPages;
+import cn.pl.hmp.commons.thrift.define.TAppResidenceInfo;
 import cn.pl.hmp.commons.thrift.define.TAppUser;
 import cn.pl.hmp.commons.thrift.service.TAppUserService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
@@ -83,9 +84,16 @@ public class TAppUserServiceIface implements TAppUserService.Iface{
     }
 
     @Override
-    public int resetPasswordByCred(String password, int credType, String credNum)
+    public int resetPasswordByCred(String password, int credType, String credNum,String name)
             throws TException {
-        return userBusiness.resetPasswordByCred(password, credType, credNum);
+        return userBusiness.resetPasswordByCred(password, credType, credNum,name);
+    }
+
+    @Override
+    public TAppResidenceInfo queryResidenceInfo(int credType, String credNum,
+            String name) throws TException {
+        return ObjectConverter.convet(userBusiness.queryResidenceInfo(credType, credNum, name)
+                ,TAppResidenceInfo.class);
     }
 
 }

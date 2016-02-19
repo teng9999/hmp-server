@@ -5,6 +5,7 @@ import java.util.Map;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
+import cn.pl.hmp.server.dao.entity.AppResidenceInfo;
 import cn.pl.hmp.server.dao.entity.AppUser;
 import cn.pl.hmp.server.dao.entity.AppUserExample;
 
@@ -63,6 +64,14 @@ public interface IAppUserBusiness extends IBusiness {
      * @param credNum
      * @return
      */
-    int resetPasswordByCred(String password,int credType,String credNum);
+    int resetPasswordByCred(String password,int credType,String credNum,String name);
+    /**
+     * 获取登陆用户的入住信息
+     * @param credType
+     * @param credNum
+     * @param name
+     * @return
+     */
+    AppResidenceInfo queryResidenceInfo(int credType,String credNum,String name);
 
 }
