@@ -43,8 +43,8 @@ public class TAppUserServiceIface implements TAppUserService.Iface{
     }
 
     @Override
-    public TAppUser selectByCredNum(String credNum) throws TException {
-        return ObjectConverter.convet(userBusiness.selectByCredNum(credNum),TAppUser.class);
+    public TAppUser selectByUserName(String credNum,String name) throws TException {
+        return ObjectConverter.convet(userBusiness.selectByUserName(credNum,name),TAppUser.class);
     }
 
     @Override

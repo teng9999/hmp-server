@@ -34,7 +34,7 @@ public interface IAppUserBusiness extends IBusiness {
      * 根据证件号查用户
      * @return
      */
-    AppUser selectByCredNum(String credNum);
+    AppUser selectByUserName(String credNum,String name);
     
     /**
      * 更新

@@ -56,10 +56,10 @@ public class AppUserBusinessImpl extends AbstractBusiness implements
     }
 
     @Override
-    public AppUser selectByCredNum(String credNum) {
+    public AppUser selectByUserName(String credNum,String name) {
         if (null != credNum) {
             AppUserExample example = new AppUserExample();
-            example.createCriteria().andCredNumEqualTo(credNum);
+            example.createCriteria().andCredNumEqualTo(credNum).andNameEqualTo(name);
             List<AppUser> userList = mapper.selectByExample(example);
             if(null != userList && !userList.isEmpty()) {
                 return userList.get(0);
