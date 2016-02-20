@@ -11,6 +11,15 @@ public class AppResidenceInfo {
     private String name;
     private Date checkInTime;
     private String chainId;
+    private Long roomId;
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
+    }
 
     public String getCredNum() {
         return credNum;

@@ -18,8 +18,11 @@ import cn.pl.hmp.server.dao.entity.AppUser;
 import cn.pl.hmp.server.dao.entity.AppUserExample;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.HotelInfoExample;
+import cn.pl.hmp.server.dao.entity.HotelRoom;
+import cn.pl.hmp.server.dao.entity.HotelRoomExample;
 import cn.pl.hmp.server.dao.mapper.AppUserMapper;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
+import cn.pl.hmp.server.dao.mapper.HotelRoomMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 
 import com.github.pagehelper.PageHelper;
@@ -31,6 +34,8 @@ public class AppUserBusinessImpl extends AbstractBusiness implements
     private AppUserMapper mapper;
     @Autowired
     private HotelInfoMapper hotelMapper;
+    @Autowired
+    private HotelRoomMapper roomMapper;
 
     @Override
     public int delete(Long id) {
@@ -151,6 +156,14 @@ public class AppUserBusinessImpl extends AbstractBusiness implements
             if(null != hotelList && !hotelList.isEmpty()) {
                 info.setHotelId(hotelList.get(0).getId());
             }
+            HotelRoomExample roomExample = new HotelRoomExample();
+            roomExample.createCriteria().andHotelIdEqualTo(info.getHotelId())
+                .andRoomNumEqualTo(info.getRoomNum());
+            List<HotelRoom> roomList = roomMapper.selectByExample(roomExample);
+            if(null != roomList && !roomList.isEmpty()) {
+                info.setRoomId(roomList.get(0).getId());
+            }
+            
         }
         return info;
     }
