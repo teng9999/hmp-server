@@ -182,4 +182,27 @@
       login_time = #{loginTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 自定义方法 -->
+  <!-- 查询列表 -->
+  <select id="queryPages" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.AppLoginInfo">
+  	select
+		a.*, 
+		b.NAME AS user_name,
+		c.NAME,
+		c.sub_name
+	from
+		hmp_app_login_info a
+	  left join hmp_app_user b ON b.id = a.app_user_id
+	  left join hmp_hotel_info c ON c.id = a.hotel_id
+  	where 1=1 
+  	  <if test="searchKey != null and searchKey != ''" >
+  		and (user_name like #{searchKey,jdbcType=VARCHAR} or c.sub_name like #{searchKey,jdbcType=VARCHAR})
+  	  </if>
+  	  <if test="hotelId != null and hotelId != ''">
+  	  	and a.hotel_id = #{hotelId,jdbcType=BIGINT}
+  	  </if>
+  </select>
+  
+  
 </mapper>

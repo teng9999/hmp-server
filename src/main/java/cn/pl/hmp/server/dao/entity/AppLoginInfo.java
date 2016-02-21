@@ -20,6 +20,14 @@ public class AppLoginInfo {
     private Long creator;
 
     private Date loginTime;
+    
+    private String searchKey;
+
+    private String name;
+    
+    private String subName;
+    
+    private String userName;
 
     public String getId() {
         return id;
@@ -92,4 +100,37 @@ public class AppLoginInfo {
     public void setLoginTime(Date loginTime) {
         this.loginTime = loginTime;
     }
+
+	public String getSearchKey() {
+		return searchKey;
+	}
+
+	public void setSearchKey(String searchKey) {
+		this.searchKey = searchKey;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSubName() {
+		return subName;
+	}
+
+	public void setSubName(String subName) {
+		this.subName = subName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 }

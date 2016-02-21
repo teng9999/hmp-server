@@ -12,6 +12,8 @@ public interface AppLoginInfoMapper {
     int insertSelective(AppLoginInfo record);
 
     List<AppLoginInfo> selectByExample(AppLoginInfoExample example);
+    
+    List<AppLoginInfo> queryPages(AppLoginInfo entity);
 
     AppLoginInfo selectByPrimaryKey(String id);
 

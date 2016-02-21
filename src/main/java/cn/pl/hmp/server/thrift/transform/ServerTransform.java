@@ -15,6 +15,7 @@ import cn.pl.frame.thrift.define.TPages;
 import cn.pl.hmp.commons.thrift.define.TAPPBinding;
 import cn.pl.hmp.commons.thrift.define.TAPPInfo;
 import cn.pl.hmp.commons.thrift.define.TAirMode;
+import cn.pl.hmp.commons.thrift.define.TAppLoginInfo;
 import cn.pl.hmp.commons.thrift.define.TExample;
 import cn.pl.hmp.commons.thrift.define.THmpHotelToolPacks;
 import cn.pl.hmp.commons.thrift.define.THmpMG;
@@ -27,6 +28,7 @@ import cn.pl.hmp.commons.thrift.define.TRoomRCUCfg;
 import cn.pl.hmp.server.dao.entity.APPBinding;
 import cn.pl.hmp.server.dao.entity.APPInfo;
 import cn.pl.hmp.server.dao.entity.AirMode;
+import cn.pl.hmp.server.dao.entity.AppLoginInfo;
 import cn.pl.hmp.server.dao.entity.HmpHotelToolPacks;
 import cn.pl.hmp.server.dao.entity.HmpMG;
 import cn.pl.hmp.server.dao.entity.HmpMGHotel;
@@ -1100,6 +1102,68 @@ public class ServerTransform extends ThriftTransform {
         if (entity.getModifyTime() != null) {
             result.setModifyTime(DateUtil.date2Text(entity.getModifyTime(), null));
         }
+        return result;
+    }
+    
+    public static AppLoginInfo transform(TAppLoginInfo entity) {
+    	if (entity == null)
+            return null;
+        AppLoginInfo result = new AppLoginInfo();
+        if (entity.getId() != null)
+            result.setId(entity.getId());
+        if (0 < entity.getSysId())
+            result.setSysId(entity.getSysId());
+        if (0 < entity.getOrgId())
+            result.setOrgId(entity.getOrgId());
+        if (0 < entity.getHotelId())
+            result.setHotelId(entity.getHotelId());
+        if (null != entity.getName())
+        	result.setName(entity.getName());
+        if (null != entity.getSubName())
+        	result.setSubName(entity.getSubName());
+        if (null != entity.getUserName())
+        	result.setUserName(entity.getUserName());
+        if (null != entity.getRoomNum())
+        	result.setRoomNum(entity.getRoomNum());
+        if (null != entity.getCreateTime())
+            result.setCreateTime(DateUtil.text2date(entity.getCreateTime(), null));
+        if (null != entity.getLoginTime())
+            result.setLoginTime(DateUtil.text2date(entity.getLoginTime(), null));
+        result.setCreator(entity.getCreator());
+        result.setAppUserId(entity.getAppUserId());
+        return result;
+    }
+    
+    public static TAppLoginInfo transform(AppLoginInfo entity) {
+        if (entity == null)
+            return null;
+        TAppLoginInfo result = new TAppLoginInfo();
+        
+        if (entity.getId() != null) 
+            result.setId(entity.getId());
+        if (entity.getSysId() != null) 
+            result.setSysId(entity.getSysId());
+        if (entity.getOrgId() != null) 
+            result.setOrgId(entity.getOrgId());
+        if (entity.getHotelId() != null)
+        	result.setHotelId(entity.getHotelId());
+        if (null != entity.getName())
+        	result.setName(entity.getName());
+        if (null != entity.getSubName())
+        	result.setSubName(entity.getSubName());
+        if (null != entity.getUserName())
+        	result.setUserName(entity.getUserName());
+        if (entity.getRoomNum() != null)
+        	result.setRoomNum(entity.getRoomNum());
+        if (entity.getAppUserId() != null)
+        	result.setAppUserId(entity.getAppUserId());
+        if (entity.getCreateTime() != null)
+            result.setCreateTime(DateUtil.date2Text(entity.getCreateTime(), null));
+        if (entity.getLoginTime() != null)
+            result.setLoginTime(DateUtil.date2Text(entity.getLoginTime(), null));
+        if (entity.getCreator() != null)
+            result.setCreator(entity.getCreator());
+        
         return result;
     }
 }
