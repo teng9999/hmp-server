@@ -1,7 +1,6 @@
 package cn.pl.hmp.server.business.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.iface.IAppLoginInfoBusiness;
 import cn.pl.hmp.server.dao.entity.AppLoginInfo;
-import cn.pl.hmp.server.dao.entity.AppLoginInfoExample;
 import cn.pl.hmp.server.dao.mapper.AppLoginInfoMapper;
 import cn.pl.hmp.server.utils.PageConverter;
 
@@ -42,6 +40,14 @@ public class AppLoginInfoBusinessImpl extends BoostBusinessImpl implements IAppL
         map.put(pages, list);
         return map;
 	}
+
+    @Override
+    public long insert(AppLoginInfo record) {
+        if(null != record) {
+            return mapper.insertSelective(record);
+        }
+        return 0;
+    }
     
     
 

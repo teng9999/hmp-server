@@ -1,13 +1,11 @@
 package cn.pl.hmp.server.business.iface;
 
-import java.applet.Applet;
 import java.util.List;
 import java.util.Map;
 
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.AppLoginInfo;
-import cn.pl.hmp.server.dao.entity.AppLoginInfoExample;
 
 public interface IAppLoginInfoBusiness extends IBusiness {
 
@@ -16,7 +14,7 @@ public interface IAppLoginInfoBusiness extends IBusiness {
 	 * @param record
 	 * @return
 	 */
-//	long insert(AppLoginInfo record);
+	long insert(AppLoginInfo record);
 
     /**
      * 新增

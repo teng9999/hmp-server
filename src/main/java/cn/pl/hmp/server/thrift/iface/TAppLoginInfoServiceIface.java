@@ -29,7 +29,8 @@ public class TAppLoginInfoServiceIface implements TAppLoginInfoService.Iface {
 
     @Override
     public long save(TAppLoginInfo record) throws TException {
-        return 0;
+        AppLoginInfo app = ServerTransform.transform(record);
+        return business.insert(app);
     }
 
     @Override
