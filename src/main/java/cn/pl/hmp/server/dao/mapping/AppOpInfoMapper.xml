@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.pl.hmp.server.dao.mapper.AppOpInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.AppOpInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="login_id" property="loginId" jdbcType="VARCHAR" />
+    <result column="device_type" property="deviceType" jdbcType="VARCHAR" />
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR" />
+    <result column="device_statu" property="deviceStatu" jdbcType="VARCHAR" />
+    <result column="op_time" property="opTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sys_id, org_id, login_id, device_type, device_name, device_statu, op_time, create_time, 
+    creator
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.AppOpInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from hmp_app_op_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hmp_app_op_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hmp_app_op_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.AppOpInfo" >
+    insert into hmp_app_op_info (id, sys_id, org_id, 
+      login_id, device_type, device_name, 
+      device_statu, op_time, create_time, 
+      creator)
+    values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
+      #{loginId,jdbcType=VARCHAR}, #{deviceType,jdbcType=VARCHAR}, #{deviceName,jdbcType=VARCHAR}, 
+      #{deviceStatu,jdbcType=VARCHAR}, #{opTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.AppOpInfo" >
+    insert into hmp_app_op_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysId != null" >
+        sys_id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="loginId != null" >
+        login_id,
+      </if>
+      <if test="deviceType != null" >
+        device_type,
+      </if>
+      <if test="deviceName != null" >
+        device_name,
+      </if>
+      <if test="deviceStatu != null" >
+        device_statu,
+      </if>
+      <if test="opTime != null" >
+        op_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sysId != null" >
+        #{sysId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="loginId != null" >
+        #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceName != null" >
+        #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceStatu != null" >
+        #{deviceStatu,jdbcType=VARCHAR},
+      </if>
+      <if test="opTime != null" >
+        #{opTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.AppOpInfo" >
+    update hmp_app_op_info
+    <set >
+      <if test="sysId != null" >
+        sys_id = #{sysId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="loginId != null" >
+        login_id = #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        device_type = #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceName != null" >
+        device_name = #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceStatu != null" >
+        device_statu = #{deviceStatu,jdbcType=VARCHAR},
+      </if>
+      <if test="opTime != null" >
+        op_time = #{opTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.pl.hmp.server.dao.entity.AppOpInfo" >
+    update hmp_app_op_info
+    set sys_id = #{sysId,jdbcType=BIGINT},
+      org_id = #{orgId,jdbcType=BIGINT},
+      login_id = #{loginId,jdbcType=VARCHAR},
+      device_type = #{deviceType,jdbcType=VARCHAR},
+      device_name = #{deviceName,jdbcType=VARCHAR},
+      device_statu = #{deviceStatu,jdbcType=VARCHAR},
+      op_time = #{opTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 自定义 -->
+  <!-- 批量添加 -->
+  <insert id="insertOnBatch" parameterType="java.util.List">
+    <![CDATA[
+    insert into hmp_app_op_info(sys_id,org_id,login_id,device_type,device_name, 
+        device_statu,op_time,create_time,creator) 
+    values 
+    ]]>
+    <foreach collection ="list" item ="item" index ="index" separator =","> 
+       (#{item.sysId},#{item.orgId},#{item.loginId},#{item.deviceType},
+       #{item.deviceName},#{item.deviceStatu},#{item.opTime},#{item.createTime}
+       ,#{item.creator}) 
+    </foreach> 
+  </insert>
+</mapper>
