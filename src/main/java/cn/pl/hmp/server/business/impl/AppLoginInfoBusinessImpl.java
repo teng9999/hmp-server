@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.pl.commons.pages.Pages;
+import cn.pl.commons.utils.StringUtils;
 import cn.pl.hmp.server.business.iface.IAppLoginInfoBusiness;
 import cn.pl.hmp.server.dao.entity.AppLoginInfo;
 import cn.pl.hmp.server.dao.mapper.AppLoginInfoMapper;
@@ -23,15 +24,11 @@ public class AppLoginInfoBusinessImpl extends BoostBusinessImpl implements IAppL
     private AppLoginInfoMapper mapper;
 
 	@Override
-	public Map<Pages, List<AppLoginInfo>> selectByPages(AppLoginInfo entity, Pages page) {
+	public Map<Pages, List<AppLoginInfo>> selectByPages(Pages page,String name, String fixCondition) {
 		Map<Pages, List<AppLoginInfo>> map = new HashMap<Pages, List<AppLoginInfo>>();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page.getPageNum(), page.getPageSize(),page.getOrderBy());
         System.out.println(page.getPageNum() + "--" + page.getPageSize());
-        if (entity.getSearchKey() != null && "".equals(entity.getSearchKey())) {
-        	String searchKey = "%" + entity.getSearchKey() + "%";
-        	entity.setSearchKey(searchKey);
-        }
-        List<AppLoginInfo> list = mapper.queryPages(entity);
+        List<AppLoginInfo> list = mapper.queryPages(name, fixCondition);
         if (null == list)
         	list = new ArrayList<AppLoginInfo>();
         PageInfo<AppLoginInfo> pageInfo = new PageInfo<AppLoginInfo>(list);
@@ -47,6 +44,18 @@ public class AppLoginInfoBusinessImpl extends BoostBusinessImpl implements IAppL
             return mapper.insertSelective(record);
         }
         return 0;
+    }
+
+    @Override
+    public AppLoginInfo selectById(String id) {
+        AppLoginInfo loginInfo = null;
+        if(StringUtils.isNotBlank(id)) {
+            loginInfo = mapper.selectByPrimaryKey(id);
+        }
+        if(null == loginInfo) {
+            loginInfo = new AppLoginInfo();
+        }
+        return loginInfo;
     }
     
     

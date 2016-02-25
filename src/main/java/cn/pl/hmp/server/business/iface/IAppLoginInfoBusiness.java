@@ -15,6 +15,8 @@ public interface IAppLoginInfoBusiness extends IBusiness {
 	 * @return
 	 */
 	long insert(AppLoginInfo record);
+	
+	AppLoginInfo selectById(String id);
 
     /**
      * 新增
@@ -29,7 +31,7 @@ public interface IAppLoginInfoBusiness extends IBusiness {
      * @param page
      * @return
      */
-    Map<Pages, List<AppLoginInfo>> selectByPages(AppLoginInfo entity, Pages page);
+    Map<Pages, List<AppLoginInfo>> selectByPages(Pages page,String name, String fixCondition);
 
     /**
      * 根据用户名查用户

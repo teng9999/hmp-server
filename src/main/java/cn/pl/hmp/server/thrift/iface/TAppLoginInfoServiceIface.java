@@ -33,36 +33,6 @@ public class TAppLoginInfoServiceIface implements TAppLoginInfoService.Iface {
         return business.insert(app);
     }
 
-    @Override
-    public int update(TAppLoginInfo record) throws TException {
-        return 0;
-    }
-
-    @Override
-    public int deleteById(long id) throws TException {
-        return 0;
-    }
-
-    @Override
-    public int deleteOnbatch(List<Long> idList) throws TException {
-        return 0;
-    }
-
-	@Override
-	public Map<TPages, List<TAppLoginInfo>> queryByPages(TAppLoginInfo entity, TPages pages)
-			throws TException {
-		Map<TPages, List<TAppLoginInfo>> tmap = new HashMap<TPages, List<TAppLoginInfo>>();
-        TPages tempPage = null;
-        Map<Pages, List<AppLoginInfo>> userMap = business.selectByPages(ServerTransform.transform(entity), ObjectConverter.convet(pages, Pages.class));
-        if (null != userMap && !userMap.isEmpty()) {
-            Set<Pages> set = userMap.keySet();
-            for (Pages page : set) {
-                tempPage = ServerTransform.transform(page);
-                tmap.put(tempPage, convert(userMap.get(page)));
-            }
-        }
-        return tmap;
-	}
 
 	public List<TAppLoginInfo> convert(List<AppLoginInfo> list) {
     	List<TAppLoginInfo> newList = new ArrayList<>();
@@ -71,5 +41,27 @@ public class TAppLoginInfoServiceIface implements TAppLoginInfoService.Iface {
 			newList.add(entity);
 		}
     	return newList;
+    }
+
+    @Override
+    public TAppLoginInfo selectById(String id) throws TException {
+        return ObjectConverter.convet(business.selectById(id),TAppLoginInfo.class);
+    }
+
+    @Override
+    public Map<TPages, List<TAppLoginInfo>> selectByPages(TPages pages,
+            String name, String fixCondition) throws TException {
+        Map<TPages, List<TAppLoginInfo>> tmap = new HashMap<TPages, List<TAppLoginInfo>>();
+        TPages tempPage = null;
+        Map<Pages, List<AppLoginInfo>> userMap = business.selectByPages(ObjectConverter
+                .convet(pages, Pages.class),name,fixCondition);
+        if (null != userMap && !userMap.isEmpty()) {
+            Set<Pages> set = userMap.keySet();
+            for (Pages page : set) {
+                tempPage = ServerTransform.transform(page);
+                tmap.put(tempPage, convert(userMap.get(page)));
+            }
+        }
+        return tmap;
     }
 }

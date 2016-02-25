@@ -17,6 +17,7 @@ import cn.pl.hmp.commons.thrift.service.TAppOpInfoService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IAppOpInfoBusiness;
 import cn.pl.hmp.server.dao.entity.AppOpInfo;
+import cn.pl.hmp.server.dao.entity.AppOpInfoExample;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -31,11 +32,13 @@ public class TAppOpInfoServiceIface implements TAppOpInfoService.Iface{
     }
 
     @Override
-    public Map<TPages, List<TAppOpInfo>> selectByPages(TPages pages)
+    public Map<TPages, List<TAppOpInfo>> selectByPages(TPages pages,String userId)
             throws TException {
         Map<TPages, List<TAppOpInfo>> tmap = new HashMap<TPages, List<TAppOpInfo>>();
         TPages tempPage = null;
-        Map<Pages, List<AppOpInfo>> opInfoMap = opInfoBusiness.selectByPages(null,
+        AppOpInfoExample opInfoExample = new AppOpInfoExample();
+        opInfoExample.createCriteria().andLoginIdEqualTo(userId);
+        Map<Pages, List<AppOpInfo>> opInfoMap = opInfoBusiness.selectByPages(opInfoExample,
                 ObjectConverter.convet(pages, Pages.class));
         if (null != opInfoMap && !opInfoMap.isEmpty()) {
             Set<Pages> set = opInfoMap.keySet();

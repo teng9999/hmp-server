@@ -196,11 +196,11 @@
 	  left join hmp_app_user b ON b.id = a.app_user_id
 	  left join hmp_hotel_info c ON c.id = a.hotel_id
   	where 1=1 
-  	  <if test="searchKey != null and searchKey != ''" >
-  		and (user_name like #{searchKey,jdbcType=VARCHAR} or c.sub_name like #{searchKey,jdbcType=VARCHAR})
+  	  <if test="fixCondition != null and fixCondition != ''" >
+  		and (user_name like #{fixCondition,jdbcType=VARCHAR} or c.sub_name like #{fixCondition,jdbcType=VARCHAR})
   	  </if>
-  	  <if test="hotelId != null and hotelId != ''">
-  	  	and a.hotel_id = #{hotelId,jdbcType=BIGINT}
+  	  <if test="name != null and name != ''">
+  	  	and c.name = #{name,jdbcType=VARCHAR}
   	  </if>
   </select>
   

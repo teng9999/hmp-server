@@ -99,7 +99,7 @@ public class AppUserBusinessImpl extends AbstractBusiness implements
         Map<Pages, List<AppUser>> map = new HashMap<Pages, List<AppUser>>();
         if (null == example)
             example = new AppUserExample();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page.getPageNum(), page.getPageSize(),page.getOrderBy());
         System.out.println(page.getPageNum() + "--" + page.getPageSize());
         List<AppUser> userList = mapper.selectByExample(example);
         if (null == userList)
