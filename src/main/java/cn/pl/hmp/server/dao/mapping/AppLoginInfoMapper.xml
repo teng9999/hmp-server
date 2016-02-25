@@ -197,7 +197,7 @@
 	  left join hmp_hotel_info c ON c.id = a.hotel_id
   	where 1=1 
   	  <if test="fixCondition != null and fixCondition != ''" >
-  		and (user_name like #{fixCondition,jdbcType=VARCHAR} or c.sub_name like #{fixCondition,jdbcType=VARCHAR})
+  		and (b.name like #{fixCondition,jdbcType=VARCHAR} or c.sub_name like #{fixCondition,jdbcType=VARCHAR})
   	  </if>
   	  <if test="name != null and name != ''">
   	  	and c.name = #{name,jdbcType=VARCHAR}
