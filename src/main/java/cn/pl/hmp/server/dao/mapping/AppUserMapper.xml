@@ -274,6 +274,6 @@
   <select id="queryResidenceInfo" resultMap="InfoResultMap">
     select chain_id,room_type_cn,room_num,check_in_time from pms_check_in_info where guest_id = (
     select id from pms_guest_info where right(cred_num,6) = #{credNum} and cred_type = #{credType} 
-     and med_name = #{name})
+     and med_name = #{name}) order by check_in_time desc
   </select>
 </mapper>
