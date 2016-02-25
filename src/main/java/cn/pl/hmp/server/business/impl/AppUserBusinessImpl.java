@@ -155,13 +155,15 @@ public class AppUserBusinessImpl extends AbstractBusiness implements
             List<HotelInfo> hotelList =hotelMapper.selectByExample(hotelExample);
             if(null != hotelList && !hotelList.isEmpty()) {
                 info.setHotelId(hotelList.get(0).getId());
-            }
-            HotelRoomExample roomExample = new HotelRoomExample();
-            roomExample.createCriteria().andHotelIdEqualTo(info.getHotelId())
+                HotelRoomExample roomExample = new HotelRoomExample();
+                roomExample.createCriteria().andHotelIdEqualTo(info.getHotelId())
                 .andRoomNumEqualTo(info.getRoomNum());
-            List<HotelRoom> roomList = roomMapper.selectByExample(roomExample);
-            if(null != roomList && !roomList.isEmpty()) {
-                info.setRoomId(roomList.get(0).getId());
+                List<HotelRoom> roomList = roomMapper.selectByExample(roomExample);
+                if(null != roomList && !roomList.isEmpty()) {
+                    info.setRoomId(roomList.get(0).getId());
+                }
+            }else {
+                info.setHotelId(-1L);
             }
             
         }

@@ -72,7 +72,7 @@ public class TAppUserServiceIface implements TAppUserService.Iface{
             example.or().andMobileEqualTo(fixCondition);
         }
         TPages tempPage = null;
-        Map<Pages, List<AppUser>> userMap = userBusiness.selectByPages(null, ObjectConverter.convet(pages, Pages.class));
+        Map<Pages, List<AppUser>> userMap = userBusiness.selectByPages(example, ObjectConverter.convet(pages, Pages.class));
         if (null != userMap && !userMap.isEmpty()) {
             Set<Pages> set = userMap.keySet();
             for (Pages page : set) {
