@@ -74,7 +74,7 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
         Map<Pages, List<AppOpInfo>> map = new HashMap<Pages, List<AppOpInfo>>();
         if (null == example)
             example = new AppOpInfoExample();
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page.getPageNum(), page.getPageSize(),page.getOrderBy());
         System.out.println(page.getPageNum() + "--" + page.getPageSize());
         List<AppOpInfo> opInfoList = opInfoMapper.selectByExample(example);
         if (null == opInfoList)
