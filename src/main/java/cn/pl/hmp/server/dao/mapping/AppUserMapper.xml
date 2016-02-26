@@ -276,4 +276,21 @@
     select id from pms_guest_info where right(cred_num,6) = #{credNum} and cred_type = #{credType} 
      and med_name = #{name}) order by check_in_time desc
   </select>
+  <!-- 条件查询 -->
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select * from hmp_app_user where 1=1 
+    <if test="credType != null and credType !=''">
+        and cred_type = #{credType}
+    </if>
+    <if test="registration != null and registration !=''">
+        and registration = #{registration}
+    </if>
+    <if test="fixCondition != null and fixCondition !=''">
+        and (
+          cred_num like '%${fixCondition}%' or 
+          name like '%${fixCondition}%' or  
+          mobile like '%${fixCondition}%'  
+        )
+    </if>
+  </select>
 </mapper>

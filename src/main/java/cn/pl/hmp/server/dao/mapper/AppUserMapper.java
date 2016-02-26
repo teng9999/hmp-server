@@ -16,6 +16,9 @@ public interface AppUserMapper {
     int insertSelective(AppUser record);
 
     List<AppUser> selectByExample(AppUserExample example);
+    
+    List<AppUser> selectByCondition(@Param("credType")String credType, 
+            @Param("registration")String registration, @Param("fixCondition")String fixCondition);
 
     AppUser selectByPrimaryKey(Long id);
 

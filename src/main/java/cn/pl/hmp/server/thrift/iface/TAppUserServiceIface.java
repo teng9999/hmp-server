@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.pl.commons.pages.Pages;
-import cn.pl.commons.utils.StringUtils;
 import cn.pl.frame.annotation.ThriftService;
 import cn.pl.frame.thrift.define.TPages;
 import cn.pl.hmp.commons.thrift.define.TAppResidenceInfo;
@@ -19,8 +18,6 @@ import cn.pl.hmp.commons.thrift.service.TAppUserService;
 import cn.pl.hmp.commons.utils.ObjectConverter;
 import cn.pl.hmp.server.business.iface.IAppUserBusiness;
 import cn.pl.hmp.server.dao.entity.AppUser;
-import cn.pl.hmp.server.dao.entity.AppUserExample;
-import cn.pl.hmp.server.dao.entity.AppUserExample.Criteria;
 import cn.pl.hmp.server.thrift.transform.ServerTransform;
 
 @Component
@@ -58,21 +55,10 @@ public class TAppUserServiceIface implements TAppUserService.Iface{
             String credType, String registration, String fixCondition)
             throws TException {
         Map<TPages, List<TAppUser>> tmap = new HashMap<TPages, List<TAppUser>>();
-        AppUserExample example = new AppUserExample();
-        Criteria criteria = example.createCriteria();
-        if(StringUtils.isNotBlank(credType)) {
-            criteria.andCredTypeEqualTo(Integer.parseInt(credType));
-        }
-        if(StringUtils.isNotBlank(registration)) {
-            criteria.andRegistrationEqualTo(Integer.parseInt(registration));
-        }
-        if(StringUtils.isNotBlank(fixCondition)) {
-            example.or().andCredNumEqualTo(fixCondition);
-            example.or().andNameEqualTo(fixCondition);
-            example.or().andMobileEqualTo(fixCondition);
-        }
         TPages tempPage = null;
-        Map<Pages, List<AppUser>> userMap = userBusiness.selectByPages(example, ObjectConverter.convet(pages, Pages.class));
+        Map<Pages, List<AppUser>> userMap = userBusiness.selectByCondition(
+                ObjectConverter.convet(pages,Pages.class), credType,
+                registration, fixCondition);
         if (null != userMap && !userMap.isEmpty()) {
             Set<Pages> set = userMap.keySet();
             for (Pages page : set) {

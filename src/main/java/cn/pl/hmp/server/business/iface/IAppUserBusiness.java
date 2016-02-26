@@ -57,6 +57,15 @@ public interface IAppUserBusiness extends IBusiness {
      * @return
      */
     Map<Pages, List<AppUser>> selectByPages(AppUserExample example,Pages page);
+    
+    /**
+     * 条件分页查询
+     * @param example
+     * @param page
+     * @return
+     */
+    Map<Pages, List<AppUser>> selectByCondition(Pages page,String credType, 
+            String registration, String fixCondition);
     /**
      * 重置密码
      * @param password

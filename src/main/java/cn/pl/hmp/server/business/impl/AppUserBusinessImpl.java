@@ -170,4 +170,21 @@ public class AppUserBusinessImpl extends AbstractBusiness implements
         return info;
     }
 
+    @Override
+    public Map<Pages, List<AppUser>> selectByCondition(Pages page,
+            String credType, String registration, String fixCondition) {
+        Map<Pages, List<AppUser>> map = new HashMap<Pages, List<AppUser>>();
+        PageHelper.startPage(page.getPageNum(), page.getPageSize(),page.getOrderBy());
+        System.out.println(page.getPageNum() + "--" + page.getPageSize());
+        List<AppUser> userList = mapper.selectByCondition(credType, 
+                registration, fixCondition);
+        if (null == userList)
+            userList = new ArrayList<AppUser>();
+        PageInfo<AppUser> pageInfo = new PageInfo<AppUser>(userList);
+        Pages pages = PageConverter.converter(pageInfo);
+
+        map.put(pages, userList);
+        return map;
+    }
+
 }
