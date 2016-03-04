@@ -140,10 +140,12 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
         // 获取24小时前是否有人入住
         Long sysRoomId = tempRoom.getId();
         CheckInSummaryExample example = new CheckInSummaryExample();
-        example.createCriteria()
-                .andCheckInTimeBetween(getFormatDate(yyesterday, 0),
+        example.createCriteria().andPlugOutTimeBetween(getFormatDate(yyesterday, 0),
                         getFormatDate(yyesterday, 1))
                 .andRoomIdEqualTo(sysRoomId);
+        example.or( example.createCriteria().andPlugInTimeBetween(getFormatDate(yyesterday, 0),
+                getFormatDate(yyesterday, 1))
+        .andRoomIdEqualTo(sysRoomId));
         List<CheckInSummary> ysummaryList = summaryMapper
                 .selectByExample(example);
         int lastRoomStatus = 0;
