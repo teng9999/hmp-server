@@ -16,10 +16,6 @@ import cn.pl.hmp.server.business.iface.IAppUserBusiness;
 import cn.pl.hmp.server.dao.entity.AppResidenceInfo;
 import cn.pl.hmp.server.dao.entity.AppUser;
 import cn.pl.hmp.server.dao.entity.AppUserExample;
-import cn.pl.hmp.server.dao.entity.HotelInfo;
-import cn.pl.hmp.server.dao.entity.HotelInfoExample;
-import cn.pl.hmp.server.dao.entity.HotelRoom;
-import cn.pl.hmp.server.dao.entity.HotelRoomExample;
 import cn.pl.hmp.server.dao.mapper.AppUserMapper;
 import cn.pl.hmp.server.dao.mapper.HotelInfoMapper;
 import cn.pl.hmp.server.dao.mapper.HotelRoomMapper;
@@ -144,28 +140,11 @@ public class AppUserBusinessImpl extends AbstractBusiness implements
         AppResidenceInfo info = null;
         if(null == list || list.isEmpty()) {
             info = new AppResidenceInfo();
-            info.setHotelId(-1L);
         }else {
             info = list.get(0);
             info.setCredNum(credNum);
             info.setCredType(credType);
             info.setName(name);
-            HotelInfoExample hotelExample = new HotelInfoExample();
-            hotelExample.createCriteria().andChainIdEqualTo(info.getChainId());
-            List<HotelInfo> hotelList =hotelMapper.selectByExample(hotelExample);
-            if(null != hotelList && !hotelList.isEmpty()) {
-                info.setHotelId(hotelList.get(0).getId());
-                HotelRoomExample roomExample = new HotelRoomExample();
-                roomExample.createCriteria().andHotelIdEqualTo(info.getHotelId())
-                .andRoomNumEqualTo(info.getRoomNum());
-                List<HotelRoom> roomList = roomMapper.selectByExample(roomExample);
-                if(null != roomList && !roomList.isEmpty()) {
-                    info.setRoomId(roomList.get(0).getId());
-                }
-            }else {
-                info.setHotelId(-1L);
-            }
-            
         }
         return info;
     }

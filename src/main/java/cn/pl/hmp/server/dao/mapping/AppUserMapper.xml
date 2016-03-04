@@ -267,14 +267,19 @@
   <!-- 自定义 -->
   <resultMap id="InfoResultMap" type="cn.pl.hmp.server.dao.entity.AppResidenceInfo" >
     <id column="chain_id" property="chainId" jdbcType="VARCHAR" />
-    <result column="room_type_cn" property="roomType" jdbcType="VARCHAR" />
+    <result column="room_type" property="roomType" jdbcType="VARCHAR" />
     <result column="room_num" property="roomNum" jdbcType="VARCHAR" />
     <result column="check_in_time" property="checkInTime" jdbcType="TIMESTAMP" />
+    <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
+    <result column="room_id" property="roomId" jdbcType="BIGINT" />
   </resultMap>
   <select id="queryResidenceInfo" resultMap="InfoResultMap">
-    select chain_id,room_type_cn,room_num,check_in_time from pms_check_in_info where guest_id = (
-    select id from pms_guest_info where right(cred_num,6) = #{credNum} and cred_type = #{credType} 
-     and med_name = #{name}) order by check_in_time desc
+     select fstatus.chain_id,fstatus.room_num,fstatus.post_time as check_in_time,
+     fstatus.hotel_id,room.id as room_id,room.room_type from 
+    (select roomStatus.*,info.id as hotel_id from pms_room_status roomStatus left join hmp_hotel_info info 
+    on roomStatus.chain_id = info.chain_id) fstatus left join hmp_hotel_room room 
+    on (fstatus.room_num = room.room_num and fstatus.hotel_id = room.hotel_id) where fstatus.post_type = '1' 
+    and id_type = ${credType} and id_no = ${credNum} and customer_name = '${name}'
   </select>
   <!-- 条件查询 -->
   <select id="selectByCondition" resultMap="BaseResultMap">
