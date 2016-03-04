@@ -37,18 +37,18 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
     @Autowired
     private CheckInDetailMapper detailMapper;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    Date yyesterday = new Date(new Date().getTime() - 2*24 * 60 * 60 * 1000L);
     Logger log = LoggerFactory.getLogger(SysLsOpLogBusinessImpl.class);
 
     @Override
-    public int[] saveTotalData(Date beginTime) {
+    public int[] saveTotalData(int lastDay) {
         String sbTime = null;
         String sdTime = null;
-        if (null == beginTime) {
-            sbTime = sdf.format(getFormatDate(new Date(new Date().getTime() - 2*24 * 60 * 60 * 1000L), 0));
-        } else {
-            sbTime = sdf.format(getFormatDate(beginTime, 0));
-        }
+        if (lastDay < 1) {
+            lastDay = 2;
+        } 
+        
+        sbTime = sdf.format(getFormatDate(new Date(new Date().getTime() - lastDay*24 * 60 * 60 * 1000L), 0));
+        Map<String, String> summaryMap = getHistorySummaryMap(lastDay);
         sdTime = sdf.format(getFormatDate(new Date(new Date().getTime() - 24 * 60 * 60 * 1000L), 1));
         System.err.println("开始：" + sbTime + "，结束：" + sdTime);
         List<SysLsOpLog> list = mapper.selectByCondition(sbTime, sdTime);
@@ -56,14 +56,13 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
         log.info("总共的操作日志条数:" + list.size());
         Map<String, List<SysLsOpLog>> slMap = getSysLsOpMap(list);
 
-        return saveAllData(roomMap, slMap);
+        return saveAllData(roomMap, slMap,summaryMap);
 
     }
 
     public int[] saveAllData(Map<String, HotelRoom> roomMap,
-            Map<String, List<SysLsOpLog>> slMap) {
+            Map<String, List<SysLsOpLog>> slMap,Map<String, String> summaryMap) {
         int[] resArray = new int[2];
-        Map<String, String> summaryMap = getHistorySummaryMap(2);
         List<CheckInSummary> summaryList = new ArrayList<CheckInSummary>();
         List<CheckInDetail> detailList = new ArrayList<CheckInDetail>();
         if (null != slMap && !slMap.isEmpty()) {
@@ -181,7 +180,7 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
                             continue;
                         }
                         // 验证该条入住信息是否已存在(如果存在则跳过改操作)
-                        summaryKey = sdf.format(firstOpTime) + "_"
+                        summaryKey = tempRoom.getId()+"_"+sdf.format(firstOpTime) + "_"
                                 + sdf.format(lastOpTime);
                         if (summaryMap.containsKey(summaryKey)) {
                             continue;
@@ -314,15 +313,15 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
         CheckInSummaryExample example = new CheckInSummaryExample();
         String keyTemp = null;
         example.createCriteria().andCheckInTimeGreaterThan(
-                getFormatDate(new Date(new Date().getTime() - lastDay * 24 * 60
-                        * 60 * 1000L), 0));
+                getFormatDate(new Date(new Date().getTime() - (lastDay+1) * 24 * 60
+                        * 60 * 1000L), 1));
         List<CheckInSummary> list = summaryMapper.selectByExample(example);
         if (null != list && !list.isEmpty()) {
             for (CheckInSummary summary : list) {
                 if (null == summary) {
                     continue;
                 }
-                keyTemp = sdf.format(summary.getPlugInTime()) + "_"
+                keyTemp =summary.getRoomId()+"_" + sdf.format(summary.getPlugInTime()) + "_"
                         + sdf.format(summary.getPlugOutTime());
                 if (!summaryMap.containsKey(keyTemp)) {
                     summaryMap.put(keyTemp, null);

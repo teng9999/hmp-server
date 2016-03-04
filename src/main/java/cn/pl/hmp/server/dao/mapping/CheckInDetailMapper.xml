@@ -242,8 +242,8 @@
     values 
     ]]>
     <foreach collection ="list" item ="item" index ="index" separator =","> 
-       (#{item.sysId},#{item.orgId},#{item.roomId},#{item.hotelId},
-       #{item.checkInSummaryId},#{item.opTime},#{item.opStatus}
+       (#{item.sysId},#{item.orgId},#{item.roomId},
+       #{item.checkInSummaryId},#{item.hotelId},#{item.opTime},#{item.opStatus}
        ,#{item.roomStatus},#{item.createTime}
        ,#{item.creator},#{item.modifyTime},#{item.modifier}) 
     </foreach> 
@@ -260,5 +260,6 @@
      <if test="roomId > -1">
         and room_id = #{roomId}
      </if>
+     order by op_time
   </select>
 </mapper>

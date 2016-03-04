@@ -1,6 +1,4 @@
 package cn.pl.hmp.server.quartz;
-import java.util.Date;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +14,10 @@ public class DataCountJob {
 	public void work() {
 		try {
 			System.err.println("开始调度-----------------------------------------");
-//			Date beginTime = new Date(new Date().getTime() - 30*24*60*60*1000L);
-			Date beginTime = null;
-			int[] resArray = logBusiness.saveTotalData(beginTime);
+//			int lastDay = 30;//一个月
+//			int lastDay = 7;//一周
+			int lastDay = -1;//最近一天
+			int[] resArray = logBusiness.saveTotalData(lastDay);
 			if(null != resArray && resArray.length > 1 ) {
 			    System.err.println("summary count:"+resArray[0]+",detail count:"+resArray);
 			}else {
