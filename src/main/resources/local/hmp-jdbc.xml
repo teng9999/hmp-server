@@ -149,7 +149,7 @@ http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
 			advice-ref="hmpTransactionAdvice" />
 	</aop:config>
 
-	<bean id="routingDataSource" class="cn.pl.hmp.server.datasource.DataSourceSelector">
+	<bean id="routingDataSource" class="cn.pl.frame.spring.datasource.DataSourceSelector">
 		<property name="targetDataSources">
 			<map key-type="java.lang.String">
 				<!-- write -->
