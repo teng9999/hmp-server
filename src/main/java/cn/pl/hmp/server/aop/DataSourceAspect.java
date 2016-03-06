@@ -11,8 +11,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.pl.hmp.server.datasource.DataSource;
-import cn.pl.hmp.server.datasource.RoutingContextHolder;
+import cn.pl.commons.datasource.DataSource;
+import cn.pl.commons.datasource.RoutingContextHolder;
 
 /**
  * 数据源切面
