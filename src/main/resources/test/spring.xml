@@ -54,7 +54,7 @@ http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
     <!-- 增加调度触发器 -->
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="dataCountJobDetail" />
-        <property name="cronExpression" value="0 05 15 * * ?" />
+        <property name="cronExpression" value="0 28 15 * * ?" />
     </bean>
     <!-- 设置调度 -->
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
