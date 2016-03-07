@@ -31,5 +31,38 @@ http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
 	<bean class="cn.pl.hmp.server.aop.PointCutAnnotationAop"/>
 
 	<import resource="spring-jdbc.xml"/>
+	<!-- 定时配置     start -->
+    <!-- 线程执行器配置，用于定时任务注册 -->
+    <bean id="executor"
+        class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="10" />
+        <property name="maxPoolSize" value="100" />
+        <property name="queueCapacity" value="500" />
+    </bean>
+
+    <!-- 业务对象 -->
+    <bean id="dataCountObject" class="cn.pl.hmp.server.quartz.DataCountJob" />
+    
+    <!-- 调度业务 -->
+    <bean id="dataCountJobDetail"
+        class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="dataCountObject" />
+        <property name="targetMethod" value="work" />
+    </bean>
+    <!-- 增加调度触发器 -->
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="dataCountJobDetail" />
+        <property name="cronExpression" value="0 30 02 * * ?" />
+    </bean>
+    <!-- 设置调度 -->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger" />
+            </list>
+        </property>
+        <property name="taskExecutor" ref="executor" />
+    </bean>
+    <!-- 定时配置     end -->
 	
 </beans>

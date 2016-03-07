@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.pl.hmp.server.dao.mapper.CheckInDetailMapper" >
+  <resultMap id="BaseResultMap" type="cn.pl.hmp.server.dao.entity.CheckInDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_id" property="sysId" jdbcType="BIGINT" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="room_id" property="roomId" jdbcType="BIGINT" />
+    <result column="check_in_summary_id" property="checkInSummaryId" jdbcType="BIGINT" />
+    <result column="hotel_id" property="hotelId" jdbcType="BIGINT" />
+    <result column="op_time" property="opTime" jdbcType="TIMESTAMP" />
+    <result column="op_status" property="opStatus" jdbcType="INTEGER" />
+    <result column="room_status" property="roomStatus" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sys_id, org_id, room_id, check_in_summary_id, hotel_id, op_time, op_status, room_status, 
+    create_time, creator, modify_time, modifier
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.pl.hmp.server.dao.entity.CheckInDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from hmp_check_in_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hmp_check_in_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hmp_check_in_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.pl.hmp.server.dao.entity.CheckInDetail" >
+    insert into hmp_check_in_detail (id, sys_id, org_id, 
+      room_id, check_in_summary_id, hotel_id, 
+      op_time, op_status, room_status, 
+      create_time, creator, modify_time, 
+      modifier)
+    values (#{id,jdbcType=BIGINT}, #{sysId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, 
+      #{roomId,jdbcType=BIGINT}, #{checkInSummaryId,jdbcType=BIGINT}, #{hotelId,jdbcType=BIGINT}, 
+      #{opTime,jdbcType=TIMESTAMP}, #{opStatus,jdbcType=INTEGER}, #{roomStatus,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.pl.hmp.server.dao.entity.CheckInDetail" >
+    insert into hmp_check_in_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysId != null" >
+        sys_id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="roomId != null" >
+        room_id,
+      </if>
+      <if test="checkInSummaryId != null" >
+        check_in_summary_id,
+      </if>
+      <if test="hotelId != null" >
+        hotel_id,
+      </if>
+      <if test="opTime != null" >
+        op_time,
+      </if>
+      <if test="opStatus != null" >
+        op_status,
+      </if>
+      <if test="roomStatus != null" >
+        room_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sysId != null" >
+        #{sysId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="checkInSummaryId != null" >
+        #{checkInSummaryId,jdbcType=BIGINT},
+      </if>
+      <if test="hotelId != null" >
+        #{hotelId,jdbcType=BIGINT},
+      </if>
+      <if test="opTime != null" >
+        #{opTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opStatus != null" >
+        #{opStatus,jdbcType=INTEGER},
+      </if>
+      <if test="roomStatus != null" >
+        #{roomStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.pl.hmp.server.dao.entity.CheckInDetail" >
+    update hmp_check_in_detail
+    <set >
+      <if test="sysId != null" >
+        sys_id = #{sysId,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="roomId != null" >
+        room_id = #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="checkInSummaryId != null" >
+        check_in_summary_id = #{checkInSummaryId,jdbcType=BIGINT},
+      </if>
+      <if test="hotelId != null" >
+        hotel_id = #{hotelId,jdbcType=BIGINT},
+      </if>
+      <if test="opTime != null" >
+        op_time = #{opTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opStatus != null" >
+        op_status = #{opStatus,jdbcType=INTEGER},
+      </if>
+      <if test="roomStatus != null" >
+        room_status = #{roomStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.pl.hmp.server.dao.entity.CheckInDetail" >
+    update hmp_check_in_detail
+    set sys_id = #{sysId,jdbcType=BIGINT},
+      org_id = #{orgId,jdbcType=BIGINT},
+      room_id = #{roomId,jdbcType=BIGINT},
+      check_in_summary_id = #{checkInSummaryId,jdbcType=BIGINT},
+      hotel_id = #{hotelId,jdbcType=BIGINT},
+      op_time = #{opTime,jdbcType=TIMESTAMP},
+      op_status = #{opStatus,jdbcType=INTEGER},
+      room_status = #{roomStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 自定义 -->
+  <!-- 批量添加 -->
+  <insert id="insertOnBatch" parameterType="java.util.List">
+    <![CDATA[
+    insert into hmp_check_in_detail(
+      sys_id, org_id, 
+      room_id, check_in_summary_id, hotel_id, 
+      op_time, op_status, room_status, 
+      create_time, creator, modify_time, 
+      modifier)
+    values 
+    ]]>
+    <foreach collection ="list" item ="item" index ="index" separator =","> 
+       (#{item.sysId},#{item.orgId},#{item.roomId},#{item.hotelId},
+       #{item.checkInSummaryId},#{item.opTime},#{item.opStatus}
+       ,#{item.roomStatus},#{item.createTime}
+       ,#{item.creator},#{item.modifyTime},#{item.modifier}) 
+    </foreach> 
+  </insert>
+  <!-- 条件查询 -->
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select * from hmp_check_in_detail where 1=1 
+    <if test=" nowDate!= null">
+        and DATE_FORMAT('${nowDate}','%Y-%m-%d') = DATE_FORMAT(op_time,'%Y-%m-%d')
+     </if>
+     <if test="opStatus > -1">
+        and op_status = #{opStatus}
+     </if>
+     <if test="roomId > -1">
+        and room_id = #{roomId}
+     </if>
+  </select>
+</mapper>

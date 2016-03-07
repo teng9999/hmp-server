@@ -279,7 +279,7 @@
     (select roomStatus.*,info.id as hotel_id from pms_room_status roomStatus left join hmp_hotel_info info 
     on roomStatus.chain_id = info.chain_id) fstatus left join hmp_hotel_room room 
     on (fstatus.room_num = room.room_num and fstatus.hotel_id = room.hotel_id) where fstatus.post_type = '1' 
-    and id_type = ${credType} and id_no = ${credNum} and customer_name = '${name}'
+    and id_type = ${credType} and right(id_no,6) = ${credNum} and customer_name = '${name}'
   </select>
   <!-- 条件查询 -->
   <select id="selectByCondition" resultMap="BaseResultMap">
