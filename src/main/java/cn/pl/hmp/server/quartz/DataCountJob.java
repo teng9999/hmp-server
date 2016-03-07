@@ -16,8 +16,8 @@ public class DataCountJob {
 	public void work() {
 		try {
 			System.err.println("开始调度-----------------------------------------");
-//			Date beginTime = new Date(new Date().getTime() - 30*24*60*60*1000L);
-			Date beginTime = null;
+			Date beginTime = new Date(new Date().getTime() - 30*24*60*60*1000L);
+//			Date beginTime = null;
 			int[] resArray = logBusiness.saveTotalData(beginTime);
 			if(null != resArray && resArray.length > 1 ) {
 			    System.err.println("summary count:"+resArray[0]+",detail count:"+resArray);
