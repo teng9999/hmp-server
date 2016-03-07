@@ -3,11 +3,11 @@ package cn.pl.hmp.server.business.iface;
 import java.util.List;
 import java.util.Map;
 
+import cn.pl.commons.datasource.DataSource;
 import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.HmpMGHotel;
 import cn.pl.hmp.server.dao.entity.HmpMGHotelExample;
-import cn.pl.hmp.server.datasource.DataSource;
 
 public interface IHmpMGHotelBusiness extends IBusiness {
     /**
