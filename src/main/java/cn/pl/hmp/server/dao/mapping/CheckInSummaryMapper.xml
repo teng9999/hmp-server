@@ -329,4 +329,10 @@
      and  (TO_DAYS(NOW()) - TO_DAYS(summary.check_in_time)) &lt;= ${lastDay}*${gapInc} 
    
   </select>
+  
+  <select id="selectEarliestInList" resultMap="BaseResultMap">
+   select room_id, min(plug_in_time) as plug_in_time,check_in_time from hmp_check_in_summary
+     where plug_in_time >= '${beginTime}' 
+      group by room_id,check_in_time
+  </select>
 </mapper>

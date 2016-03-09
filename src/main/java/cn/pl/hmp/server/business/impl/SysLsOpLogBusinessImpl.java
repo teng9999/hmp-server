@@ -36,6 +36,11 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
     private CheckInSummaryMapper summaryMapper;
     @Autowired
     private CheckInDetailMapper detailMapper;
+    
+    private Map<String, HotelRoom> roomMap;
+    private Map<String, List<SysLsOpLog>> slMap;
+    private Map<String,Long> earlyMap;//lastDay内每天最早的插卡时间
+    private Map<String, String> summaryMap;//最近lastDay内的房间入住信息
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Logger log = LoggerFactory.getLogger(SysLsOpLogBusinessImpl.class);
 
@@ -48,27 +53,27 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
         } 
         
         sbTime = sdf.format(getFormatDate(new Date(new Date().getTime() - lastDay*24 * 60 * 60 * 1000L), 0));
-        Map<String, String> summaryMap = getHistorySummaryMap(lastDay);
+        summaryMap = getHistorySummaryMap(lastDay);
         sdTime = sdf.format(getFormatDate(new Date(new Date().getTime() - 24 * 60 * 60 * 1000L), 1));
         System.err.println("开始：" + sbTime + "，结束：" + sdTime);
         List<SysLsOpLog> list = mapper.selectByCondition(sbTime, sdTime);
-        Map<String, HotelRoom> roomMap = getRoomMap();
+        roomMap = getRoomMap();
         log.info("总共的操作日志条数:" + list.size());
-        Map<String, List<SysLsOpLog>> slMap = getSysLsOpMap(list);
+        slMap = getSysLsOpMap(list);
+        initEarliestMap(lastDay); //加载每天最早的插卡时间
 
-        return saveAllData(roomMap, slMap,summaryMap);
+        return saveAllData();
 
     }
 
-    public int[] saveAllData(Map<String, HotelRoom> roomMap,
-            Map<String, List<SysLsOpLog>> slMap,Map<String, String> summaryMap) {
+    public int[] saveAllData() {
         int[] resArray = new int[2];
         List<CheckInSummary> summaryList = new ArrayList<CheckInSummary>();
         List<CheckInDetail> detailList = new ArrayList<CheckInDetail>();
         if (null != slMap && !slMap.isEmpty()) {
             for (String key : slMap.keySet()) {
-                saveFormatLog(summaryList, detailList, slMap.get(key), roomMap,
-                        key, summaryMap);
+                saveFormatLog(summaryList, detailList, slMap.get(key),
+                        key);
 
                 if (!summaryList.isEmpty() && summaryList.size() > 1000) {
                     resArray[0] = resArray[0]
@@ -110,15 +115,14 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
      * @param roomNum
      */
     public void saveFormatLog(List<CheckInSummary> summaryList,
-            List<CheckInDetail> detailList, List<SysLsOpLog> list,
-            Map<String, HotelRoom> roomMap, String tempKey,
-            Map<String, String> summaryMap) {
+            List<CheckInDetail> detailList, List<SysLsOpLog> list, String tempKey) {
         boolean token = true;
         Date firstOpTime = null; // 首次插卡时间
         Date lastOpTime = null; // 末次拔卡时间
         boolean tempCheckInStatus = false;
 
         String summaryKey = null;
+        String earlyKey = null;
 
         SysLsOpLog sl = null;
         CheckInSummary summary = null;
@@ -184,6 +188,14 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
                                 + sdf.format(lastOpTime);
                         if (summaryMap.containsKey(summaryKey)) {
                             continue;
+                        }
+                        
+                        //验证是否为有效的插卡操作
+                        earlyKey = tempRoom.getId()+"_" + sdf.format(getFormatDate(firstOpTime, 0));
+                        if(earlyMap.containsKey(earlyKey)) {
+                            if(firstOpTime.getTime() <= earlyMap.get(earlyKey)) {
+                                continue;
+                            }
                         }
 
                         // 入房插卡操作记录
@@ -329,5 +341,24 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
             }
         }
         return summaryMap;
+    }
+    
+    public void initEarliestMap(int lastDay) {
+        Date beginTime =getFormatDate(new Date(new Date().getTime() - lastDay * 24 * 60
+                * 60 * 1000L), 0);
+        String keyTemp = null;
+        List<CheckInSummary> list = summaryMapper.selectEarliestInList(sdf.format(beginTime));
+        if (null != list && !list.isEmpty()) {
+            earlyMap = new HashMap<String, Long>();
+            for (CheckInSummary summary : list) {
+                if (null == summary) {
+                    continue;
+                }
+                keyTemp =summary.getRoomId()+"_" + sdf.format(summary.getCheckInTime());
+                if (!earlyMap.containsKey(keyTemp)) {
+                    earlyMap.put(keyTemp, summary.getPlugInTime().getTime());
+                }
+            }
+        }
     }
 }

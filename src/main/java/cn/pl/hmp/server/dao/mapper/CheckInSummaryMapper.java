@@ -48,5 +48,11 @@ public interface CheckInSummaryMapper {
      */
     int selectTotalCount(@Param("gapInc")int gapInc,@Param("lastDay") int lastDay,
             @Param("plugInterval") int plugInterval, @Param("hotelId") long hotelId);
+    /**
+     * 获取每天最早插卡时间
+     * @param lastDay
+     * @return
+     */
+    List<CheckInSummary> selectEarliestInList(@Param("beginTime") String beginTime);
     
 }
