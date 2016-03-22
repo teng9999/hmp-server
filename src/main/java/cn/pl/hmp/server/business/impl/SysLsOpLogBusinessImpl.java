@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.pl.commons.utils.StringUtils;
 import cn.pl.hmp.server.business.iface.ISysLsOpLogBusiness;
 import cn.pl.hmp.server.dao.entity.CheckInDetail;
 import cn.pl.hmp.server.dao.entity.CheckInSummary;
@@ -156,17 +157,18 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
             lastRoomStatus = 1;
         }
 
+        String plugType = "";
         if (null != list && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 sl = list.get(i);
-                if ("0".equals(sl.getOpData())) {
+                plugType = getPlugType(sl.getOpData());
+                if ("0".equals(plugType)) {
                     token = false;
-                } else if ("1".equals(sl.getOpData())) {
+                } else if ("1".equals(plugType)) {
                     token = true;
                 } else {
                     continue;
                 }
-
                 if (token) {
                     if (!tempCheckInStatus) {
                         firstOpTime = sl.getOpTime();
@@ -231,6 +233,24 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
                 }
             }
         }
+    }
+    /**
+     * 获取插拔卡状态
+     * @param opData
+     */
+    public String getPlugType(String opData) {
+        String plugType = "";
+        if(StringUtils.isNotBlank(opData)) {
+            if(opData.length() == 1) {
+                return opData;
+            }else {
+                int index = opData.lastIndexOf(",");
+                if(index > -1) {
+                    plugType = opData.substring(index+1);
+                }
+            }
+        }
+        return plugType;
     }
 
     /**
@@ -346,10 +366,10 @@ public class SysLsOpLogBusinessImpl extends BoostBusinessImpl implements
     public void initEarliestMap(int lastDay) {
         Date beginTime =getFormatDate(new Date(new Date().getTime() - lastDay * 24 * 60
                 * 60 * 1000L), 0);
+        earlyMap = new HashMap<String, Long>();
         String keyTemp = null;
         List<CheckInSummary> list = summaryMapper.selectEarliestInList(sdf.format(beginTime));
         if (null != list && !list.isEmpty()) {
-            earlyMap = new HashMap<String, Long>();
             for (CheckInSummary summary : list) {
                 if (null == summary) {
                     continue;

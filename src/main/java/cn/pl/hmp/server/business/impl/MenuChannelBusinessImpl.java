@@ -379,7 +379,7 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
         List<MenuChannel> menuChannelList = mapper.selectByExample(menuExample);
         
         List<MenuChannel> hotelMenuList = null;
-        Map<String,MenuChannel> hotelExsitMenuMap = null;
+        Map<String,MenuChannel> hotelExsitMenuMap = new HashMap<String,MenuChannel>();
         Map<Long,List<MenuChannel>> totalHotelMenuMap = new HashMap<Long, List<MenuChannel>>();
         if(null != menuChannelList && ! menuChannelList.isEmpty()) {
             for(MenuChannel menu : menuChannelList) {
@@ -411,7 +411,6 @@ public class MenuChannelBusinessImpl extends BoostBusinessImpl implements IMenuC
                 //删除与模板不同的一级菜单
                 hotelMenuList = totalHotelMenuMap.get(hotelId);
                 if(null != hotelMenuList && ! hotelMenuList.isEmpty()) {
-                    hotelExsitMenuMap = new HashMap<String,MenuChannel>();
                     for(MenuChannel tempMenuChannel: hotelMenuList) {
                         orderNumKey = tempMenuChannel.getParentId() + "_"+ tempMenuChannel.getOrderNum();
                         if(!tempMenuMap.containsKey(orderNumKey)){
