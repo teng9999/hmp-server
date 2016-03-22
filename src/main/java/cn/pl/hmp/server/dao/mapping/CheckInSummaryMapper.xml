@@ -312,7 +312,7 @@
   
   <select id="selectCount" resultMap="DetailCountMap">
         
-    select room.room_type ,count(ditinctSummary.room_id) count from (select summary.room_id as room_id from hmp_check_in_summary summary 
+    select room.room_type ,count(distinct(ditinctSummary.room_id)) count from (select summary.room_id as room_id from hmp_check_in_summary summary 
     where summary.plug_interval >= #{plugInterval} 
      and  (TO_DAYS(NOW()) - TO_DAYS(summary.check_in_time)) > (${lastDay}-1)*${gapInc} 
      and  (TO_DAYS(NOW()) - TO_DAYS(summary.check_in_time)) &lt;= ${lastDay}*${gapInc} 
@@ -322,7 +322,7 @@
    group by room.room_type
   </select>
   <select id="selectTotalCount" resultType="java.lang.Integer">
-   select count(room_id) from hmp_check_in_summary summary 
+   select count(distinct(room_id)) from hmp_check_in_summary summary 
 	where 1=1 and summary.hotel_id = #{hotelId}  
 	 and summary.plug_interval >= #{plugInterval} 
 	 and  (TO_DAYS(NOW()) - TO_DAYS(summary.check_in_time)) > (${lastDay}-1)*${gapInc} 
