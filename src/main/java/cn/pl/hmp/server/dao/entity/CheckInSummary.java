@@ -39,6 +39,16 @@ public class CheckInSummary {
     
     private Integer floor;
     
+    private String roomNum;
+    
+    public String getRoomNum() {
+        return roomNum;
+    }
+
+    public void setRoomNum(String roomNum) {
+        this.roomNum = roomNum;
+    }
+
     public Integer getPlugInterval() {
         return plugInterval;
     }
