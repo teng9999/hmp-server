@@ -8,7 +8,11 @@ import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.HotelInfo;
 import cn.pl.hmp.server.dao.entity.User;
 import cn.pl.hmp.server.dao.entity.UserExample;
-
+/**
+ * 用户
+ * @author renjw
+ *
+ */
 public interface IUserBusiness extends IBusiness {
     /**
      * 通过id删除

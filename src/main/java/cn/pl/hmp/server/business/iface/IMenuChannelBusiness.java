@@ -9,7 +9,10 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.MenuChannel;
 import cn.pl.hmp.server.dao.entity.MenuChannelExample;
-
+/**
+ * 电视菜单
+ *
+ */
 public interface IMenuChannelBusiness extends IBusiness {
     /**
      * 通过id删除
@@ -76,14 +79,15 @@ public interface IMenuChannelBusiness extends IBusiness {
     int deleteOnBatch(List<Long> idList);
 
     /**
-     * 根据用户名查用户
+     * 根据条件实例查询
+     * @param example 条件实例
      * @return
      */
     List<MenuChannel> selectByExample(MenuChannelExample example);
 
     /**
-     * 电视频道的发布
-     * @param hotelId
+     * 根据酒店编号打包电视频道的发布信息
+     * @param hotelId 酒店编号
      * @return
      * @throws Exception
      */

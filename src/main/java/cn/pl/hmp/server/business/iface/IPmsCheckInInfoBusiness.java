@@ -7,7 +7,11 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.PmsCheckInInfo;
 import cn.pl.hmp.server.dao.entity.PmsCheckInInfoCondition;
-
+/**
+ * pms推送信息
+ * @author renjw
+ *
+ */
 public interface IPmsCheckInInfoBusiness extends IBusiness {
     /**
 	 * 通过id删除

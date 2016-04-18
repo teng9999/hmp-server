@@ -7,7 +7,11 @@ import cn.pl.commons.pages.Pages;
 import cn.pl.hmp.server.business.IBusiness;
 import cn.pl.hmp.server.dao.entity.TvChannel;
 import cn.pl.hmp.server.dao.entity.TvChannelExample;
-
+/**
+ * 电视频道
+ * @author gaot
+ *
+ */
 public interface ITvChannelBusiness extends IBusiness {
     /**
      * 通过id删除

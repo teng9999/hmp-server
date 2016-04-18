@@ -18,13 +18,13 @@ import cn.pl.hmp.server.dao.entity.MenuExample;
 public interface IMenuBusiness extends IBusiness {
     /**
      * 通过id删除
-     * @param id
-     * @return
+     * @param id    平台菜单编号
+     * @return  状态码
      */
 	int deleteByMenuId(Long id);
 
     /**
-	 * 新增
+	 * 新增  
 	 * @param record
 	 * @return
 	 */
@@ -39,30 +39,31 @@ public interface IMenuBusiness extends IBusiness {
 
     /**
      * 查询全部
-     * @return
+     * @return  全部菜单集合
      */
     List<Menu> selectAll();
 
     /**
      * 条件分页查询
-     * @param example
-     * @param page
-     * @return
+     * @param example 查询条件实例
+     * @param page   分页条件
+     * @return  结果集Map  key为分页条件,value为结果集列表
      */
     Map<Pages, List<Menu>> selectByPages(MenuExample example,Pages page);
 
     /**
      * 根据酒店编号和父级编号分页查询（hotelId=0 表示公用 parentId=）
-     * @param example
-     * @param page
-     * @return
+     * @param hotelId   酒店编号
+     * @param parentId  父级编号
+     * @param page      分页条件
+     * @return  结果集Map  key为分页条件,value为结果集列表
      */
     Map<Pages, List<Menu>> selectHotelMenuByHotelId(Long hotelId,Long parentId,Pages page);
 
     /**
      * 更新
-     * @param record
-     * @return
+     * @param record   对象实例
+     * @return 更新数据影响行数
      */
     int update(Menu record);
 

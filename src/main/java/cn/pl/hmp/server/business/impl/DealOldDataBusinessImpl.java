@@ -1,7 +1,6 @@
 package cn.pl.hmp.server.business.impl;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +14,6 @@ import cn.pl.hmp.server.dao.entity.HotelRoom;
 import cn.pl.hmp.server.dao.entity.HotelRoomExample;
 import cn.pl.hmp.server.dao.entity.HotelRoomType;
 import cn.pl.hmp.server.dao.entity.HotelRoomTypeExample;
-import cn.pl.hmp.server.dao.entity.MenuChannel;
-import cn.pl.hmp.server.dao.entity.MenuChannelExample;
 import cn.pl.hmp.server.dao.entity.PmsCheckInInfo;
 import cn.pl.hmp.server.dao.entity.PmsCheckInInfoExample;
 import cn.pl.hmp.server.dao.entity.RoomRCUCfg;
@@ -67,7 +64,7 @@ public class DealOldDataBusinessImpl extends BoostBusinessImpl implements
 
     @Override
     public int dealOldRoomType() {
-        allOldTypeMap = new HashMap<String, String>();
+        /*allOldTypeMap = new HashMap<String, String>();
         ioldTypeMap = new HashMap<String, Long>();
         noldTypeMap = new HashMap<String, Long>();
         try{
@@ -79,7 +76,8 @@ public class DealOldDataBusinessImpl extends BoostBusinessImpl implements
         }catch(Exception e) {
             e.printStackTrace();
             return -1;
-        }
+        }*/
+        return 0;
     }
 
     private void dealHotelRoom() {
@@ -240,7 +238,7 @@ public class DealOldDataBusinessImpl extends BoostBusinessImpl implements
 
     @Override
     public int dealMenuChannelLitter() {
-        MenuChannelExample menuExample = new MenuChannelExample();
+        /*MenuChannelExample menuExample = new MenuChannelExample();
         menuExample.setOrderByClause("parent_id asc");
         List<MenuChannel> menuList = menuChannelMapper.selectByExample(menuExample);
         int res = -1;
@@ -269,7 +267,9 @@ public class DealOldDataBusinessImpl extends BoostBusinessImpl implements
                 }
             }
         }
-        return count;
+        return count;*/
+        
+        return 0;
     }
 
 }

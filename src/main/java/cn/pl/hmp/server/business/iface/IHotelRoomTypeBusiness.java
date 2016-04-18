@@ -9,26 +9,23 @@ import cn.pl.hmp.server.dao.entity.HotelRoomType;
 
 public interface IHotelRoomTypeBusiness extends IBusiness {
     /**
-	 * 通过id删除
-	 * 
-	 * @param id
-	 * @return
+	 * 通过房间类型编号删除
+	 * @param id   房间类型编号
+	 * @return 状态码
 	 */
 	int delete(Long id);
 
     /**
 	 * 新增
-	 * 
-	 * @param record
-	 * @return
+	 * @param record   房间类型信息
+	 * @return 房间类型编号
 	 */
 	long insert(HotelRoomType record);
 
     /**
 	 * 通过编号查询
-	 * 
-	 * @param id
-	 * @return
+	 * @param id   房间类型编号
+	 * @return  房间类型信息
 	 */
 	HotelRoomType selectById(Long id);
     /**
@@ -37,28 +34,25 @@ public interface IHotelRoomTypeBusiness extends IBusiness {
 	 */
 	List<HotelRoomType> selectByHotel(Long hotelId);
 
-    /**
-	 * 条件分页查询
-	 * 
-	 * @param example
-	 * @param page
-	 * @return
-	 */
+	/**
+     * 条件分页查询
+     * @param example 查询条件实例
+     * @param page   分页条件
+     * @return  结果集Map  key为分页条件,value为结果集列表
+     */
 	Map<Pages, List<HotelRoomType>> selectByPages(Long hotelId,
 			Pages page);
 
-    /**
-	 * 更新
-	 * 
-	 * @param record
-	 * @return
-	 */
+	 /**
+     * 更新
+     * @param record   对象实例
+     * @return 更新数据影响行数
+     */
 	int update(HotelRoomType record);
 
     /**
 	 * 批量删除
-	 * 
-	 * @param idList
+	 * @param idList   
 	 * @return
 	 */
 	int deleteOnBatch(List<Long> idList);

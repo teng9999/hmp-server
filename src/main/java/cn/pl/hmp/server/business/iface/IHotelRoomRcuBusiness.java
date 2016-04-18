@@ -53,7 +53,6 @@ public interface IHotelRoomRcuBusiness  extends IBusiness {
     
     /**
      * 批量修改
-     * 
      * @param idList
      * @return
      */

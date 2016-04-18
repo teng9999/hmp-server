@@ -77,7 +77,7 @@ public class ClearLitterBusinessImpl extends BoostBusinessImpl implements IClear
 
     @Override
     public long deleteAllDataExceptHotelId(Long hotelId) throws Exception {
-        System.err.println(
+        /*System.err.println(
                 "--------------------------------------------------------------------------------------------------------------------------------");
         deleteAirModel(hotelId);
         deleteHotel(hotelId);
@@ -91,7 +91,8 @@ public class ClearLitterBusinessImpl extends BoostBusinessImpl implements IClear
         deleteToolPacks(hotelId);
         deleteUser(hotelId);
         deleteUserHotel(hotelId);
-        return 1;
+        return 1;*/
+        return 0;
     }
 
     /**

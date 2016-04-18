@@ -11,67 +11,25 @@ public interface IAppLoginInfoBusiness extends IBusiness {
 
     /**
 	 * 新增
-	 * @param record
-	 * @return
+	 * @param record   对象实例
+	 * @return 插入数据影响行数
 	 */
 	long insert(AppLoginInfo record);
 	
+	/**
+	 * 
+	 * @param id   对象编号
+	 * @return     结果对象
+	 */
 	AppLoginInfo selectById(String id);
 
-    /**
-     * 新增
-     * @param record
-     * @return
-     */
-//    long insertSelective(AppLoginInfo record);
 
     /**
      * 条件分页查询
-     * @param example
-     * @param page
-     * @return
+     * @param name  用户名
+     * @param fixCondition  前端混合搜索条件
+     * @param page   分页条件
+     * @return  结果集Map  key为分页条件,value为结果集列表
      */
     Map<Pages, List<AppLoginInfo>> selectByPages(Pages page,String name, String fixCondition);
-
-    /**
-     * 根据用户名查用户
-     * @return
-     */
-//    List<AppLoginInfo> selectByExample(AppLoginInfoExample example);
-
-    /**
-     * 查询全部
-     * @return
-     */
-//    List<User> selectAll();
-    
-    /**
-     * 通过id删除
-     * @param id
-     * @return
-     */
-//	int deleteByPrimaryKey(Long id);
-    
-    /**
-     * 更新
-     * @param record
-     * @return
-     */
-//    int update(User record);
-
-    /**
-     * 更新
-     * @param record
-     * @return
-     */
-//    int updateAll(AppLoginInfo record);
-
-    /**
-     * 批量删除
-     * @param idList
-     * @return
-     */
-//    int deleteOnBatch(List<Long> idList);
-
-
 }

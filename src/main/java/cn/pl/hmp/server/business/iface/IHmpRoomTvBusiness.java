@@ -11,59 +11,61 @@ import cn.pl.hmp.server.dao.entity.HmpRoomTv;
 import cn.pl.hmp.server.dao.entity.HmpRoomTvExample;
 
 public interface IHmpRoomTvBusiness extends IBusiness {
+
     /**
-     * 通过id删除
-     * @param id
-     * @return
-     */
+    * 删除
+    * @param id    对象编号
+    * @return 删除数据影响行数
+    */
 	int deleteByHmpRoomTvId(Long id);
 
     /**
-	 * 新增
-	 * @param record
-	 * @return
-	 */
+     * 新增
+     * @param record   对象实例
+     * @return 插入数据编号
+     */
 	long insert(HmpRoomTv record);
 
-    /**
-     * 通过播放内容查询
-     * @param content
-     * @return
+	/**
+     * 条件分页查询
+     * @param example 查询条件实例
+     * @return  结果集列表
      */
     List<HmpRoomTv> selectByExample(HmpRoomTvExample example);
 
     /**
-     * 通过播放内容查询
-     * @param content
-     * @return
+     * 通过酒店编号查询
+     * @param hotelId   酒店编号
+     * @return  房间电视对象
      */
     HmpRoomTv selectByHotelId(Long hotelId);
 
     /**
      * 查询全部
-     * @return
+     * @return  全部结果集合
      */
     List<HmpRoomTv> selectAll();
 
     /**
      * 条件分页查询
-     * @param example
-     * @param page
-     * @return
+     * @param example 查询条件实例
+     * @param page   分页条件
+     * @return  结果集Map  key为分页条件,value为结果集列表
      */
     Map<Pages, List<HmpRoomTv>> selectByPages(HmpRoomTvExample example,Pages page);
 
+
     /**
-     * 更新
-     * @param record
-     * @return
-     */
+    * 更新
+    * @param record   对象实例
+    * @return 更新数据影响行数
+    */
     int update(HmpRoomTv record);
 
     /**
-     * 发布
-     * @param hotelId
-     * @return
+     * 通过酒店编号获取要发布数据json包
+     * @param hotelId   酒店编号
+     * @return  房间电视json包
      */
     JSONObject publish(Long hotelId);
 }

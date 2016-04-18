@@ -121,7 +121,15 @@ public class AppOpInfoBusinessImpl extends BoostBusinessImpl implements IAppOpIn
         }
         return 0;
     }
-    
+    /**
+     * 
+     * @param lineType  线路类型
+     * @param key       路数
+     * @param status    操作结果码
+     * @param name      操作名称 
+     * @param modeMap   该房间的模式集 key为模式号
+     * @return          操作结果字符串
+     */
     private String getDevice(String lineType,String key ,String status,String name,Map<String,AirMode> modeMap) {
         String deviceName = "";
         if("LIGHT".equalsIgnoreCase(lineType)) {

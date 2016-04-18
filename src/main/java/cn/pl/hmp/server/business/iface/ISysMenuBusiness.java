@@ -9,7 +9,7 @@ import cn.pl.hmp.server.dao.entity.SysMenu;
 import cn.pl.hmp.server.dao.entity.SysMenuExample;
 
 /**
- * menu接口
+ * 平台菜单项接口
  * 
  * @author rjw
  *
@@ -54,7 +54,7 @@ public interface ISysMenuBusiness extends IBusiness {
     
     /**
      * 条件查询
-     * @param example
+     * @param example   条件实例
      * @param page
      * @return
      */
