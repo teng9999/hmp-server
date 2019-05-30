@@ -9,6 +9,7 @@ public class HmpServer {
         // 注册Shutdown Hook
         HmpDaemon.shutdownHook();
         // 服务启动
+        //
         HmpDaemon.startup();
     }
 }
