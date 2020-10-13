@@ -17,7 +17,7 @@
 	  	<plugin.jar.version>2.6</plugin.jar.version>
 	  	<plugin.dependency.version>2.10</plugin.dependency.version>
 	
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<alibaba.druid.version>1.0.15</alibaba.druid.version>
 		<alibaba.fastjson.version>1.2.6</alibaba.fastjson.version>
 		<dom4j.version>1.6.1</dom4j.version>
